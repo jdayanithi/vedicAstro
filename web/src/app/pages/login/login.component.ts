@@ -38,14 +38,17 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      if (this.authService.login(email, password)) {
-        this.router.navigate(['/view-all']);
-      } else {
-        this.dialog.open(ErrorDialogComponent, {
-          width: '300px',
-          data: { message: 'Invalid email or password. Please try again.' }
-        });
-      }
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          this.router.navigate(['/view-all']);
+        },
+        error: (error) => {
+          this.dialog.open(ErrorDialogComponent, {
+            width: '300px',
+            data: { message: error.error.message || 'Invalid email or password. Please try again.' }
+          });
+        }
+      });
     }
   }
 }

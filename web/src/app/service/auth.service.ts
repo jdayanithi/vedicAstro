@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-interface User {
-  email: string;
-  password: string;
-  role: 'Admin' | 'Viewer';
+interface LoginResponse {
+  username: string;
+  role: string;
+  firstName: string;
+  lastName: string;
 }
 
 @Injectable({
@@ -14,52 +16,47 @@ interface User {
 export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   private currentUserRole = new BehaviorSubject<string | null>(null);
+  private apiUrl = 'http://localhost:8080/api';
 
-  // Hardcoded credentials
-  private readonly USERS: User[] = [
-    {
-      email: 'admin@example.com',
-      password: 'admin123',
-      role: 'Admin'
-    },
-    {
-      email: 'viewer@example.com',
-      password: 'viewer123',
-      role: 'Viewer'
-    }
-  ];
-
-  constructor(private router: Router) {
-    // Check if session exists on service initialization
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {
     this.checkSession();
   }
 
   private checkSession(): void {
-    const session = localStorage.getItem('session');
-    if (session) {
+    const token = localStorage.getItem('token');
+    if (token) {
       this.isAuthenticated.next(true);
-      const parsedSession = JSON.parse(session);
-      this.currentUserRole.next(parsedSession.role);
+      const session = this.getSession();
+      if (session) {
+        this.currentUserRole.next(session.role);
+      }
     }
   }
 
-  login(email: string, password: string): boolean {
-    const user = this.USERS.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-      localStorage.setItem('session', JSON.stringify({
-        email: user.email,
-        role: user.role,
-        timestamp: new Date()
-      }));
-      this.isAuthenticated.next(true);
-      this.currentUserRole.next(user.role);
-      return true;
-    }
-    return false;
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
+      .pipe(
+        tap((response: LoginResponse) => {
+          // Since the backend doesn't provide a token yet, we'll use the username as a simple session identifier
+          localStorage.setItem('token', response.username);
+          localStorage.setItem('session', JSON.stringify({
+            email: response.username,
+            role: response.role,
+            firstName: response.firstName,
+            lastName: response.lastName,
+            timestamp: new Date()
+          }));
+          this.isAuthenticated.next(true);
+          this.currentUserRole.next(response.role);
+        })
+      );
   }
 
   logout(): void {
+    localStorage.removeItem('token');
     localStorage.removeItem('session');
     this.isAuthenticated.next(false);
     this.currentUserRole.next(null);
@@ -82,5 +79,9 @@ export class AuthService {
   getSession(): any {
     const session = localStorage.getItem('session');
     return session ? JSON.parse(session) : null;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

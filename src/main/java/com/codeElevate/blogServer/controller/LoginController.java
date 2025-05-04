@@ -68,11 +68,15 @@ public class LoginController {
             return ResponseEntity.ok(new LoginResponse(
                 login.getUsername(),
                 login.getRole(),
-                login.getCreatedBy(),
-                login.getUpdatedBy()
+                login.getFirstName(),
+                login.getLastName()
             ));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("Authentication failed", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Server error", "An unexpected error occurred"));
         }
     }
 }
@@ -95,4 +99,18 @@ class LoginResponse {
     public String getRole() { return role; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
+}
+
+class ErrorResponse {
+    private String error;
+    private String message;
+
+    public ErrorResponse(String error, String message) {
+        this.error = error;
+        this.message = message;
+    }
+
+    // Getters
+    public String getError() { return error; }
+    public String getMessage() { return message; }
 }
