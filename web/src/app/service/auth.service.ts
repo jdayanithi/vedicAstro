@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 interface LoginResponse {
+  token: string;
   username: string;
   role: string;
   firstName: string;
@@ -40,8 +41,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
       .pipe(
         tap((response: LoginResponse) => {
-          // Since the backend doesn't provide a token yet, we'll use the username as a simple session identifier
-          localStorage.setItem('token', response.username);
+          localStorage.setItem('token', response.token);
           localStorage.setItem('session', JSON.stringify({
             email: response.username,
             role: response.role,

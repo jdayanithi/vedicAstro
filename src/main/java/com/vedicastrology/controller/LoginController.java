@@ -1,5 +1,6 @@
 package com.vedicastrology.controller;
 
+import com.vedicastrology.config.JwtService;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin
 public class LoginController {
 
     @Autowired
@@ -21,6 +23,9 @@ public class LoginController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping
     public ResponseEntity<?> createLogin(@RequestBody Login login) {
@@ -72,13 +77,26 @@ public class LoginController {
     public ResponseEntity<?> validateLogin(@RequestBody Login loginRequest) {
         try {
             Login login = loginService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword());
-            return ResponseEntity.ok(new LoginResponse(
-                login.getUsername(),
-                login.getRole(),
-                login.getFirstName(),
-                login.getLastName(),
-                login.getPhoneNumber()
-            ));
+            
+            // Create UserDetails for JWT token generation
+            UserDetails userDetails = User.builder()
+                .username(login.getUsername())
+                .password(login.getPassword())
+                .roles(login.getRole())
+                .build();
+            
+            // Generate JWT token
+            String token = jwtService.generateToken(userDetails);
+            
+            // Create response with token
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("username", login.getUsername());
+            response.put("role", login.getRole());
+            response.put("firstName", login.getFirstName());
+            response.put("lastName", login.getLastName());
+            
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication failed", e.getMessage()));
