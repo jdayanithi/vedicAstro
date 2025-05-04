@@ -1,6 +1,6 @@
-package com.codeElevate.blogServer.repository;
+package com.vedicastrology.repository;
 
-import com.codeElevate.blogServer.entity.Comment;
+import com.vedicastrology.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

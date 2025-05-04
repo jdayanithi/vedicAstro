@@ -1,6 +1,6 @@
-package com.codeElevate.blogServer.controller;
+package com.vedicastrology.controller;
 
-import com.codeElevate.blogServer.service.CommentService;
+import com.vedicastrology.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

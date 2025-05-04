@@ -1,6 +1,6 @@
-package com.codeElevate.blogServer.service;
+package com.vedicastrology.service;
 
-import com.codeElevate.blogServer.entity.Post;
+import com.vedicastrology.entity.Post;
 
 import java.util.List;
 

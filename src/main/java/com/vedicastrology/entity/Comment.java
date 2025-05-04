@@ -1,4 +1,4 @@
-package com.codeElevate.blogServer.entity;
+package com.vedicastrology.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

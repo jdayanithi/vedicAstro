@@ -1,9 +1,9 @@
-package com.codeElevate.blogServer.service;
+package com.vedicastrology.service;
 
-import com.codeElevate.blogServer.entity.Comment;
-import com.codeElevate.blogServer.entity.Post;
-import com.codeElevate.blogServer.repository.CommentRepository;
-import com.codeElevate.blogServer.repository.PostRepository;
+import com.vedicastrology.entity.Comment;
+import com.vedicastrology.entity.Post;
+import com.vedicastrology.repository.CommentRepository;
+import com.vedicastrology.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

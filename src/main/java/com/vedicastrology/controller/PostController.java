@@ -1,7 +1,7 @@
-package com.codeElevate.blogServer.controller;
+package com.vedicastrology.controller;
 
-import com.codeElevate.blogServer.entity.Post;
-import com.codeElevate.blogServer.service.PostService;
+import com.vedicastrology.entity.Post;
+import com.vedicastrology.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

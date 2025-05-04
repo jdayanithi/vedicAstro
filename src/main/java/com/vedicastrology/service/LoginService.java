@@ -1,7 +1,7 @@
-package com.codeElevate.blogServer.service;
+package com.vedicastrology.service;
 
-import com.codeElevate.blogServer.entity.Login;
-import com.codeElevate.blogServer.repository.LoginRepository;
+import com.vedicastrology.entity.Login;
+import com.vedicastrology.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
