@@ -1,22 +1,14 @@
+<!-- Fixed header toolbar -->
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+  <button mat-icon-button (click)="toggleSidenav()" *ngIf="isLoggedIn$ | async">
     <mat-icon>menu</mat-icon>
   </button>
   <span>{{title}}</span>
   <span class="example-spacer"></span>
   
   <ng-container *ngIf="isLoggedIn$ | async">
-    <button mat-raised-button color="primary" routerLink="/create-post">
-      <mat-icon>add</mat-icon>
-      Create Post
-    </button>
-    <button mat-raised-button color="primary" routerLink="/view-all">
-      <mat-icon>list</mat-icon>
-      View All
-    </button>
-    <button mat-raised-button color="primary" routerLink="/search-by-name">
+    <button mat-icon-button routerLink="/search-by-name">
       <mat-icon>search</mat-icon>
-      Search
     </button>
     <button mat-raised-button color="warn" (click)="logout()">
       <mat-icon>logout</mat-icon>
@@ -25,4 +17,23 @@
   </ng-container>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [opened]="isSidenavOpen" [mode]="'over'" [hasBackdrop]="true" class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/view-all" (click)="toggleSidenav()">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </a>
+      <a mat-list-item routerLink="/create-post" (click)="toggleSidenav()" *ngIf="isAdmin$ | async">
+        <mat-icon>add</mat-icon>
+        <span>Create Post</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

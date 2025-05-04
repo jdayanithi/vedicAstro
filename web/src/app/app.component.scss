@@ -3,7 +3,54 @@
 }
 
 mat-toolbar {
-  button[mat-raised-button] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  
+  button {
     margin-left: 8px;
   }
+
+  .mat-icon-button {
+    margin-right: 8px;
+  }
+}
+
+mat-sidenav-container {
+  min-height: calc(100vh - 64px);
+  margin-top: 64px;
+}
+
+mat-sidenav {
+  width: 250px;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav {  
+  mat-nav-list {
+    a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      transition: background-color 0.2s ease;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+      
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.content {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
