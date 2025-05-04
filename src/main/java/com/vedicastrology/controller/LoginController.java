@@ -5,7 +5,11 @@ import com.vedicastrology.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/login")
@@ -14,6 +18,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping
     public ResponseEntity<?> createLogin(@RequestBody Login login) {
@@ -80,6 +87,50 @@ public class LoginController {
                 .body(new ErrorResponse("Server error", "An unexpected error occurred"));
         }
     }
+
+    @PostMapping("/encode-password")
+    public ResponseEntity<?> encodePassword(@RequestBody String password) {
+        try {
+            String encodedPassword = passwordEncoder.encode(password);
+            return ResponseEntity.ok(encodedPassword);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Encoding failed", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/validate-password")
+    public ResponseEntity<?> validatePassword(@RequestBody PasswordValidationRequest request) {
+        try {
+            System.out.println("Received validation request:");
+            System.out.println("Raw password length: " + (request.getRawPassword() != null ? request.getRawPassword().length() : "null"));
+            System.out.println("Encoded password: " + request.getEncodedPassword());
+            
+            boolean isValid = loginService.validatePassword(request.getRawPassword(), request.getEncodedPassword());
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("isValid", isValid);
+            response.put("rawPasswordLength", request.getRawPassword() != null ? request.getRawPassword().length() : 0);
+            response.put("encodedPasswordFormat", request.getEncodedPassword().substring(0, Math.min(7, request.getEncodedPassword().length())));
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Validation failed", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/test-password")
+    public Map<String, Object> testPassword(@RequestBody String rawPassword) {
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        boolean isValid = loginService.validatePassword(rawPassword, encodedPassword);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("rawPassword", rawPassword);
+        response.put("encodedPassword", encodedPassword);
+        response.put("isValid", isValid);
+        return response;
+    }
 }
 
 class LoginResponse {
@@ -117,4 +168,35 @@ class ErrorResponse {
     // Getters
     public String getError() { return error; }
     public String getMessage() { return message; }
+}
+
+class PasswordValidationRequest {
+    private String rawPassword;
+    private String encodedPassword;
+
+    // Default constructor for JSON deserialization
+    public PasswordValidationRequest() {}
+
+    public PasswordValidationRequest(String rawPassword, String encodedPassword) {
+        this.rawPassword = rawPassword;
+        this.encodedPassword = encodedPassword;
+    }
+
+    // Getters
+    public String getRawPassword() { return rawPassword; }
+    public String getEncodedPassword() { return encodedPassword; }
+
+    // Setters
+    public void setRawPassword(String rawPassword) { this.rawPassword = rawPassword; }
+    public void setEncodedPassword(String encodedPassword) { this.encodedPassword = encodedPassword; }
+}
+
+class PasswordValidationResponse {
+    private boolean valid;
+
+    public PasswordValidationResponse(boolean valid) {
+        this.valid = valid;
+    }
+
+    public boolean isValid() { return valid; }
 }

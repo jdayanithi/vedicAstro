@@ -72,4 +72,12 @@ public class LoginService {
         }
         return login;
     }
+
+    public boolean validatePassword(String rawPassword, String encodedPassword) {
+        System.out.println("Validating - Raw password: " + rawPassword);
+        System.out.println("Validating - Encoded password: " + encodedPassword);
+        boolean result = passwordEncoder.matches(rawPassword, encodedPassword);
+        System.out.println("Validation result: " + result);
+        return result;
+    }
 }
