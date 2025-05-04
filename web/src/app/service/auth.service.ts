@@ -55,6 +55,10 @@ export class AuthService {
       );
   }
 
+  register(email: string, phoneNumber: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, { email, phoneNumber });
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('session');
