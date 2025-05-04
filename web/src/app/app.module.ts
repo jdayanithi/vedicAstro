@@ -11,6 +11,8 @@ import { CreatePostComponent } from './pages/create-post/create-post.component';
 import { ViewAllComponent } from './pages/view-all/view-all.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { SearchByNameComponent } from './pages/search-by-name/search-by-name.component';
+import { LoginComponent } from './pages/login/login.component';
+import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { SearchByNameComponent } from './pages/search-by-name/search-by-name.com
     CreatePostComponent,
     ViewAllComponent,
     ViewPostComponent,
-    SearchByNameComponent
+    SearchByNameComponent,
+    LoginComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
