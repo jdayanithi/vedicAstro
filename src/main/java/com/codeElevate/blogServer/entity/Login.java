@@ -22,6 +22,12 @@ public class Login {
     @Column(nullable = false)
     private String role;
     
+    @Column(nullable = false)
+    private String firstName;
+    
+    @Column(nullable = false)
+    private String lastName;
+    
     private LocalDateTime createdDate;
     
     private LocalDateTime updatedDate;

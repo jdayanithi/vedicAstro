@@ -60,4 +60,39 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateLogin(@RequestBody Login loginRequest) {
+        try {
+            Login login = loginService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword());
+            return ResponseEntity.ok(new LoginResponse(
+                login.getUsername(),
+                login.getRole(),
+                login.getCreatedBy(),
+                login.getUpdatedBy()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+}
+
+class LoginResponse {
+    private String username;
+    private String role;
+    private String firstName;
+    private String lastName;
+
+    public LoginResponse(String username, String role, String firstName, String lastName) {
+        this.username = username;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    // Getters
+    public String getUsername() { return username; }
+    public String getRole() { return role; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
 }

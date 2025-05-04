@@ -32,6 +32,8 @@ public class LoginService {
         existingLogin.setUsername(login.getUsername());
         existingLogin.setPassword(login.getPassword());
         existingLogin.setRole(login.getRole());
+        existingLogin.setFirstName(login.getFirstName());
+        existingLogin.setLastName(login.getLastName());
         existingLogin.setUpdatedBy(login.getUpdatedBy());
         
         return loginRepository.save(existingLogin);
@@ -51,5 +53,13 @@ public class LoginService {
             throw new RuntimeException("Login not found");
         }
         loginRepository.deleteById(id);
+    }
+
+    public Login validateLogin(String username, String password) {
+        Login login = loginRepository.findByUsername(username);
+        if (login == null || !login.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid username or password");
+        }
+        return login;
     }
 }
