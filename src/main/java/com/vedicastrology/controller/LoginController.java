@@ -69,7 +69,8 @@ public class LoginController {
                 login.getUsername(),
                 login.getRole(),
                 login.getFirstName(),
-                login.getLastName()
+                login.getLastName(),
+                login.getPhoneNumber()
             ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -86,12 +87,14 @@ class LoginResponse {
     private String role;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
 
-    public LoginResponse(String username, String role, String firstName, String lastName) {
+    public LoginResponse(String username, String role, String firstName, String lastName, String phoneNumber) {
         this.username = username;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
     }
 
     // Getters
@@ -99,6 +102,7 @@ class LoginResponse {
     public String getRole() { return role; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
+    public String getPhoneNumber() { return phoneNumber; }
 }
 
 class ErrorResponse {

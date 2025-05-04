@@ -28,6 +28,9 @@ public class Login {
     @Column(nullable = false)
     private String lastName;
     
+    @Column(unique = true, nullable = false)
+    private String phoneNumber;
+    
     private LocalDateTime createdDate;
     
     private LocalDateTime updatedDate;
