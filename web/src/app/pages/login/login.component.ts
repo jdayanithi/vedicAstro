@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   hidePassword = true;
   isLoginMode = true;
+  userTypes = ['student', 'instructor', 'admin'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,7 +30,15 @@ export class LoginComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      birthTime: ['', Validators.required],
+      birthPlace: ['', Validators.required],
+      bio: [''],
+      userType: ['student', Validators.required]
     });
 
     // Redirect to view-all if already logged in
@@ -53,15 +62,14 @@ export class LoginComponent implements OnInit {
           error: (error) => {
             this.dialog.open(ErrorDialogComponent, {
               width: '300px',
-              data: { message: error.error.message || 'Invalid email or password. Please try again.' }
+              data: { message: error.error?.message || 'Invalid email or password. Please try again.' }
             });
           }
         });
       }
     } else {
       if (this.registerForm.valid) {
-        const { email, phoneNumber } = this.registerForm.value;
-        this.authService.register(email, phoneNumber).subscribe({
+        this.authService.register(this.registerForm.value).subscribe({
           next: (response: { message: string }) => {
             this.dialog.open(ErrorDialogComponent, {
               width: '300px',
@@ -69,10 +77,10 @@ export class LoginComponent implements OnInit {
             });
             this.toggleMode();
           },
-          error: (error: { error: { message: string } }) => {
+          error: (error) => {
             this.dialog.open(ErrorDialogComponent, {
               width: '300px',
-              data: { message: error.error.message || 'Registration failed. Please try again.' }
+              data: { message: error.error?.message || 'Registration failed. Please try again.' }
             });
           }
         });
@@ -84,5 +92,8 @@ export class LoginComponent implements OnInit {
     this.isLoginMode = !this.isLoginMode;
     this.loginForm.reset();
     this.registerForm.reset();
+    if (!this.isLoginMode) {
+      this.registerForm.patchValue({ userType: 'student' });
+    }
   }
 }

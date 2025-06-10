@@ -9,6 +9,28 @@ interface LoginResponse {
   role: string;
   firstName: string;
   lastName: string;
+  birthDate: string;
+  birthTime: string;
+  birthPlace: string;
+  profilePicture: string;
+  bio: string;
+  userType: string;
+  zodiacSign: string;
+  risingSign: string;
+  moonSign: string;
+}
+
+interface RegisterRequest {
+  email: string;
+  phoneNumber: string;
+  password: string;
+  birthDate: string;
+  birthTime: string;
+  birthPlace: string;
+  bio: string;
+  userType: string;
+  firstName: string;
+  lastName: string;
 }
 
 @Injectable({
@@ -47,6 +69,13 @@ export class AuthService {
             role: response.role,
             firstName: response.firstName,
             lastName: response.lastName,
+            birthDate: response.birthDate,
+            birthTime: response.birthTime,
+            birthPlace: response.birthPlace,
+            userType: response.userType,
+            zodiacSign: response.zodiacSign,
+            risingSign: response.risingSign,
+            moonSign: response.moonSign,
             timestamp: new Date()
           }));
           this.isAuthenticated.next(true);
@@ -55,8 +84,8 @@ export class AuthService {
       );
   }
 
-  register(email: string, phoneNumber: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, { email, phoneNumber });
+  register(registerData: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, registerData);
   }
 
   logout(): void {

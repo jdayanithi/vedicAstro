@@ -1,6 +1,7 @@
 package com.vedicastrology.service;
 
 import com.vedicastrology.entity.Login;
+import com.vedicastrology.entity.UserType;
 import com.vedicastrology.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,12 @@ public class LoginService {
         if (loginRepository.existsByUsername(login.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
+        
+        // Set default user type if not provided
+        if (login.getUserType() == null) {
+            login.setUserType(UserType.student);
+        }
+        
         // Hash the password before saving
         login.setPassword(passwordEncoder.encode(login.getPassword()));
         return loginRepository.save(login);
@@ -35,8 +42,8 @@ public class LoginService {
             throw new RuntimeException("Username already exists");
         }
 
+        // Update basic information
         existingLogin.setUsername(login.getUsername());
-        // Only hash the password if it's being updated
         if (login.getPassword() != null && !login.getPassword().isEmpty()) {
             existingLogin.setPassword(passwordEncoder.encode(login.getPassword()));
         }
@@ -44,6 +51,18 @@ public class LoginService {
         existingLogin.setFirstName(login.getFirstName());
         existingLogin.setLastName(login.getLastName());
         existingLogin.setPhoneNumber(login.getPhoneNumber());
+        
+        // Update astrological information
+        existingLogin.setBirthDate(login.getBirthDate());
+        existingLogin.setBirthTime(login.getBirthTime());
+        existingLogin.setBirthPlace(login.getBirthPlace());
+        existingLogin.setProfilePicture(login.getProfilePicture());
+        existingLogin.setBio(login.getBio());
+        existingLogin.setUserType(login.getUserType());
+        existingLogin.setZodiacSign(login.getZodiacSign());
+        existingLogin.setRisingSign(login.getRisingSign());
+        existingLogin.setMoonSign(login.getMoonSign());
+        
         existingLogin.setUpdatedBy(login.getUpdatedBy());
 
         return loginRepository.save(existingLogin);
@@ -74,10 +93,6 @@ public class LoginService {
     }
 
     public boolean validatePassword(String rawPassword, String encodedPassword) {
-        System.out.println("Validating - Raw password: " + rawPassword);
-        System.out.println("Validating - Encoded password: " + encodedPassword);
-        boolean result = passwordEncoder.matches(rawPassword, encodedPassword);
-        System.out.println("Validation result: " + result);
-        return result;
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
