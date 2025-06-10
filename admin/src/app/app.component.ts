@@ -47,6 +47,10 @@ import { AuthService } from './services/auth.service';
               <mat-icon matListItemIcon>people</mat-icon>
               Users
             </a>
+            <a mat-list-item routerLink="/categories" routerLinkActive="active">
+              <mat-icon matListItemIcon>category</mat-icon>
+              Categories
+            </a>
           </mat-nav-list>
         </mat-drawer>
 

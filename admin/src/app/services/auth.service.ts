@@ -43,6 +43,7 @@ export class AuthService {
   private currentUserRole = new BehaviorSubject<string | null>(null);
   private currentUser = new BehaviorSubject<LoginResponse | null>(null);
   private platformId = inject(PLATFORM_ID);
+  private tokenExpirationTimer: any;
 
   isLoggedIn$ = this.isAuthenticated.asObservable();
   userRole$ = this.currentUserRole.asObservable();
@@ -58,14 +59,39 @@ export class AuthService {
   private checkSession(): void {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
-      if (token) {
+      const session = this.getSession();
+      
+      if (token && session) {
         this.isAuthenticated.next(true);
-        const session = this.getSession();
-        if (session) {
-          this.currentUserRole.next(session.role);
+        this.currentUserRole.next(session.role);
+        this.currentUser.next(session);
+        
+        // Check token expiration
+        try {
+          const tokenData = JSON.parse(atob(token.split('.')[1]));
+          const expirationTime = tokenData.exp * 1000; // Convert to milliseconds
+          const now = Date.now();
+          
+          if (expirationTime > now) {
+            // Set timer for auto logout
+            this.autoLogoutTimer(expirationTime - now);
+          } else {
+            this.logout();
+          }
+        } catch (e) {
+          this.logout();
         }
       }
     }
+  }
+
+  private autoLogoutTimer(duration: number) {
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, duration);
   }
 
   private getSession(): LoginResponse | null {
@@ -87,6 +113,15 @@ export class AuthService {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('session', JSON.stringify(response));
+            
+            // Set auto logout timer
+            try {
+              const tokenData = JSON.parse(atob(response.token.split('.')[1]));
+              const expirationTime = tokenData.exp * 1000;
+              this.autoLogoutTimer(expirationTime - Date.now());
+            } catch (e) {
+              console.error('Error setting auto logout timer:', e);
+            }
           }
           this.isAuthenticated.next(true);
           this.currentUserRole.next(response.role);
@@ -103,10 +138,15 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
       localStorage.removeItem('session');
+      if (this.tokenExpirationTimer) {
+        clearTimeout(this.tokenExpirationTimer);
+        this.tokenExpirationTimer = null;
+      }
     }
     this.isAuthenticated.next(false);
     this.currentUserRole.next(null);
-    this.router.navigate(['/login']);
+    this.currentUser.next(null);
+    this.router.navigate(['/auth/login']);
   }
 
   getToken(): string | null {
