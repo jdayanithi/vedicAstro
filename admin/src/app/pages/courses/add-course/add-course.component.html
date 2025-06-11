@@ -1,0 +1,117 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Add New Course</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Search User</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="userSearch"
+            [matAutocomplete]="auto"
+            placeholder="Type to search users..."
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFn"
+            (optionSelected)="onUserSelected($event)"
+          >
+            <mat-option
+              *ngFor="let user of filteredUsers | async"
+              [value]="user"
+            >
+              {{ displayFn(user) }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Login ID</mat-label>
+          <input matInput formControlName="loginId" required readonly />
+          <mat-hint>Selected from user search above</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Search Category</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="categorySearch"
+            [matAutocomplete]="categoryAuto"
+            placeholder="Type to search categories..."
+          />
+          <mat-autocomplete
+            #categoryAuto="matAutocomplete"
+            [displayWith]="displayCategoryFn"
+            (optionSelected)="onCategorySelected($event)"
+          >
+            <mat-option
+              *ngFor="let category of filteredCategories | async"
+              [value]="category"
+            >
+              {{ displayCategoryFn(category) }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Category ID</mat-label>
+          <input matInput formControlName="categoryId" readonly />
+          <mat-hint>Selected from category search above</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Difficulty Level</mat-label>
+          <mat-select formControlName="difficultyLevel" required>
+            <mat-option value="BEGINNER">Beginner</mat-option>
+            <mat-option value="INTERMEDIATE">Intermediate</mat-option>
+            <mat-option value="ADVANCED">Advanced</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Duration (Hours)</mat-label>
+          <input matInput type="number" formControlName="durationHours" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Thumbnail URL</mat-label>
+          <input matInput formControlName="thumbnailUrl" />
+        </mat-form-field>
+
+        <div class="checkbox-field">
+          <mat-checkbox formControlName="isPublished">Published</mat-checkbox>
+        </div>
+
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="courseForm.invalid"
+          >
+            Add Course
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

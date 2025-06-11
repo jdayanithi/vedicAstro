@@ -1,0 +1,46 @@
+<div class="add-course">
+  <h2>Add New Course</h2>
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" type="text" required />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+    <div>
+      <label for="loginId">Login ID</label>
+      <input id="loginId" formControlName="loginId" type="number" required />
+    </div>
+    <div>
+      <label for="categoryId">Category ID</label>
+      <input id="categoryId" formControlName="categoryId" type="number" />
+    </div>
+    <div>
+      <label for="difficultyLevel">Difficulty Level</label>
+      <select id="difficultyLevel" formControlName="difficultyLevel">
+        <option value="BEGINNER">Beginner</option>
+        <option value="INTERMEDIATE">Intermediate</option>
+        <option value="ADVANCED">Advanced</option>
+      </select>
+    </div>
+    <div>
+      <label for="price">Price</label>
+      <input id="price" formControlName="price" type="number" required />
+    </div>
+    <div>
+      <label for="durationHours">Duration (Hours)</label>
+      <input id="durationHours" formControlName="durationHours" type="number" />
+    </div>
+    <div>
+      <label for="thumbnailUrl">Thumbnail URL</label>
+      <input id="thumbnailUrl" formControlName="thumbnailUrl" type="text" />
+    </div>
+    <div>
+      <label for="isPublished">Published</label>
+      <input id="isPublished" formControlName="isPublished" type="checkbox" />
+    </div>
+    <button type="submit">Add Course</button>
+  </form>
+</div>

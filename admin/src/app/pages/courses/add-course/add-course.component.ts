@@ -1,0 +1,122 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UserService, User } from '../../../services/users.service';
+import { CategoryService, Category } from '../../../services/category.service';
+import { Observable, debounceTime, distinctUntilChanged, map, startWith, switchMap, of } from 'rxjs';
+
+@Component({
+  selector: 'app-add-course',
+  templateUrl: './add-course.component.html',
+  styleUrls: ['./add-course.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatAutocompleteModule
+  ]
+})
+export class AddCourseComponent implements OnInit {
+  courseForm: FormGroup;
+  filteredUsers: Observable<User[]> = of([]);
+  filteredCategories: Observable<Category[]> = of([]);
+
+  private fb = inject(FormBuilder);
+  private userService = inject(UserService);
+  private categoryService = inject(CategoryService);
+
+  constructor() {
+    this.courseForm = this.fb.group({
+      title: ['', Validators.required],
+      description: [''],
+      loginId: ['', Validators.required],
+      userSearch: [''],
+      categoryId: [''],
+      categorySearch: [''],
+      difficultyLevel: ['BEGINNER', Validators.required],
+      price: ['', Validators.required],
+      durationHours: [''],
+      thumbnailUrl: [''],
+      isPublished: [false]
+    });
+  }
+
+  ngOnInit() {
+    // Setup autocomplete for user search
+    this.filteredUsers = this.courseForm.get('userSearch')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => this._filterUsers(value))
+    );
+
+    // Setup autocomplete for category search
+    this.filteredCategories = this.courseForm.get('categorySearch')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => this._filterCategories(value))
+    );
+  }
+  private _filterUsers(value: string | User): Observable<User[]> {
+    // If the value is a User object (from selection), return empty array
+    if (typeof value !== 'string') {
+      return of([]);
+    }
+    console.log('Filtering users with value:', value);
+    const filterValue = value.trim().toLowerCase();
+    return this.userService.searchUsers(filterValue);
+  }
+
+  private _filterCategories(value: string): Observable<Category[]> {
+    return this.categoryService.getCategories().pipe(
+      map(categories => {
+        const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+        return categories.filter(category => 
+          category.name.toLowerCase().includes(filterValue)
+        );
+      })
+    );
+  }
+
+  displayFn = (user: User): string => {
+    return user ? `${user.firstName} ${user.lastName} (${user.email})` : '';
+  }
+
+  displayCategoryFn = (category: Category): string => {
+    return category ? category.name : '';
+  }
+
+  onUserSelected(event: any) {
+    const user = event.option.value as User;
+    this.courseForm.patchValue({
+      loginId: user.id
+    });
+  }
+
+  onCategorySelected(event: any) {
+    const category = event.option.value as Category;
+    this.courseForm.patchValue({
+      categoryId: category.categoryId
+    });
+  }
+
+  onSubmit() {
+    if (this.courseForm.valid) {
+      console.log('Course added:', this.courseForm.value);
+    }
+  }
+}

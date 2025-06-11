@@ -95,4 +95,11 @@ public class LoginService {
     public boolean validatePassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
+    public List<Login> searchUsers(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return List.of();
+        }
+        return loginRepository.searchUsers(query.trim());
+    }
 }
