@@ -28,14 +28,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final ObjectMapper objectMapper;
-
-    @Override
+    private final ObjectMapper objectMapper;    @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        // Skip JWT validation for public endpoints
+        String requestPath = request.getRequestURI();
+        if (isPublicEndpoint(requestPath)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         try {
             final String authHeader = request.getHeader("Authorization");
             
@@ -85,5 +90,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
             objectMapper.writeValue(response.getOutputStream(), body);
         }
+    }
+
+    private boolean isPublicEndpoint(String requestPath) {
+        return requestPath.startsWith("/api/login") ||
+               requestPath.startsWith("/api/courses") ||
+               requestPath.startsWith("/api/categories") ||
+               requestPath.startsWith("/api/users");
     }
 }

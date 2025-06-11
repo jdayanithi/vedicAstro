@@ -10,14 +10,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UserService, User } from '../../../services/users.service';
 import { CategoryService, Category } from '../../../services/category.service';
+import { CourseService } from '../../../services/course.service';
 import { Observable, debounceTime, distinctUntilChanged, map, startWith, switchMap, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.scss'],
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -33,10 +35,12 @@ export class AddCourseComponent implements OnInit {
   courseForm: FormGroup;
   filteredUsers: Observable<User[]> = of([]);
   filteredCategories: Observable<Category[]> = of([]);
-
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private categoryService = inject(CategoryService);
+  private courseService = inject(CourseService);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
 
   constructor() {
     this.courseForm = this.fb.group({
@@ -113,10 +117,38 @@ export class AddCourseComponent implements OnInit {
       categoryId: category.categoryId
     });
   }
-
   onSubmit() {
     if (this.courseForm.valid) {
-      console.log('Course added:', this.courseForm.value);
+      const formData = { ...this.courseForm.value };
+      
+      // Remove search fields before sending to backend
+      delete formData.userSearch;
+      delete formData.categorySearch;
+      
+      console.log('Creating course with data:', formData);
+      
+      this.courseService.createCourse(formData).subscribe({
+        next: (response) => {
+          console.log('Course created successfully:', response);
+          this.snackBar.open('Course created successfully!', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['/courses']);
+        },
+        error: (error) => {
+          console.error('Error creating course:', error);
+          this.snackBar.open('Error creating course. Please try again.', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      });
+    } else {
+      this.snackBar.open('Please fill in all required fields.', 'Close', {
+        duration: 3000,
+        panelClass: ['warning-snackbar']
+      });
     }
   }
 }

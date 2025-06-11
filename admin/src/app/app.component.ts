@@ -50,10 +50,13 @@ import { AuthService } from './services/auth.service';
             <a mat-list-item routerLink="/categories" routerLinkActive="active">
               <mat-icon matListItemIcon>category</mat-icon>
               Categories
-            </a>
-            <a mat-list-item routerLink="/courses" routerLinkActive="active">
+            </a>            <a mat-list-item routerLink="/courses" routerLinkActive="active">
               <mat-icon matListItemIcon>school</mat-icon>
               Courses
+            </a>
+            <a mat-list-item routerLink="/topics" routerLinkActive="active">
+              <mat-icon matListItemIcon>list</mat-icon>
+              Topics
             </a>
           </mat-nav-list>
         </mat-drawer>

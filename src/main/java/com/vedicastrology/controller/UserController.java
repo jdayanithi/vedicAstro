@@ -1,6 +1,6 @@
 package com.vedicastrology.controller;
 
-import com.vedicastrology.entity.Login;
+
 import com.vedicastrology.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

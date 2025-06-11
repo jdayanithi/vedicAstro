@@ -20,10 +20,14 @@ export const routes: Routes = [
     path: 'categories',
     loadChildren: () => import('./pages/categories/categories.routes').then(m => m.CATEGORY_ROUTES),
     canActivate: [authGuard]
-  },
-  {
+  },  {
     path: 'courses',
     loadChildren: () => import('./pages/courses/courses.routes').then(m => m.COURSES_ROUTES),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'topics',
+    loadChildren: () => import('./pages/topics/topics.routes').then(m => m.TOPICS_ROUTES),
     canActivate: [authGuard]
   },
   {

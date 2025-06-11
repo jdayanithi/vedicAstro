@@ -1,6 +1,6 @@
 package com.vedicastrology.service;
 
-import com.vedicastrology.dto.CourseDTO;
+
 import com.vedicastrology.entity.Course;
 import com.vedicastrology.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
