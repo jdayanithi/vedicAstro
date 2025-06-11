@@ -49,6 +49,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'payments',
+    loadChildren: () => import('./pages/payments/payments.routes').then(m => m.PAYMENT_ROUTES),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'

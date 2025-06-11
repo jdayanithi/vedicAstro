@@ -4,8 +4,11 @@ import { Observable } from 'rxjs';
 
 export interface Tag {
   tagId?: number;
-  name: string;
+  tagName: string;
+  tagCategory?: string;
   description?: string;
+  createdByUserId?: number;
+  createdAt?: string;
 }
 
 @Injectable({ providedIn: 'root' })

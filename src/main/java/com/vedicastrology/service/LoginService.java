@@ -102,4 +102,8 @@ public class LoginService {
         }
         return loginRepository.searchUsers(query.trim());
     }
+
+    public List<Login> searchLogins(String query) {
+        return searchUsers(query);
+    }
 }

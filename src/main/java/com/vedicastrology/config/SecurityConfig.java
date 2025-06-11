@@ -40,12 +40,10 @@ public class SecurityConfig {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-    }
-
-    @Bean
+    }    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4201"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -59,7 +57,10 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**", "/api/topics/**", "/api/lessons/**", "/api/lesson-keynotes/**").permitAll()
+                .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**", 
+                               "/api/topics/**", "/api/lessons/**", "/api/lesson-keynotes/**", "/api/tags/**", 
+                               "/api/payments/**", "/api/notifications/**", "/api/posts/**", "/api/comments/**",
+                               "/api/lesson-tags/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

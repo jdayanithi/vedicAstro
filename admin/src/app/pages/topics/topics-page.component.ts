@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TopicService } from '../topic.service';
-import { Topic } from '../topic.model';
+import { TopicService, Topic } from '../../services/topic.service';
 
 @Component({
   selector: 'app-topics-view',
@@ -17,7 +16,7 @@ export class TopicsViewComponent implements OnInit {
   }
 
   loadTopics(): void {
-    this.topicService.getTopics().subscribe(
+    this.topicService.getAllTopics().subscribe(
       (data: Topic[]) => {
         this.topics = data;
       },

@@ -149,6 +149,15 @@ public class LoginController {
         response.put("isValid", isValid);
         return response;
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchLogins(@RequestParam("query") String query) {
+        try {
+            return ResponseEntity.ok(loginService.searchLogins(query));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
 
 class LoginResponse {

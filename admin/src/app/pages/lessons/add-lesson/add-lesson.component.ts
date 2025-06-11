@@ -318,10 +318,9 @@ import { TagService, Tag } from '../../../services/tag.service';
                   class="tag-item"
                 >
                   <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Tag</mat-label>
-                    <mat-select formControlName="tagId" required>
+                    <mat-label>Tag</mat-label>                    <mat-select formControlName="tagId" required>
                       <mat-option *ngFor="let tagOption of allTags" [value]="tagOption.tagId">
-                        {{ tagOption.name }}
+                        {{ tagOption.tagName }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

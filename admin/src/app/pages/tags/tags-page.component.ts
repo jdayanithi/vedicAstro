@@ -25,27 +25,32 @@ import { TagService, Tag } from '../../services/tag.service';
   template: `
     <div class="container">
       <h2>Manage Tags</h2>
-      <form [formGroup]="tagForm" (ngSubmit)="onSubmit()" class="tag-form">
-        <mat-form-field appearance="fill">
+      <form [formGroup]="tagForm" (ngSubmit)="onSubmit()" class="tag-form">        <mat-form-field appearance="fill">
           <mat-label>Tag Name</mat-label>
-          <input matInput formControlName="name" required />
+          <input matInput formControlName="tagName" required />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Tag Category</mat-label>
+          <input matInput formControlName="tagCategory" />
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Description</mat-label>
           <input matInput formControlName="description" />
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">
+        </mat-form-field>        <button mat-raised-button color="primary" type="submit">
           {{ editMode ? 'Update' : 'Add' }} Tag
         </button>
         <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+        <button mat-icon-button (click)="loadTags()" aria-label="Refresh">
+          <mat-icon>refresh</mat-icon>
+        </button>
       </form>
-      <button mat-icon-button (click)="loadTags()" aria-label="Refresh">
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <table mat-table [dataSource]="tags" class="mat-elevation-z8">
-        <ng-container matColumnDef="name">
+      <table mat-table [dataSource]="tags" class="mat-elevation-z8">        <ng-container matColumnDef="tagName">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let tag"> {{ tag.name }} </td>
+          <td mat-cell *matCellDef="let tag"> {{ tag.tagName }} </td>
+        </ng-container>
+        <ng-container matColumnDef="tagCategory">
+          <th mat-header-cell *matHeaderCellDef> Category </th>
+          <td mat-cell *matCellDef="let tag"> {{ tag.tagCategory }} </td>
         </ng-container>
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef> Description </th>
@@ -78,7 +83,7 @@ import { TagService, Tag } from '../../services/tag.service';
 })
 export class TagsPageComponent implements OnInit {
   tags: Tag[] = [];
-  displayedColumns = ['name', 'description', 'actions'];
+  displayedColumns = ['tagName', 'tagCategory', 'description', 'actions'];
   tagForm: FormGroup;
   editMode = false;
   editingTagId: number | null = null;
@@ -87,9 +92,9 @@ export class TagsPageComponent implements OnInit {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
 
-  constructor() {
-    this.tagForm = this.fb.group({
-      name: ['', Validators.required],
+  constructor() {    this.tagForm = this.fb.group({
+      tagName: ['', Validators.required],
+      tagCategory: [''],
       description: ['']
     });
   }
@@ -125,11 +130,14 @@ export class TagsPageComponent implements OnInit {
       });
     }
   }
-
   editTag(tag: Tag) {
     this.editMode = true;
     this.editingTagId = tag.tagId!;
-    this.tagForm.patchValue({ name: tag.name, description: tag.description });
+    this.tagForm.patchValue({ 
+      tagName: tag.tagName, 
+      tagCategory: tag.tagCategory,
+      description: tag.description 
+    });
   }
 
   cancelEdit() {
@@ -137,9 +145,8 @@ export class TagsPageComponent implements OnInit {
     this.editingTagId = null;
     this.tagForm.reset();
   }
-
   deleteTag(tag: Tag) {
-    if (confirm(`Delete tag "${tag.name}"?`)) {
+    if (confirm(`Delete tag "${tag.tagName}"?`)) {
       this.tagService.deleteTag(tag.tagId!).subscribe({
         next: () => {
           this.snackBar.open('Tag deleted', 'Close', { duration: 2000 });
