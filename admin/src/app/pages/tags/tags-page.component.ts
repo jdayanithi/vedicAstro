@@ -39,6 +39,9 @@ import { TagService, Tag } from '../../services/tag.service';
         </button>
         <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
       </form>
+      <button mat-icon-button (click)="loadTags()" aria-label="Refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
       <table mat-table [dataSource]="tags" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>

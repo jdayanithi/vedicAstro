@@ -55,18 +55,19 @@ import { AuthService } from './services/auth.service';
               Courses
             </a>
             <a mat-list-item routerLink="/topics" routerLinkActive="active">
-              <mat-icon matListItemIcon>list</mat-icon>
+              <mat-icon matListItemIcon>view_list</mat-icon>
               Topics
-            </a>            <a mat-list-item routerLink="/lessons" routerLinkActive="active">
-              <mat-icon matListItemIcon>play_lesson</mat-icon>
+            </a>
+            <a mat-list-item routerLink="/lessons" routerLinkActive="active">
+              <mat-icon matListItemIcon>menu_book</mat-icon>
               Lessons
             </a>
             <a mat-list-item routerLink="/keynotes" routerLinkActive="active">
-              <mat-icon matListItemIcon>note_alt</mat-icon>
+              <mat-icon matListItemIcon>notes</mat-icon>
               Keynotes
             </a>
             <a mat-list-item routerLink="/tags" routerLinkActive="active">
-              <mat-icon matListItemIcon>label</mat-icon>
+              <mat-icon matListItemIcon>local_offer</mat-icon>
               Tags
             </a>
             <a mat-list-item routerLink="/notifications" routerLinkActive="active">
@@ -83,12 +84,20 @@ import { AuthService } from './services/auth.service';
     </ng-container>
 
     <ng-template #loginTemplate>
+      <div style="text-align:center; margin-top: 48px; margin-bottom: 32px; font-size: 2rem; font-weight: 600; letter-spacing: 1px;">
+        Vedic Astrology Admin
+      </div>
       <router-outlet></router-outlet>
     </ng-template>
   `,styles: [`
     :host {
       display: block;
       height: 100vh;
+    }
+
+    mat-toolbar {
+      background: #1976d2 !important; /* Material blue 700 */
+      color: #fff;
     }
 
     mat-drawer-container {

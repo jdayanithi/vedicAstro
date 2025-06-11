@@ -45,6 +45,9 @@ import { NotificationService, Notification } from '../../services/notification.s
         <button mat-raised-button color="primary" type="submit">
           {{ editMode ? 'Update' : 'Add' }} Notification
         </button>
+        <button mat-icon-button type="button" (click)="loadNotifications()" aria-label="Refresh" style="margin-bottom: 4px;">
+          <mat-icon>refresh</mat-icon>
+        </button>
         <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
       </form>
       <table mat-table [dataSource]="notifications" class="mat-elevation-z8">
@@ -75,7 +78,7 @@ import { NotificationService, Notification } from '../../services/notification.s
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let n">
-            <button mat-icon-button color="primary" (click)="editNotification(n)">
+            <button mat-icon-button color="accent" (click)="editNotification(n)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="deleteNotification(n)">
