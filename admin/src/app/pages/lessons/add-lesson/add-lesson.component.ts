@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged, startWith, switchMap, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
@@ -40,15 +41,29 @@ import { TagService, Tag } from '../../../services/tag.service';
     MatIconModule,
     MatChipsModule,
     MatDividerModule,
-    MatTooltipModule
-  ],  template: `
+    MatTooltipModule,
+    MatProgressSpinnerModule
+  ],
+  template: `
     <div class="container">
+      <div class="header">
+        <h1>{{ isEditMode ? 'Edit Lesson' : 'Add New Lesson' }}</h1>
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Lessons
+        </button>
+      </div>
+
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{ isEditMode ? 'Edit Lesson' : 'Add New Lesson' }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+          <mat-card-title>Lesson Information</mat-card-title>
+        </mat-card-header>        <mat-card-content>
+          <div *ngIf="loading" class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>Loading lesson data...</p>
+          </div>
+
+          <form *ngIf="!loading" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
             <!-- Lesson Basic Information -->
             <div class="section">
               <h3 class="section-title">
@@ -56,7 +71,7 @@ import { TagService, Tag } from '../../../services/tag.service';
                 Lesson Information
               </h3>
               
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Search Topic</mat-label>
                 <input
                   type="text"
@@ -77,25 +92,32 @@ import { TagService, Tag } from '../../../services/tag.service';
                     {{ displayTopicFn(topic) }}
                   </mat-option>
                 </mat-autocomplete>
+                <mat-icon matSuffix>search</mat-icon>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Topic ID</mat-label>
                 <input matInput formControlName="topicId" required readonly />
                 <mat-hint>Selected from topic search above</mat-hint>
+                <mat-error *ngIf="lessonForm.get('topicId')?.hasError('required')">
+                  Topic selection is required
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Title</mat-label>
-                <input matInput formControlName="title" required />
+                <input matInput formControlName="title" required placeholder="Enter lesson title..." />
+                <mat-error *ngIf="lessonForm.get('title')?.hasError('required')">
+                  Title is required
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description" rows="4"></textarea>
+                <textarea matInput formControlName="description" rows="4" placeholder="Enter lesson description..."></textarea>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Content Type</mat-label>
                 <mat-select formControlName="contentType" required>
                   <mat-option value="video">Video</mat-option>
@@ -103,27 +125,34 @@ import { TagService, Tag } from '../../../services/tag.service';
                   <mat-option value="quiz">Quiz</mat-option>
                   <mat-option value="exercise">Exercise</mat-option>
                 </mat-select>
+                <mat-error *ngIf="lessonForm.get('contentType')?.hasError('required')">
+                  Content type is required
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Content URL</mat-label>
-                <input matInput formControlName="contentUrl" type="url" />
+                <input matInput formControlName="contentUrl" type="url" placeholder="https://example.com/content" />
                 <mat-hint>URL to the lesson content (video, article, etc.)</mat-hint>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Duration (minutes)</mat-label>
-                <input matInput type="number" formControlName="durationMinutes" min="0" />
+                <input matInput type="number" formControlName="durationMinutes" min="0" placeholder="0" />
+                <mat-hint>Estimated time to complete this lesson</mat-hint>
               </mat-form-field>
 
-              <mat-form-field appearance="fill" class="full-width" *ngIf="isEditMode">
+              <mat-form-field appearance="outline" class="full-width" *ngIf="isEditMode">
                 <mat-label>Order Number</mat-label>
                 <input matInput type="number" formControlName="orderNumber" min="1" />
+                <mat-hint>Position of this lesson within the topic</mat-hint>
               </mat-form-field>
 
-              <mat-checkbox formControlName="isFree" class="full-width">
-                Free lesson (accessible without payment)
-              </mat-checkbox>
+              <div class="checkbox-container">
+                <mat-checkbox formControlName="isFree" class="full-width">
+                  <strong>Free lesson</strong> (accessible without payment)
+                </mat-checkbox>
+              </div>
             </div>
 
             <mat-divider></mat-divider>
@@ -181,15 +210,16 @@ import { TagService, Tag } from '../../../services/tag.service';
                         {{ getKeynotePreview(keynote.get('content')?.value) }}
                       </span>
                     </mat-panel-description>
-                  </mat-expansion-panel-header>
-
-                  <div class="keynote-form">
-                    <mat-form-field appearance="fill" class="full-width">
+                  </mat-expansion-panel-header>                  <div class="keynote-form">
+                    <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Title</mat-label>
                       <input matInput formControlName="title" required />
+                      <mat-error *ngIf="keynote.get('title')?.hasError('required')">
+                        Title is required
+                      </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Content Type</mat-label>
                       <mat-select formControlName="contentType" required>
                         <mat-option value="text">Text</mat-option>
@@ -197,9 +227,12 @@ import { TagService, Tag } from '../../../services/tag.service';
                         <mat-option value="quote">Quote</mat-option>
                         <mat-option value="example">Example</mat-option>
                       </mat-select>
+                      <mat-error *ngIf="keynote.get('contentType')?.hasError('required')">
+                        Content type is required
+                      </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="fill" class="full-width">
+                    <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Content</mat-label>
                       <textarea 
                         matInput 
@@ -209,6 +242,9 @@ import { TagService, Tag } from '../../../services/tag.service';
                         [placeholder]="getContentPlaceholder(keynote.get('contentType')?.value)"
                       ></textarea>
                       <mat-hint>{{ getContentHint(keynote.get('contentType')?.value) }}</mat-hint>
+                      <mat-error *ngIf="keynote.get('content')?.hasError('required')">
+                        Content is required
+                      </mat-error>
                     </mat-form-field>
 
                     <div class="form-row">
@@ -219,10 +255,8 @@ import { TagService, Tag } from '../../../services/tag.service';
                       <mat-checkbox formControlName="hasVisualAid" class="checkbox-field">
                         Has Visual Aid
                       </mat-checkbox>
-                    </div>
-
-                    <mat-form-field 
-                      appearance="fill" 
+                    </div>                    <mat-form-field 
+                      appearance="outline" 
                       class="full-width" 
                       *ngIf="keynote.get('hasVisualAid')?.value"
                     >
@@ -232,7 +266,7 @@ import { TagService, Tag } from '../../../services/tag.service';
                     </mat-form-field>
 
                     <div class="form-row">
-                      <mat-form-field appearance="fill" class="half-width">
+                      <mat-form-field appearance="outline" class="half-width">
                         <mat-label>Related Planet</mat-label>
                         <mat-select formControlName="relatedPlanet">
                           <mat-option value="">None</mat-option>
@@ -248,7 +282,7 @@ import { TagService, Tag } from '../../../services/tag.service';
                         </mat-select>
                       </mat-form-field>
 
-                      <mat-form-field appearance="fill" class="half-width">
+                      <mat-form-field appearance="outline" class="half-width">
                         <mat-label>Related Zodiac</mat-label>
                         <mat-select formControlName="relatedZodiac">
                           <mat-option value="">None</mat-option>
@@ -316,18 +350,22 @@ import { TagService, Tag } from '../../../services/tag.service';
                   *ngFor="let tag of tags.controls; let i = index" 
                   [formGroupName]="i"
                   class="tag-item"
-                >
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Tag</mat-label>                    <mat-select formControlName="tagId" required>
+                >                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Tag</mat-label>
+                    <mat-select formControlName="tagId" required>
                       <mat-option *ngFor="let tagOption of allTags" [value]="tagOption.tagId">
                         {{ tagOption.tagName }}
                       </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="tag.get('tagId')?.hasError('required')">
+                      Tag selection is required
+                    </mat-error>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill" class="full-width">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Relevance Score</mat-label>
                     <input matInput formControlName="relevanceScore" type="number" min="1" />
+                    <mat-hint>Enter a score from 1-10 indicating relevance to the lesson</mat-hint>
                   </mat-form-field>
 
                   <div class="tag-actions">
@@ -351,24 +389,56 @@ import { TagService, Tag } from '../../../services/tag.service';
               </div>
             </div>
 
-            <mat-divider></mat-divider>
-
-            <div class="button-container">
-              <button mat-button type="button" (click)="goBack()">Cancel</button>
-              <button mat-raised-button color="primary" type="submit" [disabled]="lessonForm.invalid">
-                {{ isEditMode ? 'Update' : 'Create' }} Lesson
-                <span *ngIf="keynotes.length > 0"> with {{ keynotes.length }} Keynote(s)</span>
+            <mat-divider></mat-divider>            <div class="button-container">
+              <button mat-button type="button" (click)="goBack()">
+                Cancel
+              </button>
+              <button 
+                mat-raised-button 
+                color="primary" 
+                type="submit" 
+                [disabled]="lessonForm.invalid || submitting"
+              >
+                <mat-spinner *ngIf="submitting" diameter="20"></mat-spinner>
+                {{ submitting ? (isEditMode ? 'Updating...' : 'Creating...') : (isEditMode ? 'Update' : 'Create') }} Lesson
+                <span *ngIf="keynotes.length > 0 && !submitting"> with {{ keynotes.length }} Keynote(s)</span>
               </button>
             </div>
           </form>
         </mat-card-content>
       </mat-card>
     </div>
-  `,  styles: [`
-    .container {
+  `,  styles: [`    .container {
       padding: 20px;
       max-width: 1000px;
       margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: #1976d2;
+      font-weight: 500;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+
+    .loading-container mat-spinner {
+      margin-bottom: 16px;
     }
     
     .section {
@@ -416,13 +486,34 @@ import { TagService, Tag } from '../../../services/tag.service';
     .checkbox-field {
       margin-right: 20px;
     }
-    
-    .keynotes-container, .tags-container {
+      .keynotes-container, .tags-container {
       max-height: 600px;
       overflow-y: auto;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
-      padding: 8px;
+      padding: 12px;
+      background-color: #fafafa;
+    }
+
+    .tag-item {
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .tag-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .tag-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
     }
     
     .keynote-panel {
@@ -495,18 +586,19 @@ import { TagService, Tag } from '../../../services/tag.service';
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    
-    .keynote-form {
-      padding: 16px;
-      background-color: #fafafa;
+      .keynote-form {
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      margin: 8px 0;
     }
     
     .keynote-actions {
       display: flex;
       justify-content: flex-end;
-      margin-top: 16px;
+      margin-top: 20px;
       padding-top: 16px;
-      border-top: 1px solid #e0e0e0;
+      border-top: 1px solid #f0f0f0;
     }
     
     .no-keynotes, .no-tags {
@@ -522,13 +614,29 @@ import { TagService, Tag } from '../../../services/tag.service';
       margin-bottom: 16px;
       opacity: 0.5;
     }
-    
-    .button-container {
+      .button-container {
       display: flex;
       justify-content: flex-end;
-      gap: 8px;
+      gap: 12px;
       margin-top: 30px;
       padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .button-container button {
+      min-width: 120px;
+    }
+
+    .button-container mat-spinner {
+      margin-right: 8px;
+    }
+
+    .checkbox-container {
+      margin: 20px 0;
+      padding: 16px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
     }
     
     mat-checkbox {
@@ -571,6 +679,8 @@ export class AddLessonComponent implements OnInit {
   isEditMode = false;
   lessonId: number | null = null;
   allTags: Tag[] = []; // Available tags for selection
+  loading = false;
+  submitting = false;
 
   private fb = inject(FormBuilder);
   private lessonService = inject(LessonService);
@@ -723,9 +833,9 @@ export class AddLessonComponent implements OnInit {
       this.lessonId = +id;
       this.loadLesson();
     }
-  }
-  loadLesson() {
+  }  loadLesson() {
     if (this.lessonId) {
+      this.loading = true;
       this.lessonService.getLessonById(this.lessonId).subscribe({
         next: (lesson) => {
           this.lessonForm.patchValue({
@@ -752,11 +862,13 @@ export class AddLessonComponent implements OnInit {
           this.loadKeynotes();
           // Load existing tags
           this.loadTags(); // Load tags for lesson
+          this.loading = false;
         },
         error: () => {
           this.snackBar.open('Error loading lesson', 'Close', {
             duration: 3000
           });
+          this.loading = false;
         }
       });
     }
@@ -830,10 +942,9 @@ export class AddLessonComponent implements OnInit {
         this.snackBar.open('Error loading tags', 'Close', { duration: 3000 });
       }
     });
-  }
-
-  onSubmit() {
+  }  onSubmit() {
     if (this.lessonForm.valid) {
+      this.submitting = true;
       const formData = this.lessonForm.value;
       const lessonData = {
         title: formData.title,
@@ -854,10 +965,12 @@ export class AddLessonComponent implements OnInit {
             this.handleKeynotes(this.lessonId!);
             this.handleTags(this.lessonId!);
           },
-          error: () => {
-            this.snackBar.open('Error updating lesson', 'Close', {
-              duration: 3000
+          error: (error) => {
+            console.error('Error updating lesson:', error);
+            this.snackBar.open('Error updating lesson. Please try again.', 'Close', {
+              duration: 5000
             });
+            this.submitting = false;
           }
         });
       } else {
@@ -868,15 +981,17 @@ export class AddLessonComponent implements OnInit {
             this.handleKeynotes(lesson.lessonId);
             this.handleTags(lesson.lessonId);
           },
-          error: () => {
-            this.snackBar.open('Error creating lesson', 'Close', {
-              duration: 3000
+          error: (error) => {
+            console.error('Error creating lesson:', error);
+            this.snackBar.open('Error creating lesson. Please try again.', 'Close', {
+              duration: 5000
             });
+            this.submitting = false;
           }
         });
       }
     } else {
-      this.snackBar.open('Please fill in all required fields', 'Close', {
+      this.snackBar.open('Please fill in all required fields correctly.', 'Close', {
         duration: 3000
       });
     }
@@ -910,9 +1025,7 @@ export class AddLessonComponent implements OnInit {
           this.keynoteService.createKeynote(keynotePayload).toPromise()
         );
       }
-    });
-
-    // Execute all keynote operations
+    });    // Execute all keynote operations
     if (keynotePromises.length > 0) {
       Promise.all(keynotePromises)
         .then(() => {
@@ -921,6 +1034,7 @@ export class AddLessonComponent implements OnInit {
             'Close',
             { duration: 3000 }
           );
+          this.submitting = false;
           this.goBack();
         })
         .catch(() => {
@@ -929,6 +1043,7 @@ export class AddLessonComponent implements OnInit {
             'Close',
             { duration: 5000 }
           );
+          this.submitting = false;
           this.goBack();
         });
     } else {
@@ -937,6 +1052,7 @@ export class AddLessonComponent implements OnInit {
         'Close',
         { duration: 3000 }
       );
+      this.submitting = false;
       this.goBack();
     }
   }
