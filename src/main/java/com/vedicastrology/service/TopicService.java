@@ -20,7 +20,16 @@ public class TopicService {
     private TopicRepository topicRepository;
 
     @Autowired
-    private CourseRepository courseRepository;    public List<TopicDTO> getAllTopicsByCourseId(Long courseId) {
+    private CourseRepository courseRepository;
+
+    public List<TopicDTO> getAllTopics() {
+        List<Topic> topics = topicRepository.findAll();
+        return topics.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<TopicDTO> getAllTopicsByCourseId(Long courseId) {
         List<Topic> topics = topicRepository.findByCourse_CourseIdOrderByOrderNumberAsc(courseId);
         return topics.stream()
                 .map(this::convertToDTO)

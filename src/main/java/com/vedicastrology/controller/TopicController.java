@@ -17,6 +17,12 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
+    @GetMapping
+    public ResponseEntity<List<TopicDTO>> getAllTopics() {
+        List<TopicDTO> topics = topicService.getAllTopics();
+        return ResponseEntity.ok(topics);
+    }
+
     @GetMapping("/course/{courseId}")
     public ResponseEntity<List<TopicDTO>> getAllTopicsByCourse(@PathVariable Long courseId) {
         List<TopicDTO> topics = topicService.getAllTopicsByCourseId(courseId);

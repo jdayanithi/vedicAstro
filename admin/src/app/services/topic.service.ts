@@ -21,6 +21,10 @@ export class TopicService {
 
   constructor(private http: HttpClient) {}
 
+  getAllTopics(): Observable<Topic[]> {
+    return this.http.get<Topic[]>(this.apiUrl);
+  }
+
   getTopicsByCourseId(courseId: number): Observable<Topic[]> {
     return this.http.get<Topic[]>(`${this.apiUrl}/course/${courseId}`);
   }

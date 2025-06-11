@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
@@ -24,18 +26,24 @@ import { AuthService } from '../../../services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
-    MatDatepickerModule,
+    MatIconModule,    MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   template: `
     <div class="container flex justify-center align-center" style="min-height: 100vh;">
       <mat-card class="p-20" style="max-width: 600px; width: 100%;">
         <mat-card-header>
           <mat-card-title>Register</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-card-header>        <mat-card-content>
+          <!-- Error Message Display -->
+          <div *ngIf="errorMessage" class="error-container">
+            <mat-icon color="warn">error</mat-icon>
+            <span class="error-text">{{errorMessage}}</span>
+          </div>
+
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-20">
             <div class="flex gap-20">
               <mat-form-field class="flex-1">
@@ -110,7 +118,10 @@ import { AuthService } from '../../../services/auth.service';
               <mat-error *ngIf="registerForm.get('userType')?.hasError('required')">User type is required</mat-error>
             </mat-form-field>
 
-            <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid || isLoading">
+              <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+              {{isLoading ? 'Creating account...' : 'Register'}}
+            </button>
             
             <div class="text-center">
               <a mat-button routerLink="/login">Already have an account?</a>
@@ -133,11 +144,14 @@ import { AuthService } from '../../../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   hidePassword = true;
+  isLoading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -152,18 +166,63 @@ export class RegisterComponent {
       userType: ['student', Validators.required]
     });
   }
-
   onSubmit(): void {
     if (this.registerForm.valid) {
+      this.isLoading = true;
+      this.errorMessage = '';
+      
       const formData = this.registerForm.value;
       formData.birthDate = formData.birthDate.toISOString().split('T')[0]; // Format date as YYYY-MM-DD
       
       this.authService.register(formData).subscribe({
         next: () => {
+          this.isLoading = false;
+          this.snackBar.open('Registration successful! Please login.', 'Close', { 
+            duration: 5000,
+            panelClass: ['success-snackbar']
+          });
           this.router.navigate(['/login']);
         },
         error: (error) => {
+          this.isLoading = false;
           console.error('Registration failed:', error);
+          
+          // Extract error message from different possible error structures
+          let errorMsg = 'Registration failed. Please try again.';
+          
+          if (error.error) {
+            if (typeof error.error === 'string') {
+              errorMsg = error.error;
+            } else if (error.error.message) {
+              errorMsg = error.error.message;
+            } else if (error.error.error) {
+              errorMsg = error.error.error;
+            }
+          } else if (error.message) {
+            errorMsg = error.message;
+          }
+          
+          // Handle specific registration errors
+          if (errorMsg.toLowerCase().includes('username already exists') || 
+              errorMsg.toLowerCase().includes('user already exists')) {
+            errorMsg = 'An account with this email already exists. Please use a different email or try logging in.';
+          } else if (errorMsg.toLowerCase().includes('email')) {
+            errorMsg = 'Please provide a valid email address.';
+          } else if (error.status === 400) {
+            errorMsg = 'Invalid registration data. Please check all fields and try again.';
+          } else if (error.status === 0) {
+            errorMsg = 'Unable to connect to the server. Please check your internet connection.';
+          } else if (error.status >= 500) {
+            errorMsg = 'Server error. Please try again later.';
+          }
+          
+          this.errorMessage = errorMsg;
+          
+          // Also show as snackbar for better visibility
+          this.snackBar.open(errorMsg, 'Close', { 
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
         }
       });
     }

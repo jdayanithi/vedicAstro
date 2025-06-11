@@ -95,9 +95,8 @@ export class AddCourseComponent implements OnInit {
       })
     );
   }
-
   displayFn = (user: User): string => {
-    return user ? `${user.firstName} ${user.lastName} (${user.email})` : '';
+    return user ? `${user.firstName} ${user.lastName} (${user.username})` : '';
   }
 
   displayCategoryFn = (category: Category): string => {

@@ -58,9 +58,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**").permitAll()
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**", "/api/topics/**", "/api/lessons/**", "/api/lesson-keynotes/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

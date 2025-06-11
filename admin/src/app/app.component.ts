@@ -21,9 +21,8 @@ import { AuthService } from './services/auth.service';
     MatSidenavModule,
     MatListModule,
     MatIconModule
-  ],
-  template: `
-    <ng-container *ngIf="authService.isLoggedIn$ | async">
+  ],  template: `
+    <ng-container *ngIf="authService.isLoggedIn$ | async; else loginTemplate">
       <mat-toolbar color="primary">
         <button mat-icon-button (click)="drawer.toggle()">
           <mat-icon>menu</mat-icon>
@@ -50,13 +49,29 @@ import { AuthService } from './services/auth.service';
             <a mat-list-item routerLink="/categories" routerLinkActive="active">
               <mat-icon matListItemIcon>category</mat-icon>
               Categories
-            </a>            <a mat-list-item routerLink="/courses" routerLinkActive="active">
+            </a>
+            <a mat-list-item routerLink="/courses" routerLinkActive="active">
               <mat-icon matListItemIcon>school</mat-icon>
               Courses
             </a>
             <a mat-list-item routerLink="/topics" routerLinkActive="active">
               <mat-icon matListItemIcon>list</mat-icon>
               Topics
+            </a>            <a mat-list-item routerLink="/lessons" routerLinkActive="active">
+              <mat-icon matListItemIcon>play_lesson</mat-icon>
+              Lessons
+            </a>
+            <a mat-list-item routerLink="/keynotes" routerLinkActive="active">
+              <mat-icon matListItemIcon>note_alt</mat-icon>
+              Keynotes
+            </a>
+            <a mat-list-item routerLink="/tags" routerLinkActive="active">
+              <mat-icon matListItemIcon>label</mat-icon>
+              Tags
+            </a>
+            <a mat-list-item routerLink="/notifications" routerLinkActive="active">
+              <mat-icon matListItemIcon>notifications</mat-icon>
+              Notifications
             </a>
           </mat-nav-list>
         </mat-drawer>
@@ -67,10 +82,10 @@ import { AuthService } from './services/auth.service';
       </mat-drawer-container>
     </ng-container>
 
-    <ng-container *ngIf="!(authService.isLoggedIn$ | async)">
+    <ng-template #loginTemplate>
       <router-outlet></router-outlet>
-    </ng-container>
-  `,  styles: [`
+    </ng-template>
+  `,styles: [`
     :host {
       display: block;
       height: 100vh;
