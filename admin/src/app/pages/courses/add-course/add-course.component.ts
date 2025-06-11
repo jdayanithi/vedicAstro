@@ -8,18 +8,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService, User } from '../../../services/users.service';
 import { CategoryService, Category } from '../../../services/category.service';
 import { CourseService } from '../../../services/course.service';
 import { Observable, debounceTime, distinctUntilChanged, map, startWith, switchMap, of } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.scss'],
-  standalone: true,  imports: [
+  standalone: true,
+  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -28,13 +31,18 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ]
 })
 export class AddCourseComponent implements OnInit {
   courseForm: FormGroup;
+  submitting = false;
   filteredUsers: Observable<User[]> = of([]);
   filteredCategories: Observable<Category[]> = of([]);
+  
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private categoryService = inject(CategoryService);
@@ -51,14 +59,18 @@ export class AddCourseComponent implements OnInit {
       categoryId: [''],
       categorySearch: [''],
       difficultyLevel: ['BEGINNER', Validators.required],
-      price: ['', Validators.required],
-      durationHours: [''],
+      price: ['', [Validators.required, Validators.min(0)]],
+      durationHours: ['', Validators.min(0)],
       thumbnailUrl: [''],
       isPublished: [false]
     });
   }
 
   ngOnInit() {
+    this.setupAutocomplete();
+  }
+
+  private setupAutocomplete() {
     // Setup autocomplete for user search
     this.filteredUsers = this.courseForm.get('userSearch')!.valueChanges.pipe(
       startWith(''),
@@ -75,6 +87,7 @@ export class AddCourseComponent implements OnInit {
       switchMap(value => this._filterCategories(value))
     );
   }
+
   private _filterUsers(value: string | User): Observable<User[]> {
     // If the value is a User object (from selection), return empty array
     if (typeof value !== 'string') {
@@ -118,6 +131,7 @@ export class AddCourseComponent implements OnInit {
   }
   onSubmit() {
     if (this.courseForm.valid) {
+      this.submitting = true;
       const formData = { ...this.courseForm.value };
       
       // Remove search fields before sending to backend
@@ -141,13 +155,18 @@ export class AddCourseComponent implements OnInit {
             duration: 5000,
             panelClass: ['error-snackbar']
           });
+          this.submitting = false;
         }
       });
     } else {
-      this.snackBar.open('Please fill in all required fields.', 'Close', {
+      this.snackBar.open('Please fill in all required fields correctly.', 'Close', {
         duration: 3000,
         panelClass: ['warning-snackbar']
       });
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/courses']);
   }
 }

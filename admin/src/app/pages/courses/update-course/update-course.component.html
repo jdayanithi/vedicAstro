@@ -1,66 +1,156 @@
 <div class="container">
+  <div class="header">
+    <h1>Update Course</h1>
+    <button mat-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Courses
+    </button>
+  </div>
+
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Update Course</mat-card-title>
+      <mat-card-title>Course Information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="fill" class="full-width">
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Loading course data...</p>
+      </div>
+
+      <form *ngIf="!loading" [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Title</mat-label>
           <input matInput formControlName="title" required />
+          <mat-error *ngIf="courseForm.get('title')?.hasError('required')">
+            Title is required
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="3"></textarea>
+          <textarea matInput formControlName="description" rows="3" placeholder="Enter course description..."></textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Search User</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="userSearch"
+            [matAutocomplete]="auto"
+            placeholder="Type to search users..."
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFn"
+            (optionSelected)="onUserSelected($event)"
+          >
+            <mat-option
+              *ngFor="let user of filteredUsers | async"
+              [value]="user"
+            >
+              {{ displayFn(user) }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Login ID</mat-label>
-          <input matInput type="number" formControlName="loginId" required />
+          <input matInput formControlName="loginId" required readonly />
+          <mat-hint>Selected from user search above</mat-hint>
+          <mat-error *ngIf="courseForm.get('loginId')?.hasError('required')">
+            Login ID is required
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Search Category</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="categorySearch"
+            [matAutocomplete]="categoryAuto"
+            placeholder="Type to search categories..."
+          />
+          <mat-autocomplete
+            #categoryAuto="matAutocomplete"
+            [displayWith]="displayCategoryFn"
+            (optionSelected)="onCategorySelected($event)"
+          >
+            <mat-option
+              *ngFor="let category of filteredCategories | async"
+              [value]="category"
+            >
+              {{ displayCategoryFn(category) }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Category ID</mat-label>
-          <input matInput type="number" formControlName="categoryId" />
+          <input matInput formControlName="categoryId" readonly />
+          <mat-hint>Selected from category search above</mat-hint>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Difficulty Level</mat-label>
           <mat-select formControlName="difficultyLevel" required>
             <mat-option value="BEGINNER">Beginner</mat-option>
             <mat-option value="INTERMEDIATE">Intermediate</mat-option>
             <mat-option value="ADVANCED">Advanced</mat-option>
           </mat-select>
+          <mat-error *ngIf="courseForm.get('difficultyLevel')?.hasError('required')">
+            Difficulty level is required
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Price</mat-label>
-          <input matInput type="number" formControlName="price" required />
+          <input matInput type="number" formControlName="price" required min="0" step="0.01" />
+          <mat-hint>Enter price in USD</mat-hint>
+          <mat-error *ngIf="courseForm.get('price')?.hasError('required')">
+            Price is required
+          </mat-error>
+          <mat-error *ngIf="courseForm.get('price')?.hasError('min')">
+            Price must be greater than or equal to 0
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Duration (Hours)</mat-label>
-          <input matInput type="number" formControlName="durationHours" />
+          <input matInput type="number" formControlName="durationHours" min="0" step="0.5" />
+          <mat-hint>Course duration in hours</mat-hint>
+          <mat-error *ngIf="courseForm.get('durationHours')?.hasError('min')">
+            Duration must be greater than or equal to 0
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Thumbnail URL</mat-label>
-          <input matInput formControlName="thumbnailUrl" />
+          <input matInput formControlName="thumbnailUrl" placeholder="https://example.com/image.jpg" />
+          <mat-hint>URL for course thumbnail image</mat-hint>
         </mat-form-field>
 
         <div class="checkbox-field">
-          <mat-checkbox formControlName="isPublished">Published</mat-checkbox>
+          <mat-checkbox formControlName="isPublished">
+            Publish this course
+          </mat-checkbox>
         </div>
 
         <div class="button-container">
+          <button mat-button type="button" (click)="goBack()">
+            Cancel
+          </button>
           <button
             mat-raised-button
             color="primary"
             type="submit"
-            [disabled]="courseForm.invalid"
+            [disabled]="courseForm.invalid || submitting"
           >
-            Update Course
+            <mat-spinner *ngIf="submitting" diameter="20"></mat-spinner>
+            {{ submitting ? 'Updating...' : 'Update Course' }}
           </button>
         </div>
       </form>

@@ -66,8 +66,8 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .authenticationProvider(authenticationProvider());
+            //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // JWT filter disabled for development/testing
 
         return http.build();
     }
