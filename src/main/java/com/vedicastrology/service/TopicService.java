@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +41,7 @@ public class TopicService {
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new EntityNotFoundException("Topic not found with id: " + topicId));
         return convertToDTO(topic);
-    }
-
-    @Transactional
+    }    @Transactional
     public TopicDTO createTopic(TopicDTO topicDTO) {
         Course course = courseRepository.findById(topicDTO.getCourseId())
                 .orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + topicDTO.getCourseId()));
@@ -52,6 +51,14 @@ public class TopicService {
         topic.setTitle(topicDTO.getTitle());
         topic.setDescription(topicDTO.getDescription());
         topic.setOrderNumber(getNextOrderNumber(course.getCourseId()));
+        
+        // Ensure creation date is set (as a safeguard alongside @PrePersist)
+        if (topic.getCreatedAt() == null) {
+            topic.setCreatedAt(LocalDateTime.now());
+        }
+        if (topic.getUpdatedAt() == null) {
+            topic.setUpdatedAt(LocalDateTime.now());
+        }
 
         Topic savedTopic = topicRepository.save(topic);
         return convertToDTO(savedTopic);

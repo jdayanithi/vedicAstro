@@ -58,15 +58,13 @@ import { CourseService, Course } from '../../../services/course.service';
                      (input)="applyFilters()"
                      placeholder="Search by title or description...">
               <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
+            </mat-form-field>            <mat-form-field appearance="outline">
               <mat-label>Difficulty Level</mat-label>
               <mat-select [(ngModel)]="selectedDifficulty" (selectionChange)="applyFilters()">
                 <mat-option value="">All</mat-option>
-                <mat-option value="BEGINNER">Beginner</mat-option>
-                <mat-option value="INTERMEDIATE">Intermediate</mat-option>
-                <mat-option value="ADVANCED">Advanced</mat-option>
+                <mat-option value="beginner">Beginner</mat-option>
+                <mat-option value="intermediate">Intermediate</mat-option>
+                <mat-option value="advanced">Advanced</mat-option>
               </mat-select>
             </mat-form-field>
 
@@ -106,9 +104,27 @@ import { CourseService, Course } from '../../../services/course.service';
             <h3>No courses found</h3>
             <p *ngIf="hasActiveFilters()">Try adjusting your filters or <button mat-button (click)="clearFilters()">clear all filters</button></p>
             <p *ngIf="!hasActiveFilters()">Start by creating your first course.</p>
-          </div>
+          </div>          <table *ngIf="filteredCourses.length > 0" mat-table [dataSource]="filteredCourses" class="full-width">
+            <ng-container matColumnDef="thumbnail">
+              <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
+              <td mat-cell *matCellDef="let course">
+                <div class="thumbnail-cell">
+                  <img 
+                    *ngIf="course.thumbnailUrl; else noThumbnail"
+                    [src]="course.thumbnailUrl" 
+                    [alt]="course.title + ' thumbnail'"
+                    class="course-thumbnail"
+                    (error)="onImageError($event)"
+                  />
+                  <ng-template #noThumbnail>
+                    <div class="thumbnail-placeholder">
+                      <mat-icon>image</mat-icon>
+                    </div>
+                  </ng-template>
+                </div>
+              </td>
+            </ng-container>
 
-          <table *ngIf="filteredCourses.length > 0" mat-table [dataSource]="filteredCourses" class="full-width">
             <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef>Title</th>
               <td mat-cell *matCellDef="let course">
@@ -288,11 +304,44 @@ import { CourseService, Course } from '../../../services/course.service';
         color: #666;
         margin-top: 4px;
       }
-    }
-
-    .description-cell {
+    }    .description-cell {
       max-width: 300px;
       line-height: 1.4;
+    }
+
+    .thumbnail-cell {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      .course-thumbnail {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+      }
+      
+      .thumbnail-placeholder {
+        width: 50px;
+        height: 50px;
+        background-color: #f5f5f5;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
+      }
     }
 
     .price-cell {
@@ -394,11 +443,10 @@ export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   filteredCourses: Course[] = [];
   loading = false;
-  searchQuery = '';
-  selectedDifficulty = '';
+  searchQuery = '';  selectedDifficulty = '';
   selectedStatus = '';
   
-  displayedColumns: string[] = ['title', 'description', 'price', 'difficultyLevel', 'isPublished', 'actions'];
+  displayedColumns: string[] = ['thumbnail', 'title', 'description', 'price', 'difficultyLevel', 'isPublished', 'actions'];
 
   constructor(
     private courseService: CourseService,
@@ -407,9 +455,7 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit() {
     this.loadCourses();
-  }
-
-  loadCourses() {
+  }  loadCourses() {
     this.loading = true;
     this.courseService.getAllCourses().subscribe({
       next: (courses) => {
@@ -426,9 +472,7 @@ export class CourseListComponent implements OnInit {
         this.loading = false;
       }
     });
-  }
-
-  applyFilters() {
+  }  applyFilters() {
     this.filteredCourses = this.courses.filter(course => {
       const matchesSearch = !this.searchQuery || 
         course.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -470,9 +514,17 @@ export class CourseListComponent implements OnInit {
           console.error('Error deleting course:', error);          this.snackBar.open('Error deleting course. Please try again.', 'Close', {
             duration: 5000,
             panelClass: ['error-snackbar']
-          });
-        }
+          });        }
       });
+    }
+  }
+
+  onImageError(event: any) {
+    // Hide the broken image and show placeholder instead
+    event.target.style.display = 'none';
+    const placeholder = event.target.parentElement.querySelector('.thumbnail-placeholder');
+    if (placeholder) {
+      placeholder.style.display = 'flex';
     }
   }
 }

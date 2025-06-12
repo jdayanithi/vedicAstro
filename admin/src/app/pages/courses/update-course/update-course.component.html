@@ -92,14 +92,12 @@
           <mat-label>Category ID</mat-label>
           <input matInput formControlName="categoryId" readonly />
           <mat-hint>Selected from category search above</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
+        </mat-form-field>        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Difficulty Level</mat-label>
           <mat-select formControlName="difficultyLevel" required>
-            <mat-option value="BEGINNER">Beginner</mat-option>
-            <mat-option value="INTERMEDIATE">Intermediate</mat-option>
-            <mat-option value="ADVANCED">Advanced</mat-option>
+            <mat-option value="beginner">Beginner</mat-option>
+            <mat-option value="intermediate">Intermediate</mat-option>
+            <mat-option value="advanced">Advanced</mat-option>
           </mat-select>
           <mat-error *ngIf="courseForm.get('difficultyLevel')?.hasError('required')">
             Difficulty level is required

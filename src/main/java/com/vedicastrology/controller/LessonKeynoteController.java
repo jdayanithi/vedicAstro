@@ -1,6 +1,8 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.LessonKeynoteDTO;
+import com.vedicastrology.dto.response.ErrorResponse;
+import com.vedicastrology.dto.response.SuccessResponse;
 import com.vedicastrology.service.LessonKeynoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -175,24 +177,6 @@ public class LessonKeynoteController {
             return ResponseEntity.ok(reorderedKeynotes);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse("Reorder Failed", e.getMessage()));
-        }
-    }
-}
-
-// Response classes
-class SuccessResponse {
-    private String message;
-    
-    public SuccessResponse(String message) {
-        this.message = message;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
+                    .body(new ErrorResponse("Reorder Failed", e.getMessage()));        }
     }
 }

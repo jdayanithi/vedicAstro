@@ -58,7 +58,7 @@ export class AddCourseComponent implements OnInit {
       userSearch: [''],
       categoryId: [''],
       categorySearch: [''],
-      difficultyLevel: ['BEGINNER', Validators.required],
+      difficultyLevel: ['beginner', Validators.required],
       price: ['', [Validators.required, Validators.min(0)]],
       durationHours: ['', Validators.min(0)],
       thumbnailUrl: [''],
@@ -165,8 +165,25 @@ export class AddCourseComponent implements OnInit {
       });
     }
   }
-
   goBack() {
     this.router.navigate(['/courses']);
+  }
+
+  onThumbnailError(event: any) {
+    // Hide the broken image and show placeholder
+    event.target.style.display = 'none';
+    const placeholder = event.target.parentElement.querySelector('.preview-placeholder');
+    if (placeholder) {
+      placeholder.style.display = 'flex';
+    }
+  }
+
+  onThumbnailLoad(event: any) {
+    // Show the image and hide placeholder
+    event.target.style.display = 'block';
+    const placeholder = event.target.parentElement.querySelector('.preview-placeholder');
+    if (placeholder) {
+      placeholder.style.display = 'none';
+    }
   }
 }

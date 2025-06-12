@@ -1,6 +1,8 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.KeynoteTagDTO;
+import com.vedicastrology.dto.response.ErrorResponse;
+import com.vedicastrology.dto.response.SuccessResponse;
 import com.vedicastrology.service.KeynoteTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -166,49 +168,5 @@ public class KeynoteTagController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("Deletion Failed", e.getMessage()));
-        }
-    }
-}
-
-// Response classes for consistent API responses
-class SuccessResponse {
-    private String message;
-    
-    public SuccessResponse(String message) {
-        this.message = message;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
-}
-
-class ErrorResponse {
-    private String error;
-    private String message;
-    
-    public ErrorResponse(String error, String message) {
-        this.error = error;
-        this.message = message;
-    }
-    
-    public String getError() {
-        return error;
-    }
-    
-    public void setError(String error) {
-        this.error = error;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
+        }    }
 }

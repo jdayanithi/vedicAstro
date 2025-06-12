@@ -87,14 +87,12 @@
           <mat-label>Category ID</mat-label>
           <input matInput formControlName="categoryId" readonly />
           <mat-hint>Selected from category search above</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
+        </mat-form-field>        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Difficulty Level</mat-label>
           <mat-select formControlName="difficultyLevel" required>
-            <mat-option value="BEGINNER">Beginner</mat-option>
-            <mat-option value="INTERMEDIATE">Intermediate</mat-option>
-            <mat-option value="ADVANCED">Advanced</mat-option>
+            <mat-option value="beginner">Beginner</mat-option>
+            <mat-option value="intermediate">Intermediate</mat-option>
+            <mat-option value="advanced">Advanced</mat-option>
           </mat-select>
           <mat-error *ngIf="courseForm.get('difficultyLevel')?.hasError('required')">
             Difficulty level is required
@@ -120,13 +118,29 @@
           <mat-error *ngIf="courseForm.get('durationHours')?.hasError('min')">
             Duration must be greater than or equal to 0
           </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
+        </mat-form-field>        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Thumbnail URL</mat-label>
           <input matInput formControlName="thumbnailUrl" placeholder="https://example.com/image.jpg" />
           <mat-hint>URL for course thumbnail image</mat-hint>
         </mat-form-field>
+
+        <!-- Thumbnail Preview -->
+        <div class="thumbnail-preview" *ngIf="courseForm.get('thumbnailUrl')?.value">
+          <h4>Thumbnail Preview:</h4>
+          <div class="preview-container">
+            <img 
+              [src]="courseForm.get('thumbnailUrl')?.value" 
+              alt="Course thumbnail preview"
+              class="preview-image"
+              (error)="onThumbnailError($event)"
+              (load)="onThumbnailLoad($event)"
+            />
+            <div class="preview-placeholder" style="display: none;">
+              <mat-icon>broken_image</mat-icon>
+              <span>Invalid image URL</span>
+            </div>
+          </div>
+        </div>
 
         <div class="checkbox-field">
           <mat-checkbox formControlName="isPublished">

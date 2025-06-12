@@ -31,12 +31,12 @@ public class Course {
     private DifficultyLevel difficultyLevel;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal price;
-
+    private BigDecimal price;    
+    
     @Column
     private Integer durationHours;
 
-    @Column(length = 255)
+    @Column(columnDefinition = "TEXT")
     private String thumbnailUrl;
 
     @Column(nullable = false)

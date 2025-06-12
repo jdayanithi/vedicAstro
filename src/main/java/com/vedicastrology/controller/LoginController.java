@@ -1,6 +1,7 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.config.JwtService;
+import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,22 +180,7 @@ class LoginResponse {
     public String getUsername() { return username; }
     public String getRole() { return role; }
     public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getPhoneNumber() { return phoneNumber; }
-}
-
-class ErrorResponse {
-    private String error;
-    private String message;
-
-    public ErrorResponse(String error, String message) {
-        this.error = error;
-        this.message = message;
-    }
-
-    // Getters
-    public String getError() { return error; }
-    public String getMessage() { return message; }
+    public String getLastName() { return lastName; }    public String getPhoneNumber() { return phoneNumber; }
 }
 
 class PasswordValidationRequest {
