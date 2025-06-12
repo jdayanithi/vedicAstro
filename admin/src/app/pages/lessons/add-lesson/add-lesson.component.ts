@@ -15,18 +15,20 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { QuillModule } from 'ngx-quill';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, debounceTime, distinctUntilChanged, startWith, switchMap, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
 import { LessonKeynoteService, LessonKeynote } from '../../../services/lesson-keynote.service';
 import { LessonTagService, LessonTag } from '../../../services/lesson-tag.service';
+import { KeynoteTagService, KeynoteTag } from '../../../services/keynote-tag.service';
 import { TagService, Tag } from '../../../services/tag.service';
+import { CourseService, Course } from '../../../services/course.service';
 
 @Component({
   selector: 'app-add-lesson',
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -42,7 +44,8 @@ import { TagService, Tag } from '../../../services/tag.service';
     MatChipsModule,
     MatDividerModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    QuillModule
   ],
   template: `
     <div class="container">
@@ -63,13 +66,44 @@ import { TagService, Tag } from '../../../services/tag.service';
             <p>Loading lesson data...</p>
           </div>
 
-          <form *ngIf="!loading" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
-            <!-- Lesson Basic Information -->
+          <form *ngIf="!loading" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">            <!-- Lesson Basic Information -->
             <div class="section">
               <h3 class="section-title">
                 <mat-icon>info</mat-icon>
                 Lesson Information
               </h3>
+              
+              <!-- Course Selection -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Search Course</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="courseSearch"
+                  [matAutocomplete]="courseAuto"
+                  placeholder="Type to search courses..."
+                />
+                <mat-autocomplete
+                  #courseAuto="matAutocomplete"
+                  [displayWith]="displayCourseFn"
+                  (optionSelected)="onCourseSelected($event)"
+                >
+                  <mat-option
+                    *ngFor="let course of filteredCourses | async"
+                    [value]="course"
+                  >
+                    {{ displayCourseFn(course) }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>school</mat-icon>
+                <mat-hint>Select a course to filter topics</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Course ID</mat-label>
+                <input matInput formControlName="courseId" readonly />
+                <mat-hint>Selected from course search above</mat-hint>
+              </mat-form-field>
               
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Search Topic</mat-label>
@@ -79,6 +113,7 @@ import { TagService, Tag } from '../../../services/tag.service';
                   formControlName="topicSearch"
                   [matAutocomplete]="auto"
                   placeholder="Type to search topics..."
+                  [disabled]="!lessonForm.get('courseId')?.value"
                 />
                 <mat-autocomplete
                   #auto="matAutocomplete"
@@ -93,6 +128,9 @@ import { TagService, Tag } from '../../../services/tag.service';
                   </mat-option>
                 </mat-autocomplete>
                 <mat-icon matSuffix>search</mat-icon>
+                <mat-hint *ngIf="!lessonForm.get('courseId')?.value" class="course-warning">
+                  Please select a course first to view available topics
+                </mat-hint>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="full-width">
@@ -109,13 +147,19 @@ import { TagService, Tag } from '../../../services/tag.service';
                 <input matInput formControlName="title" required placeholder="Enter lesson title..." />
                 <mat-error *ngIf="lessonForm.get('title')?.hasError('required')">
                   Title is required
-                </mat-error>
-              </mat-form-field>
+                </mat-error>              </mat-form-field>
 
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Description</mat-label>
-                <textarea matInput formControlName="description" rows="4" placeholder="Enter lesson description..."></textarea>
-              </mat-form-field>
+              <div class="rich-text-field">
+                <label class="rich-text-label">Description</label>
+                <div class="rich-text-container">
+                  <quill-editor 
+                    formControlName="description"
+                    [modules]="quillModules"
+                    placeholder="Enter lesson description..."
+                    theme="snow"
+                  ></quill-editor>
+                </div>
+              </div>
 
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Content Type</mat-label>
@@ -229,23 +273,23 @@ import { TagService, Tag } from '../../../services/tag.service';
                       </mat-select>
                       <mat-error *ngIf="keynote.get('contentType')?.hasError('required')">
                         Content type is required
-                      </mat-error>
-                    </mat-form-field>
+                      </mat-error>                    </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Content</mat-label>
-                      <textarea 
-                        matInput 
-                        formControlName="content" 
-                        rows="4" 
-                        required
-                        [placeholder]="getContentPlaceholder(keynote.get('contentType')?.value)"
-                      ></textarea>
-                      <mat-hint>{{ getContentHint(keynote.get('contentType')?.value) }}</mat-hint>
-                      <mat-error *ngIf="keynote.get('content')?.hasError('required')">
+                    <div class="rich-text-field keynote-field">
+                      <label class="rich-text-label">Content</label>
+                      <div class="rich-text-container keynote-editor">
+                        <quill-editor 
+                          formControlName="content"
+                          [modules]="quillModules"
+                          [placeholder]="getContentPlaceholder(keynote.get('contentType')?.value)"
+                          theme="snow"
+                        ></quill-editor>
+                      </div>
+                      <div class="rich-text-hint">{{ getContentHint(keynote.get('contentType')?.value) }}</div>
+                      <div class="rich-text-error" *ngIf="keynote.get('content')?.hasError('required')">
                         Content is required
-                      </mat-error>
-                    </mat-form-field>
+                      </div>
+                    </div>
 
                     <div class="form-row">
                       <mat-checkbox formControlName="isImportant" class="checkbox-field">
@@ -263,9 +307,7 @@ import { TagService, Tag } from '../../../services/tag.service';
                       <mat-label>Visual Aid URL</mat-label>
                       <input matInput formControlName="visualAidUrl" type="url" />
                       <mat-hint>URL to an image, diagram, or visual aid</mat-hint>
-                    </mat-form-field>
-
-                    <div class="form-row">
+                    </mat-form-field>                    <div class="form-row">
                       <mat-form-field appearance="outline" class="half-width">
                         <mat-label>Related Planet</mat-label>
                         <mat-select formControlName="relatedPlanet">
@@ -300,6 +342,68 @@ import { TagService, Tag } from '../../../services/tag.service';
                           <mat-option value="Pisces">Pisces</mat-option>
                         </mat-select>
                       </mat-form-field>
+                    </div>
+
+                    <!-- Keynote Tags Section -->
+                    <div class="keynote-tags-section">
+                      <div class="section-header">
+                        <h4 class="section-subtitle">
+                          <mat-icon>local_offer</mat-icon>
+                          Keynote Tags
+                        </h4>
+                        <button 
+                          mat-button 
+                          color="accent" 
+                          type="button" 
+                          (click)="addKeynoteTag(i)"
+                          class="add-keynote-tag-btn"
+                        >
+                          <mat-icon>add</mat-icon>
+                          Add Tag
+                        </button>
+                      </div>
+
+                      <div class="keynote-tags-container" formArrayName="keynoteTags">
+                        <div 
+                          *ngFor="let keynoteTag of getKeynoteTags(i).controls; let j = index" 
+                          [formGroupName]="j"
+                          class="keynote-tag-item"
+                        >
+                          <mat-form-field appearance="outline" class="tag-select">
+                            <mat-label>Tag</mat-label>
+                            <mat-select formControlName="tagId" required>
+                              <mat-option *ngFor="let tagOption of allTags" [value]="tagOption.tagId">
+                                {{ tagOption.tagName }}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="keynoteTag.get('tagId')?.hasError('required')">
+                              Tag selection is required
+                            </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field appearance="outline" class="relevance-score">
+                            <mat-label>Relevance Score</mat-label>
+                            <input matInput formControlName="relevanceScore" type="number" min="1" max="10" />
+                            <mat-hint>1-10 scale</mat-hint>
+                          </mat-form-field>
+
+                          <button 
+                            mat-icon-button 
+                            color="warn" 
+                            type="button" 
+                            (click)="removeKeynoteTag(i, j)"
+                            matTooltip="Remove this tag"
+                            class="remove-tag-btn"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+
+                        <div *ngIf="getKeynoteTags(i).length === 0" class="no-keynote-tags">
+                          <mat-icon>local_offer_outlined</mat-icon>
+                          <span>No tags added to this keynote yet.</span>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="keynote-actions">
@@ -464,11 +568,79 @@ import { TagService, Tag } from '../../../services/tag.service';
     
     .add-keynote-btn, .add-tag-btn {
       min-width: 140px;
-    }
-    
-    .full-width {
+    }    .full-width {
       width: 100%;
       margin-bottom: 15px;
+    }
+
+    .course-warning {
+      color: #ff6b6b !important;
+      font-weight: 500;
+    }
+
+    .rich-text-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .rich-text-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.6);
+      margin-bottom: 8px;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .rich-text-container {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      min-height: 120px;
+      background-color: white;
+      transition: border-color 0.15s ease;
+    }
+
+    .rich-text-container .ql-editor {
+      min-height: 100px;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .rich-text-container .ql-toolbar {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .rich-text-container:focus-within {
+      border-color: #1976d2;
+      box-shadow: 0 0 0 1px #1976d2;
+    }
+
+    .rich-text-hint {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.6);
+      margin-top: 4px;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .rich-text-error {
+      font-size: 12px;
+      color: #f44336;
+      margin-top: 4px;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    .keynote-field {
+      margin-bottom: 20px;
+    }
+
+    .keynote-editor {
+      min-height: 100px;
+    }
+
+    .keynote-editor .ql-editor {
+      min-height: 80px;
     }
     
     .half-width {
@@ -506,14 +678,71 @@ import { TagService, Tag } from '../../../services/tag.service';
 
     .tag-item:last-child {
       margin-bottom: 0;
-    }
-
-    .tag-actions {
+    }    .tag-actions {
       display: flex;
       justify-content: flex-end;
       margin-top: 12px;
       padding-top: 12px;
       border-top: 1px solid #f0f0f0;
+    }    // Keynote Tags Styles
+    .keynote-tags-section {
+      margin-top: 20px;
+      padding: 16px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+
+    .section-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0;
+      color: #495057;
+    }
+
+    .keynote-tag-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background-color: white;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .tag-select {
+      flex: 2;
+      margin-bottom: 0;
+    }
+
+    .relevance-score {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .remove-tag-btn {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+    }
+
+    .add-keynote-tag-btn {
+      font-size: 12px;
+      height: 32px;
+    }
+
+    .no-keynote-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #6c757d;
+      font-style: italic;
+      padding: 12px;
+      justify-content: center;
     }
     
     .keynote-panel {
@@ -673,29 +902,51 @@ import { TagService, Tag } from '../../../services/tag.service';
     }
   `]
 })
-export class AddLessonComponent implements OnInit {
-  lessonForm: FormGroup;
+export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
   filteredTopics: Observable<Topic[]> = of([]);
+  filteredCourses: Observable<Course[]> = of([]);
   isEditMode = false;
   lessonId: number | null = null;
   allTags: Tag[] = []; // Available tags for selection
+  allCourses: Course[] = []; // Available courses for selection
   loading = false;
   submitting = false;
 
-  private fb = inject(FormBuilder);
+  // Quill editor configuration
+  quillModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean'],
+      ['link']
+    ]
+  };  private fb = inject(FormBuilder);
   private lessonService = inject(LessonService);
   private topicService = inject(TopicService);
+  private courseService = inject(CourseService);
   private keynoteService = inject(LessonKeynoteService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
   private lessonTagService = inject(LessonTagService);
+  private keynoteTagService = inject(KeynoteTagService);
   private tagService = inject(TagService);
-
   constructor() {
     this.lessonForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
+      courseId: [''],
+      courseSearch: [''],
       topicId: ['', Validators.required],
       topicSearch: [''],
       contentType: ['', Validators.required],
@@ -714,12 +965,47 @@ export class AddLessonComponent implements OnInit {
 
   get keynotes(): FormArray {
     return this.lessonForm.get('keynotes') as FormArray;
-  }
-
-  ngOnInit() {
+  }  ngOnInit() {
+    this.setupCourseAutocomplete();
     this.setupTopicAutocomplete();
     this.checkEditMode();
     this.loadAllTags();
+    this.loadAllCourses();
+    this.handleNavigationState();
+  }
+
+  handleNavigationState() {
+    // Check if we have navigation state with selected topic
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state || window.history.state;
+    
+    if (state && state.selectedTopic && !this.isEditMode) {
+      // Pre-populate course and topic from navigation state
+      const selectedTopic = state.selectedTopic;
+      
+      // Load the course for this topic
+      this.courseService.getCourseById(selectedTopic.courseId).subscribe({
+        next: (course) => {
+          this.lessonForm.patchValue({
+            courseId: selectedTopic.courseId,
+            courseSearch: course,
+            topicId: selectedTopic.topicId,
+            topicSearch: selectedTopic
+          });
+        },
+        error: () => {
+          console.error('Error loading course for selected topic');
+        }
+      });
+    }
+  }
+  setupCourseAutocomplete() {
+    this.filteredCourses = this.lessonForm.get('courseSearch')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => this._filterCourses(value))
+    );
   }
 
   setupTopicAutocomplete() {
@@ -731,19 +1017,67 @@ export class AddLessonComponent implements OnInit {
     );
   }
 
-  private _filterTopics(value: string | Topic): Observable<Topic[]> {
+  private _filterCourses(value: string | Course): Observable<Course[]> {
     if (typeof value !== 'string') {
       return of([]);
     }
     if (!value || value.trim() === '') {
-      return this.topicService.getAllTopics();
+      return this.courseService.getAllCourses();
     }
-    return this.topicService.getAllTopics();
+    // Filter courses by title
+    const filterValue = value.toLowerCase();
+    return this.courseService.getAllCourses().pipe(
+      switchMap(courses => of(courses.filter(course => 
+        course.title.toLowerCase().includes(filterValue)
+      )))
+    );
+  }
+
+  private _filterTopics(value: string | Topic): Observable<Topic[]> {
+    if (typeof value !== 'string') {
+      return of([]);
+    }
+    
+    const selectedCourseId = this.lessonForm.get('courseId')?.value;
+    if (!selectedCourseId) {
+      return of([]); // No topics if no course is selected
+    }
+    
+    // Get topics for the selected course
+    return this.topicService.getTopicsByCourseId(selectedCourseId).pipe(
+      switchMap(topics => {
+        if (!value || value.trim() === '') {
+          return of(topics);
+        }
+        // Filter topics by title
+        const filterValue = value.toLowerCase();
+        return of(topics.filter(topic => 
+          topic.title.toLowerCase().includes(filterValue)
+        ));
+      })
+    );
+  }
+
+  displayCourseFn = (course: Course): string => {
+    return course ? `${course.title} (ID: ${course.courseId})` : '';
   }
 
   displayTopicFn = (topic: Topic): string => {
     return topic ? `${topic.title} (ID: ${topic.topicId})` : '';
   }
+
+  onCourseSelected(event: any) {
+    const course = event.option.value as Course;
+    this.lessonForm.patchValue({
+      courseId: course.courseId,
+      topicId: '', // Clear topic selection when course changes
+      topicSearch: '' // Clear topic search when course changes
+    });
+    
+    // Trigger topic search refresh
+    this.lessonForm.get('topicSearch')?.updateValueAndValidity();
+  }
+
   onTopicSelected(event: any) {
     const topic = event.option.value as Topic;
     this.lessonForm.patchValue({
@@ -751,6 +1085,19 @@ export class AddLessonComponent implements OnInit {
     });
   }
 
+  loadAllCourses() {
+    this.courseService.getAllCourses().subscribe({
+      next: (courses) => {
+        this.allCourses = courses;
+      },
+      error: (error) => {
+        console.error('Error loading courses:', error);
+        this.snackBar.open('Error loading courses', 'Close', {
+          duration: 3000
+        });
+      }
+    });
+  }
   addKeynote() {
     const keynoteForm = this.fb.group({
       title: ['', Validators.required],
@@ -761,6 +1108,7 @@ export class AddLessonComponent implements OnInit {
       visualAidUrl: [''],
       relatedPlanet: [''],
       relatedZodiac: [''],
+      keynoteTags: this.fb.array([]), // Add keynote tags form array
       isNew: [true] // Flag to expand new keynotes
     });
     
@@ -780,9 +1128,27 @@ export class AddLessonComponent implements OnInit {
     });
     this.tags.push(tagForm);
   }
-
   removeTag(index: number) {
     this.tags.removeAt(index);
+  }
+
+  // Keynote Tag methods
+  getKeynoteTags(keynoteIndex: number): FormArray {
+    const keynote = this.keynotes.at(keynoteIndex) as FormGroup;
+    return keynote.get('keynoteTags') as FormArray;
+  }
+
+  addKeynoteTag(keynoteIndex: number) {
+    const keynoteTagForm = this.fb.group({
+      keynoteTagId: [null],
+      tagId: [null, Validators.required],
+      relevanceScore: [5]
+    });
+    this.getKeynoteTags(keynoteIndex).push(keynoteTagForm);
+  }
+
+  removeKeynoteTag(keynoteIndex: number, tagIndex: number) {
+    this.getKeynoteTags(keynoteIndex).removeAt(tagIndex);
   }
 
   getContentTypeLabel(contentType: string): string {
@@ -794,10 +1160,11 @@ export class AddLessonComponent implements OnInit {
       default: return contentType || 'Text';
     }
   }
-
   getKeynotePreview(content: string): string {
     if (!content) return 'No content';
-    return content.length > 50 ? content.substring(0, 50) + '...' : content;
+    // Strip HTML tags for clean preview display
+    const cleanContent = content.replace(/<[^>]*>/g, '');
+    return cleanContent.length > 50 ? cleanContent.substring(0, 50) + '...' : cleanContent;
   }
 
   getContentPlaceholder(contentType: string): string {
@@ -853,7 +1220,20 @@ export class AddLessonComponent implements OnInit {
           this.topicService.getTopicById(lesson.topicId).subscribe({
             next: (topic) => {
               this.lessonForm.patchValue({
-                topicSearch: topic
+                topicSearch: topic,
+                courseId: topic.courseId
+              });
+              
+              // Load course details for the course search field
+              this.courseService.getCourseById(topic.courseId).subscribe({
+                next: (course) => {
+                  this.lessonForm.patchValue({
+                    courseSearch: course
+                  });
+                },
+                error: () => {
+                  console.error('Error loading course details');
+                }
               });
             }
           });
@@ -884,8 +1264,7 @@ export class AddLessonComponent implements OnInit {
           }
 
           // Add existing keynotes to the form
-          keynotes.forEach((keynote: LessonKeynote) => {
-            const keynoteForm = this.fb.group({
+          keynotes.forEach((keynote: LessonKeynote) => {            const keynoteForm = this.fb.group({
               keynoteId: [keynote.keynoteId],
               title: [keynote.title, Validators.required],
               content: [keynote.content, Validators.required],
@@ -895,9 +1274,14 @@ export class AddLessonComponent implements OnInit {
               visualAidUrl: [keynote.visualAidUrl || ''],
               relatedPlanet: [keynote.relatedPlanet || ''],
               relatedZodiac: [keynote.relatedZodiac || ''],
+              keynoteTags: this.fb.array([]), // Add keynote tags form array
               isNew: [false] // Existing keynotes are not expanded by default
-            });
-            this.keynotes.push(keynoteForm);
+            });            this.keynotes.push(keynoteForm);
+
+            // Load keynote tags for this keynote
+            if (keynote.keynoteId) {
+              this.loadKeynoteTags(keynote.keynoteId, this.keynotes.length - 1);
+            }
           });
         },
         error: () => {
@@ -932,7 +1316,6 @@ export class AddLessonComponent implements OnInit {
       });
     }
   }
-
   loadAllTags() {
     this.tagService.getTags().subscribe({
       next: (tags: Tag[]) => {
@@ -942,7 +1325,31 @@ export class AddLessonComponent implements OnInit {
         this.snackBar.open('Error loading tags', 'Close', { duration: 3000 });
       }
     });
-  }  onSubmit() {
+  }
+
+  loadKeynoteTags(keynoteId: number, keynoteIndex: number) {
+    this.keynoteTagService.getTagsByKeynoteId(keynoteId).subscribe({
+      next: (keynoteTags: KeynoteTag[]) => {
+        const keynoteTagsArray = this.getKeynoteTags(keynoteIndex);
+        // Clear existing keynote tags
+        while (keynoteTagsArray.length !== 0) {
+          keynoteTagsArray.removeAt(0);
+        }
+        // Add existing keynote tags to the form
+        keynoteTags.forEach((keynoteTag: KeynoteTag) => {
+          const keynoteTagForm = this.fb.group({
+            keynoteTagId: [keynoteTag.keynoteTagId],
+            tagId: [keynoteTag.tagId, Validators.required],
+            relevanceScore: [keynoteTag.relevanceScore || 5]
+          });
+          keynoteTagsArray.push(keynoteTagForm);
+        });
+      },
+      error: () => {
+        this.snackBar.open('Error loading keynote tags', 'Close', { duration: 3000 });
+      }
+    });
+  }onSubmit() {
     if (this.lessonForm.valid) {
       this.submitting = true;
       const formData = this.lessonForm.value;
@@ -960,10 +1367,29 @@ export class AddLessonComponent implements OnInit {
       if (this.isEditMode && this.lessonId) {
         // Update existing lesson
         this.lessonService.updateLesson(this.lessonId, lessonData).subscribe({
-          next: () => {
-            // Handle keynotes and tags after lesson update
-            this.handleKeynotes(this.lessonId!);
-            this.handleTags(this.lessonId!);
+          next: async () => {
+            try {
+              // Handle keynotes and tags after lesson update
+              await this.handleKeynotes(this.lessonId!);
+              await this.handleTags(this.lessonId!);
+              
+              this.snackBar.open(
+                `Lesson updated successfully with ${this.keynotes.length} keynote(s) and ${this.tags.length} tag(s)!`,
+                'Close',
+                { duration: 3000 }
+              );
+              this.submitting = false;
+              this.goBack();
+            } catch (error) {
+              console.error('Error updating keynotes/tags:', error);
+              this.snackBar.open(
+                'Lesson updated but some keynotes or tags failed to save',
+                'Close',
+                { duration: 5000 }
+              );
+              this.submitting = false;
+              this.goBack();
+            }
           },
           error: (error) => {
             console.error('Error updating lesson:', error);
@@ -976,10 +1402,29 @@ export class AddLessonComponent implements OnInit {
       } else {
         // Create new lesson
         this.lessonService.createLesson(lessonData).subscribe({
-          next: (lesson) => {
-            // Handle keynotes and tags after lesson creation
-            this.handleKeynotes(lesson.lessonId);
-            this.handleTags(lesson.lessonId);
+          next: async (lesson) => {
+            try {
+              // Handle keynotes and tags after lesson creation
+              await this.handleKeynotes(lesson.lessonId);
+              await this.handleTags(lesson.lessonId);
+              
+              this.snackBar.open(
+                `Lesson created successfully with ${this.keynotes.length} keynote(s) and ${this.tags.length} tag(s)!`,
+                'Close',
+                { duration: 3000 }
+              );
+              this.submitting = false;
+              this.goBack();
+            } catch (error) {
+              console.error('Error creating keynotes/tags:', error);
+              this.snackBar.open(
+                'Lesson created but some keynotes or tags failed to save',
+                'Close',
+                { duration: 5000 }
+              );
+              this.submitting = false;
+              this.goBack();
+            }
           },
           error: (error) => {
             console.error('Error creating lesson:', error);
@@ -995,13 +1440,12 @@ export class AddLessonComponent implements OnInit {
         duration: 3000
       });
     }
-  }
-
-  private handleKeynotes(lessonId: number) {
+  }  private async handleKeynotes(lessonId: number): Promise<void> {
     const keynotePromises: Promise<any>[] = [];
     const formKeynotes = this.lessonForm.get('keynotes')?.value || [];
 
-    formKeynotes.forEach((keynoteData: any, index: number) => {
+    for (let index = 0; index < formKeynotes.length; index++) {
+      const keynoteData = formKeynotes[index];
       const keynotePayload = {
         lessonId: lessonId,
         title: keynoteData.title,
@@ -1014,73 +1458,183 @@ export class AddLessonComponent implements OnInit {
         relatedZodiac: keynoteData.relatedZodiac || null
       };
 
-      if (keynoteData.keynoteId) {
-        // Update existing keynote
-        keynotePromises.push(
-          this.keynoteService.updateKeynote(keynoteData.keynoteId, keynotePayload).toPromise()
-        );
-      } else {
-        // Create new keynote
-        keynotePromises.push(
-          this.keynoteService.createKeynote(keynotePayload).toPromise()
-        );
+      try {
+        let savedKeynote;
+        if (keynoteData.keynoteId) {
+          // Update existing keynote
+          savedKeynote = await this.keynoteService.updateKeynote(keynoteData.keynoteId, keynotePayload).toPromise();
+        } else {
+          // Create new keynote
+          savedKeynote = await this.keynoteService.createKeynote(keynotePayload).toPromise();
+        }        // Handle keynote tags after keynote is saved
+        if (savedKeynote && savedKeynote.keynoteId && keynoteData.keynoteTags) {
+          await this.handleKeynoteTags(savedKeynote.keynoteId, keynoteData.keynoteTags);
+        }
+      } catch (error) {
+        console.error('Error handling keynote:', error);
+        throw error;
       }
-    });    // Execute all keynote operations
-    if (keynotePromises.length > 0) {
-      Promise.all(keynotePromises)
-        .then(() => {
-          this.snackBar.open(
-            `Lesson ${this.isEditMode ? 'updated' : 'created'} successfully with ${keynotePromises.length} keynote(s)!`,
-            'Close',
-            { duration: 3000 }
-          );
-          this.submitting = false;
-          this.goBack();
-        })
-        .catch(() => {
-          this.snackBar.open(
-            `Lesson ${this.isEditMode ? 'updated' : 'created'} but some keynotes failed to save`,
-            'Close',
-            { duration: 5000 }
-          );
-          this.submitting = false;
-          this.goBack();
-        });
-    } else {
-      this.snackBar.open(
-        `Lesson ${this.isEditMode ? 'updated' : 'created'} successfully!`,
-        'Close',
-        { duration: 3000 }
-      );
-      this.submitting = false;
-      this.goBack();
     }
   }
 
-  private handleTags(lessonId: number) {
-    const tagPromises: Promise<any>[] = [];
-    const formTags = this.lessonForm.get('tags')?.value || [];
-
-    formTags.forEach((tagData: any) => {
-      const tagPayload = {
-        lessonId: lessonId,
-        tagId: tagData.tagId,
-        relevanceScore: tagData.relevanceScore || 1
-      };
-      if (tagData.lessonTagId) {
-        tagPromises.push(
-          this.lessonTagService.updateLessonTag(tagData.lessonTagId, tagPayload).toPromise()
+  private async handleKeynoteTags(keynoteId: number, keynoteTags: any[]): Promise<void> {
+    if (this.isEditMode) {
+      try {
+        // Get existing keynote tags
+        const existingKeynoteTags = await this.keynoteTagService.getTagsByKeynoteId(keynoteId).toPromise();
+        const currentKeynoteTags = existingKeynoteTags || [];
+        
+        // Find keynote tags to delete
+        const formKeynoteTagIds = keynoteTags.map((kt: any) => kt.keynoteTagId).filter((id: any) => id);
+        const keynoteTagsToDelete = currentKeynoteTags.filter(kt => 
+          kt.keynoteTagId && !formKeynoteTagIds.includes(kt.keynoteTagId)
         );
-      } else {
+        
+        // Delete removed keynote tags
+        const deletePromises = keynoteTagsToDelete
+          .filter(kt => kt.keynoteTagId)
+          .map(kt => this.keynoteTagService.deleteKeynoteTag(kt.keynoteTagId!).toPromise());
+        
+        if (deletePromises.length > 0) {
+          await Promise.all(deletePromises);
+        }
+        
+        // Handle updates and additions
+        const keynoteTagPromises: Promise<any>[] = [];
+        keynoteTags.forEach((keynoteTagData: any) => {
+          const keynoteTagPayload = {
+            keynoteId: keynoteId,
+            tagId: keynoteTagData.tagId,
+            relevanceScore: keynoteTagData.relevanceScore || 5
+          };
+          
+          if (keynoteTagData.keynoteTagId) {
+            // Update existing keynote tag
+            keynoteTagPromises.push(
+              this.keynoteTagService.updateKeynoteTag(keynoteTagData.keynoteTagId, keynoteTagPayload).toPromise()
+            );
+          } else {
+            // Add new keynote tag
+            keynoteTagPromises.push(
+              this.keynoteTagService.createKeynoteTag(keynoteTagPayload).toPromise()
+            );
+          }
+        });
+        
+        if (keynoteTagPromises.length > 0) {
+          await Promise.all(keynoteTagPromises);
+        }
+      } catch (error) {
+        console.error('Error handling keynote tags:', error);
+        throw error;
+      }
+    } else {
+      // For create mode, just add all keynote tags
+      const keynoteTagPromises: Promise<any>[] = [];
+      keynoteTags.forEach((keynoteTagData: any) => {
+        const keynoteTagPayload = {
+          keynoteId: keynoteId,
+          tagId: keynoteTagData.tagId,
+          relevanceScore: keynoteTagData.relevanceScore || 5
+        };
+        keynoteTagPromises.push(
+          this.keynoteTagService.createKeynoteTag(keynoteTagPayload).toPromise()
+        );
+      });
+      
+      if (keynoteTagPromises.length > 0) {
+        await Promise.all(keynoteTagPromises);
+      }
+    }
+  }private async handleTags(lessonId: number): Promise<void> {
+    const formTags = this.lessonForm.get('tags')?.value || [];
+    
+    if (this.isEditMode) {
+      // For edit mode, we need to handle deletions, updates, and additions
+      try {
+        // First, get existing tags for this lesson
+        const existingTags = await this.lessonTagService.getTagsByLessonId(lessonId).toPromise();
+        
+        // Handle case where existingTags might be undefined
+        const currentTags = existingTags || [];
+        
+        // Find tags to delete (existing tags not in the form)
+        const formTagIds = formTags.map((tag: any) => tag.lessonTagId).filter((id: any) => id);
+        const tagsToDelete = currentTags.filter(tag => 
+          tag.lessonTagId && !formTagIds.includes(tag.lessonTagId)
+        );
+        
+        // Delete removed tags
+        const deletePromises = tagsToDelete
+          .filter(tag => tag.lessonTagId) // Ensure lessonTagId exists
+          .map(tag => 
+            this.lessonTagService.deleteLessonTag(tag.lessonTagId!).toPromise()
+          );
+        if (deletePromises.length > 0) {
+          await Promise.all(deletePromises);
+        }
+        
+        // Handle updates and additions
+        const tagPromises: Promise<any>[] = [];
+        formTags.forEach((tagData: any) => {
+          const tagPayload = {
+            lessonId: lessonId,
+            tagId: tagData.tagId,
+            relevanceScore: tagData.relevanceScore || 1
+          };
+          
+          if (tagData.lessonTagId) {
+            // Update existing tag
+            tagPromises.push(
+              this.lessonTagService.updateLessonTag(tagData.lessonTagId, tagPayload).toPromise()
+            );
+          } else {
+            // Add new tag
+            tagPromises.push(
+              this.lessonTagService.addLessonTag(tagPayload).toPromise()
+            );
+          }
+        });
+        
+        if (tagPromises.length > 0) {
+          await Promise.all(tagPromises);
+        }
+      } catch (error) {
+        console.error('Error handling tags:', error);
+        throw error;
+      }
+    } else {
+      // For create mode, just add all tags
+      const tagPromises: Promise<any>[] = [];
+      formTags.forEach((tagData: any) => {
+        const tagPayload = {
+          lessonId: lessonId,
+          tagId: tagData.tagId,
+          relevanceScore: tagData.relevanceScore || 1
+        };
         tagPromises.push(
           this.lessonTagService.addLessonTag(tagPayload).toPromise()
         );
+      });
+      
+      if (tagPromises.length > 0) {
+        await Promise.all(tagPromises);
       }
-    });
-    return Promise.all(tagPromises);
+    }
   }
-
   goBack() {
-    this.router.navigate(['/lessons']);
+    // Get current topic selection to pass back to lesson list
+    const currentTopicId = this.lessonForm.get('topicId')?.value;
+    const currentTopic = this.lessonForm.get('topicSearch')?.value;
+    
+    if (currentTopicId && currentTopic) {
+      // Navigate back with current topic to maintain selection
+      this.router.navigate(['/lessons'], {
+        state: { selectedTopic: currentTopic }
+      });
+    } else {
+      // Navigate back without state if no topic selected
+      this.router.navigate(['/lessons']);
+    }
   }
 }

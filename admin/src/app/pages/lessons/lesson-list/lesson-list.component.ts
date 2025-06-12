@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
@@ -33,10 +33,14 @@ import { TopicService, Topic } from '../../../services/topic.service';
     ReactiveFormsModule
   ],
   template: `
-    <div class="container">
-      <div class="header">
+    <div class="container">      <div class="header">
         <h1>Lessons</h1>
-        <button mat-raised-button color="primary" routerLink="add" [disabled]="!selectedTopic">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="navigateToAddLesson()" 
+          [disabled]="!selectedTopic"
+        >
           <mat-icon>add</mat-icon>
           Add Lesson
         </button>
@@ -113,12 +117,14 @@ import { TopicService, Topic } from '../../../services/topic.service';
             <ng-container matColumnDef="createdAt">
               <th mat-header-cell *matHeaderCellDef>Created</th>
               <td mat-cell *matCellDef="let lesson">{{lesson.createdAt | date:'short'}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="actions">
+            </ng-container>            <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let lesson">
-                <button mat-icon-button color="primary" [routerLink]="['update', lesson.lessonId]">
+                <button 
+                  mat-icon-button 
+                  color="primary" 
+                  (click)="navigateToEditLesson(lesson.lessonId)"
+                >
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="deleteLesson(lesson.lessonId)">
@@ -204,20 +210,29 @@ import { TopicService, Topic } from '../../../services/topic.service';
 export class LessonListComponent implements OnInit {
   lessons: Lesson[] = [];
   selectedTopic: Topic | null = null;
-  topicSearchControl = new FormControl('');
+  topicSearchControl = new FormControl<string | Topic>('');
   filteredTopics: Observable<Topic[]> = of([]);
   displayedColumns: string[] = ['orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
-
   constructor(
     private lessonService: LessonService,
     private topicService: TopicService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
-
   ngOnInit() {
     this.setupTopicAutocomplete();
+    this.restoreSelectedTopic();
+  }  restoreSelectedTopic() {
+    // Check if there's a selected topic stored in history state
+    const navigationState = history.state;
+    if (navigationState && navigationState.selectedTopic) {
+      const topic = navigationState.selectedTopic as Topic;
+      this.selectedTopic = topic;
+      // Set the full topic object for the autocomplete to display properly
+      this.topicSearchControl.setValue(topic);
+      this.loadLessons();
+    }
   }
-
   setupTopicAutocomplete() {
     this.filteredTopics = this.topicSearchControl.valueChanges.pipe(
       startWith(''),
@@ -226,25 +241,39 @@ export class LessonListComponent implements OnInit {
       switchMap(value => this._filterTopics(value || ''))
     );
   }
-
   private _filterTopics(value: string | Topic): Observable<Topic[]> {
-    if (typeof value !== 'string') {
-      return of([]);
-    }
-    if (!value || value.trim() === '') {
+    // If value is a Topic object, extract the title for filtering
+    const filterValue = typeof value === 'string' ? value : value?.title || '';
+    
+    if (!filterValue || filterValue.trim() === '') {
       return this.topicService.getAllTopics();
     }
     return this.topicService.getAllTopics();
   }
-
   displayTopicFn = (topic: Topic): string => {
-    return topic ? `${topic.title} (ID: ${topic.topicId})` : '';
+    if (!topic) return '';
+    const title = topic.title || 'Untitled';
+    const id = topic.topicId || 'N/A';
+    return `${title} (ID: ${id})`;
   }
-
   onTopicSelected(event: any) {
     const topic = event.option.value as Topic;
     this.selectedTopic = topic;
     this.loadLessons();
+  }
+
+  navigateToAddLesson() {
+    if (this.selectedTopic) {
+      this.router.navigate(['lessons/add'], { 
+        state: { selectedTopic: this.selectedTopic } 
+      });
+    }
+  }
+
+  navigateToEditLesson(lessonId: number) {
+    this.router.navigate(['lessons/update', lessonId], { 
+      state: { selectedTopic: this.selectedTopic } 
+    });
   }
 
   loadLessons() {

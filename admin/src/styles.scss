@@ -2,6 +2,10 @@
 
 /* We are using a prebuilt theme from @angular/material, imported in angular.json */
 
+// Quill Rich Text Editor Styles
+@import 'quill/dist/quill.snow.css';
+@import 'quill/dist/quill.bubble.css';
+
 html, body { 
   height: 100%;
   margin: 0;
