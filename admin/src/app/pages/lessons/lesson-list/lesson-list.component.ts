@@ -8,6 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +18,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
+import { Component as DialogComponent, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-lesson-list',
@@ -28,6 +33,9 @@ import { TopicService, Topic } from '../../../services/topic.service';
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatTooltipModule,
     MatSnackBarModule,
     MatSlideToggleModule,
     ReactiveFormsModule
@@ -126,12 +134,26 @@ import { TopicService, Topic } from '../../../services/topic.service';
               <td mat-cell *matCellDef="let lesson">
                 <button 
                   mat-icon-button 
+                  color="accent" 
+                  (click)="viewLessonDetails(lesson)"
+                  matTooltip="View Details"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button 
+                  mat-icon-button 
                   color="primary" 
                   (click)="navigateToEditLesson(lesson.lessonId)"
+                  matTooltip="Edit"
                 >
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deleteLesson(lesson.lessonId)">
+                <button 
+                  mat-icon-button 
+                  color="warn" 
+                  (click)="deleteLesson(lesson.lessonId)"
+                  matTooltip="Delete"
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
@@ -216,12 +238,12 @@ export class LessonListComponent implements OnInit {
   selectedTopic: Topic | null = null;
   topicSearchControl = new FormControl<string | Topic>('');
   filteredTopics: Observable<Topic[]> = of([]);
-  displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
-  constructor(
+  displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];  constructor(
     private lessonService: LessonService,
     private topicService: TopicService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
   ngOnInit() {
     this.setupTopicAutocomplete();
@@ -313,9 +335,16 @@ export class LessonListComponent implements OnInit {
           this.snackBar.open('Error deleting lesson', 'Close', {
             duration: 3000
           });
-        }
-      });
+        }      });
     }
+  }
+
+  viewLessonDetails(lesson: Lesson): void {
+    this.dialog.open(LessonDetailDialogComponent, {
+      width: '800px',
+      maxHeight: '90vh',
+      data: { lesson }
+    });
   }
 }
 
@@ -334,4 +363,195 @@ function parseBackendDate(date: any): Date | null {
   // Try native Date parse as fallback
   const d = new Date(date);
   return isNaN(d.getTime()) ? null : d;
+}
+
+@DialogComponent({
+  selector: 'app-lesson-detail-dialog',
+  standalone: true,  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule
+  ],
+  template: `
+    <h2 mat-dialog-title>
+      <mat-icon>visibility</mat-icon>
+      Lesson Details
+    </h2>
+    
+    <mat-dialog-content class="dialog-content">
+      <div class="lesson-info">
+        <div class="info-row">
+          <strong>ID:</strong> <span class="id-badge">{{data.lesson.lessonId}}</span>
+        </div>
+        
+        <div class="info-row">
+          <strong>Title:</strong> {{data.lesson.title}}
+        </div>
+        
+        <div class="info-row">
+          <strong>Order:</strong> <span class="order-badge">{{data.lesson.orderNumber}}</span>
+        </div>
+        
+        <div class="info-row">
+          <strong>Content Type:</strong> 
+          <span class="content-type-badge" [ngClass]="'content-type-' + data.lesson.contentType">
+            {{data.lesson.contentType}}
+          </span>
+        </div>
+          <div class="info-row" *ngIf="data.lesson.durationMinutes">
+          <strong>Duration:</strong> {{data.lesson.durationMinutes}} minutes
+        </div>
+        
+        <div class="info-row">
+          <strong>Free:</strong> 
+          <span class="free-badge" [class.is-free]="data.lesson.isFree" [class.is-paid]="!data.lesson.isFree">
+            {{data.lesson.isFree ? 'Yes' : 'No'}}
+          </span>
+        </div>
+        
+        <div class="info-row" *ngIf="data.lesson.contentUrl">
+          <strong>Content URL:</strong> 
+          <a [href]="data.lesson.contentUrl" target="_blank" class="content-link">
+            {{data.lesson.contentUrl}}
+          </a>
+        </div>
+        
+        <div class="info-row" *ngIf="data.lesson.createdAt">
+          <strong>Created:</strong> {{parseDate(data.lesson.createdAt) | date:'medium'}}
+        </div>
+      </div>
+      
+      <div class="lesson-content" *ngIf="data.lesson.description">
+        <h3>Description</h3>        <div class="content-text" [innerHTML]="data.lesson.description"></div>
+      </div>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  `,
+  styles: [`
+    .dialog-content {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+    
+    .lesson-info {
+      margin-bottom: 24px;
+    }
+    
+    .info-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+    
+    .info-row strong {
+      min-width: 120px;
+      color: #333;
+    }
+    
+    .id-badge {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .order-badge {
+      background-color: #fff3e0;
+      color: #f57c00;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .content-type-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .content-type-video {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+    
+    .content-type-article {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+    }
+    
+    .content-type-quiz {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+    
+    .content-type-exercise {
+      background-color: #e8f5e8;
+      color: #388e3c;
+    }
+    
+    .free-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .is-free {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+    }
+      .is-paid {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+    
+    .content-link {
+      color: #1976d2;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    
+    .content-link:hover {
+      text-decoration: underline;
+    }
+    
+    .lesson-content {
+      margin-bottom: 24px;
+    }
+    
+    .lesson-content h3 {
+      margin-bottom: 12px;
+      color: #333;
+    }
+    
+    .content-text {
+      background-color: #f5f5f5;
+      padding: 16px;
+      border-radius: 4px;
+      border-left: 4px solid #2196f3;      max-height: 300px;
+      overflow-y: auto;
+    }
+  `]
+})
+export class LessonDetailDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<LessonDetailDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { lesson: Lesson }
+  ) {}
+  
+  parseDate(date: any): Date | null {
+    return parseBackendDate(date);
+  }
 }
