@@ -9,6 +9,7 @@ import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/sl
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { TagService, Tag } from '../../services/tag.service';
 import { TagFormComponent } from './tag-form.component';
 
@@ -24,7 +25,8 @@ import { TagFormComponent } from './tag-form.component';
     MatSlideToggleModule,
     MatCardModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ],
   template: `
     <div class="container">
@@ -51,7 +53,7 @@ import { TagFormComponent } from './tag-form.component';
               <p>Loading tags...</p>
             </div>
             
-            <table *ngIf="!isLoading" mat-table [dataSource]="tags" class="mat-elevation-z2">
+            <table *ngIf="!isLoading" mat-table [dataSource]="pagedTags" class="mat-elevation-z2">
               <ng-container matColumnDef="tagName">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
                 <td mat-cell *matCellDef="let tag"> {{ tag.tagName }} </td>
@@ -85,6 +87,14 @@ import { TagFormComponent } from './tag-form.component';
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+            <mat-paginator
+              [length]="tags.length"
+              [pageSize]="pageSize"
+              [pageIndex]="pageIndex"
+              [pageSizeOptions]="[5, 10, 20]"
+              (page)="onPageChange($event)">
+            </mat-paginator>
 
             <div *ngIf="!isLoading && tags.length === 0" class="no-data">
               <mat-icon>local_offer</mat-icon>
@@ -186,8 +196,15 @@ import { TagFormComponent } from './tag-form.component';
 })
 export class TagsPageComponent implements OnInit {
   tags: Tag[] = [];
-  displayedColumns: string[] = ['tagName', 'description', 'statusFlag', 'actions'];
+  pageIndex = 0;
+  pageSize = 10;
   isLoading = false;
+  displayedColumns: string[] = ['tagName', 'description', 'statusFlag', 'actions'];
+
+  get pagedTags(): Tag[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.tags.slice(start, start + this.pageSize);
+  }
 
   constructor(
     private tagService: TagService,
@@ -203,6 +220,7 @@ export class TagsPageComponent implements OnInit {
     this.tagService.getTags().subscribe({
       next: (tags) => {
         this.tags = tags;
+        this.pageIndex = 0; // Reset to first page on reload
         this.isLoading = false;
       },
       error: (error) => {
@@ -258,5 +276,10 @@ export class TagsPageComponent implements OnInit {
         }
       });
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
   }
 }

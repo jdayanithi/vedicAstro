@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule } from '@angular/forms';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { UserService, User } from '../../../services/users.service';
 
 @Component({
@@ -28,7 +29,8 @@ import { UserService, User } from '../../../services/users.service';
     MatInputModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatPaginatorModule
   ],
   template: `
     <div class="container">
@@ -50,9 +52,9 @@ import { UserService, User } from '../../../services/users.service';
             <mat-form-field appearance="outline" class="search-field">
               <mat-label>Search users</mat-label>
               <input matInput 
-                     [(ngModel)]="searchQuery" 
-                     (input)="onSearchChange()"
-                     placeholder="Search by name, username...">
+                     [(ngModel)]="filterText" 
+                     (input)="onFilterChange()"
+                     placeholder="Search by name, username, phone, role, zodiac...">
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>
@@ -64,7 +66,7 @@ import { UserService, User } from '../../../services/users.service';
 
           <!-- Users Table -->
           <div *ngIf="!loading">
-            <table mat-table [dataSource]="users" class="full-width">
+            <table mat-table [dataSource]="pagedUsers" class="full-width">
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>ID</th>
                 <td mat-cell *matCellDef="let user">{{user.id}}</td>
@@ -139,6 +141,15 @@ import { UserService, User } from '../../../services/users.service';
               <mat-icon>person_off</mat-icon>
               <p>No users found</p>
             </div>
+
+            <!-- Pagination -->
+            <mat-paginator
+              [length]="filteredUsers.length"
+              [pageSize]="pageSize"
+              [pageIndex]="pageIndex"
+              [pageSizeOptions]="[5, 10, 20]"
+              (page)="onPageChange($event)">
+            </mat-paginator>
           </div>
         </mat-card-content>
       </mat-card>
@@ -226,9 +237,13 @@ import { UserService, User } from '../../../services/users.service';
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
-  displayedColumns = ['id', 'username', 'name', 'phoneNumber', 'userType', 'role', 'birthDate', 'zodiacSign', 'actions'];
+  filteredUsers: User[] = [];
+  filterText = '';
+  pageIndex = 0;
+  pageSize = 10;
   loading = false;
   searchQuery = '';
+  displayedColumns: string[] = ['id', 'username', 'name', 'phoneNumber', 'userType', 'role', 'birthDate', 'zodiacSign', 'actions'];
 
   constructor(
     private userService: UserService,
@@ -246,6 +261,7 @@ export class UserListComponent implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (users) => {
         this.users = users;
+        this.onFilterChange(); // Always update filtered list
         this.loading = false;
       },
       error: (error) => {
@@ -256,23 +272,36 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  onSearchChange(): void {
-    if (this.searchQuery.trim()) {
-      this.loading = true;
-      this.userService.searchUsers(this.searchQuery).subscribe({
-        next: (users) => {
-          this.users = users;
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error searching users:', error);
-          this.snackBar.open('Error searching users', 'Close', { duration: 3000 });
-          this.loading = false;
-        }
-      });
+  get pagedUsers(): User[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.filteredUsers.slice(start, start + this.pageSize);
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  onFilterChange(): void {
+    this.pageIndex = 0;
+    const filter = this.filterText.trim().toLowerCase();
+    if (!filter) {
+      this.filteredUsers = this.users.slice();
     } else {
-      this.loadUsers();
+      this.filteredUsers = this.users.filter(user =>
+        (user.firstName && user.firstName.toLowerCase().includes(filter)) ||
+        (user.lastName && user.lastName.toLowerCase().includes(filter)) ||
+        (user.username && user.username.toLowerCase().includes(filter)) ||
+        (user.phoneNumber && user.phoneNumber.toLowerCase().includes(filter)) ||
+        (user.role && user.role.toLowerCase().includes(filter)) ||
+        (user.zodiacSign && user.zodiacSign.toLowerCase().includes(filter))
+      );
     }
+  }
+
+  onSearchChange(): void {
+    this.filterText = this.searchQuery;
+    this.onFilterChange();
   }
 
   editUser(id: number): void {

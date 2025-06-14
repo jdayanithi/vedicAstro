@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
@@ -38,6 +39,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     MatTooltipModule,
     MatSnackBarModule,
     MatSlideToggleModule,
+    MatPaginatorModule,
     ReactiveFormsModule
   ],
   template: `
@@ -85,7 +87,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         <mat-card-header>
           <mat-card-title>Lessons for: {{ selectedTopic.title }}</mat-card-title>
         </mat-card-header>        <mat-card-content>
-          <table mat-table [dataSource]="lessons" class="full-width">
+          <table mat-table [dataSource]="pagedLessons" class="full-width">
             <ng-container matColumnDef="lessonId">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let lesson">{{lesson.lessonId}}</td>
@@ -163,6 +165,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
 
+          <mat-paginator
+            [length]="lessons.length"
+            [pageSize]="pageSize"
+            [pageIndex]="pageIndex"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)">
+          </mat-paginator>
+
           <div *ngIf="lessons.length === 0" class="no-data">
             <p>No lessons found for this topic.</p>
           </div>
@@ -238,7 +248,16 @@ export class LessonListComponent implements OnInit {
   selectedTopic: Topic | null = null;
   topicSearchControl = new FormControl<string | Topic>('');
   filteredTopics: Observable<Topic[]> = of([]);
-  displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];  constructor(
+  displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
+  pageIndex = 0;
+  pageSize = 10;
+
+  get pagedLessons(): Lesson[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.lessons.slice(start, start + this.pageSize);
+  }
+
+  constructor(
     private lessonService: LessonService,
     private topicService: TopicService,
     private snackBar: MatSnackBar,
@@ -306,12 +325,12 @@ export class LessonListComponent implements OnInit {
     if (this.selectedTopic) {
       this.lessonService.getLessonsByTopicId(this.selectedTopic.topicId).subscribe({
         next: (lessons) => {
-          // Convert createdAt and updatedAt to valid Date objects if needed
           this.lessons = lessons.map(lesson => ({
             ...lesson,
             createdAt: parseBackendDate(lesson.createdAt),
             updatedAt: parseBackendDate(lesson.updatedAt)
           }));
+          this.pageIndex = 0; // Reset to first page on reload
         },
         error: () => {
           this.snackBar.open('Error loading lessons', 'Close', {
@@ -320,6 +339,11 @@ export class LessonListComponent implements OnInit {
         }
       });
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
   }
 
   deleteLesson(lessonId: number) {

@@ -288,11 +288,30 @@ export class NotificationsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadNotifications();
+  }  private parseCustomDateToString(dateStr: any): string | undefined {
+    if (!dateStr) return undefined;
+    if (typeof dateStr === 'string') {
+      const parts = dateStr.split(',').map(Number);
+      if (parts.length === 6) {
+        const d = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+        return isNaN(d.getTime()) ? undefined : d.toISOString();
+      }
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? undefined : d.toISOString();
+    }
+    if (dateStr instanceof Date) {
+      return isNaN(dateStr.getTime()) ? undefined : dateStr.toISOString();
+    }
+    return undefined;
   }  loadNotifications(): void {
     this.isLoading = true;
     this.notificationService.getNotifications().subscribe({
       next: (notifications: Notification[]) => {
-        this.notifications = notifications;
+        this.notifications = notifications.map(n => ({
+          ...n,
+          startDate: this.parseCustomDateToString(n.startDate),
+          expiryDate: this.parseCustomDateToString(n.expiryDate)
+        }));
         this.isLoading = false;
       },
       error: (error: any) => {
