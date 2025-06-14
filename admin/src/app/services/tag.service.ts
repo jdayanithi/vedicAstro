@@ -9,6 +9,7 @@ export interface Tag {
   tagCategory?: string;
   description?: string;
   createdByUserId?: number;
+  statusFlag?: boolean;
   createdAt?: string;
 }
 

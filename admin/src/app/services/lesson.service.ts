@@ -13,6 +13,7 @@ export interface Lesson {
   durationMinutes: number;
   orderNumber: number;
   isFree: boolean;
+  statusFlag?: boolean;
   createdAt: Date | null;
   updatedAt: Date | null;
   topicTitle?: string; // Optional for joined queries

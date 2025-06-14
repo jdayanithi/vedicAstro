@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
@@ -28,6 +29,7 @@ import { TopicService, Topic } from '../../../services/topic.service';
     MatAutocompleteModule,
     MatInputModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
     ReactiveFormsModule
   ],
   template: `

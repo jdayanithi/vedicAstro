@@ -20,10 +20,11 @@ public class Tag {
     private String tagCategory;
 
     @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Column(name = "created_by_user_id")
+    private String description;    @Column(name = "created_by_user_id")
     private Integer createdByUserId;
+
+    @Column(name = "status_flag")
+    private Boolean statusFlag = true;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

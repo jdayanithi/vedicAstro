@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,7 +56,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**", 
+                .requestMatchers("/api/dashboard/**","/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**",
                                "/api/topics/**", "/api/lessons/**", "/api/lesson-keynotes/**", "/api/tags/**", 
                                "/api/payments/**", "/api/notifications/**", "/api/posts/**", "/api/comments/**",
                                "/api/lesson-tags/**","/api/keynote-tags/**").permitAll()

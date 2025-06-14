@@ -9,6 +9,7 @@ export interface Topic {
   title: string;
   description: string;
   orderNumber: number;
+  statusFlag?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

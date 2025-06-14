@@ -14,6 +14,7 @@ export interface Course {
   durationHours: number;
   thumbnailUrl: string;
   isPublished: boolean;
+  statusFlag?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

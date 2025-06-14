@@ -34,10 +34,11 @@ public class Lesson {
     private Integer durationMinutes;
 
     @Column(name = "order_number", nullable = false)
-    private Integer orderNumber;
-
-    @Column(name = "is_free", nullable = false)
+    private Integer orderNumber;    @Column(name = "is_free", nullable = false)
     private Boolean isFree = false;
+
+    @Column(name = "status_flag")
+    private Boolean statusFlag = true;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

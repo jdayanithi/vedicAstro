@@ -21,10 +21,11 @@ public class Topic {
     private String title;
 
     @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
-
-    @Column(name = "order_number", nullable = false)
+    private String description;    @Column(name = "order_number", nullable = false)
     private Integer orderNumber;
+
+    @Column(name = "status_flag")
+    private Boolean statusFlag = true;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

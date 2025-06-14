@@ -37,10 +37,11 @@ public class Course {
     private Integer durationHours;
 
     @Column(columnDefinition = "TEXT")
-    private String thumbnailUrl;
-
-    @Column(nullable = false)
+    private String thumbnailUrl;    @Column(nullable = false)
     private Boolean isPublished = false;
+
+    @Column(name = "status_flag")
+    private Boolean statusFlag = true;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
