@@ -54,6 +54,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'customers',
+    loadChildren: () => import('./pages/customers/customers.routes').then(m => m.CUSTOMERS_ROUTES),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'

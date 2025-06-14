@@ -78,6 +78,10 @@ import { AuthService } from './services/auth.service';
               <mat-icon matListItemIcon>payment</mat-icon>
               Payments
             </a>
+            <a mat-list-item routerLink="/customers/view" routerLinkActive="active">
+              <mat-icon matListItemIcon>person</mat-icon>
+              Customer View
+            </a>
           </mat-nav-list>
         </mat-drawer>
 
