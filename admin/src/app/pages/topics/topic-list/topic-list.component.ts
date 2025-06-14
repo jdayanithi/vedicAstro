@@ -232,7 +232,10 @@ export class TopicListComponent implements OnInit {
     if (this.selectedCourse) {
       this.topicService.getTopicsByCourseId(this.selectedCourse.courseId).subscribe({
         next: (topics) => {
-          this.topics = topics;
+          this.topics = topics.map(topic => ({
+            ...topic,
+            createdAt: this.parseCustomDate(topic.createdAt)
+          }));
         },
         error: () => {
           this.snackBar.open('Error loading topics', 'Close', {
@@ -241,6 +244,23 @@ export class TopicListComponent implements OnInit {
         }
       });
     }
+  }
+
+  parseCustomDate(dateStr: any): Date {
+    // Handles "2025,6,14,18,3,58" (year,month,day,hour,min,sec)
+    if (!dateStr) return new Date(0);
+    if (typeof dateStr === 'string') {
+      const parts = dateStr.split(',').map(Number);
+      if (parts.length === 6) {
+        // Note: JS months are 0-based
+        return new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+      }
+      // fallback: try Date constructor
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? new Date(0) : d;
+    }
+    if (dateStr instanceof Date) return dateStr;
+    return new Date(0);
   }
   deleteTopic(topicId: number) {
     if (confirm('Are you sure you want to delete this topic?')) {
