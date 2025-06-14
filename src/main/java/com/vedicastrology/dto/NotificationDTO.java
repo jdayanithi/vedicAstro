@@ -5,18 +5,20 @@ import java.time.LocalDateTime;
 public class NotificationDTO {
     private Long notificationId;
     private Long loginId;
+    private Boolean isBroadcast;  // New field
     private String title;
     private String message;
-    private Boolean isRead;    private String notificationType;
+    private Boolean isRead;private String notificationType;
     private LocalDateTime startDate;
     private LocalDateTime expiryDate;
     private LocalDateTime createdAt;
 
     // Getters and setters
     public Long getNotificationId() { return notificationId; }
-    public void setNotificationId(Long notificationId) { this.notificationId = notificationId; }
-    public Long getLoginId() { return loginId; }
+    public void setNotificationId(Long notificationId) { this.notificationId = notificationId; }    public Long getLoginId() { return loginId; }
     public void setLoginId(Long loginId) { this.loginId = loginId; }
+    public Boolean getIsBroadcast() { return isBroadcast; }
+    public void setIsBroadcast(Boolean isBroadcast) { this.isBroadcast = isBroadcast; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getMessage() { return message; }

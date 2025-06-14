@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["app.component.ts"],
+  "sourcesContent": ["\n    :host {\n      display: block;\n      height: 100vh;\n    }\n\n    mat-toolbar {\n      background: #1976d2 !important; /* Material blue 700 */\n      color: #fff;\n    }\n\n    mat-drawer-container {\n      height: calc(100% - 64px);\n    }\n\n    mat-drawer {\n      width: 250px;\n    }\n\n    mat-drawer-content {\n      padding: 20px;\n    }\n\n    .active {\n      background-color: rgba(0, 0, 0, 0.1);\n    }\n  "],
+  "mappings": ";AACI;AACE,WAAA;AACA,UAAA;;AAGF;AACE,cAAA;AACA,SAAA;;AAGF;AACE,UAAA,KAAA,KAAA,EAAA;;AAGF;AACE,SAAA;;AAGF;AACE,WAAA;;AAGF,CAAA;AACE,oBAAA,KAAA,CAAA,EAAA,CAAA,EAAA,CAAA,EAAA;;",
+  "names": []
+}

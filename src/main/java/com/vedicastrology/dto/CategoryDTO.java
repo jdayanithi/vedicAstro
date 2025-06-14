@@ -3,9 +3,9 @@ package com.vedicastrology.dto;
 import java.time.LocalDateTime;
 
 public class CategoryDTO {
-    private Long categoryId;
-    private String name;
+    private Long categoryId;    private String name;
     private String description;
+    private String thumbnailUrl;
     private Long parentCategoryId;
     private String parentCategoryName;
     private LocalDateTime createdAt;
@@ -29,10 +29,16 @@ public class CategoryDTO {
 
     public String getDescription() {
         return description;
+    }    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public Long getParentCategoryId() {

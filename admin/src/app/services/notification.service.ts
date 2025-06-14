@@ -5,7 +5,8 @@ import { environment } from '../../environments/environment';
 
 export interface Notification {
   notificationId?: number;
-  loginId: number;
+  loginId?: number;  // Made optional for broadcast notifications
+  isBroadcast?: boolean;  // New field
   title: string;
   message: string;
   isRead?: boolean;

@@ -44,10 +44,22 @@ import { NotificationFormComponent } from './notification-form.component';
           </mat-card-title>
         </mat-card-header>        <mat-card-content>
           <div class="table-container" *ngIf="!isLoading">
-            <table mat-table [dataSource]="notifications" class="mat-elevation-z2">
-              <ng-container matColumnDef="loginId">
+            <table mat-table [dataSource]="notifications" class="mat-elevation-z2">              <ng-container matColumnDef="loginId">
                 <th mat-header-cell *matHeaderCellDef> Login ID </th>
-                <td mat-cell *matCellDef="let notification"> {{ notification.loginId }} </td>
+                <td mat-cell *matCellDef="let notification"> 
+                  <span *ngIf="!notification.isBroadcast">{{ notification.loginId }}</span>
+                  <span *ngIf="notification.isBroadcast" class="broadcast-indicator">All Users</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="isBroadcast">
+                <th mat-header-cell *matHeaderCellDef> Broadcast </th>
+                <td mat-cell *matCellDef="let notification"> 
+                  <span class="broadcast-badge" [class.is-broadcast]="notification.isBroadcast" 
+                        [class.not-broadcast]="!notification.isBroadcast">
+                    {{ notification.isBroadcast ? 'Yes' : 'No' }}
+                  </span>
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="title">
@@ -196,11 +208,33 @@ import { NotificationFormComponent } from './notification-form.component';
     .read {
       background-color: #e8f5e8;
       color: #2e7d32;
-    }
-
-    .unread {
+    }    .unread {
       background-color: #fff3e0;
       color: #f57c00;
+    }
+
+    .broadcast-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .is-broadcast {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+    }
+
+    .not-broadcast {
+      background-color: #f5f5f5;
+      color: #666;
+    }
+
+    .broadcast-indicator {
+      font-weight: 500;
+      color: #2e7d32;
+      font-style: italic;
     }
 
     .mat-mdc-cell {
@@ -243,7 +277,7 @@ import { NotificationFormComponent } from './notification-form.component';
 })
 export class NotificationsPageComponent implements OnInit {
   notifications: Notification[] = [];
-  displayedColumns: string[] = ['loginId', 'title', 'message', 'notificationType', 'startDate', 'expiryDate', 'isRead', 'actions'];
+  displayedColumns: string[] = ['loginId', 'isBroadcast', 'title', 'message', 'notificationType', 'startDate', 'expiryDate', 'isRead', 'actions'];
   isLoading = false;
 
   constructor(

@@ -17,10 +17,10 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        Category category = new Category();
+    public CategoryDTO createCategory(CategoryDTO categoryDTO) {        Category category = new Category();
         category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());
+        category.setThumbnailUrl(categoryDTO.getThumbnailUrl());
         
         if (categoryDTO.getParentCategoryId() != null) {
             categoryRepository.findById(categoryDTO.getParentCategoryId())
@@ -44,10 +44,10 @@ public class CategoryService {
     }
 
     public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
-        return categoryRepository.findById(id)
-                .map(category -> {
+        return categoryRepository.findById(id)                .map(category -> {
                     category.setName(categoryDTO.getName());
                     category.setDescription(categoryDTO.getDescription());
+                    category.setThumbnailUrl(categoryDTO.getThumbnailUrl());
                     
                     if (categoryDTO.getParentCategoryId() != null) {
                         categoryRepository.findById(categoryDTO.getParentCategoryId())
@@ -73,13 +73,12 @@ public class CategoryService {
         return categoryRepository.findByParentCategory_CategoryId(parentId).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
-    }
-
-    private CategoryDTO convertToDTO(Category category) {
+    }    private CategoryDTO convertToDTO(Category category) {
         CategoryDTO dto = new CategoryDTO();
         dto.setCategoryId(category.getCategoryId());
         dto.setName(category.getName());
         dto.setDescription(category.getDescription());
+        dto.setThumbnailUrl(category.getThumbnailUrl());
         
         if (category.getParentCategory() != null) {
             dto.setParentCategoryId(category.getParentCategory().getCategoryId());

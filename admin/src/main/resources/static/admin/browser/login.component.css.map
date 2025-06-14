@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["login.component.ts"],
+  "sourcesContent": ["\n    :host {\n      display: block;\n      height: 100%;\n    }\n\n    .error-container {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      background-color: #ffebee;\n      border: 1px solid #f44336;\n      border-radius: 4px;\n      padding: 12px;\n      margin-bottom: 20px;\n    }\n\n    .error-text {\n      color: #d32f2f;\n      font-size: 14px;\n    }\n\n    .flex {\n      display: flex;\n    }\n\n    .flex-column {\n      flex-direction: column;\n    }\n\n    .gap-20 > * + * {\n      margin-top: 20px;\n    }\n\n    .text-center {\n      text-align: center;\n    }\n  "],
+  "mappings": ";AACI;AACE,WAAA;AACA,UAAA;;AAGF,CAAA;AACE,WAAA;AACA,eAAA;AACA,OAAA;AACA,oBAAA;AACA,UAAA,IAAA,MAAA;AACA,iBAAA;AACA,WAAA;AACA,iBAAA;;AAGF,CAAA;AACE,SAAA;AACA,aAAA;;AAGF,CAAA;AACE,WAAA;;AAGF,CAAA;AACE,kBAAA;;AAGF,CAAA,OAAA,EAAA,EAAA,EAAA;AACE,cAAA;;AAGF,CAAA;AACE,cAAA;;",
+  "names": []
+}

@@ -8,6 +8,7 @@ export interface Category {
   categoryId?: number;
   name: string;
   description: string;
+  thumbnailUrl?: string;
   parentCategoryId?: number;
   parentCategoryName?: string;
 }

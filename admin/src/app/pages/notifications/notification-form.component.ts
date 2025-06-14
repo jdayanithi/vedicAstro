@@ -31,12 +31,19 @@ import { NotificationService, Notification } from '../../services/notification.s
     <h2 mat-dialog-title>{{editMode ? 'Edit' : 'Create'}} Notification</h2>
     <mat-dialog-content>
       <form [formGroup]="notificationForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="fill" class="full-width">
+        <div class="broadcast-toggle">
+          <mat-checkbox formControlName="isBroadcast" (change)="onBroadcastChange()">
+            Send to All Users (Broadcast)
+          </mat-checkbox>
+        </div>
+
+        <mat-form-field appearance="fill" class="full-width" *ngIf="!notificationForm.get('isBroadcast')?.value">
           <mat-label>Login ID</mat-label>
-          <input matInput formControlName="loginId" type="number" required>
+          <input matInput formControlName="loginId" type="number">
           <mat-error *ngIf="notificationForm.get('loginId')?.hasError('required')">
-            Login ID is required
+            Login ID is required for specific user notifications
           </mat-error>
+          <mat-hint>Leave empty and check broadcast above to send to all users</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
@@ -104,12 +111,18 @@ import { NotificationService, Notification } from '../../services/notification.s
     .checkbox-container {
       margin: 16px 0;
     }
-    
-    .button-container {
+      .button-container {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
       margin-top: 16px;
+    }
+    
+    .broadcast-toggle {
+      margin: 16px 0;
+      padding: 12px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
     }
     
     mat-dialog-content {
@@ -137,10 +150,10 @@ export class NotificationFormComponent {
       this.populateForm(data.notification);
     }
   }
-
   private createForm(): FormGroup {
     return this.fb.group({
-      loginId: ['', [Validators.required, Validators.min(1)]],
+      isBroadcast: [false],
+      loginId: [''],
       title: ['', [Validators.required, Validators.minLength(3)]],
       message: ['', [Validators.required, Validators.minLength(10)]],
       notificationType: ['push', Validators.required],
@@ -150,8 +163,23 @@ export class NotificationFormComponent {
     });
   }
 
+  onBroadcastChange(): void {
+    const isBroadcast = this.notificationForm.get('isBroadcast')?.value;
+    const loginIdControl = this.notificationForm.get('loginId');
+    
+    if (isBroadcast) {
+      // Clear and disable loginId for broadcast notifications
+      loginIdControl?.setValue('');
+      loginIdControl?.clearValidators();
+    } else {
+      // Re-enable loginId validation for specific user notifications
+      loginIdControl?.setValidators([Validators.required, Validators.min(1)]);
+    }
+    loginIdControl?.updateValueAndValidity();
+  }
   private populateForm(notification: Notification): void {
     this.notificationForm.patchValue({
+      isBroadcast: notification.isBroadcast || false,
       loginId: notification.loginId,
       title: notification.title,
       message: notification.message,
@@ -160,15 +188,18 @@ export class NotificationFormComponent {
       expiryDate: notification.expiryDate ? new Date(notification.expiryDate) : '',
       isRead: notification.isRead || false
     });
+    
+    // Trigger broadcast change logic after populating form
+    this.onBroadcastChange();
   }
 
   onSubmit(): void {
     if (this.notificationForm.valid && !this.isLoading) {
       this.isLoading = true;
       const formValue = this.notificationForm.value;
-      
-      const notificationData: Notification = {
-        loginId: formValue.loginId,
+        const notificationData: Notification = {
+        isBroadcast: formValue.isBroadcast,
+        loginId: formValue.isBroadcast ? undefined : formValue.loginId,
         title: formValue.title,
         message: formValue.message,
         notificationType: formValue.notificationType,

@@ -26,9 +26,23 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           <mat-icon>add</mat-icon>
           Add Category
         </button>
-      </div>
+      </div>      <table mat-table [dataSource]="categories" class="mat-elevation-z8">
+        <ng-container matColumnDef="thumbnail">
+          <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
+          <td mat-cell *matCellDef="let category">
+            <div class="thumbnail-cell">
+              <img *ngIf="category.thumbnailUrl" 
+                   [src]="category.thumbnailUrl" 
+                   [alt]="category.name + ' thumbnail'"
+                   class="category-thumbnail"
+                   (error)="onImageError($event)">
+              <div *ngIf="!category.thumbnailUrl" class="no-thumbnail">
+                <mat-icon>image</mat-icon>
+              </div>
+            </div>
+          </td>
+        </ng-container>
 
-      <table mat-table [dataSource]="categories" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let category">{{category.name}}</td>
@@ -60,8 +74,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-  `,
-  styles: [`
+  `,  styles: [`
     .container {
       padding: 20px;
     }
@@ -74,11 +87,36 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     table {
       width: 100%;
     }
+    .thumbnail-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+    }
+    .category-thumbnail {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    .no-thumbnail {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      color: #999;
+    }
   `]
 })
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
-  displayedColumns: string[] = ['name', 'description', 'parentCategory', 'actions'];
+  displayedColumns: string[] = ['thumbnail', 'name', 'description', 'parentCategory', 'actions'];
 
   constructor(
     private categoryService: CategoryService,
@@ -128,6 +166,18 @@ export class CategoryListComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  onImageError(event: any): void {
+    // Replace broken image with placeholder
+    event.target.style.display = 'none';
+    const parent = event.target.parentNode;
+    if (parent && !parent.querySelector('.no-thumbnail')) {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'no-thumbnail';
+      placeholder.innerHTML = '<mat-icon>broken_image</mat-icon>';
+      parent.appendChild(placeholder);
     }
   }
 }

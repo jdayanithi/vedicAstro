@@ -12,10 +12,11 @@ public class Category {
     private Long categoryId;
 
     @Column(name = "name", nullable = false, length = 50)
-    private String name;
-
-    @Column(name = "description", columnDefinition = "TEXT")
+    private String name;    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "thumbnail_url", length = 500)
+    private String thumbnailUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
@@ -35,10 +36,12 @@ public class Category {
 
     public String getName() {
         return name;
+    }    public String getDescription() {
+        return description;
     }
 
-    public String getDescription() {
-        return description;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
     public Category getParentCategory() {
@@ -56,10 +59,12 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 
     public void setParentCategory(Category parentCategory) {

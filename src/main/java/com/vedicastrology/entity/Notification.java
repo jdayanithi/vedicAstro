@@ -9,11 +9,12 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
-    private Long notificationId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "login_id", nullable = false)
+    private Long notificationId;    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "login_id", nullable = true)  // Changed to nullable for broadcast notifications
     private Login login;
+
+    @Column(name = "is_broadcast")
+    private Boolean isBroadcast = false;  // New field to indicate if notification is for all users
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -36,9 +37,10 @@ public class Notification {
 
     // Getters and setters
     public Long getNotificationId() { return notificationId; }
-    public void setNotificationId(Long notificationId) { this.notificationId = notificationId; }
-    public Login getLogin() { return login; }
+    public void setNotificationId(Long notificationId) { this.notificationId = notificationId; }    public Login getLogin() { return login; }
     public void setLogin(Login login) { this.login = login; }
+    public Boolean getIsBroadcast() { return isBroadcast; }
+    public void setIsBroadcast(Boolean isBroadcast) { this.isBroadcast = isBroadcast; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     public String getMessage() { return message; }

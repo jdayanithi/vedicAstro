@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["register.component.ts"],
+  "sourcesContent": ["\n    :host {\n      display: block;\n      height: 100%;\n    }\n    .flex-1 {\n      flex: 1;\n    }\n  "],
+  "mappings": ";AACI;AACE,WAAA;AACA,UAAA;;AAEF,CAAA;AACE,QAAA;;",
+  "names": []
+}

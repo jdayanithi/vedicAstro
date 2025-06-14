@@ -20,10 +20,13 @@ public class NotificationService {
 
     public List<NotificationDTO> getAll() {
         return notificationRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-    public List<NotificationDTO> getByLoginId(Long loginId) {
-        return notificationRepository.findByLogin_Id(loginId).stream().map(this::toDTO).collect(Collectors.toList());
+    }    public List<NotificationDTO> getByLoginId(Long loginId) {
+        // Get both user-specific notifications and broadcast notifications
+        List<Notification> userNotifications = notificationRepository.findByLogin_Id(loginId);
+        List<Notification> broadcastNotifications = notificationRepository.findByIsBroadcastTrue();
+        
+        userNotifications.addAll(broadcastNotifications);
+        return userNotifications.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public NotificationDTO getById(Long id) {
@@ -31,8 +34,20 @@ public class NotificationService {
     }    @Transactional
     public NotificationDTO create(NotificationDTO dto) {
         Notification notification = new Notification();
-        Login login = loginRepository.findById(dto.getLoginId()).orElseThrow();
-        notification.setLogin(login);
+        
+        // Handle broadcast vs specific user notifications
+        if (dto.getIsBroadcast() != null && dto.getIsBroadcast()) {
+            notification.setIsBroadcast(true);
+            notification.setLogin(null); // No specific user for broadcast
+        } else {
+            if (dto.getLoginId() == null) {
+                throw new IllegalArgumentException("Login ID is required for non-broadcast notifications");
+            }
+            Login login = loginRepository.findById(dto.getLoginId()).orElseThrow();
+            notification.setLogin(login);
+            notification.setIsBroadcast(false);
+        }
+        
         notification.setTitle(dto.getTitle());
         notification.setMessage(dto.getMessage());
         notification.setIsRead(dto.getIsRead() != null ? dto.getIsRead() : false);
@@ -41,7 +56,7 @@ public class NotificationService {
         notification.setExpiryDate(dto.getExpiryDate());
         Notification saved = notificationRepository.save(notification);
         return toDTO(saved);
-    }    @Transactional
+    }@Transactional
     public NotificationDTO update(Long id, NotificationDTO dto) {
         Notification notification = notificationRepository.findById(id).orElseThrow();
         if (dto.getTitle() != null) notification.setTitle(dto.getTitle());
@@ -60,7 +75,8 @@ public class NotificationService {
     }    private NotificationDTO toDTO(Notification n) {
         NotificationDTO dto = new NotificationDTO();
         dto.setNotificationId(n.getNotificationId());
-        dto.setLoginId(n.getLogin().getId());
+        dto.setLoginId(n.getLogin() != null ? n.getLogin().getId() : null);
+        dto.setIsBroadcast(n.getIsBroadcast());
         dto.setTitle(n.getTitle());
         dto.setMessage(n.getMessage());
         dto.setIsRead(n.getIsRead());
