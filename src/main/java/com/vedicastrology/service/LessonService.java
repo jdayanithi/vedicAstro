@@ -21,10 +21,15 @@ public class LessonService {
     private LessonRepository lessonRepository;
 
     @Autowired
-    private TopicRepository topicRepository;
-
-    public List<LessonDTO> getAllLessonsByTopicId(Long topicId) {
+    private TopicRepository topicRepository;    public List<LessonDTO> getAllLessonsByTopicId(Long topicId) {
         List<Lesson> lessons = lessonRepository.findByTopic_TopicIdOrderByOrderNumberAsc(topicId);
+        return lessons.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<LessonDTO> getAllLessons() {
+        List<Lesson> lessons = lessonRepository.findAll();
         return lessons.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());

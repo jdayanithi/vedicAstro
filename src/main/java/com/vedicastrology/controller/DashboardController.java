@@ -15,12 +15,11 @@ public class DashboardController {
 
     @Autowired
     private CourseService courseService;
-    
-    @Autowired
+      @Autowired
     private PaymentService paymentService;
     
     @Autowired
-    private UserService userService;
+    private LoginService loginService;
     
     @Autowired
     private TagService tagService;
@@ -41,11 +40,10 @@ public class DashboardController {
     public ResponseEntity<Map<String, Object>> getDashboardStats() {
         try {
             Map<String, Object> stats = new HashMap<>();
-            
-            // Get all data for statistics
+              // Get all data for statistics
             var courses = courseService.getAllCourses();
             var payments = paymentService.getAllPayments();
-            var users = userService.getAllUsers();
+            var users = loginService.getAllLogins();
             var tags = tagService.getAllTags();
             var categories = categoryService.getAllCategories();
             var topics = topicService.getAllTopics();
@@ -108,19 +106,16 @@ public class DashboardController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
-    }
-
-    @GetMapping("/user-joining-trend")
+    }    @GetMapping("/user-joining-trend")
     public ResponseEntity<List<Map<String, Object>>> getUserJoiningTrend() {
         try {
-            var users = userService.getAllUsers();
+            var users = loginService.getAllLogins();
             Map<String, Integer> joinings = new HashMap<>();
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            
-            for (var user : users) {
-                if (user.getCreatedAt() != null) {
-                    String date = user.getCreatedAt().format(formatter);
+              for (var user : users) {
+                if (user.getCreatedDate() != null) {
+                    String date = user.getCreatedDate().format(formatter);
                     joinings.put(date, joinings.getOrDefault(date, 0) + 1);
                 }
             }
@@ -194,10 +189,9 @@ public class DashboardController {
             String[] colors = {"#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", 
                               "#FF9F40", "#C9CBCF", "#4BC0C0", "#FF6384", "#36A2EB"};
             
-            int colorIndex = 0;
-            for (var category : categories) {
+            int colorIndex = 0;            for (var category : categories) {
                 Map<String, Object> dataPoint = new HashMap<>();
-                dataPoint.put("name", category.getTitle());
+                dataPoint.put("name", category.getName());
                 dataPoint.put("value", categoryCount.getOrDefault(category.getCategoryId(), 0));
                 dataPoint.put("color", colors[colorIndex % colors.length]);
                 chartData.add(dataPoint);
