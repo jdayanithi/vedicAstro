@@ -92,11 +92,16 @@ import { LessonService } from '../../../services/lesson.service';
           <!-- Loading -->
           <div *ngIf="loading" class="loading-container">
             <mat-spinner></mat-spinner>
-          </div>
-
-          <!-- Keynotes Table -->
+          </div>          <!-- Keynotes Table -->
           <div *ngIf="!loading">
             <table mat-table [dataSource]="keynotes" class="full-width">
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let keynote">
+                  <span class="id-badge">{{keynote.keynoteId}}</span>
+                </td>
+              </ng-container>
+
               <ng-container matColumnDef="order">
                 <th mat-header-cell *matHeaderCellDef>Order</th>
                 <td mat-cell *matCellDef="let keynote">
@@ -230,10 +235,18 @@ import { LessonService } from '../../../services/lesson.service';
       display: flex;
       justify-content: center;
       padding: 40px;
+    }    .full-width {
+      width: 100%;
     }
 
-    .full-width {
-      width: 100%;
+    .id-badge {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
     }
 
     .order-badge {
@@ -391,7 +404,7 @@ import { LessonService } from '../../../services/lesson.service';
 export class KeynoteListComponent implements OnInit {
   keynotes: LessonKeynote[] = [];
   lessons: any[] = [];
-  displayedColumns = ['order', 'title', 'lesson', 'contentType', 'content', 'features', 'actions'];
+  displayedColumns = ['id', 'order', 'title', 'lesson', 'contentType', 'content', 'features', 'actions'];
   loading = false;
   searchQuery = '';
   selectedLessonId = '';

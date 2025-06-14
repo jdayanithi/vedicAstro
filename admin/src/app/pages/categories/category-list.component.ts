@@ -27,6 +27,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           Add Category
         </button>
       </div>      <table mat-table [dataSource]="categories" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let category">
+            <span class="id-badge">{{category.categoryId}}</span>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="thumbnail">
           <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
           <td mat-cell *matCellDef="let category">
@@ -83,9 +90,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
-    }
-    table {
+    }    table {
       width: 100%;
+    }
+    .id-badge {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
     }
     .thumbnail-cell {
       display: flex;
@@ -116,7 +131,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
-  displayedColumns: string[] = ['thumbnail', 'name', 'description', 'parentCategory', 'actions'];
+  displayedColumns: string[] = ['id', 'thumbnail', 'name', 'description', 'parentCategory', 'actions'];
 
   constructor(
     private categoryService: CategoryService,
