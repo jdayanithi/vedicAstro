@@ -14,6 +14,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { TopicService, Topic } from '../../../services/topic.service';
 import { CourseService, Course } from '../../../services/course.service';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-topic-list',
@@ -28,7 +29,8 @@ import { CourseService, Course } from '../../../services/course.service';
     MatAutocompleteModule,
     MatInputModule,
     MatSnackBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule
   ],
   template: `
     <div class="container">      <div class="header">
@@ -75,7 +77,7 @@ import { CourseService, Course } from '../../../services/course.service';
         <mat-card-header>
           <mat-card-title>Topics for: {{ selectedCourse.title }}</mat-card-title>
         </mat-card-header>        <mat-card-content>
-          <table mat-table [dataSource]="topics" class="full-width">
+          <table mat-table [dataSource]="pagedTopics" class="full-width">
             <ng-container matColumnDef="topicId">
               <th mat-header-cell *matHeaderCellDef>ID</th>
               <td mat-cell *matCellDef="let topic">{{topic.topicId}}</td>
@@ -120,6 +122,14 @@ import { CourseService, Course } from '../../../services/course.service';
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
+
+          <mat-paginator
+            [length]="topics.length"
+            [pageSize]="pageSize"
+            [pageIndex]="pageIndex"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)">
+          </mat-paginator>
 
           <div *ngIf="topics.length === 0" class="no-data">
             <p>No topics found for this course.</p>
@@ -175,6 +185,13 @@ export class TopicListComponent implements OnInit {
   courseSearchControl = new FormControl<string | Course>('');
   filteredCourses: Observable<Course[]> = of([]);
   displayedColumns: string[] = ['topicId', 'orderNumber', 'title', 'description', 'createdAt', 'actions'];
+  pageIndex = 0;
+  pageSize = 10;
+
+  get pagedTopics(): Topic[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.topics.slice(start, start + this.pageSize);
+  }
 
   constructor(
     private topicService: TopicService,
@@ -228,6 +245,11 @@ export class TopicListComponent implements OnInit {
     this.loadTopics();
   }
 
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
   loadTopics() {
     if (this.selectedCourse) {
       this.topicService.getTopicsByCourseId(this.selectedCourse.courseId).subscribe({
@@ -236,6 +258,7 @@ export class TopicListComponent implements OnInit {
             ...topic,
             createdAt: this.parseCustomDate(topic.createdAt)
           }));
+          this.pageIndex = 0; // Reset to first page on reload
         },
         error: () => {
           this.snackBar.open('Error loading topics', 'Close', {

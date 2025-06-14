@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CourseService, Course } from '../../../services/course.service';
 
 @Component({
@@ -32,7 +33,8 @@ import { CourseService, Course } from '../../../services/course.service';
     MatProgressSpinnerModule,
     MatTooltipModule,
     RouterLink,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   template: `
     <div class="container">
@@ -104,7 +106,7 @@ import { CourseService, Course } from '../../../services/course.service';
             <h3>No courses found</h3>
             <p *ngIf="hasActiveFilters()">Try adjusting your filters or <button mat-button (click)="clearFilters()">clear all filters</button></p>
             <p *ngIf="!hasActiveFilters()">Start by creating your first course.</p>
-          </div>          <table *ngIf="filteredCourses.length > 0" mat-table [dataSource]="filteredCourses" class="full-width">
+          </div>          <table *ngIf="filteredCourses.length > 0" mat-table [dataSource]="pagedCourses" class="full-width">
             <ng-container matColumnDef="thumbnail">
               <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
               <td mat-cell *matCellDef="let course">
@@ -205,6 +207,13 @@ import { CourseService, Course } from '../../../services/course.service';
             <tr mat-row *matRowDef="let row; columns: displayedColumns" class="course-row"></tr>
           </table>
         </mat-card-content>
+        <mat-paginator
+          [length]="filteredCourses.length"
+          [pageSize]="pageSize"
+          [pageIndex]="pageIndex"
+          [pageSizeOptions]="[5, 10, 20]"
+          (page)="onPageChange($event)">
+        </mat-paginator>
       </mat-card>
     </div>
   `,
@@ -443,10 +452,18 @@ export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   filteredCourses: Course[] = [];
   loading = false;
-  searchQuery = '';  selectedDifficulty = '';
+  searchQuery = '';
+  selectedDifficulty = '';
   selectedStatus = '';
-  
+  pageIndex = 0;
+  pageSize = 10;
+
   displayedColumns: string[] = ['thumbnail', 'title', 'description', 'price', 'difficultyLevel', 'isPublished', 'actions'];
+
+  get pagedCourses(): Course[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.filteredCourses.slice(start, start + this.pageSize);
+  }
 
   constructor(
     private courseService: CourseService,
@@ -473,18 +490,16 @@ export class CourseListComponent implements OnInit {
       }
     });
   }  applyFilters() {
+    this.pageIndex = 0;
     this.filteredCourses = this.courses.filter(course => {
       const matchesSearch = !this.searchQuery || 
         course.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         (course.description && course.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
-      
       const matchesDifficulty = !this.selectedDifficulty || 
         course.difficultyLevel === this.selectedDifficulty;
-      
       const matchesStatus = !this.selectedStatus || 
         (this.selectedStatus === 'published' && course.isPublished) ||
         (this.selectedStatus === 'draft' && !course.isPublished);
-      
       return matchesSearch && matchesDifficulty && matchesStatus;
     });
   }
@@ -526,5 +541,10 @@ export class CourseListComponent implements OnInit {
     if (placeholder) {
       placeholder.style.display = 'flex';
     }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
   }
 }

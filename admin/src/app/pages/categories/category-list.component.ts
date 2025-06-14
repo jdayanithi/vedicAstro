@@ -7,6 +7,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CategoryFormComponent } from './category-form.component';
 import { CategoryService, Category } from '../../services/category.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-category-list',
@@ -17,7 +20,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
   ],  template: `
     <div class="container">
       <div class="header">
@@ -26,7 +32,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           <mat-icon>add</mat-icon>
           Add Category
         </button>
-      </div>      <table mat-table [dataSource]="categories" class="mat-elevation-z8">
+      </div>
+      <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
+        <mat-label>Filter categories</mat-label>
+        <input matInput [(ngModel)]="filterText" (input)="onFilterChange()" placeholder="Type to filter by name or description...">
+      </mat-form-field>
+      <table mat-table [dataSource]="pagedCategories" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
           <td mat-cell *matCellDef="let category">
@@ -80,6 +91,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <mat-paginator
+        [length]="categories.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="[5, 10, 20]"
+        (page)="onPageChange($event)">
+      </mat-paginator>
     </div>
   `,  styles: [`
     .container {
@@ -132,6 +150,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
   displayedColumns: string[] = ['id', 'thumbnail', 'name', 'description', 'parentCategory', 'actions'];
+  pageIndex = 0;
+  pageSize = 10;
+  filterText = '';
+  filteredCategories: Category[] = [];
+
+  get pagedCategories(): Category[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.filteredCategories.slice(start, start + this.pageSize);
+  }
 
   constructor(
     private categoryService: CategoryService,
@@ -146,6 +173,7 @@ export class CategoryListComponent implements OnInit {
   loadCategories() {
     this.categoryService.getCategories().subscribe(categories => {
       this.categories = categories;
+      this.onFilterChange(); // Always update filtered list
     });
   }
 
@@ -181,6 +209,24 @@ export class CategoryListComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+  }
+
+  onFilterChange() {
+    this.pageIndex = 0;
+    const filter = this.filterText.trim().toLowerCase();
+    if (!filter) {
+      this.filteredCategories = this.categories.slice();
+    } else {
+      this.filteredCategories = this.categories.filter(cat =>
+        (cat.name && cat.name.toLowerCase().includes(filter)) ||
+        (cat.description && cat.description.toLowerCase().includes(filter))
+      );
     }
   }
 
