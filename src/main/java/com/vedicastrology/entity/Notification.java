@@ -22,10 +22,14 @@ public class Notification {
     private String message;
 
     @Column(name = "is_read")
-    private Boolean isRead = false;
-
-    @Column(name = "notification_type", length = 50)
+    private Boolean isRead = false;    @Column(name = "notification_type", length = 50)
     private String notificationType;
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "expiry_date")
+    private LocalDateTime expiryDate;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -40,9 +44,12 @@ public class Notification {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
     public Boolean getIsRead() { return isRead; }
-    public void setIsRead(Boolean isRead) { this.isRead = isRead; }
-    public String getNotificationType() { return notificationType; }
+    public void setIsRead(Boolean isRead) { this.isRead = isRead; }    public String getNotificationType() { return notificationType; }
     public void setNotificationType(String notificationType) { this.notificationType = notificationType; }
+    public LocalDateTime getStartDate() { return startDate; }
+    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public LocalDateTime getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDateTime expiryDate) { this.expiryDate = expiryDate; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

@@ -31,10 +31,20 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private PaymentStatus status = PaymentStatus.pending;
+    private PaymentStatus status = PaymentStatus.pending;    @Column(name = "payment_date")
+    private LocalDateTime paymentDate = LocalDateTime.now();    @Column(name = "expiry_date")
+    private LocalDateTime expiryDate;
 
-    @Column(name = "payment_date")
-    private LocalDateTime paymentDate = LocalDateTime.now();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private Login createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modified_by")
+    private Login modifiedBy;
+
+    @Column(columnDefinition = "TEXT")
+    private String comments;
 
     // Getters and setters
     public Long getPaymentId() { return paymentId; }
@@ -50,7 +60,13 @@ public class Payment {
     public String getTransactionId() { return transactionId; }
     public void setTransactionId(String transactionId) { this.transactionId = transactionId; }
     public PaymentStatus getStatus() { return status; }
-    public void setStatus(PaymentStatus status) { this.status = status; }
-    public LocalDateTime getPaymentDate() { return paymentDate; }
-    public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }
+    public void setStatus(PaymentStatus status) { this.status = status; }    public LocalDateTime getPaymentDate() { return paymentDate; }
+    public void setPaymentDate(LocalDateTime paymentDate) { this.paymentDate = paymentDate; }    public LocalDateTime getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDateTime expiryDate) { this.expiryDate = expiryDate; }
+    public Login getCreatedBy() { return createdBy; }
+    public void setCreatedBy(Login createdBy) { this.createdBy = createdBy; }
+    public Login getModifiedBy() { return modifiedBy; }
+    public void setModifiedBy(Login modifiedBy) { this.modifiedBy = modifiedBy; }
+    public String getComments() { return comments; }
+    public void setComments(String comments) { this.comments = comments; }
 }

@@ -136,9 +136,7 @@ import { Observable, startWith, map } from 'rxjs';
                     Status is required
                   </mat-error>
                 </mat-form-field>
-              </div>
-
-              <div class="form-row">
+              </div>              <div class="form-row">
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>Payment Date</mat-label>
                   <input matInput [matDatepicker]="picker" formControlName="paymentDate" required>
@@ -147,6 +145,40 @@ import { Observable, startWith, map } from 'rxjs';
                   <mat-error *ngIf="paymentForm.get('paymentDate')?.hasError('required')">
                     Payment date is required
                   </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Expiry Date</mat-label>
+                  <input matInput [matDatepicker]="expiryPicker" formControlName="expiryDate">
+                  <mat-datepicker-toggle matSuffix [for]="expiryPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #expiryPicker></mat-datepicker>
+                  <mat-hint>Optional: When payment access expires</mat-hint>                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="section">
+              <h3>Additional Information</h3>
+              
+              <div class="form-row">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Created By (User ID)</mat-label>
+                  <input matInput type="number" formControlName="createdBy" min="1">
+                  <mat-hint>ID of user who created this payment record</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Modified By (User ID)</mat-label>
+                  <input matInput type="number" formControlName="modifiedBy" min="1">
+                  <mat-hint>ID of user who last modified this payment record</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Comments</mat-label>
+                  <textarea matInput formControlName="comments" rows="3" placeholder="Additional notes about the payment"></textarea>
+                  <mat-hint>Optional comments or notes</mat-hint>
                 </mat-form-field>
               </div>
             </div>
@@ -309,9 +341,7 @@ export class PaymentFormComponent implements OnInit {
         this.loadPayment();
       }
     });
-  }
-
-  createForm(): void {
+  }  createForm(): void {
     this.paymentForm = this.fb.group({
       loginId: ['', [Validators.required, Validators.min(1)]],
       courseId: ['', [Validators.required, Validators.min(1)]],
@@ -319,7 +349,11 @@ export class PaymentFormComponent implements OnInit {
       paymentMethod: ['', Validators.required],
       transactionId: [''],
       status: ['pending', Validators.required],
-      paymentDate: [new Date(), Validators.required]
+      paymentDate: [new Date(), Validators.required],
+      expiryDate: [''],
+      createdBy: [''],
+      modifiedBy: [''],
+      comments: ['']
     });
   }
 
@@ -328,15 +362,18 @@ export class PaymentFormComponent implements OnInit {
     
     this.loading = true;
     this.paymentService.getPaymentById(this.paymentId).subscribe({
-      next: (payment) => {
-        this.paymentForm.patchValue({
+      next: (payment) => {        this.paymentForm.patchValue({
           loginId: payment.loginId,
           courseId: payment.courseId,
           amount: payment.amount,
           paymentMethod: payment.paymentMethod,
           transactionId: payment.transactionId,
           status: payment.status,
-          paymentDate: payment.paymentDate ? new Date(payment.paymentDate) : new Date()
+          paymentDate: payment.paymentDate ? new Date(payment.paymentDate) : new Date(),
+          expiryDate: payment.expiryDate ? new Date(payment.expiryDate) : null,
+          createdBy: payment.createdBy,
+          modifiedBy: payment.modifiedBy,
+          comments: payment.comments
         });
         this.loading = false;
       },
@@ -356,10 +393,14 @@ export class PaymentFormComponent implements OnInit {
       this.submitting = true;
       
       const formValue = { ...this.paymentForm.value };
-      
-      // Format payment date
+        // Format payment date
       if (formValue.paymentDate instanceof Date) {
         formValue.paymentDate = formValue.paymentDate.toISOString();
+      }
+
+      // Format expiry date
+      if (formValue.expiryDate instanceof Date) {
+        formValue.expiryDate = formValue.expiryDate.toISOString();
       }
 
       // Generate transaction ID if not provided

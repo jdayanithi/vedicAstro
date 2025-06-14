@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
@@ -17,8 +17,7 @@ import { TopicService, Topic } from '../../../services/topic.service';
 
 @Component({
   selector: 'app-lesson-list',
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule,
     MatTableModule,
     MatButtonModule,
@@ -28,7 +27,6 @@ import { TopicService, Topic } from '../../../services/topic.service';
     MatSelectModule,
     MatAutocompleteModule,
     MatInputModule,
-    RouterLink,
     MatSnackBarModule,
     ReactiveFormsModule
   ],
@@ -76,9 +74,13 @@ import { TopicService, Topic } from '../../../services/topic.service';
       <mat-card *ngIf="selectedTopic">
         <mat-card-header>
           <mat-card-title>Lessons for: {{ selectedTopic.title }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-card-header>        <mat-card-content>
           <table mat-table [dataSource]="lessons" class="full-width">
+            <ng-container matColumnDef="lessonId">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let lesson">{{lesson.lessonId}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="orderNumber">
               <th mat-header-cell *matHeaderCellDef>Order</th>
               <td mat-cell *matCellDef="let lesson">{{lesson.orderNumber}}</td>
@@ -212,7 +214,7 @@ export class LessonListComponent implements OnInit {
   selectedTopic: Topic | null = null;
   topicSearchControl = new FormControl<string | Topic>('');
   filteredTopics: Observable<Topic[]> = of([]);
-  displayedColumns: string[] = ['orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
+  displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
   constructor(
     private lessonService: LessonService,
     private topicService: TopicService,

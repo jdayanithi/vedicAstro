@@ -48,9 +48,8 @@ import { CourseService, Course } from '../../../services/course.service';
     QuillModule
   ],
   template: `
-    <div class="container">
-      <div class="header">
-        <h1>{{ isEditMode ? 'Edit Lesson' : 'Add New Lesson' }}</h1>
+    <div class="container">      <div class="header">
+        <h1>{{ isEditMode ? 'Edit Lesson' + (lessonId ? ' (ID: ' + lessonId + ')' : '') : 'Add New Lesson' }}</h1>
         <button mat-button (click)="goBack()">
           <mat-icon>arrow_back</mat-icon>
           Back to Lessons

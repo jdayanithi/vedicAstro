@@ -42,10 +42,12 @@ public class PaymentService {
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
         payment.setAmount(dto.getAmount());
-        payment.setPaymentMethod(dto.getPaymentMethod());
-        payment.setTransactionId(dto.getTransactionId());
-        payment.setStatus(PaymentStatus.valueOf(dto.getStatus()));
+        payment.setPaymentMethod(dto.getPaymentMethod());        payment.setTransactionId(dto.getTransactionId());        payment.setStatus(PaymentStatus.valueOf(dto.getStatus()));
         payment.setPaymentDate(dto.getPaymentDate());
+        payment.setExpiryDate(dto.getExpiryDate());
+        payment.setCreatedBy(dto.getCreatedBy());
+        payment.setModifiedBy(dto.getModifiedBy());
+        payment.setComments(dto.getComments());
         // Update login and course if changed
         if (!payment.getLogin().getId().equals(dto.getLoginId())) {
             Login login = loginRepository.findById(dto.getLoginId())
@@ -71,9 +73,12 @@ public class PaymentService {
         dto.setCourseId(payment.getCourse().getCourseId());
         dto.setAmount(payment.getAmount());
         dto.setPaymentMethod(payment.getPaymentMethod());
-        dto.setTransactionId(payment.getTransactionId());
-        dto.setStatus(payment.getStatus().name());
+        dto.setTransactionId(payment.getTransactionId());        dto.setStatus(payment.getStatus().name());
         dto.setPaymentDate(payment.getPaymentDate());
+        dto.setExpiryDate(payment.getExpiryDate());
+        dto.setCreatedBy(payment.getCreatedBy());
+        dto.setModifiedBy(payment.getModifiedBy());
+        dto.setComments(payment.getComments());
         return dto;
     }
 
@@ -81,9 +86,12 @@ public class PaymentService {
         Payment payment = new Payment();
         payment.setAmount(dto.getAmount());
         payment.setPaymentMethod(dto.getPaymentMethod());
-        payment.setTransactionId(dto.getTransactionId());
-        payment.setStatus(PaymentStatus.valueOf(dto.getStatus()));
+        payment.setTransactionId(dto.getTransactionId());        payment.setStatus(PaymentStatus.valueOf(dto.getStatus()));
         payment.setPaymentDate(dto.getPaymentDate());
+        payment.setExpiryDate(dto.getExpiryDate());
+        payment.setCreatedBy(dto.getCreatedBy());
+        payment.setModifiedBy(dto.getModifiedBy());
+        payment.setComments(dto.getComments());
         Login login = loginRepository.findById(dto.getLoginId())
                 .orElseThrow(() -> new EntityNotFoundException("Login not found"));
         payment.setLogin(login);

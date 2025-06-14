@@ -27,9 +27,8 @@ import { CourseService, Course } from '../../../services/course.service';
   ],
   template: `
     <div class="container">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ isEditMode ? 'Edit Topic' : 'Add New Topic' }}</mat-card-title>
+      <mat-card>        <mat-card-header>
+          <mat-card-title>{{ isEditMode ? 'Edit Topic' + (topicId ? ' (ID: ' + topicId + ')' : '') : 'Add New Topic' }}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <form [formGroup]="topicForm" (ngSubmit)="onSubmit()">

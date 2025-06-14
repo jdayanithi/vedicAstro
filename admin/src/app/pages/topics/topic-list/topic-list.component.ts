@@ -74,9 +74,13 @@ import { CourseService, Course } from '../../../services/course.service';
       <mat-card *ngIf="selectedCourse">
         <mat-card-header>
           <mat-card-title>Topics for: {{ selectedCourse.title }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+        </mat-card-header>        <mat-card-content>
           <table mat-table [dataSource]="topics" class="full-width">
+            <ng-container matColumnDef="topicId">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let topic">{{topic.topicId}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="orderNumber">
               <th mat-header-cell *matHeaderCellDef>Order</th>
               <td mat-cell *matCellDef="let topic">{{topic.orderNumber}}</td>
@@ -170,7 +174,7 @@ export class TopicListComponent implements OnInit {
   selectedCourse: Course | null = null;
   courseSearchControl = new FormControl<string | Course>('');
   filteredCourses: Observable<Course[]> = of([]);
-  displayedColumns: string[] = ['orderNumber', 'title', 'description', 'createdAt', 'actions'];
+  displayedColumns: string[] = ['topicId', 'orderNumber', 'title', 'description', 'createdAt', 'actions'];
 
   constructor(
     private topicService: TopicService,

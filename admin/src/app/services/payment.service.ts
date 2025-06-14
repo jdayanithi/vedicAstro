@@ -11,6 +11,10 @@ export interface Payment {
   transactionId?: string;
   status: 'pending' | 'completed' | 'failed' | 'refunded';
   paymentDate?: string;
+  expiryDate?: string;
+  createdBy?: number;
+  modifiedBy?: number;
+  comments?: string;
 }
 
 @Injectable({ providedIn: 'root' })

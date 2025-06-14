@@ -7,8 +7,9 @@ public class NotificationDTO {
     private Long loginId;
     private String title;
     private String message;
-    private Boolean isRead;
-    private String notificationType;
+    private Boolean isRead;    private String notificationType;
+    private LocalDateTime startDate;
+    private LocalDateTime expiryDate;
     private LocalDateTime createdAt;
 
     // Getters and setters
@@ -21,9 +22,12 @@ public class NotificationDTO {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
     public Boolean getIsRead() { return isRead; }
-    public void setIsRead(Boolean isRead) { this.isRead = isRead; }
-    public String getNotificationType() { return notificationType; }
+    public void setIsRead(Boolean isRead) { this.isRead = isRead; }    public String getNotificationType() { return notificationType; }
     public void setNotificationType(String notificationType) { this.notificationType = notificationType; }
+    public LocalDateTime getStartDate() { return startDate; }
+    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public LocalDateTime getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDateTime expiryDate) { this.expiryDate = expiryDate; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

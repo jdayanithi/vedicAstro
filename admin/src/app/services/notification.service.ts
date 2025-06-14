@@ -8,7 +8,9 @@ export interface Notification {
   title: string;
   message: string;
   isRead?: boolean;
-  notificationType?: string;
+  notificationType: 'push' | 'email';
+  startDate?: string;
+  expiryDate?: string;
   createdAt?: string;
 }
 

@@ -28,9 +28,7 @@ public class NotificationService {
 
     public NotificationDTO getById(Long id) {
         return notificationRepository.findById(id).map(this::toDTO).orElse(null);
-    }
-
-    @Transactional
+    }    @Transactional
     public NotificationDTO create(NotificationDTO dto) {
         Notification notification = new Notification();
         Login login = loginRepository.findById(dto.getLoginId()).orElseThrow();
@@ -39,17 +37,19 @@ public class NotificationService {
         notification.setMessage(dto.getMessage());
         notification.setIsRead(dto.getIsRead() != null ? dto.getIsRead() : false);
         notification.setNotificationType(dto.getNotificationType());
+        notification.setStartDate(dto.getStartDate());
+        notification.setExpiryDate(dto.getExpiryDate());
         Notification saved = notificationRepository.save(notification);
         return toDTO(saved);
-    }
-
-    @Transactional
+    }    @Transactional
     public NotificationDTO update(Long id, NotificationDTO dto) {
         Notification notification = notificationRepository.findById(id).orElseThrow();
         if (dto.getTitle() != null) notification.setTitle(dto.getTitle());
         if (dto.getMessage() != null) notification.setMessage(dto.getMessage());
         if (dto.getIsRead() != null) notification.setIsRead(dto.getIsRead());
         if (dto.getNotificationType() != null) notification.setNotificationType(dto.getNotificationType());
+        if (dto.getStartDate() != null) notification.setStartDate(dto.getStartDate());
+        if (dto.getExpiryDate() != null) notification.setExpiryDate(dto.getExpiryDate());
         Notification saved = notificationRepository.save(notification);
         return toDTO(saved);
     }
@@ -57,9 +57,7 @@ public class NotificationService {
     @Transactional
     public void delete(Long id) {
         notificationRepository.deleteById(id);
-    }
-
-    private NotificationDTO toDTO(Notification n) {
+    }    private NotificationDTO toDTO(Notification n) {
         NotificationDTO dto = new NotificationDTO();
         dto.setNotificationId(n.getNotificationId());
         dto.setLoginId(n.getLogin().getId());
@@ -67,6 +65,8 @@ public class NotificationService {
         dto.setMessage(n.getMessage());
         dto.setIsRead(n.getIsRead());
         dto.setNotificationType(n.getNotificationType());
+        dto.setStartDate(n.getStartDate());
+        dto.setExpiryDate(n.getExpiryDate());
         dto.setCreatedAt(n.getCreatedAt());
         return dto;
     }

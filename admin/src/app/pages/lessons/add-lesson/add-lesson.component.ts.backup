@@ -1,0 +1,1210 @@
+// filepath: c:\Users\jdaya\git\vedicAstro\admin\src\app\pages\lessons\add-lesson\add-lesson.component.ts
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { QuillModule } from 'ngx-quill';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, debounceTime, distinctUntilChanged, startWith, switchMap, of } from 'rxjs';
+import { LessonService, Lesson } from '../../../services/lesson.service';
+import { TopicService, Topic } from '../../../services/topic.service';
+import { LessonKeynoteService, LessonKeynote } from '../../../services/lesson-keynote.service';
+import { LessonTagService, LessonTag } from '../../../services/lesson-tag.service';
+import { KeynoteTagService, KeynoteTag } from '../../../services/keynote-tag.service';
+import { TagService, Tag } from '../../../services/tag.service';
+import { CourseService, Course } from '../../../services/course.service';
+import { ErrorHandlerUtil } from '../../../utils/error-handler.util';
+import { ErrorHandlerService } from '../../../services/error-handler.service';
+
+@Component({
+  selector: 'app-add-lesson',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatChipsModule,
+    MatDividerModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+    QuillModule
+  ],
+  template: `
+    <div class="container">
+      <div class="header">
+        <h1>{{ isEditMode ? 'Edit Lesson' : 'Add New Lesson' }}</h1>
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Lessons
+        </button>
+      </div>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Lesson Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="loading" class="loading-container">
+            <mat-spinner></mat-spinner>
+            <p>Loading lesson data...</p>
+          </div>
+
+          <form *ngIf="!loading" [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+            <!-- Lesson Basic Information -->
+            <div class="section">
+              <h3 class="section-title">
+                <mat-icon>info</mat-icon>
+                Lesson Information
+              </h3>
+              
+              <!-- Course Selection -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Search Course</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="courseSearch"
+                  [matAutocomplete]="courseAuto"
+                  placeholder="Type to search courses..."
+                />
+                <mat-autocomplete
+                  #courseAuto="matAutocomplete"
+                  [displayWith]="displayCourseFn"
+                  (optionSelected)="onCourseSelected($event)"
+                >
+                  <mat-option
+                    *ngFor="let course of filteredCourses | async"
+                    [value]="course"
+                  >
+                    {{ displayCourseFn(course) }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>school</mat-icon>
+                <mat-hint>Select a course to filter topics</mat-hint>
+              </mat-form-field>
+
+              <!-- Topic Selection -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Search Topic *</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="topicSearch"
+                  [matAutocomplete]="topicAuto"
+                  placeholder="Type to search topics..."
+                  required
+                />
+                <mat-autocomplete
+                  #topicAuto="matAutocomplete"
+                  [displayWith]="displayTopicFn"
+                  (optionSelected)="onTopicSelected($event)"
+                >
+                  <mat-option
+                    *ngFor="let topic of filteredTopics | async"
+                    [value]="topic"
+                  >
+                    {{ displayTopicFn(topic) }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-icon matSuffix>topic</mat-icon>
+                <mat-error *ngIf="lessonForm.get('topicSearch')?.hasError('required')">
+                  Topic is required
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Lesson Title -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Lesson Title *</mat-label>
+                <input matInput formControlName="title" placeholder="Enter lesson title" required>
+                <mat-icon matSuffix>title</mat-icon>
+                <mat-error *ngIf="lessonForm.get('title')?.hasError('required')">
+                  Title is required
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Lesson Description -->
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea 
+                  matInput 
+                  formControlName="description" 
+                  placeholder="Enter lesson description"
+                  rows="3"
+                ></textarea>
+                <mat-icon matSuffix>description</mat-icon>
+              </mat-form-field>
+
+              <!-- Order Number (only for edit mode) -->
+              <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+                <mat-label>Order Number</mat-label>
+                <input 
+                  matInput 
+                  type="number" 
+                  formControlName="orderNumber" 
+                  placeholder="Order in topic"
+                >
+                <mat-icon matSuffix>format_list_numbered</mat-icon>
+                <mat-hint>Order of this lesson within the topic</mat-hint>
+              </mat-form-field>
+
+              <!-- Status Toggle -->
+              <div class="form-row">
+                <mat-checkbox formControlName="isActive">
+                  Lesson is active
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <!-- Lesson Keynotes Section -->
+            <div class="section">
+              <h3 class="section-title">
+                <mat-icon>lightbulb</mat-icon>
+                Lesson Keynotes
+                <button 
+                  type="button" 
+                  mat-raised-button 
+                  color="primary" 
+                  (click)="addKeynote()"
+                  class="add-button"
+                >
+                  <mat-icon>add</mat-icon>
+                  Add Keynote
+                </button>
+              </h3>
+
+              <div formArrayName="keynotes" class="keynotes-container">
+                <mat-expansion-panel 
+                  *ngFor="let keynote of keynotes.controls; let i = index"
+                  class="keynote-panel"
+                  [expanded]="keynotes.length === 1"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon>{{ keynote.get('contentType')?.value === 'video' ? 'play_circle' : keynote.get('contentType')?.value === 'audio' ? 'volume_up' : 'article' }}</mat-icon>
+                      <span class="keynote-title">
+                        Keynote {{ i + 1 }} - 
+                        {{ getContentTypeLabel(keynote.get('contentType')?.value) }}
+                      </span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <span class="keynote-preview">
+                        {{ getKeynotePreview(keynote.get('content')?.value) }}
+                      </span>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div [formGroupName]="i" class="keynote-form">
+                    <!-- Content Type Selection -->
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Content Type *</mat-label>
+                      <mat-select formControlName="contentType" required>
+                        <mat-option value="text">Text Content</mat-option>
+                        <mat-option value="video">Video Content</mat-option>
+                        <mat-option value="audio">Audio Content</mat-option>
+                        <mat-option value="image">Image Content</mat-option>
+                      </mat-select>
+                      <mat-icon matSuffix>category</mat-icon>
+                      <mat-error *ngIf="keynote.get('contentType')?.hasError('required')">
+                        Content type is required
+                      </mat-error>
+                    </mat-form-field>
+
+                    <!-- Content Input -->
+                    <div class="content-input-container">
+                      <label class="content-label">Content *</label>
+                      <div 
+                        *ngIf="keynote.get('contentType')?.value === 'text'" 
+                        class="rich-text-editor"
+                      >
+                        <quill-editor
+                          formControlName="content"
+                          [placeholder]="getContentPlaceholder(keynote.get('contentType')?.value)"
+                          [styles]="{ height: '200px' }"
+                          [modules]="{
+                            toolbar: [
+                              ['bold', 'italic', 'underline', 'strike'],
+                              ['blockquote', 'code-block'],
+                              [{ 'header': 1 }, { 'header': 2 }],
+                              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                              [{ 'script': 'sub'}, { 'script': 'super' }],
+                              [{ 'indent': '-1'}, { 'indent': '+1' }],
+                              ['link', 'image'],
+                              ['clean']
+                            ]
+                          }"
+                        ></quill-editor>
+                      </div>
+                      <mat-form-field 
+                        *ngIf="keynote.get('contentType')?.value !== 'text'" 
+                        appearance="outline" 
+                        class="full-width"
+                      >
+                        <mat-label>{{ keynote.get('contentType')?.value === 'video' ? 'Video URL' : keynote.get('contentType')?.value === 'audio' ? 'Audio URL' : 'Image URL' }}</mat-label>
+                        <input 
+                          matInput 
+                          formControlName="content" 
+                          [placeholder]="getContentPlaceholder(keynote.get('contentType')?.value)"
+                          required
+                        >
+                        <mat-icon matSuffix>{{ keynote.get('contentType')?.value === 'video' ? 'video_library' : keynote.get('contentType')?.value === 'audio' ? 'audiotrack' : 'image' }}</mat-icon>
+                        <mat-error *ngIf="keynote.get('content')?.hasError('required')">
+                          Content is required
+                        </mat-error>
+                      </mat-form-field>
+                      <div class="rich-text-hint">{{ getContentHint(keynote.get('contentType')?.value) }}</div>
+                    </div>
+
+                    <!-- Keynote Tags -->
+                    <div class="keynote-tags-section">
+                      <h4 class="subsection-title">
+                        <mat-icon>label</mat-icon>
+                        Keynote Tags
+                        <button 
+                          type="button" 
+                          mat-mini-fab 
+                          color="accent"
+                          (click)="addKeynoteTag(i)"
+                          matTooltip="Add keynote tag"
+                        >
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </h4>
+
+                      <div formArrayName="keynoteTags" class="keynote-tags-container">
+                        <div 
+                          *ngFor="let keynoteTag of getKeynoteTags(i).controls; let j = index"
+                          [formGroupName]="j"
+                          class="keynote-tag-row"
+                        >
+                          <mat-form-field appearance="outline" class="tag-select">
+                            <mat-label>Select Tag</mat-label>
+                            <mat-select formControlName="tagId">
+                              <mat-option 
+                                *ngFor="let tag of allTags" 
+                                [value]="tag.tagId"
+                              >
+                                {{ tag.name }}
+                              </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>tag</mat-icon>
+                          </mat-form-field>
+
+                          <mat-form-field appearance="outline" class="relevance-input">
+                            <mat-label>Relevance (1-10)</mat-label>
+                            <input 
+                              matInput 
+                              type="number" 
+                              min="1" 
+                              max="10" 
+                              formControlName="relevanceScore"
+                            >
+                            <mat-icon matSuffix>star</mat-icon>
+                          </mat-form-field>
+
+                          <button 
+                            type="button" 
+                            mat-icon-button 
+                            color="warn"
+                            (click)="removeKeynoteTag(i, j)"
+                            matTooltip="Remove keynote tag"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+
+                        <div *ngIf="getKeynoteTags(i).length === 0" class="no-keynote-tags">
+                          <mat-icon>info</mat-icon>
+                          <span>No tags added yet. Click the + button to add a keynote tag.</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Remove Keynote Button -->
+                    <div class="keynote-actions">
+                      <button 
+                        type="button" 
+                        mat-stroked-button 
+                        color="warn" 
+                        (click)="removeKeynote(i)"
+                        [disabled]="keynotes.length <= 1"
+                      >
+                        <mat-icon>delete</mat-icon>
+                        Remove Keynote
+                      </button>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+
+                <div *ngIf="keynotes.length === 0" class="no-keynotes">
+                  <mat-icon>info</mat-icon>
+                  <span>No keynotes added yet. Click "Add Keynote" to create your first keynote.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lesson Tags Section -->
+            <div class="section">
+              <h3 class="section-title">
+                <mat-icon>local_offer</mat-icon>
+                Lesson Tags
+                <button 
+                  type="button" 
+                  mat-raised-button 
+                  color="primary" 
+                  (click)="addTag()"
+                  class="add-button"
+                >
+                  <mat-icon>add</mat-icon>
+                  Add Tag
+                </button>
+              </h3>
+
+              <div formArrayName="tags" class="tags-container">
+                <mat-expansion-panel 
+                  *ngFor="let tag of tags.controls; let i = index" 
+                  class="tag-panel"
+                  [expanded]="true"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon>label</mat-icon>
+                      <span>Tag {{ i + 1 }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <span *ngIf="tag.get('tagId')?.value">
+                        {{ getTagName(tag.get('tagId')?.value) }} 
+                        (Relevance: {{ tag.get('relevanceScore')?.value || 'Not set' }})
+                      </span>
+                      <span *ngIf="!tag.get('tagId')?.value" class="no-tag-selected">
+                        No tag selected
+                      </span>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+
+                  <div [formGroupName]="i" class="tag-form">
+                    <div class="tag-form-row">
+                      <mat-form-field appearance="outline" class="tag-select">
+                        <mat-label>Select Tag *</mat-label>
+                        <mat-select formControlName="tagId" required>
+                          <mat-option 
+                            *ngFor="let availableTag of allTags" 
+                            [value]="availableTag.tagId"
+                          >
+                            {{ availableTag.name }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix>tag</mat-icon>
+                        <mat-error *ngIf="tag.get('tagId')?.hasError('required')">
+                          Tag selection is required
+                        </mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="relevance-input">
+                        <mat-label>Relevance Score (1-10) *</mat-label>
+                        <input 
+                          matInput 
+                          type="number" 
+                          min="1" 
+                          max="10" 
+                          formControlName="relevanceScore"
+                          required
+                        >
+                        <mat-icon matSuffix>star</mat-icon>
+                        <mat-hint>How relevant is this tag to the lesson?</mat-hint>
+                        <mat-error *ngIf="tag.get('relevanceScore')?.hasError('required')">
+                          Relevance score is required
+                        </mat-error>
+                        <mat-error *ngIf="tag.get('relevanceScore')?.hasError('min') || tag.get('relevanceScore')?.hasError('max')">
+                          Score must be between 1 and 10
+                        </mat-error>
+                      </mat-form-field>
+
+                      <div class="tag-actions">
+                        <button 
+                          type="button" 
+                          mat-raised-button 
+                          color="primary"
+                          (click)="saveTag(i)"
+                          [disabled]="submitting"
+                        >
+                          <mat-icon>save</mat-icon>
+                          {{ tag.get('lessonTagId')?.value ? 'Update' : 'Save' }}
+                        </button>
+
+                        <button 
+                          type="button" 
+                          mat-icon-button 
+                          color="warn"
+                          (click)="removeTag(i)"
+                          matTooltip="Remove tag"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+
+                <div *ngIf="tags.length === 0" class="no-tags">
+                  <mat-icon>info</mat-icon>
+                  <span>No tags added yet. Click "Add Tag" to create your first tag.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button mat-button type="button" (click)="goBack()">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+              <button 
+                mat-raised-button 
+                color="primary" 
+                type="submit"
+                [disabled]="!lessonForm.valid || submitting"
+              >
+                <mat-icon>{{ submitting ? 'hourglass_empty' : 'save' }}</mat-icon>
+                {{ submitting ? 'Saving...' : (isEditMode ? 'Update Lesson' : 'Create Lesson') }}
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  `,
+  styleUrls: ['./add-lesson.component.scss']
+})
+export class AddLessonComponent implements OnInit {
+  lessonForm!: FormGroup;
+  courses: Course[] = [];
+  topics: Topic[] = [];
+  allTags: Tag[] = [];
+  filteredCourses!: Observable<Course[]>;
+  filteredTopics!: Observable<Topic[]>;
+  
+  isEditMode = false;
+  lessonId?: number;
+  loading = false;
+  submitting = false;
+
+  private fb = inject(FormBuilder);
+  private lessonService = inject(LessonService);
+  private topicService = inject(TopicService);
+  private courseService = inject(CourseService);
+  private keynoteService = inject(LessonKeynoteService);
+  private lessonTagService = inject(LessonTagService);
+  private keynoteTagService = inject(KeynoteTagService);
+  private tagService = inject(TagService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
+  private errorHandler = inject(ErrorHandlerService);
+
+  ngOnInit() {
+    this.initializeForm();
+    this.loadCourses();
+    this.setupAutocomplete();
+    this.checkEditMode();
+    this.loadAllTags();
+  }
+
+  initializeForm() {
+    this.lessonForm = this.fb.group({
+      courseId: [null],
+      courseSearch: [''],
+      topicId: [null, Validators.required],
+      topicSearch: ['', Validators.required],
+      title: ['', Validators.required],
+      description: [''],
+      orderNumber: [null],
+      isActive: [true],
+      keynotes: this.fb.array([]),
+      tags: this.fb.array([])
+    });
+
+    // Add initial keynote
+    this.addKeynote();
+  }
+
+  get keynotes(): FormArray {
+    return this.lessonForm.get('keynotes') as FormArray;
+  }
+
+  get tags(): FormArray {
+    return this.lessonForm.get('tags') as FormArray;
+  }
+
+  // Course and Topic Management
+  loadCourses() {
+    this.courseService.getCourses().subscribe({
+      next: (courses) => {
+        this.courses = courses;
+      },
+      error: (error) => {
+        const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+        this.errorHandler.handleApiError(error, 'loading courses');
+      }
+    });
+  }
+
+  setupAutocomplete() {
+    // Course autocomplete
+    this.filteredCourses = this.lessonForm.get('courseSearch')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => {
+        if (typeof value === 'string') {
+          return of(this.filterCourses(value));
+        }
+        return of(this.courses);
+      })
+    );
+
+    // Topic autocomplete
+    this.filteredTopics = this.lessonForm.get('topicSearch')!.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(value => {
+        if (typeof value === 'string') {
+          return of(this.filterTopics(value));
+        }
+        return of(this.topics);
+      })
+    );
+  }
+
+  filterCourses(value: string): Course[] {
+    const filterValue = value.toLowerCase();
+    return this.courses.filter(course => 
+      course.title.toLowerCase().includes(filterValue) ||
+      course.description?.toLowerCase().includes(filterValue)
+    );
+  }
+
+  filterTopics(value: string): Topic[] {
+    const filterValue = value.toLowerCase();
+    return this.topics.filter(topic => 
+      topic.title.toLowerCase().includes(filterValue) ||
+      topic.description?.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayCourseFn = (course: Course): string => {
+    return course ? `${course.title}` : '';
+  }
+
+  displayTopicFn = (topic: Topic): string => {
+    return topic ? `${topic.title}` : '';
+  }
+
+  onCourseSelected(event: any) {
+    const course = event.option.value;
+    this.lessonForm.patchValue({
+      courseId: course.courseId
+    });
+    this.loadTopicsByCourse(course.courseId);
+  }
+
+  onTopicSelected(event: any) {
+    const topic = event.option.value;
+    this.lessonForm.patchValue({
+      topicId: topic.topicId
+    });
+  }
+
+  loadTopicsByCourse(courseId: number) {
+    this.topicService.getTopicsByCourseId(courseId).subscribe({
+      next: (topics) => {
+        this.topics = topics;
+      },
+      error: (error) => {
+        const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+        this.errorHandler.handleApiError(error, 'loading topics');
+      }
+    });
+  }
+
+  // Keynote Management
+  addKeynote() {
+    const keynoteForm = this.fb.group({
+      keynoteId: [null],
+      contentType: ['text', Validators.required],
+      content: ['', Validators.required],
+      keynoteTags: this.fb.array([])
+    });
+
+    this.keynotes.push(keynoteForm);
+  }
+
+  removeKeynote(index: number) {
+    if (this.keynotes.length > 1) {
+      this.keynotes.removeAt(index);
+    }
+  }
+
+  // Tag Management
+  addTag() {
+    const tagForm = this.fb.group({
+      lessonTagId: [null],
+      tagId: [null, Validators.required],
+      relevanceScore: [5, [Validators.required, Validators.min(1), Validators.max(10)]]
+    });
+
+    this.tags.push(tagForm);
+  }
+
+  removeTag(index: number) {
+    const tagForm = this.tags.at(index);
+    const lessonTagId = tagForm.get('lessonTagId')?.value;
+
+    if (lessonTagId && this.isEditMode) {
+      // Delete from backend if it exists
+      this.lessonTagService.deleteLessonTag(lessonTagId).subscribe({
+        next: () => {
+          this.errorHandler.showSuccess('Tag removed successfully.');
+          this.loadTags(); // Reload tags after deletion
+        },
+        error: (error) => {
+          this.errorHandler.handleApiError(error, 'removing tag');
+        }
+      });
+    } else {
+      // Just remove from form array if not saved yet
+      this.tags.removeAt(index);
+    }
+  }
+
+  getKeynoteTags(keynoteIndex: number): FormArray {
+    const keynote = this.keynotes.at(keynoteIndex) as FormGroup;
+    return keynote.get('keynoteTags') as FormArray;
+  }
+
+  addKeynoteTag(keynoteIndex: number) {
+    const keynoteTagForm = this.fb.group({
+      keynoteTagId: [null],
+      tagId: [null, Validators.required],
+      relevanceScore: [5, [Validators.required, Validators.min(1), Validators.max(10)]]
+    });
+
+    this.getKeynoteTags(keynoteIndex).push(keynoteTagForm);
+  }
+
+  removeKeynoteTag(keynoteIndex: number, tagIndex: number) {
+    this.getKeynoteTags(keynoteIndex).removeAt(tagIndex);
+  }
+
+  getContentTypeLabel(contentType: string): string {
+    switch (contentType) {
+      case 'text': return 'Text Content';
+      case 'video': return 'Video Content';
+      case 'audio': return 'Audio Content';
+      case 'image': return 'Image Content';
+      default: return 'Unknown Type';
+    }
+  }
+
+  getKeynotePreview(content: string): string {
+    if (!content) return 'No content';
+    const cleanContent = content.replace(/<[^>]*>/g, '');
+    return cleanContent.length > 50 ? cleanContent.substring(0, 50) + '...' : cleanContent;
+  }
+
+  getContentPlaceholder(contentType: string): string {
+    switch (contentType) {
+      case 'text': return 'Enter your text content here...';
+      case 'video': return 'Enter video URL (YouTube, Vimeo, etc.)';
+      case 'audio': return 'Enter audio file URL';
+      case 'image': return 'Enter image URL';
+      default: return 'Enter content...';
+    }
+  }
+
+  getContentHint(contentType: string): string {
+    switch (contentType) {
+      case 'text': return 'Use the rich text editor to format your content with headings, lists, links, and more.';
+      case 'video': return 'Provide a direct link to the video file or embed URL from platforms like YouTube or Vimeo.';
+      case 'audio': return 'Provide a direct link to the audio file (MP3, WAV, etc.).';
+      case 'image': return 'Provide a direct link to the image file (JPG, PNG, etc.).';
+      default: return '';
+    }
+  }
+
+  getTagName(tagId: number): string {
+    const tag = this.allTags.find(t => t.tagId === tagId);
+    return tag ? tag.name : 'Unknown Tag';
+  }
+
+  checkEditMode() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id && id !== 'new') {
+      const numericId = parseInt(id, 10);
+      if (!isNaN(numericId) && numericId > 0) {
+        this.isEditMode = true;
+        this.lessonId = numericId;
+        console.log('Edit mode enabled for lessonId:', this.lessonId);
+        this.loadLesson();
+      } else {
+        this.errorHandler.showError('Invalid lesson ID provided');
+        this.router.navigate(['/lessons']);
+      }
+    }
+  }
+
+  loadLesson() {
+    if (this.lessonId) {
+      this.loading = true;
+      this.lessonService.getLessonById(this.lessonId).subscribe({
+        next: (lesson) => {
+          this.lessonForm.patchValue({
+            title: lesson.title,
+            description: lesson.description,
+            orderNumber: lesson.orderNumber,
+            isActive: lesson.isActive,
+            topicId: lesson.topicId
+          });
+
+          // Load topic and course info
+          this.topicService.getTopicById(lesson.topicId).subscribe({
+            next: (topic) => {
+              this.lessonForm.patchValue({
+                topicSearch: topic
+              });
+              this.courseService.getCourseById(topic.courseId).subscribe({
+                next: (course) => {
+                  this.lessonForm.patchValue({
+                    courseId: course.courseId,
+                    courseSearch: course
+                  });
+                  this.loadTopicsByCourse(course.courseId);
+                },
+                error: (error) => {
+                  const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+                  this.errorHandler.handleApiError(error, 'loading course information');
+                }
+              });
+            },
+            error: (error) => {
+              const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+              this.errorHandler.handleApiError(error, 'loading topic information');
+            }
+          });
+
+          this.loadKeynotes();
+          this.loadTags(); // Load tags for lesson
+          this.loading = false;
+        },
+        error: (error) => {
+          const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+          this.errorHandler.handleApiError(error, 'loading lesson');
+          this.loading = false;
+        }
+      });
+    }
+  }
+
+  loadKeynotes() {
+    if (this.lessonId) {
+      this.keynoteService.getKeynotesByLessonId(this.lessonId).subscribe({
+        next: (keynotes) => {
+          // Clear existing keynotes
+          while (this.keynotes.length !== 0) {
+            this.keynotes.removeAt(0);
+          }
+
+          keynotes.forEach((keynote: LessonKeynote) => {
+            const keynoteForm = this.fb.group({
+              keynoteId: [keynote.keynoteId],
+              contentType: [keynote.contentType, Validators.required],
+              content: [keynote.content, Validators.required],
+              keynoteTags: this.fb.array([]) // Add keynote tags form array
+            });
+            this.keynotes.push(keynoteForm);
+
+            // Load keynote tags for this keynote
+            if (keynote.keynoteId) {
+              this.loadKeynoteTags(keynote.keynoteId, this.keynotes.length - 1);
+            }
+          });
+
+          // Add one empty keynote if no keynotes exist
+          if (keynotes.length === 0) {
+            this.addKeynote();
+          }
+        },
+        error: (error) => {
+          const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+          this.errorHandler.handleApiError(error, 'loading keynotes');
+        }
+      });
+    }
+  }
+
+  loadTags() {
+    if (this.lessonId && typeof this.lessonId === 'number' && this.lessonId > 0) {
+      console.log('Loading tags for lessonId:', this.lessonId);
+      this.lessonTagService.getTagsByLessonId(this.lessonId).subscribe({
+        next: (lessonTags) => {
+          console.log('Received lesson tags:', lessonTags);
+          // Clear existing tags
+          while (this.tags.length !== 0) {
+            this.tags.removeAt(0);
+          }
+
+          // Add loaded tags to form array
+          lessonTags.forEach((lessonTag: LessonTag) => {
+            const tagForm = this.fb.group({
+              lessonTagId: [lessonTag.lessonTagId],
+              tagId: [lessonTag.tagId, Validators.required],
+              relevanceScore: [lessonTag.relevanceScore, [Validators.required, Validators.min(1), Validators.max(10)]]
+            });
+            this.tags.push(tagForm);
+          });
+
+          console.log('Tags form array updated, length:', this.tags.length);
+        },
+        error: (error) => {
+          const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+          console.error('Error in loadTags:', error, 'Message:', errorMessage);
+          this.errorHandler.handleApiError(error, 'loading lesson tags');
+        }
+      });
+    } else {
+      console.log('lessonId is not valid for loadTags:', this.lessonId, typeof this.lessonId);
+    }
+  }
+
+  loadAllTags() {
+    this.tagService.getTags().subscribe({
+      next: (tags) => {
+        this.allTags = tags;
+      },
+      error: (error) => {
+        const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+        this.errorHandler.handleApiError(error, 'loading tags');
+      }
+    });
+  }
+
+  loadKeynoteTags(keynoteId: number, keynoteIndex: number) {
+    this.keynoteTagService.getTagsByKeynoteId(keynoteId).subscribe({
+      next: (keynoteTags) => {
+        const keynoteTagsArray = this.getKeynoteTags(keynoteIndex);
+        
+        keynoteTags.forEach((keynoteTag: KeynoteTag) => {
+          const keynoteTagForm = this.fb.group({
+            keynoteTagId: [keynoteTag.keynoteTagId],
+            tagId: [keynoteTag.tagId, Validators.required],
+            relevanceScore: [keynoteTag.relevanceScore, [Validators.required, Validators.min(1), Validators.max(10)]]
+          });
+          keynoteTagsArray.push(keynoteTagForm);
+        });
+      },
+      error: (error) => {
+        const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+        this.errorHandler.handleApiError(error, 'loading keynote tags');
+      }
+    });
+  }
+
+  onSubmit() {
+    if (this.lessonForm.valid) {
+      this.submitting = true;
+      const formData = this.lessonForm.value;
+
+      const lessonData = {
+        title: formData.title,
+        description: formData.description,
+        topicId: formData.topicId,
+        isActive: formData.isActive,
+        ...(this.isEditMode && { orderNumber: formData.orderNumber })
+      };
+
+      if (this.isEditMode && this.lessonId) {
+        this.lessonService.updateLesson(this.lessonId, lessonData).subscribe({
+          next: async (lesson) => {
+            try {
+              await this.handleKeynotes(this.lessonId!);
+              await this.handleTags(this.lessonId!);
+              
+              this.errorHandler.showSuccess(
+                `Lesson updated successfully with ${this.keynotes.length} keynote(s) and ${this.tags.length} tag(s)!`
+              );
+              this.submitting = false;
+              this.goBack();
+            } catch (error) {
+              this.errorHandler.handleApiError(error, 'updating lesson keynotes/tags');
+              this.submitting = false;
+              this.goBack();
+            }
+          },
+          error: (error) => {
+            const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+            this.errorHandler.handleApiError(error, 'updating lesson');
+            this.submitting = false;
+          }
+        });
+      } else {
+        this.lessonService.createLesson(lessonData).subscribe({
+          next: async (lesson) => {
+            try {
+              await this.handleKeynotes(lesson.lessonId);
+              await this.handleTags(lesson.lessonId);
+              
+              this.errorHandler.showSuccess(
+                `Lesson created successfully with ${this.keynotes.length} keynote(s) and ${this.tags.length} tag(s)!`
+              );
+              this.submitting = false;
+              this.goBack();
+            } catch (error) {
+              this.errorHandler.handleApiError(error, 'creating lesson keynotes/tags');
+              this.submitting = false;
+              this.goBack();
+            }
+          },
+          error: (error) => {
+            const errorMessage = ErrorHandlerUtil.extractErrorMessage(error);
+            this.errorHandler.handleApiError(error, 'creating lesson');
+            this.submitting = false;
+          }
+        });
+      }
+    } else {
+      this.errorHandler.showError('Please fill in all required fields correctly.');
+    }
+  }
+
+  private async handleKeynotes(lessonId: number): Promise<void> {
+    const keynotePromises: Promise<any>[] = [];
+    const formKeynotes = this.lessonForm.get('keynotes')?.value || [];
+
+    for (let index = 0; index < formKeynotes.length; index++) {
+      const keynoteData = formKeynotes[index];
+      
+      const keynotePayload = {
+        lessonId: lessonId,
+        contentType: keynoteData.contentType,
+        content: keynoteData.content
+      };
+
+      let savedKeynote;
+      if (keynoteData.keynoteId) {
+        savedKeynote = await this.keynoteService.updateKeynote(keynoteData.keynoteId, keynotePayload).toPromise();
+      } else {
+        savedKeynote = await this.keynoteService.createKeynote(keynotePayload).toPromise();
+      }
+
+      if (savedKeynote && savedKeynote.keynoteId) {
+        await this.handleKeynoteTags(savedKeynote.keynoteId, keynoteData.keynoteTags);
+      }
+    }
+
+    await Promise.all(keynotePromises);
+  }
+
+  private async handleKeynoteTags(keynoteId: number, keynoteTags: any[]): Promise<void> {
+    if (this.isEditMode) {
+      // Handle existing keynote tags for edit mode
+      try {
+        const existingKeynoteTags = await this.keynoteTagService.getTagsByKeynoteId(keynoteId).toPromise();
+        const currentKeynoteTags = existingKeynoteTags || [];
+        
+        const formKeynoteTagIds = keynoteTags.map((kt: any) => kt.keynoteTagId).filter((id: any) => id);
+        
+        const keynoteTagsToDelete = currentKeynoteTags.filter(kt =>
+          !formKeynoteTagIds.includes(kt.keynoteTagId)
+        );
+
+        // Delete removed keynote tags
+        await Promise.all(
+          keynoteTagsToDelete
+            .filter(kt => kt.keynoteTagId)
+            .map(kt => this.keynoteTagService.deleteKeynoteTag(kt.keynoteTagId!).toPromise())
+        );
+
+        // Add/Update keynote tags
+        const keynoteTagPromises: Promise<any>[] = [];
+        keynoteTags.forEach((keynoteTagData: any) => {
+          const keynoteTagPayload = {
+            keynoteId: keynoteId,
+            tagId: Number(keynoteTagData.tagId),
+            relevanceScore: Number(keynoteTagData.relevanceScore)
+          };
+
+          if (keynoteTagData.keynoteTagId) {
+            keynoteTagPromises.push(
+              this.keynoteTagService.updateKeynoteTag(keynoteTagData.keynoteTagId, keynoteTagPayload).toPromise()
+            );
+          } else {
+            keynoteTagPromises.push(
+              this.keynoteTagService.createKeynoteTag(keynoteTagPayload).toPromise()
+            );
+          }
+        });
+
+        await Promise.all(keynoteTagPromises);
+      } catch (error) {
+        console.error('Error handling keynote tags in edit mode:', error);
+        throw error;
+      }
+    } else {
+      // Handle keynote tags for create mode
+      const keynoteTagPromises: Promise<any>[] = [];
+      keynoteTags.forEach((keynoteTagData: any) => {
+        const keynoteTagPayload = {
+          keynoteId: keynoteId,
+          tagId: Number(keynoteTagData.tagId),
+          relevanceScore: Number(keynoteTagData.relevanceScore)
+        };
+
+        keynoteTagPromises.push(
+          this.keynoteTagService.createKeynoteTag(keynoteTagPayload).toPromise()
+        );
+      });
+
+      await Promise.all(keynoteTagPromises);
+    }
+  }
+
+  private async handleTags(lessonId: number): Promise<void> {
+    const formTags = this.lessonForm.get('tags')?.value || [];
+    
+    if (this.isEditMode) {
+      try {
+        const existingTags = await this.lessonTagService.getTagsByLessonId(lessonId).toPromise();
+        const currentTags = existingTags || [];
+        
+        const formTagIds = formTags.map((tag: any) => tag.lessonTagId).filter((id: any) => id);
+        
+        const tagsToDelete = currentTags.filter(tag =>
+          !formTagIds.includes(tag.lessonTagId)
+        );
+
+        // Delete removed tags
+        await Promise.all(
+          tagsToDelete
+            .filter(tag => tag.lessonTagId) // Ensure lessonTagId exists
+            .map(tag =>
+              this.lessonTagService.deleteLessonTag(tag.lessonTagId!).toPromise()
+            )
+        );
+
+        // Add/Update tags
+        const tagPromises: Promise<any>[] = [];
+        formTags.forEach((tagData: any) => {
+          const tagPayload = {
+            lessonId: lessonId,
+            tagId: Number(tagData.tagId),
+            relevanceScore: Number(tagData.relevanceScore)
+          };
+
+          if (tagData.lessonTagId) {
+            tagPromises.push(
+              this.lessonTagService.updateLessonTag(tagData.lessonTagId, tagPayload).toPromise()
+            );
+          } else {
+            tagPromises.push(
+              this.lessonTagService.addLessonTag(tagPayload).toPromise()
+            );
+          }
+        });
+
+        await Promise.all(tagPromises);
+      } catch (error) {
+        console.error('Error handling tags in edit mode:', error);
+        throw error;
+      }
+    } else {
+      // Handle tags for create mode
+      const tagPromises: Promise<any>[] = [];
+      formTags.forEach((tagData: any) => {
+        const tagPayload = {
+          lessonId: lessonId,
+          tagId: Number(tagData.tagId),
+          relevanceScore: Number(tagData.relevanceScore)
+        };
+
+        tagPromises.push(
+          this.lessonTagService.addLessonTag(tagPayload).toPromise()
+        );
+      });
+
+      await Promise.all(tagPromises);
+    }
+  }
+
+  goBack() {
+    const currentTopicId = this.lessonForm.get('topicId')?.value;
+    const currentTopic = this.lessonForm.get('topicSearch')?.value;
+    
+    if (currentTopicId || currentTopic) {
+      this.router.navigate(['/lessons'], {
+        queryParams: { topicId: currentTopicId }
+      });
+    } else {
+      this.router.navigate(['/lessons']);
+    }
+  }
+
+  async saveTag(i: number) {
+    const tagForm = this.tags.at(i);
+    const tagData = tagForm.value;
+
+    if (!tagData.tagId || !tagData.relevanceScore || tagData.relevanceScore < 1 || tagData.relevanceScore > 10) {
+      this.errorHandler.showError('Please select a tag and enter a valid relevance score.');
+      return;
+    }
+
+    if (!this.lessonId || typeof this.lessonId !== 'number') {
+      this.errorHandler.showError('Lesson ID is missing. Cannot save tag.');
+      return;
+    }
+
+    try {
+      const tagPayload = {
+        lessonId: this.lessonId as number,
+        tagId: Number(tagData.tagId),
+        relevanceScore: Number(tagData.relevanceScore)
+      };
+
+      if (tagData.lessonTagId) {
+        // Update existing tag
+        await this.lessonTagService.updateLessonTag(tagData.lessonTagId, { ...tagPayload, lessonTagId: tagData.lessonTagId }).toPromise();
+        this.errorHandler.showSuccess('Tag updated successfully.');
+      } else {
+        // Create new tag
+        const created = await this.lessonTagService.addLessonTag(tagPayload).toPromise();
+        this.errorHandler.showSuccess('Tag added successfully.');
+      }
+
+      this.loadTags(); // Always reload tags after add/update
+    } catch (error: any) {
+      this.errorHandler.handleApiError(error, 'saving tag');
+      this.errorHandler.logError(error, 'saveTag method');
+    }
+  }
+}
