@@ -474,6 +474,16 @@ import { CourseService, Course } from '../../../services/course.service';
 
                   <div class="tag-actions">
                     <button 
+                      mat-icon-button 
+                      color="primary" 
+                      type="button" 
+                      (click)="saveTag(i)"
+                      matTooltip="Save this tag"
+                      class="save-tag-btn"
+                    >
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button 
                       mat-button 
                       color="warn" 
                       type="button" 
@@ -1128,8 +1138,29 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
     });
     this.tags.push(tagForm);
   }
-  removeTag(index: number) {
-    this.tags.removeAt(index);
+  async removeTag(index: number) {
+    const tagForm = this.tags.at(index);
+    const tagData = tagForm.value;
+    if (tagData.lessonTagId) {
+      // Delete from backend, then reload tags
+      try {
+        await this.lessonTagService.deleteLessonTag(tagData.lessonTagId).toPromise();
+        this.snackBar.open('Tag deleted successfully.', 'Close', { duration: 2000 });
+        this.loadTags();
+      } catch (error: any) {
+        let errorMsg = 'Failed to delete tag. Please try again.';
+        if (error && error.error && error.error.message) {
+          errorMsg = error.error.message;
+        } else if (error && error.message) {
+          errorMsg = error.message;
+        }
+        this.snackBar.open(errorMsg, 'Close', { duration: 5000 });
+        console.error('Error deleting tag:', error);
+      }
+    } else {
+      // Just remove locally if not saved yet
+      this.tags.removeAt(index);
+    }
   }
 
   // Keynote Tag methods
@@ -1192,15 +1223,22 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
         return 'General text content for the keynote';
     }
   }
-
   checkEditMode() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.isEditMode = true;
-      this.lessonId = +id;
-      this.loadLesson();
+      const numericId = parseInt(id, 10);
+      if (!isNaN(numericId) && numericId > 0) {
+        this.isEditMode = true;
+        this.lessonId = numericId;
+        console.log('Edit mode enabled for lessonId:', this.lessonId);
+        this.loadLesson();
+      } else {
+        console.error('Invalid lesson ID in route:', id);
+        this.snackBar.open('Invalid lesson ID provided', 'Close', { duration: 3000 });
+        this.router.navigate(['/lessons']);
+      }
     }
-  }  loadLesson() {
+  }loadLesson() {
     if (this.lessonId) {
       this.loading = true;
       this.lessonService.getLessonById(this.lessonId).subscribe({
@@ -1291,15 +1329,17 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
         }
       });
     }
-  }
-
-  loadTags() {
-    if (this.lessonId) {
+  }  loadTags() {
+    if (this.lessonId && typeof this.lessonId === 'number' && this.lessonId > 0) {
+      console.log('Loading tags for lessonId:', this.lessonId);
       this.lessonTagService.getTagsByLessonId(this.lessonId).subscribe({
         next: (tags: LessonTag[]) => {
+          console.log('Tags loaded successfully:', tags);
+          // Clear existing tags
           while (this.tags.length !== 0) {
             this.tags.removeAt(0);
           }
+          // Add loaded tags to form array
           tags.forEach((tag: LessonTag) => {
             const tagForm = this.fb.group({
               lessonTagId: [tag.lessonTagId],
@@ -1309,11 +1349,22 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
             });
             this.tags.push(tagForm);
           });
+          console.log('Tags form array updated, length:', this.tags.length);
         },
-        error: () => {
-          this.snackBar.open('Error loading tags', 'Close', { duration: 3000 });
+        error: (error) => {
+          console.error('Error loading tags:', error);
+          let errorMessage = 'Error loading tags';
+          if (error.status) {
+            errorMessage += ` (${error.status})`;
+          }
+          if (error.error && error.error.message) {
+            errorMessage += `: ${error.error.message}`;
+          }
+          this.snackBar.open(errorMessage, 'Close', { duration: 5000 });
         }
       });
+    } else {
+      console.log('lessonId is not valid for loadTags:', this.lessonId, typeof this.lessonId);
     }
   }
   loadAllTags() {
@@ -1635,6 +1686,46 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
     } else {
       // Navigate back without state if no topic selected
       this.router.navigate(['/lessons']);
+    }
+  }
+
+  async saveTag(i: number) {
+    const tagForm = this.tags.at(i);
+    if (!tagForm.valid) {
+      this.snackBar.open('Please select a tag and enter a valid relevance score.', 'Close', { duration: 3000 });
+      return;
+    }
+    if (!this.lessonId || typeof this.lessonId !== 'number') {
+      this.snackBar.open('Lesson ID is missing. Cannot save tag.', 'Close', { duration: 3000 });
+      return;
+    }
+    const tagData = tagForm.value;
+    const tagPayload = {
+      lessonId: this.lessonId as number,
+      tagId: Number(tagData.tagId),
+      relevanceScore: Number(tagData.relevanceScore)
+    };
+    try {
+      if (tagData.lessonTagId) {
+        await this.lessonTagService.updateLessonTag(tagData.lessonTagId, { ...tagPayload, lessonTagId: tagData.lessonTagId }).toPromise();
+        this.snackBar.open('Tag updated successfully.', 'Close', { duration: 2000 });
+      } else {
+        const created = await this.lessonTagService.addLessonTag(tagPayload).toPromise();
+        if (created && created.lessonTagId) {
+          tagForm.patchValue({ lessonTagId: created.lessonTagId });
+        }
+        this.snackBar.open('Tag added successfully.', 'Close', { duration: 2000 });
+      }
+      this.loadTags(); // Always reload tags after add/update
+    } catch (error: any) {
+      let errorMsg = 'Failed to save tag. Please try again.';
+      if (error && error.error && error.error.message) {
+        errorMsg = error.error.message;
+      } else if (error && error.message) {
+        errorMsg = error.message;
+      }
+      this.snackBar.open(errorMsg, 'Close', { duration: 5000 });
+      console.error('Error saving tag:', error);
     }
   }
 }

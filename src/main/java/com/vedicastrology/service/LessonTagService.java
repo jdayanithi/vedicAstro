@@ -52,12 +52,21 @@ public class LessonTagService {
         lessonTag.setRelevanceScore(dto.getRelevanceScore() != null ? dto.getRelevanceScore() : 1);
         lessonTag = lessonTagRepository.save(lessonTag);
         return toDTO(lessonTag);
-    }
-
-    @Transactional
+    }    @Transactional
     public LessonTagDTO updateLessonTag(Long lessonTagId, LessonTagDTO dto) {
         LessonTag lessonTag = lessonTagRepository.findById(lessonTagId).orElseThrow();
-        if (dto.getRelevanceScore() != null) lessonTag.setRelevanceScore(dto.getRelevanceScore());
+        
+        // Update tag if provided
+        if (dto.getTagId() != null) {
+            Tag tag = tagRepository.findById(dto.getTagId()).orElseThrow();
+            lessonTag.setTag(tag);
+        }
+        
+        // Update relevance score if provided
+        if (dto.getRelevanceScore() != null) {
+            lessonTag.setRelevanceScore(dto.getRelevanceScore());
+        }
+        
         lessonTag = lessonTagRepository.save(lessonTag);
         return toDTO(lessonTag);
     }
@@ -70,15 +79,13 @@ public class LessonTagService {
     @Transactional
     public void deleteByLessonIdAndTagId(Long lessonId, Long tagId) {
         lessonTagRepository.deleteByLesson_LessonIdAndTag_TagId(lessonId, tagId);
-    }
-
-    private LessonTagDTO toDTO(LessonTag lessonTag) {
+    }    private LessonTagDTO toDTO(LessonTag lessonTag) {
         LessonTagDTO dto = new LessonTagDTO();
         dto.setLessonTagId(lessonTag.getLessonTagId());
         dto.setLessonId(lessonTag.getLesson().getLessonId());
         dto.setTagId(lessonTag.getTag().getTagId());
         dto.setRelevanceScore(lessonTag.getRelevanceScore());
-        //dto.setTagName(lessonTag.gectTag().getName());
+        dto.setTagName(lessonTag.getTag().getTagName());
         return dto;
     }
 }

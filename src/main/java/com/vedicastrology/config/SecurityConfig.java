@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/login/**", "/api/courses/**", "/api/categories/**", "/api/users/**", 
                                "/api/topics/**", "/api/lessons/**", "/api/lesson-keynotes/**", "/api/tags/**", 
                                "/api/payments/**", "/api/notifications/**", "/api/posts/**", "/api/comments/**",
-                               "/api/lesson-tags/**").permitAll()
+                               "/api/lesson-tags/**","/api/keynote-tags/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

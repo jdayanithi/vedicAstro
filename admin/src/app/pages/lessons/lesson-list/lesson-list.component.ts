@@ -280,7 +280,12 @@ export class LessonListComponent implements OnInit {
     if (this.selectedTopic) {
       this.lessonService.getLessonsByTopicId(this.selectedTopic.topicId).subscribe({
         next: (lessons) => {
-          this.lessons = lessons;
+          // Convert createdAt and updatedAt to valid Date objects if needed
+          this.lessons = lessons.map(lesson => ({
+            ...lesson,
+            createdAt: parseBackendDate(lesson.createdAt),
+            updatedAt: parseBackendDate(lesson.updatedAt)
+          }));
         },
         error: () => {
           this.snackBar.open('Error loading lessons', 'Close', {
@@ -308,4 +313,21 @@ export class LessonListComponent implements OnInit {
       });
     }
   }
+}
+
+// Helper function to parse backend date string
+function parseBackendDate(date: any): Date | null {
+  if (!date) return null;
+  if (date instanceof Date) return date;
+  if (typeof date === 'string' && date.includes(',')) {
+    // Format: "2025,6,12,14,52,43" (year,month,day,hour,min,sec)
+    const parts = date.split(',').map(Number);
+    if (parts.length >= 3) {
+      // Note: JS months are 0-based
+      return new Date(parts[0], parts[1] - 1, parts[2], parts[3] || 0, parts[4] || 0, parts[5] || 0);
+    }
+  }
+  // Try native Date parse as fallback
+  const d = new Date(date);
+  return isNaN(d.getTime()) ? null : d;
 }
