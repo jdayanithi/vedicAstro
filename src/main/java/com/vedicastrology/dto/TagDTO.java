@@ -10,5 +10,6 @@ public class TagDTO {
     private String tagCategory;
     private String description;
     private Integer createdByUserId;
+    private Boolean statusFlag;
     private LocalDateTime createdAt;
 }

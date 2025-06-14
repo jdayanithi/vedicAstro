@@ -26,21 +26,22 @@ public class TagService {
 
     public Optional<TagDTO> getTagByName(String tagName) {
         return tagRepository.findByTagName(tagName).map(this::toDTO);
-    }
-
-    public TagDTO createTag(TagDTO tagDTO) {
+    }    public TagDTO createTag(TagDTO tagDTO) {
         Tag tag = new Tag();
         BeanUtils.copyProperties(tagDTO, tag);
+        // Set default statusFlag if not provided
+        if (tag.getStatusFlag() == null) {
+            tag.setStatusFlag(true);
+        }
         Tag saved = tagRepository.save(tag);
         return toDTO(saved);
-    }
-
-    public Optional<TagDTO> updateTag(Long id, TagDTO tagDTO) {
+    }public Optional<TagDTO> updateTag(Long id, TagDTO tagDTO) {
         return tagRepository.findById(id).map(existing -> {
             existing.setTagName(tagDTO.getTagName());
             existing.setTagCategory(tagDTO.getTagCategory());
             existing.setDescription(tagDTO.getDescription());
             existing.setCreatedByUserId(tagDTO.getCreatedByUserId());
+            existing.setStatusFlag(tagDTO.getStatusFlag());
             Tag saved = tagRepository.save(existing);
             return toDTO(saved);
         });

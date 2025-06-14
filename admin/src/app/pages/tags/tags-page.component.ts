@@ -5,15 +5,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TagService, Tag } from '../../services/tag.service';
 import { TagFormComponent } from './tag-form.component';
 
 @Component({
   selector: 'app-tags-page',
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule,
     MatTableModule,
     MatButtonModule,
@@ -21,26 +22,36 @@ import { TagFormComponent } from './tag-form.component';
     MatSnackBarModule,
     MatDialogModule,
     MatSlideToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   template: `
     <div class="container">
-      <mat-card>
-        <mat-card-header>
+      <mat-card>        <mat-card-header>
           <mat-card-title>
             <div class="header-content">
               <h2>Manage Tags</h2>
-              <button mat-raised-button color="primary" (click)="openTagForm()">
-                <mat-icon>add</mat-icon>
-                Add New Tag
-              </button>
+              <div class="header-actions">
+                <button mat-icon-button color="primary" (click)="loadTags()" 
+                        matTooltip="Refresh tags" [disabled]="isLoading">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" (click)="openTagForm()">
+                  <mat-icon>add</mat-icon>
+                  Add New Tag
+                </button>
+              </div>
             </div>
           </mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
+        </mat-card-header>        <mat-card-content>
           <div class="table-container">
-            <table mat-table [dataSource]="tags" class="mat-elevation-z2">
+            <div *ngIf="isLoading" class="loading-container">
+              <mat-spinner diameter="50"></mat-spinner>
+              <p>Loading tags...</p>
+            </div>
+            
+            <table *ngIf="!isLoading" mat-table [dataSource]="tags" class="mat-elevation-z2">
               <ng-container matColumnDef="tagName">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
                 <td mat-cell *matCellDef="let tag"> {{ tag.tagName }} </td>
@@ -49,14 +60,12 @@ import { TagFormComponent } from './tag-form.component';
               <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef> Description </th>
                 <td mat-cell *matCellDef="let tag"> {{ tag.description || '-' }} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="statusFlag">
+              </ng-container>              <ng-container matColumnDef="statusFlag">
                 <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let tag">
                   <mat-slide-toggle 
                     [checked]="tag.statusFlag !== false" 
-                    (change)="toggleTagStatus(tag)">
+                    (change)="toggleTagStatus(tag, $event)">
                   </mat-slide-toggle>
                 </td>
               </ng-container>
@@ -76,12 +85,19 @@ import { TagFormComponent } from './tag-form.component';
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+            <div *ngIf="!isLoading && tags.length === 0" class="no-data">
+              <mat-icon>local_offer</mat-icon>
+              <p>No tags found.</p>
+              <button mat-raised-button color="primary" (click)="openTagForm()">
+                Create First Tag
+              </button>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-  `,
-  styles: [`
+  `,  styles: [`
     .container {
       padding: 20px;
       max-width: 1200px;
@@ -97,11 +113,56 @@ import { TagFormComponent } from './tag-form.component';
 
     .header-content h2 {
       margin: 0;
+      color: #333;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
 
     .table-container {
       width: 100%;
       overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .loading-container p {
+      margin-top: 16px;
+      color: #666;
+    }
+
+    .no-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      color: #666;
+    }
+
+    .no-data mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .no-data p {
+      margin-bottom: 16px;
+      font-size: 16px;
     }
 
     table {
@@ -116,11 +177,17 @@ import { TagFormComponent } from './tag-form.component';
     .mat-mdc-button .mat-icon {
       margin-right: 8px;
     }
+
+    .mat-mdc-table {
+      width: 100%;
+      background: white;
+    }
   `]
 })
 export class TagsPageComponent implements OnInit {
   tags: Tag[] = [];
   displayedColumns: string[] = ['tagName', 'description', 'statusFlag', 'actions'];
+  isLoading = false;
 
   constructor(
     private tagService: TagService,
@@ -131,13 +198,17 @@ export class TagsPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadTags();
   }
-
   loadTags(): void {
+    this.isLoading = true;
     this.tagService.getTags().subscribe({
-      next: (tags) => this.tags = tags,
+      next: (tags) => {
+        this.tags = tags;
+        this.isLoading = false;
+      },
       error: (error) => {
         console.error('Error loading tags:', error);
         this.snackBar.open('Error loading tags', 'Close', { duration: 3000 });
+        this.isLoading = false;
       }
     });
   }
@@ -157,18 +228,19 @@ export class TagsPageComponent implements OnInit {
 
   editTag(tag: Tag): void {
     this.openTagForm(tag);
-  }
-
-  toggleTagStatus(tag: Tag): void {
-    const updatedTag = { ...tag, statusFlag: !tag.statusFlag };
+  }  toggleTagStatus(tag: Tag, event: MatSlideToggleChange): void {
+    const newStatus = event.checked;
+    const updatedTag = { ...tag, statusFlag: newStatus };
     this.tagService.updateTag(tag.tagId!, updatedTag).subscribe({
       next: () => {
-        this.snackBar.open(`Tag ${updatedTag.statusFlag ? 'enabled' : 'disabled'}`, 'Close', { duration: 2000 });
+        this.snackBar.open(`Tag ${newStatus ? 'enabled' : 'disabled'}`, 'Close', { duration: 2000 });
         this.loadTags();
       },
       error: (error) => {
         console.error('Error updating tag status:', error);
         this.snackBar.open('Error updating tag status', 'Close', { duration: 3000 });
+        // Revert the toggle state on error
+        this.loadTags();
       }
     });
   }

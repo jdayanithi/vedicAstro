@@ -102,19 +102,20 @@ export class TagFormComponent {
       description: [''],
       statusFlag: [true]
     });
-  }
-
-  private populateForm(tag: Tag): void {
+  }  private populateForm(tag: Tag): void {
+    console.log('Populating form with tag data:', tag);
     this.tagForm.patchValue({
       tagName: tag.tagName,
       description: tag.description || '',
-      statusFlag: tag.statusFlag !== false
+      statusFlag: tag.statusFlag !== undefined ? tag.statusFlag : true
     });
-  }
-  onSubmit(): void {
+    console.log('Form values after population:', this.tagForm.value);
+  }onSubmit(): void {
     if (this.tagForm.valid && !this.isLoading) {
       this.isLoading = true;
       const formValue = this.tagForm.value;
+      
+      console.log('Form submission - form value:', formValue);
       
       const tagData: Tag = {
         tagName: formValue.tagName,
@@ -122,18 +123,28 @@ export class TagFormComponent {
         statusFlag: formValue.statusFlag
       };
 
+      console.log('Form submission - tag data being sent:', tagData);
+
       if (this.editMode && this.data.tag) {
         tagData.tagId = this.data.tag.tagId;
         this.updateTag(tagData);
       } else {
         this.createTag(tagData);
       }
+    } else {
+      console.log('Form is invalid or loading:', { 
+        valid: this.tagForm.valid, 
+        loading: this.isLoading,
+        formErrors: this.tagForm.errors,
+        formValue: this.tagForm.value
+      });
     }
   }
-
   private createTag(tag: Tag): void {
+    console.log('Creating tag with data:', tag);
     this.tagService.createTag(tag).subscribe({
       next: (result) => {
+        console.log('Tag created successfully:', result);
         this.snackBar.open('Tag created successfully', 'Close', { duration: 3000 });
         this.dialogRef.close(result);
       },
@@ -146,8 +157,10 @@ export class TagFormComponent {
   }
 
   private updateTag(tag: Tag): void {
+    console.log('Updating tag with data:', tag);
     this.tagService.updateTag(tag.tagId!, tag).subscribe({
       next: (result) => {
+        console.log('Tag updated successfully:', result);
         this.snackBar.open('Tag updated successfully', 'Close', { duration: 3000 });
         this.dialogRef.close(result);
       },

@@ -7,13 +7,13 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotificationService, Notification } from '../../services/notification.service';
 import { NotificationFormComponent } from './notification-form.component';
 
 @Component({
   selector: 'app-notifications-page',
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule,
     MatTableModule,
     MatButtonModule,
@@ -21,25 +21,29 @@ import { NotificationFormComponent } from './notification-form.component';
     MatSnackBarModule,
     MatDialogModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   template: `
     <div class="container">
-      <mat-card>
-        <mat-card-header>
+      <mat-card>        <mat-card-header>
           <mat-card-title>
             <div class="header-content">
               <h2>Manage Notifications</h2>
-              <button mat-raised-button color="primary" (click)="openNotificationForm()">
-                <mat-icon>add</mat-icon>
-                Add New Notification
-              </button>
+              <div class="header-actions">
+                <button mat-icon-button color="primary" (click)="loadNotifications()" 
+                        matTooltip="Refresh notifications">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" (click)="openNotificationForm()">
+                  <mat-icon>add</mat-icon>
+                  Add New Notification
+                </button>
+              </div>
             </div>
           </mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div class="table-container">
+        </mat-card-header>        <mat-card-content>
+          <div class="table-container" *ngIf="!isLoading">
             <table mat-table [dataSource]="notifications" class="mat-elevation-z2">
               <ng-container matColumnDef="loginId">
                 <th mat-header-cell *matHeaderCellDef> Login ID </th>
@@ -103,11 +107,19 @@ import { NotificationFormComponent } from './notification-form.component';
                     <mat-icon>delete</mat-icon>
                   </button>
                 </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              </ng-container>              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+
+            <div *ngIf="notifications.length === 0" class="no-data">
+              <mat-icon>notifications_off</mat-icon>
+              <p>No notifications found.</p>
+            </div>
+          </div>
+
+          <div class="loading-container" *ngIf="isLoading">
+            <mat-spinner diameter="50"></mat-spinner>
+            <p>Loading notifications...</p>
           </div>
         </mat-card-content>
       </mat-card>
@@ -118,9 +130,7 @@ import { NotificationFormComponent } from './notification-form.component';
       padding: 20px;
       max-width: 1400px;
       margin: 0 auto;
-    }
-
-    .header-content {
+    }    .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -130,6 +140,12 @@ import { NotificationFormComponent } from './notification-form.component';
     .header-content h2 {
       margin: 0;
       color: #333;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .table-container {
@@ -189,17 +205,46 @@ import { NotificationFormComponent } from './notification-form.component';
 
     .mat-mdc-cell {
       padding: 8px;
-    }
-
-    .mat-mdc-header-cell {
+    }    .mat-mdc-header-cell {
       font-weight: 600;
       color: #333;
+    }
+
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .loading-container p {
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .no-data {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .no-data mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 16px;
     }
   `]
 })
 export class NotificationsPageComponent implements OnInit {
   notifications: Notification[] = [];
   displayedColumns: string[] = ['loginId', 'title', 'message', 'notificationType', 'startDate', 'expiryDate', 'isRead', 'actions'];
+  isLoading = false;
 
   constructor(
     private notificationService: NotificationService,
@@ -209,15 +254,17 @@ export class NotificationsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadNotifications();
-  }
-  loadNotifications(): void {
+  }  loadNotifications(): void {
+    this.isLoading = true;
     this.notificationService.getNotifications().subscribe({
       next: (notifications: Notification[]) => {
         this.notifications = notifications;
+        this.isLoading = false;
       },
       error: (error: any) => {
         console.error('Error loading notifications:', error);
         this.snackBar.open('Error loading notifications', 'Close', { duration: 3000 });
+        this.isLoading = false;
       }
     });
   }
