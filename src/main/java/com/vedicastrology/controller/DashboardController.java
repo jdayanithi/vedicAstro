@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api/dashboard")
-@CrossOrigin(origins = "*")
 public class DashboardController {
 
     @Autowired

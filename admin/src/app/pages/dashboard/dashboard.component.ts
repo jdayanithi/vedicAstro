@@ -731,8 +731,8 @@ import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTr
       }
 
       .chart-container {
-        height: 200px;
-      }
+        height: 200px;     
+       }
     }
   `],
 })

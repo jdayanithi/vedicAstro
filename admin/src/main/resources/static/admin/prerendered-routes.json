@@ -1,0 +1,23 @@
+{
+  "routes": [
+    "/",
+    "/categories",
+    "/courses",
+    "/courses/add",
+    "/dashboard",
+    "/keynotes",
+    "/keynotes/add",
+    "/lessons",
+    "/lessons/add",
+    "/login",
+    "/notifications",
+    "/payments",
+    "/payments/add",
+    "/register",
+    "/tags",
+    "/topics",
+    "/topics/add",
+    "/users",
+    "/users/add"
+  ]
+}
