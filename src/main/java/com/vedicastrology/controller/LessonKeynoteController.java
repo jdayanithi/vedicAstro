@@ -5,6 +5,9 @@ import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.dto.response.SuccessResponse;
 import com.vedicastrology.service.LessonKeynoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -178,5 +181,29 @@ public class LessonKeynoteController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Reorder Failed", e.getMessage()));        }
+    }
+    
+    // Paginated and filtered keynotes endpoint
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<?> getKeynotesPaginated(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(required = false) Long lessonId,
+            @RequestParam(required = false) String contentType,
+            @RequestParam(required = false) Boolean importantOnly,
+            @RequestParam(required = false) String search) {
+        try {
+            Page<LessonKeynoteDTO> result = lessonKeynoteService.getKeynotesPaginated(
+                page, size, lessonId, contentType, importantOnly, search);
+            return ResponseEntity.ok().body(
+                java.util.Map.of(
+                    "content", result.getContent(),
+                    "totalElements", result.getTotalElements()
+                )
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Paginated retrieval failed", e.getMessage()));
+        }
     }
 }

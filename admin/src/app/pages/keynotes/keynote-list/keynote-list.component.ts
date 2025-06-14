@@ -13,6 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { LessonKeynoteService, LessonKeynote } from '../../../services/lesson-keynote.service';
 import { LessonService } from '../../../services/lesson.service';
 
@@ -33,7 +34,8 @@ import { LessonService } from '../../../services/lesson.service';
     MatChipsModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule
   ],
   template: `
     <div class="container">
@@ -94,7 +96,7 @@ import { LessonService } from '../../../services/lesson.service';
             <mat-spinner></mat-spinner>
           </div>          <!-- Keynotes Table -->
           <div *ngIf="!loading">
-            <table mat-table [dataSource]="keynotes" class="full-width">
+            <table mat-table [dataSource]="keynotes || []" class="full-width">
               <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>ID</th>
                 <td mat-cell *matCellDef="let keynote">
@@ -189,9 +191,15 @@ import { LessonService } from '../../../services/lesson.service';
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+            <mat-paginator
+              [length]="totalKeynotes || 0"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 20, 50]"
+              (page)="onPageChange($event)">
+            </mat-paginator>
 
             <!-- No keynotes message -->
-            <div *ngIf="keynotes.length === 0" class="no-data">
+            <div *ngIf="(keynotes?.length || 0) === 0" class="no-data">
               <mat-icon>note_alt</mat-icon>
               <p>No keynotes found</p>
               <button mat-raised-button color="primary" routerLink="/keynotes/add">
@@ -403,6 +411,9 @@ import { LessonService } from '../../../services/lesson.service';
 })
 export class KeynoteListComponent implements OnInit {
   keynotes: LessonKeynote[] = [];
+  totalKeynotes = 0;
+  pageSize = 10;
+  pageIndex = 0;
   lessons: any[] = [];
   displayedColumns = ['id', 'order', 'title', 'lesson', 'contentType', 'content', 'features', 'actions'];
   loading = false;
@@ -435,42 +446,33 @@ export class KeynoteListComponent implements OnInit {
 
   loadKeynotes(): void {
     this.loading = true;
-    
-    if (this.selectedLessonId && this.showImportantOnly) {
-      this.keynoteService.getImportantKeynotesByLessonId(+this.selectedLessonId).subscribe({
-        next: (keynotes) => this.handleKeynotesResponse(keynotes),
-        error: (error) => this.handleError(error)
-      });
-    } else if (this.selectedLessonId) {
-      this.keynoteService.getKeynotesByLessonId(+this.selectedLessonId).subscribe({
-        next: (keynotes) => this.handleKeynotesResponse(keynotes),
-        error: (error) => this.handleError(error)
-      });
-    } else if (this.searchQuery.trim()) {
-      this.keynoteService.searchKeynotes(this.searchQuery).subscribe({
-        next: (keynotes) => this.handleKeynotesResponse(keynotes),
-        error: (error) => this.handleError(error)
-      });
-    } else {
-      this.keynoteService.getAllKeynotes().subscribe({
-        next: (keynotes) => this.handleKeynotesResponse(keynotes),
-        error: (error) => this.handleError(error)
-      });
-    }
+    this.keynoteService.getKeynotesPaginated(
+      this.pageIndex,
+      this.pageSize,
+      this.selectedLessonId ? +this.selectedLessonId : undefined,
+      this.selectedContentType || undefined,
+      this.showImportantOnly || undefined,
+      this.searchQuery.trim() || undefined
+    ).subscribe({
+      next: (result) => {
+        this.keynotes = result.content;
+        this.totalKeynotes = result.totalElements;
+        this.loading = false;
+      },
+      error: (error) => this.handleError(error)
+    });
   }
 
   handleKeynotesResponse(keynotes: LessonKeynote[]): void {
     let filteredKeynotes = keynotes;
-
     if (this.showImportantOnly && !this.selectedLessonId) {
       filteredKeynotes = keynotes.filter(k => k.isImportant);
     }
-
     if (this.selectedContentType) {
       filteredKeynotes = filteredKeynotes.filter(k => k.contentType === this.selectedContentType);
     }
-
     this.keynotes = filteredKeynotes;
+    this.pageIndex = 0;
     this.loading = false;
   }
 
@@ -481,6 +483,7 @@ export class KeynoteListComponent implements OnInit {
   }
 
   onSearchChange(): void {
+    this.pageIndex = 0;
     if (this.searchQuery.trim()) {
       this.selectedLessonId = '';
       this.loadKeynotes();
@@ -490,11 +493,19 @@ export class KeynoteListComponent implements OnInit {
   }
 
   onLessonFilterChange(): void {
+    this.pageIndex = 0;
     this.searchQuery = '';
     this.loadKeynotes();
   }
 
   onContentTypeFilterChange(): void {
+    this.pageIndex = 0;
+    this.loadKeynotes();
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
     this.loadKeynotes();
   }
 

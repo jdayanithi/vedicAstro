@@ -8,6 +8,11 @@ import com.vedicastrology.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -164,6 +169,35 @@ public class LessonKeynoteService {
         }
         
         return getKeynotesByLessonId(lessonId);
+    }
+    
+    // Paginated and filtered keynotes
+    public Page<LessonKeynoteDTO> getKeynotesPaginated(int page, int size, Long lessonId, String contentType, Boolean importantOnly, String search) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("orderSequence").ascending());
+        List<LessonKeynote> filtered;
+        if (search != null && !search.trim().isEmpty()) {
+            filtered = lessonKeynoteRepository.searchKeynotes(search.trim());
+        } else if (lessonId != null && contentType != null) {
+            filtered = lessonKeynoteRepository.findByLessonIdAndContentType(lessonId, contentType);
+        } else if (lessonId != null && importantOnly != null && importantOnly) {
+            filtered = lessonKeynoteRepository.findImportantKeynotesByLessonId(lessonId);
+        } else if (lessonId != null) {
+            filtered = lessonKeynoteRepository.findByLessonIdOrderByOrderSequence(lessonId);
+        } else {
+            filtered = lessonKeynoteRepository.findAll(Sort.by("orderSequence").ascending());
+        }
+        // Further filter for importantOnly if needed
+        if (importantOnly != null && importantOnly) {
+            filtered = filtered.stream().filter(LessonKeynote::getIsImportant).collect(java.util.stream.Collectors.toList());
+        }
+        if (contentType != null && !contentType.isEmpty()) {
+            filtered = filtered.stream().filter(k -> k.getContentType().name().equalsIgnoreCase(contentType)).collect(java.util.stream.Collectors.toList());
+        }
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), filtered.size());
+        List<LessonKeynoteDTO> dtos = filtered.stream().map(this::convertToDTO).collect(java.util.stream.Collectors.toList());
+        List<LessonKeynoteDTO> pageContent = dtos.subList(Math.min(start, dtos.size()), Math.min(end, dtos.size()));
+        return new PageImpl<>(pageContent, pageable, dtos.size());
     }
     
     // Helper methods for conversion

@@ -17,6 +17,12 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
+    @GetMapping
+    public ResponseEntity<List<LessonDTO>> getAllLessons() {
+        List<LessonDTO> lessons = lessonService.getAllLessons();
+        return ResponseEntity.ok(lessons);
+    }
+
     @GetMapping("/topic/{topicId}")
     public ResponseEntity<List<LessonDTO>> getAllLessonsByTopic(@PathVariable Long topicId) {
         List<LessonDTO> lessons = lessonService.getAllLessonsByTopicId(topicId);

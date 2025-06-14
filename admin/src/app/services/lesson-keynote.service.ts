@@ -82,4 +82,14 @@ export class LessonKeynoteService {
   reorderKeynotes(lessonId: number, keynoteIds: number[]): Observable<LessonKeynote[]> {
     return this.http.put<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}/reorder`, keynoteIds);
   }
+
+  // Add paginated fetch to the service
+  getKeynotesPaginated(page: number, size: number, lessonId?: number, contentType?: string, importantOnly?: boolean, searchQuery?: string) {
+    let url = `${this.apiUrl}?page=${page}&size=${size}`;
+    if (lessonId) url += `&lessonId=${lessonId}`;
+    if (contentType) url += `&contentType=${contentType}`;
+    if (importantOnly) url += `&importantOnly=true`;
+    if (searchQuery) url += `&search=${encodeURIComponent(searchQuery)}`;
+    return this.http.get<{ content: LessonKeynote[], totalElements: number }>(url);
+  }
 }
