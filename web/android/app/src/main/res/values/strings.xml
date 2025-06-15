@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">LDMLAstro</string>
-    <string name="title_activity_main">LDMLAstro</string>
+    <string name="app_name">LDML Astro</string>
+    <string name="title_activity_main">LDML Astro</string>
     <string name="package_name">com.ldml</string>
     <string name="custom_url_scheme">com.ldml</string>
 </resources>
