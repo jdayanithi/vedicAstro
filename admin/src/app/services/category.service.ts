@@ -8,6 +8,8 @@ export interface Category {
   categoryId?: number;
   name: string;
   description: string;
+  categoryType?: string;
+  isPublished?: boolean;
   thumbnailUrl?: string;
   parentCategoryId?: number;
   parentCategoryName?: string;

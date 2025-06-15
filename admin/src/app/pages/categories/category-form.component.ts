@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CategoryService, Category } from '../../services/category.service';
 
 @Component({
@@ -21,7 +22,8 @@ import { CategoryService, Category } from '../../services/category.service';
     MatButtonModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   template: `
     <h2 mat-dialog-title>{{editMode ? 'Edit' : 'Create'}} Category</h2>
@@ -36,7 +38,19 @@ import { CategoryService, Category } from '../../services/category.service';
         </mat-form-field>        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Category Type</mat-label>
+          <input matInput formControlName="categoryType" 
+                 placeholder="e.g., Astro, IT, Student Project, Academic, Professional">
+          <mat-hint>Enter the type/domain of this category (dynamic field)</mat-hint>
         </mat-form-field>
+
+        <div class="toggle-section">
+          <mat-slide-toggle formControlName="isPublished" color="primary">
+            Published
+          </mat-slide-toggle>
+          <mat-hint>Toggle to control whether this category is visible to users</mat-hint>
+        </div>
 
         <!-- Thumbnail Section -->
         <div class="thumbnail-section">
@@ -87,10 +101,18 @@ import { CategoryService, Category } from '../../services/category.service';
         </div>
       </form>
     </mat-dialog-content>
-  `,  styles: [`
-    .full-width {
+  `,  styles: [`    .full-width {
       width: 100%;
       margin-bottom: 15px;
+    }
+    .toggle-section {
+      margin: 15px 0;
+      padding: 12px 0;
+    }    .toggle-section mat-hint {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.6);
+      margin-top: 4px;
+      display: block;
     }
     .button-container {
       display: flex;
@@ -150,6 +172,8 @@ export class CategoryFormComponent {
     );    this.categoryForm = this.fb.group({
       name: [data.category?.name || '', Validators.required],
       description: [data.category?.description || ''],
+      categoryType: [data.category?.categoryType || ''],
+      isPublished: [data.category?.isPublished !== undefined ? data.category.isPublished : true],
       thumbnailUrl: [data.category?.thumbnailUrl || ''],
       parentCategoryId: [data.category?.parentCategoryId || null]
     });

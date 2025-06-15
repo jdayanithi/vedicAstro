@@ -4,6 +4,8 @@
     "/categories",
     "/courses",
     "/courses/add",
+    "/customers",
+    "/customers/view",
     "/dashboard",
     "/keynotes",
     "/keynotes/add",

@@ -19,6 +19,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { Observable, startWith, switchMap, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
+import { CourseService, Course } from '../../../services/course.service';
+import { CategoryService, Category } from '../../../services/category.service';
 import { Component as DialogComponent, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -54,10 +56,30 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
           <mat-icon>add</mat-icon>
           Add Lesson
         </button>
-      </div>
-
-      <mat-card class="filter-card">
+      </div>      <mat-card class="filter-card">
         <mat-card-content>
+          <div class="filter-row">
+            <mat-form-field class="filter-field">
+              <mat-label>Filter by Category</mat-label>
+              <mat-select [formControl]="categoryControl" (selectionChange)="onCategorySelected($event)">
+                <mat-option value="">All Categories</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+                  {{ category.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="filter-field">
+              <mat-label>Filter by Course</mat-label>
+              <mat-select [formControl]="courseControl" (selectionChange)="onCourseSelected($event)" [disabled]="!categoryControl.value">
+                <mat-option value="">All Courses</mat-option>
+                <mat-option *ngFor="let course of filteredCourses" [value]="course.courseId">
+                  {{ course.title }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
           <mat-form-field class="full-width">
             <mat-label>Search Topic</mat-label>
             <input
@@ -81,12 +103,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
             </mat-autocomplete>
           </mat-form-field>
         </mat-card-content>
-      </mat-card>
-
-      <mat-card *ngIf="selectedTopic">
+      </mat-card>      <mat-card *ngIf="selectedTopic">
         <mat-card-header>
-          <mat-card-title>Lessons for: {{ selectedTopic.title }}</mat-card-title>
-        </mat-card-header>        <mat-card-content>
+          <mat-card-title>
+            Lessons for: {{ selectedTopic.title }}
+            <span class="topic-context" *ngIf="selectedCourse && selectedCategory">
+              ({{ selectedCourse.title }} - {{ selectedCategory.name }})
+            </span>
+          </mat-card-title>
+        </mat-card-header><mat-card-content>
           <table mat-table [dataSource]="pagedLessons" class="full-width">
             <ng-container matColumnDef="lessonId">
               <th mat-header-cell *matHeaderCellDef>ID</th>
@@ -201,9 +226,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     }
     .full-width {
       width: 100%;
-    }
-    .filter-card {
+    }    .filter-card {
       margin-bottom: 20px;
+    }
+    .filter-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .filter-field {
+      flex: 1;
+    }
+    .topic-context {
+      font-size: 14px;
+      color: #666;
+      font-weight: normal;
     }
     .no-data {
       text-align: center;
@@ -246,6 +283,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class LessonListComponent implements OnInit {
   lessons: Lesson[] = [];
   selectedTopic: Topic | null = null;
+  selectedCourse: Course | null = null;
+  selectedCategory: Category | null = null;
+  
+  categories: Category[] = [];
+  filteredCourses: Course[] = [];
+  allTopics: Topic[] = [];
+  
+  categoryControl = new FormControl<number | ''>('');
+  courseControl = new FormControl<number | ''>('');
   topicSearchControl = new FormControl<string | Topic>('');
   filteredTopics: Observable<Topic[]> = of([]);
   displayedColumns: string[] = ['lessonId', 'orderNumber', 'title', 'contentType', 'duration', 'isFree', 'createdAt', 'actions'];
@@ -256,25 +302,168 @@ export class LessonListComponent implements OnInit {
     const start = this.pageIndex * this.pageSize;
     return this.lessons.slice(start, start + this.pageSize);
   }
-
   constructor(
     private lessonService: LessonService,
     private topicService: TopicService,
+    private courseService: CourseService,
+    private categoryService: CategoryService,
     private snackBar: MatSnackBar,
     private router: Router,
     private dialog: MatDialog
-  ) {}
-  ngOnInit() {
+  ) {}  ngOnInit() {
+    // Load data first, then restore state
+    Promise.all([
+      this.loadCategoriesAsync(),
+      this.loadAllTopicsAsync()
+    ]).then(() => {
+      this.setupTopicAutocomplete();
+      this.restoreSelectedTopic();
+    });
+  }loadCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (categories: Category[]) => {
+        this.categories = categories;
+      },
+      error: () => {
+        this.snackBar.open('Error loading categories', 'Close', {
+          duration: 3000
+        });
+      }
+    });
+  }
+  loadAllTopics() {
+    this.topicService.getAllTopics().subscribe({
+      next: (topics: Topic[]) => {
+        this.allTopics = topics;
+      },
+      error: () => {
+        this.snackBar.open('Error loading topics', 'Close', {
+          duration: 3000
+        });
+      }
+    });
+  }
+
+  loadCategoriesAsync(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.categoryService.getCategories().subscribe({
+        next: (categories: Category[]) => {
+          this.categories = categories;
+          resolve();
+        },
+        error: (error) => {
+          this.snackBar.open('Error loading categories', 'Close', {
+            duration: 3000
+          });
+          reject(error);
+        }
+      });
+    });
+  }
+
+  loadAllTopicsAsync(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.topicService.getAllTopics().subscribe({
+        next: (topics: Topic[]) => {
+          this.allTopics = topics;
+          resolve();
+        },
+        error: (error) => {
+          this.snackBar.open('Error loading topics', 'Close', {
+            duration: 3000
+          });
+          reject(error);
+        }
+      });
+    });
+  }
+
+  onCategorySelected(event: any) {
+    const categoryId = event.value;
+    this.selectedCategory = categoryId ? this.categories.find(c => c.categoryId === categoryId) || null : null;
+    
+    // Reset course and topic selections when category changes
+    this.courseControl.setValue('');
+    this.topicSearchControl.setValue('');
+    this.selectedCourse = null;
+    this.selectedTopic = null;
+    this.lessons = [];
+    
+    if (categoryId) {
+      this.loadCoursesByCategory(categoryId);
+    } else {
+      this.filteredCourses = [];
+    }
+  }
+
+  onCourseSelected(event: any) {
+    const courseId = event.value;
+    this.selectedCourse = courseId ? this.filteredCourses.find(c => c.courseId === courseId) || null : null;
+    
+    // Reset topic selection when course changes
+    this.topicSearchControl.setValue('');
+    this.selectedTopic = null;
+    this.lessons = [];
+    
+    // Update topic autocomplete to only show topics from selected course
     this.setupTopicAutocomplete();
-    this.restoreSelectedTopic();
+  }
+  loadCoursesByCategory(categoryId: number) {
+    this.courseService.getAllCourses().subscribe({
+      next: (courses: Course[]) => {
+        this.filteredCourses = courses.filter(course => course.categoryId === categoryId);
+      },
+      error: () => {
+        this.snackBar.open('Error loading courses', 'Close', {
+          duration: 3000
+        });
+      }
+    });
   }  restoreSelectedTopic() {
     // Check if there's a selected topic stored in history state
     const navigationState = history.state;
     if (navigationState && navigationState.selectedTopic) {
       const topic = navigationState.selectedTopic as Topic;
       this.selectedTopic = topic;
-      // Set the full topic object for the autocomplete to display properly
+      
+      // Set the topic search control immediately
       this.topicSearchControl.setValue(topic);
+      
+      // Restore the full context (category, course, topic)
+      if (navigationState.selectedCategory) {
+        this.selectedCategory = navigationState.selectedCategory;
+        if (this.selectedCategory && this.selectedCategory.categoryId) {
+          this.categoryControl.setValue(this.selectedCategory.categoryId);
+        }
+      }
+      
+      if (navigationState.selectedCourse) {
+        this.selectedCourse = navigationState.selectedCourse;
+        if (this.selectedCourse) {
+          this.loadCoursesByCategory(this.selectedCourse.categoryId);
+          // Set the course dropdown immediately since courses are now loaded
+          this.courseControl.setValue(this.selectedCourse.courseId);
+        }
+      } else if (topic.courseId) {
+        // Auto-select course if not provided but topic has courseId
+        this.courseService.getCourseById(topic.courseId).subscribe({
+          next: (course: Course) => {
+            this.selectedCourse = course;
+            this.courseControl.setValue(course.courseId);
+            
+            // Auto-select category if not already selected
+            if (!this.selectedCategory && course.categoryId) {
+              const category = this.categories.find(c => c.categoryId === course.categoryId);
+              if (category && category.categoryId) {
+                this.selectedCategory = category;
+                this.categoryControl.setValue(category.categoryId);
+                this.loadCoursesByCategory(category.categoryId);
+              }
+            }
+          }
+        });
+      }
+      
       this.loadLessons();
     }
   }
@@ -285,39 +474,87 @@ export class LessonListComponent implements OnInit {
       distinctUntilChanged(),
       switchMap(value => this._filterTopics(value || ''))
     );
-  }
-  private _filterTopics(value: string | Topic): Observable<Topic[]> {
+  }  private _filterTopics(value: string | Topic): Observable<Topic[]> {
     // If value is a Topic object, extract the title for filtering
     const filterValue = typeof value === 'string' ? value : value?.title || '';
     
     if (!filterValue || filterValue.trim() === '') {
-      return this.topicService.getAllTopics();
+      // If no course is selected, show all topics, otherwise filter by course
+      if (this.courseControl.value) {
+        return of(this.allTopics.filter(topic => topic.courseId === this.courseControl.value));
+      }
+      return of(this.allTopics);
     }
-    return this.topicService.getAllTopics();
+    
+    // Filter topics based on search term and selected course
+    let topics = this.allTopics.filter(topic => 
+      topic.title.toLowerCase().includes(filterValue.toLowerCase())
+    );
+    
+    if (this.courseControl.value) {
+      topics = topics.filter(topic => topic.courseId === this.courseControl.value);
+    }    
+    return of(topics);
   }
   displayTopicFn = (topic: Topic): string => {
     if (!topic) return '';
     const title = topic.title || 'Untitled';
     const id = topic.topicId || 'N/A';
-    return `${title} (ID: ${id})`;
+    
+    // Try to find the course name for additional context
+    let courseContext = '';
+    if (topic.courseId && this.selectedCourse) {
+      courseContext = ` - ${this.selectedCourse.title}`;
+    }
+    
+    return `${title} (ID: ${id})${courseContext}`;
   }
+
   onTopicSelected(event: any) {
     const topic = event.option.value as Topic;
     this.selectedTopic = topic;
+    
+    // Auto-select the course and category if not already selected
+    if (!this.selectedCourse && topic.courseId) {
+      this.courseService.getCourseById(topic.courseId).subscribe({
+        next: (course: Course) => {
+          this.selectedCourse = course;
+          this.courseControl.setValue(course.courseId);
+          
+          // Auto-select category if not already selected
+          if (!this.selectedCategory && course.categoryId) {
+            const category = this.categories.find(c => c.categoryId === course.categoryId);
+            if (category && category.categoryId) {
+              this.selectedCategory = category;
+              this.categoryControl.setValue(category.categoryId);
+              this.loadCoursesByCategory(category.categoryId);
+            }
+          }
+        }
+      });
+    }
+    
     this.loadLessons();
   }
-
   navigateToAddLesson() {
     if (this.selectedTopic) {
       this.router.navigate(['lessons/add'], { 
-        state: { selectedTopic: this.selectedTopic } 
+        state: { 
+          selectedTopic: this.selectedTopic,
+          selectedCourse: this.selectedCourse,
+          selectedCategory: this.selectedCategory
+        } 
       });
     }
   }
 
   navigateToEditLesson(lessonId: number) {
     this.router.navigate(['lessons/update', lessonId], { 
-      state: { selectedTopic: this.selectedTopic } 
+      state: { 
+        selectedTopic: this.selectedTopic,
+        selectedCourse: this.selectedCourse,
+        selectedCategory: this.selectedCategory
+      } 
     });
   }
 

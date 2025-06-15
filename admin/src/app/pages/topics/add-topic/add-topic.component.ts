@@ -132,11 +132,10 @@ export class AddTopicComponent implements OnInit {
     this.checkEditMode();
     this.handleNavigationState();
   }
-
   handleNavigationState() {
     // Check if we have navigation state with selected course
     const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state || window.history.state;
+    const state = navigation?.extras?.state || history.state;
     
     if (state && state.selectedCourse && !this.isEditMode) {
       // Pre-populate course from navigation state
@@ -257,20 +256,23 @@ export class AddTopicComponent implements OnInit {
         });
       }
     }
-  }
-  goBack() {
-    // Get current course selection to pass back to topic list
-    const currentCourseId = this.topicForm.get('courseId')?.value;
+  }  goBack() {
+    // Navigate back to topics list with the current filter state
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state || history.state;
+    
+    // Get the current course from form if available
     const currentCourse = this.topicForm.get('courseSearch')?.value;
     
-    if (currentCourseId && currentCourse) {
-      // Navigate back with current course to maintain selection
-      this.router.navigate(['/topics'], {
-        state: { selectedCourse: currentCourse }
-      });
-    } else {
-      // Navigate back without state if no course selected
-      this.router.navigate(['/topics']);
-    }
+    // Use the current course or fall back to navigation state
+    const courseToPass = currentCourse || state?.selectedCourse;
+    const categoryToPass = state?.selectedCategory;
+    
+    this.router.navigate(['/topics'], { 
+      state: { 
+        selectedCourse: courseToPass,
+        selectedCategory: categoryToPass
+      } 
+    });
   }
 }

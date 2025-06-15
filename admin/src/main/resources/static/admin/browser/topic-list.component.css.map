@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["topic-list.component.ts"],
-  "sourcesContent": ["\n    .container {\n      padding: 20px;\n    }\n    .header {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      margin-bottom: 20px;\n    }\n    .full-width {\n      width: 100%;\n    }\n    .filter-card {\n      margin-bottom: 20px;\n    }\n    .no-data {\n      text-align: center;\n      padding: 40px;\n      color: #666;\n    }\n    .no-data mat-icon {\n      font-size: 48px;\n      height: 48px;\n      width: 48px;\n      margin-bottom: 16px;\n    }\n    .placeholder-card {\n      margin-top: 20px;\n    }\n  "],
-  "mappings": ";AACI,CAAA;AACE,WAAA;;AAEF,CAAA;AACE,WAAA;AACA,mBAAA;AACA,eAAA;AACA,iBAAA;;AAEF,CAAA;AACE,SAAA;;AAEF,CAAA;AACE,iBAAA;;AAEF,CAAA;AACE,cAAA;AACA,WAAA;AACA,SAAA;;AAEF,CALA,QAKA;AACE,aAAA;AACA,UAAA;AACA,SAAA;AACA,iBAAA;;AAEF,CAAA;AACE,cAAA;;",
-  "names": []
-}

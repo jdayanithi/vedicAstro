@@ -1673,23 +1673,21 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
     }
   }
   goBack() {
-    // Get current topic selection to pass back to lesson list
-    const currentTopicId = this.lessonForm.get('topicId')?.value;
-    const currentTopic = this.lessonForm.get('topicSearch')?.value;
+    // Navigate back to lessons list with the current filter state
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state || window.history.state;
     
-    if (currentTopicId && currentTopic) {
-      // Navigate back with current topic to maintain selection
-      this.router.navigate(['/lessons'], {
-        state: { selectedTopic: currentTopic }
-      });
-    } else {
-      // Navigate back without state if no topic selected
-      this.router.navigate(['/lessons']);
-    }
+    this.router.navigate(['/lessons'], { 
+      state: { 
+        selectedTopic: state?.selectedTopic,
+        selectedCourse: state?.selectedCourse,
+        selectedCategory: state?.selectedCategory
+      } 
+    });
   }
 
-  async saveTag(i: number) {
-    const tagForm = this.tags.at(i);
+  async saveTag(tagIndex: number): Promise<void> {
+    const tagForm = this.tags.at(tagIndex);
     if (!tagForm.valid) {
       this.snackBar.open('Please select a tag and enter a valid relevance score.', 'Close', { duration: 3000 });
       return;

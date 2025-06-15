@@ -34,10 +34,9 @@ import { FormsModule } from '@angular/forms';
           <mat-icon>add</mat-icon>
           Add Category
         </button>
-      </div>
-      <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
+      </div>      <mat-form-field appearance="outline" style="width: 300px; margin-bottom: 16px;">
         <mat-label>Filter categories</mat-label>
-        <input matInput [(ngModel)]="filterText" (input)="onFilterChange()" placeholder="Type to filter by name or description...">
+        <input matInput [(ngModel)]="filterText" (input)="onFilterChange()" placeholder="Type to filter by name, type, or description...">
       </mat-form-field>
       <table mat-table [dataSource]="pagedCategories" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -61,11 +60,26 @@ import { FormsModule } from '@angular/forms';
               </div>
             </div>
           </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
+        </ng-container>        <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let category">{{category.name}}</td>
+        </ng-container>        <ng-container matColumnDef="categoryType">
+          <th mat-header-cell *matHeaderCellDef>Category Type</th>
+          <td mat-cell *matCellDef="let category">
+            <span class="category-type-badge" [class]="'type-' + (category.categoryType || 'none')">
+              {{category.categoryType || 'Not Set'}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="isPublished">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let category">
+            <span class="status-badge" [class]="category.isPublished ? 'status-published' : 'status-draft'">
+              <mat-icon>{{category.isPublished ? 'check_circle' : 'unpublished'}}</mat-icon>
+              {{category.isPublished ? 'Published' : 'Draft'}}
+            </span>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
@@ -135,8 +149,7 @@ import { FormsModule } from '@angular/forms';
       object-fit: cover;
       border-radius: 4px;
       border: 1px solid #ddd;
-    }
-    .no-thumbnail {
+    }    .no-thumbnail {
       width: 50px;
       height: 50px;
       display: flex;
@@ -147,11 +160,42 @@ import { FormsModule } from '@angular/forms';
       border-radius: 4px;
       color: #999;
     }
+    .category-type-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+    .type-Astro {
+      background-color: #e8f5e8;
+      color: #2e7d32;
+    }
+    .type-IT {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+    .type-Student {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+    .type-none {
+      background-color: #f5f5f5;
+      color: #666;
+    }
+    .type-Academic {
+      background-color: #f3e5f5;
+      color: #7b1fa2;
+    }
+    .type-Professional {
+      background-color: #fce4ec;
+      color: #c2185b;
+    }
   `]
 })
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
-  displayedColumns: string[] = ['id', 'thumbnail', 'name', 'description', 'parentCategory', 'actions'];
+  displayedColumns: string[] = ['id', 'thumbnail', 'name', 'categoryType', 'description', 'parentCategory', 'actions'];
   pageIndex = 0;
   pageSize = 10;
   filterText = '';
@@ -218,7 +262,6 @@ export class CategoryListComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
   }
-
   onFilterChange() {
     this.pageIndex = 0;
     const filter = this.filterText.trim().toLowerCase();
@@ -227,7 +270,8 @@ export class CategoryListComponent implements OnInit {
     } else {
       this.filteredCategories = this.categories.filter(cat =>
         (cat.name && cat.name.toLowerCase().includes(filter)) ||
-        (cat.description && cat.description.toLowerCase().includes(filter))
+        (cat.description && cat.description.toLowerCase().includes(filter)) ||
+        (cat.categoryType && cat.categoryType.toLowerCase().includes(filter))
       );
     }
   }

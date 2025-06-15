@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["category-form.component.ts"],
-  "sourcesContent": ["\n    .full-width {\n      width: 100%;\n      margin-bottom: 15px;\n    }\n    .button-container {\n      display: flex;\n      justify-content: flex-end;\n      gap: 8px;\n      margin-top: 16px;\n    }\n    .thumbnail-section {\n      margin: 16px 0;\n      padding: 16px;\n      border: 1px solid #ddd;\n      border-radius: 4px;\n      background-color: #fafafa;\n    }\n    .file-upload-section {\n      margin: 12px 0;\n    }\n    .thumbnail-preview {\n      position: relative;\n      display: inline-block;\n      margin-top: 12px;\n    }\n    .preview-image {\n      max-width: 200px;\n      max-height: 150px;\n      border: 1px solid #ddd;\n      border-radius: 4px;\n      object-fit: cover;\n    }\n    .remove-thumbnail {\n      position: absolute;\n      top: -8px;\n      right: -8px;\n      background-color: #f44336;\n      color: white;\n    }\n    .remove-thumbnail:hover {\n      background-color: #d32f2f;\n    }\n  "],
-  "mappings": ";AACI,CAAA;AACE,SAAA;AACA,iBAAA;;AAEF,CAAA;AACE,WAAA;AACA,mBAAA;AACA,OAAA;AACA,cAAA;;AAEF,CAAA;AACE,UAAA,KAAA;AACA,WAAA;AACA,UAAA,IAAA,MAAA;AACA,iBAAA;AACA,oBAAA;;AAEF,CAAA;AACE,UAAA,KAAA;;AAEF,CAAA;AACE,YAAA;AACA,WAAA;AACA,cAAA;;AAEF,CAAA;AACE,aAAA;AACA,cAAA;AACA,UAAA,IAAA,MAAA;AACA,iBAAA;AACA,cAAA;;AAEF,CAAA;AACE,YAAA;AACA,OAAA;AACA,SAAA;AACA,oBAAA;AACA,SAAA;;AAEF,CAPA,gBAOA;AACE,oBAAA;;",
-  "names": []
-}
