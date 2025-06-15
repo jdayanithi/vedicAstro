@@ -880,7 +880,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       display: flex;
       flex-direction: column;
       gap: 20px;
-    }/* Responsive Design */
+    }    /* Responsive Design */
     @media (max-width: 768px) {
       .hero-title {
         font-size: 2.5rem;
@@ -954,6 +954,37 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
         align-items: flex-start;
         gap: 4px;
       }
+      
+      /* Expanded view mobile styles */
+      .topic-expanded-overlay {
+        padding: 10px;
+      }
+      
+      .expanded-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .expanded-header-info {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .topic-number-large {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .expanded-topic-title {
+        font-size: 1.5rem;
+      }
+      
+      .expanded-lessons-container {
+        padding: 16px 20px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -989,6 +1020,29 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       .lesson-desc-modern {
         font-size: 0.85rem;
       }
+      
+      /* Mobile expanded view */
+      .topic-expanded-overlay {
+        padding: 5px;
+      }
+      
+      .topic-expanded-content {
+        max-height: 95vh;
+        border-radius: 12px;
+      }
+      
+      .expanded-header {
+        padding: 12px 16px;
+        border-radius: 12px 12px 0 0;
+      }
+      
+      .expanded-topic-title {
+        font-size: 1.3rem;
+      }
+      
+      .expanded-lessons-container {
+        padding: 12px 16px;
+      }
     }
   `]
 })
@@ -1001,6 +1055,7 @@ export class CustomerViewComponent implements OnInit {
   selectedCourseId: number | null = null;
   selectedCourse: Course | null = null;
   loading = false;
+  expandedTopics = new Set<number>();
 
   constructor(
     private categoryService: CategoryService,
@@ -1032,6 +1087,7 @@ export class CustomerViewComponent implements OnInit {
   onCourseChange() {
     this.selectedCourse = this.courses.find(c => c.courseId === this.selectedCourseId) || null;
     this.topics = [];
+    this.expandedTopics.clear(); // Clear expanded topics when course changes
     if (this.selectedCourseId) {
       this.loading = true;
       this.topicService.getTopicsByCourseId(this.selectedCourseId).subscribe(topics => {
@@ -1056,5 +1112,22 @@ export class CustomerViewComponent implements OnInit {
         });
       }, () => { this.loading = false; });
     }
+  }
+
+  toggleTopic(topicIndex: number) {
+    if (this.expandedTopics.has(topicIndex)) {
+      this.expandedTopics.delete(topicIndex);
+    } else {
+      // Close other topics and open this one (optional - for single topic open at a time)
+      // this.expandedTopics.clear();
+      this.expandedTopics.add(topicIndex);
+    }
+  }
+
+  closeTopic(topicIndex: number, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.expandedTopics.delete(topicIndex);
   }
 }
