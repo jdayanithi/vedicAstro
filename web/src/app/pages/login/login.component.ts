@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
+import { NetworkStatusService } from '../../service/network-status.service';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +17,12 @@ export class LoginComponent implements OnInit {
   hidePassword = true;
   isLoginMode = true;
   userTypes = ['student', 'instructor', 'admin'];
-
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private networkStatus: NetworkStatusService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -54,15 +55,27 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.isLoginMode) {
       if (this.loginForm.valid) {
-        const { email, password } = this.loginForm.value;
-        this.authService.login(email, password).subscribe({
+        const { email, password } = this.loginForm.value;        this.authService.login(email, password).subscribe({
           next: (response) => {
             this.router.navigate(['/view-all']);
           },
           error: (error) => {
+            let errorMessage = 'An error occurred. Please try again.';
+              // Handle different types of errors
+            if (error.status === 0) {
+              // Network error or server not running
+              errorMessage = this.networkStatus.getConnectionErrorMessage();
+            } else if (error.status === 401) {
+              errorMessage = 'Invalid email or password. Please try again.';
+            } else if (error.status >= 500) {
+              errorMessage = 'Server error occurred. Please try again later.';
+            } else if (error.error?.message) {
+              errorMessage = error.error.message;
+            }
+            
             this.dialog.open(ErrorDialogComponent, {
-              width: '300px',
-              data: { message: error.error?.message || 'Invalid email or password. Please try again.' }
+              width: '400px',
+              data: { message: errorMessage }
             });
           }
         });
@@ -76,11 +89,21 @@ export class LoginComponent implements OnInit {
               data: { message: 'Registration successful! Please login.' }
             });
             this.toggleMode();
-          },
-          error: (error) => {
+          },          error: (error) => {
+            let errorMessage = 'Registration failed. Please try again.';
+              // Handle different types of errors
+            if (error.status === 0) {
+              // Network error or server not running
+              errorMessage = this.networkStatus.getConnectionErrorMessage();
+            } else if (error.status >= 500) {
+              errorMessage = 'Server error occurred. Please try again later.';
+            } else if (error.error?.message) {
+              errorMessage = error.error.message;
+            }
+            
             this.dialog.open(ErrorDialogComponent, {
-              width: '300px',
-              data: { message: error.error?.message || 'Registration failed. Please try again.' }
+              width: '400px',
+              data: { message: errorMessage }
             });
           }
         });

@@ -54,3 +54,16 @@ mat-sidenav {
   margin: 20px auto;
   padding: 0 20px;
 }
+
+.network-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+  color: #ff9800;
+  
+  .offline-text {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}

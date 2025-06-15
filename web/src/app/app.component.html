@@ -2,9 +2,14 @@
 <mat-toolbar color="primary">
   <button mat-icon-button (click)="toggleSidenav()" *ngIf="isLoggedIn$ | async">
     <mat-icon>menu</mat-icon>
-  </button>
-  <span>{{title}}</span>
+  </button>  <span>{{title}}</span>
   <span class="example-spacer"></span>
+  
+  <!-- Network status indicator -->
+  <div class="network-status" *ngIf="!(isOnline$ | async)">
+    <mat-icon color="warn">wifi_off</mat-icon>
+    <span class="offline-text">Offline</span>
+  </div>
   
   <ng-container *ngIf="isLoggedIn$ | async">
     <button mat-icon-button routerLink="/search-by-name">
