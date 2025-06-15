@@ -17,9 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "./../src/main/resource/assets/web"
-            },
+            "outputPath": "dist",
             "index": "src/index.html",
             "polyfills": [
               "zone.js"
@@ -81,7 +79,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
