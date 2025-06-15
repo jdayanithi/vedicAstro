@@ -13,6 +13,7 @@ import { SearchByNameComponent } from './pages/search-by-name/search-by-name.com
 import { LoginComponent } from './pages/login/login.component';
 import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -28,7 +29,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
         BrowserAnimationsModule,
         AngularMaterialModule,
         ReactiveFormsModule,
-        FormsModule], providers: [
+        FormsModule,
+        IonicModule.forRoot({})], providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
