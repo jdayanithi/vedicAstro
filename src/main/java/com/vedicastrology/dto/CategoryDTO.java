@@ -3,8 +3,9 @@ package com.vedicastrology.dto;
 import java.time.LocalDateTime;
 
 public class CategoryDTO {
-    private Long categoryId;    private String name;
-    private String description;
+    private Long categoryId;    private String name;    private String description;
+    private String categoryType;
+    private Boolean isPublished;
     private String thumbnailUrl;
     private Long parentCategoryId;
     private String parentCategoryName;
@@ -31,6 +32,20 @@ public class CategoryDTO {
         return description;
     }    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCategoryType() {
+        return categoryType;
+    }    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public Boolean getIsPublished() {
+        return isPublished;
+    }
+
+    public void setIsPublished(Boolean isPublished) {
+        this.isPublished = isPublished;
     }
 
     public String getThumbnailUrl() {

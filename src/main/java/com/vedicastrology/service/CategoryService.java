@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    public CategoryDTO createCategory(CategoryDTO categoryDTO) {        Category category = new Category();
-        category.setName(categoryDTO.getName());
+    private CategoryRepository categoryRepository;    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+        Category category = new Category();        category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());
+        category.setCategoryType(categoryDTO.getCategoryType());
+        category.setIsPublished(categoryDTO.getIsPublished() != null ? categoryDTO.getIsPublished() : true);
         category.setThumbnailUrl(categoryDTO.getThumbnailUrl());
         
         if (categoryDTO.getParentCategoryId() != null) {
@@ -41,12 +41,12 @@ public class CategoryService {
         return categoryRepository.findByParentCategoryIsNull().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
-    }
-
-    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
-        return categoryRepository.findById(id)                .map(category -> {
-                    category.setName(categoryDTO.getName());
+    }    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+        return categoryRepository.findById(id)
+                .map(category -> {                    category.setName(categoryDTO.getName());
                     category.setDescription(categoryDTO.getDescription());
+                    category.setCategoryType(categoryDTO.getCategoryType());
+                    category.setIsPublished(categoryDTO.getIsPublished() != null ? categoryDTO.getIsPublished() : true);
                     category.setThumbnailUrl(categoryDTO.getThumbnailUrl());
                     
                     if (categoryDTO.getParentCategoryId() != null) {
@@ -75,9 +75,10 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }    private CategoryDTO convertToDTO(Category category) {
         CategoryDTO dto = new CategoryDTO();
-        dto.setCategoryId(category.getCategoryId());
-        dto.setName(category.getName());
+        dto.setCategoryId(category.getCategoryId());        dto.setName(category.getName());
         dto.setDescription(category.getDescription());
+        dto.setCategoryType(category.getCategoryType());
+        dto.setIsPublished(category.getIsPublished());
         dto.setThumbnailUrl(category.getThumbnailUrl());
         
         if (category.getParentCategory() != null) {

@@ -26,6 +26,7 @@ CREATE TABLE `categories` (
   `category_id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` text,
+  `category_type` varchar(100) DEFAULT NULL,
   `parent_category_id` bigint DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `thumbnail_url` varchar(500) DEFAULT NULL,
@@ -41,7 +42,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (3,'Beginner','Beginner course',NULL,'2025-06-11 03:38:55',NULL);
+INSERT INTO `categories` VALUES (3,'Beginner','Beginner course','Astro',NULL,'2025-06-11 03:38:55',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 

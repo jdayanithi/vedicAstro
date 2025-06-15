@@ -13,7 +13,11 @@ public class Category {
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    private String description;    @Column(name = "category_type", length = 100)
+    private String categoryType;
+
+    @Column(name = "is_published", nullable = false)
+    private Boolean isPublished = true;
 
     @Column(name = "thumbnail_url", length = 500)
     private String thumbnailUrl;
@@ -38,6 +42,12 @@ public class Category {
         return name;
     }    public String getDescription() {
         return description;
+    }    public String getCategoryType() {
+        return categoryType;
+    }
+
+    public Boolean getIsPublished() {
+        return isPublished;
     }
 
     public String getThumbnailUrl() {
@@ -61,6 +71,12 @@ public class Category {
         this.name = name;
     }    public void setDescription(String description) {
         this.description = description;
+    }    public void setCategoryType(String categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public void setIsPublished(Boolean isPublished) {
+        this.isPublished = isPublished;
     }
 
     public void setThumbnailUrl(String thumbnailUrl) {
