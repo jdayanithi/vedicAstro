@@ -37,15 +37,17 @@ export class AppComponent implements OnInit {
     if (this.platform.is('capacitor')) {
       await this.initializeStatusBar();
     }
-  }
-  private async initializeStatusBar(): Promise<void> {
+  }  private async initializeStatusBar(): Promise<void> {
     try {
       // Set status bar to not overlay the WebView content
       await StatusBar.setOverlaysWebView({ overlay: false });
       
-      // Set status bar style and color
+      // Set status bar style and color to match Android system
       await StatusBar.setStyle({ style: Style.Dark });
-      await StatusBar.setBackgroundColor({ color: '#1976d2' });
+      await StatusBar.setBackgroundColor({ color: '#000000' });
+      
+      // Show the status bar (in case it was hidden)
+      await StatusBar.show();
     } catch (error) {
       console.error('Status bar initialization failed:', error);
     }
