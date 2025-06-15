@@ -62,10 +62,40 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       <div *ngIf="loading" class="loading-section">
         <mat-progress-spinner mode="indeterminate" color="primary" diameter="60"></mat-progress-spinner>
         <p>Loading course content...</p>
-      </div>
-
-      <!-- Course Content -->
+      </div>      <!-- Course Content -->
       <div *ngIf="selectedCourse && !loading" class="content-section">
+        <!-- Course Heading -->
+        <div class="course-heading-section">
+          <div class="course-heading-content">
+            <div class="course-breadcrumb">
+              <span class="breadcrumb-item">{{getCategoryName(selectedCourse.categoryId)}}</span>
+              <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+              <span class="breadcrumb-item current">{{selectedCourse.title}}</span>
+            </div>
+            <h1 class="course-main-title">{{selectedCourse.title}}</h1>
+            <div class="course-summary">
+              <div class="course-stats">
+                <div class="stat-item">
+                  <mat-icon>menu_book</mat-icon>
+                  <span>{{getTotalLessonsCount()}} Lessons</span>
+                </div>
+                <div class="stat-item">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{getTotalDuration()}} min</span>
+                </div>
+                <div class="stat-item">
+                  <mat-icon>star</mat-icon>
+                  <span class="difficulty">{{selectedCourse.difficultyLevel | titlecase}}</span>
+                </div>
+                <div class="stat-item" *ngIf="selectedCourse.price">
+                  <mat-icon>currency_rupee</mat-icon>
+                  <span>₹{{selectedCourse.price}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <!-- Course Overview -->
         <div class="course-overview">
           <div class="course-info">
@@ -80,20 +110,42 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
             <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image">
           </div>
         </div>        <!-- Topics & Lessons -->
-        <div class="topics-container">
-          <div *ngFor="let topic of topics; let i = index" class="topic-block">
-            <div class="topic-header-modern" (click)="toggleTopic(i)">
+        <div class="topics-container">          <!-- Collapse All Button -->
+          <div class="topics-header" *ngIf="topics.length > 0">
+            <h3 class="topics-title">Course Topics</h3>
+            <div class="topics-actions">              <button 
+                mat-raised-button 
+                color="primary" 
+                class="expand-all-btn"
+                (click)="expandAll()"
+                *ngIf="inlineExpandedTopics.size < topics.length">
+                <mat-icon>unfold_more</mat-icon>
+                Expand All
+              </button>
+              <button 
+                mat-raised-button 
+                color="accent" 
+                class="collapse-all-btn"
+                (click)="collapseAll()"
+                *ngIf="inlineExpandedTopics.size > 0">
+                <mat-icon>unfold_less</mat-icon>
+                Collapse All
+              </button>
+            </div>
+          </div>
+          
+          <div *ngFor="let topic of topics; let i = index" class="topic-block">            <div class="topic-header-modern" (click)="toggleTopic(i)">
               <div class="topic-number">{{i + 1}}</div>
               <div class="topic-info">
                 <h3 class="topic-title-modern">{{topic.title}}</h3>
                 <p class="topic-desc-modern">{{topic.description}}</p>
               </div>
-              <button mat-icon-button class="expand-button" [class.expanded]="expandedTopics.has(i)">
-                <mat-icon>{{expandedTopics.has(i) ? 'expand_less' : 'expand_more'}}</mat-icon>
+              <button mat-icon-button class="expand-button" [class.expanded]="inlineExpandedTopics.has(i)">
+                <mat-icon>{{inlineExpandedTopics.has(i) ? 'expand_less' : 'expand_more'}}</mat-icon>
               </button>
             </div>
             
-            <!-- Expanded Topic Content (Full Screen) -->
+            <!-- Expanded Topic Content (Full Screen) - Only for individual clicks -->
             <div *ngIf="expandedTopics.has(i)" class="topic-expanded-overlay" (click)="closeTopic(i, $event)">
               <div class="topic-expanded-content" (click)="$event.stopPropagation()">
                 <!-- Header with Close Button -->
@@ -153,9 +205,12 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
               </div>
             </div>
             
-            <!-- Collapsed Topic Content (Preview) -->
-            <div *ngIf="!expandedTopics.has(i)" class="lessons-grid">
-              <div *ngFor="let lesson of topic.lessons.slice(0, 2); let j = index" class="lesson-item lesson-preview">
+            <!-- Inline Expanded Content OR Collapsed Preview -->
+            <div class="lessons-grid" 
+                 [class.inline-expanded]="inlineExpandedTopics.has(i)"
+                 *ngIf="!expandedTopics.has(i)">
+              <div *ngFor="let lesson of getDisplayLessons(topic, i); let j = index" class="lesson-item" 
+                   [class.lesson-preview]="!inlineExpandedTopics.has(i) && j >= 2">
                 <div class="lesson-content">
                   <div class="lesson-header-modern">
                     <h4 class="lesson-title-modern">{{lesson.title}}</h4>
@@ -165,10 +220,36 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
                       </span>
                     </div>
                   </div>
-                  <div class="lesson-desc-modern lesson-desc-preview" [innerHTML]="lesson.description"></div>
+                  <div class="lesson-desc-modern" 
+                       [class.lesson-desc-preview]="!inlineExpandedTopics.has(i)" 
+                       [innerHTML]="lesson.description"></div>
+                  
+                  <!-- Keynotes - Show only when inline expanded -->
+                  <div *ngIf="inlineExpandedTopics.has(i) && lesson.keynotes && lesson.keynotes.length > 0" class="keynotes-modern">
+                    <h5 class="section-title">Key Insights</h5>
+                    <div class="keynotes-list">
+                      <div *ngFor="let keynote of lesson.keynotes" class="keynote-item" [class.important]="keynote.isImportant">
+                        <div class="keynote-header">
+                          <span class="keynote-title-modern">{{keynote.title}}</span>
+                          <div class="keynote-meta" *ngIf="keynote.relatedPlanet || keynote.relatedZodiac">
+                            <span *ngIf="keynote.relatedPlanet" class="meta-tag planet">{{keynote.relatedPlanet}}</span>
+                            <span *ngIf="keynote.relatedZodiac" class="meta-tag zodiac">{{keynote.relatedZodiac}}</span>
+                          </div>
+                        </div>
+                        <div class="keynote-content-modern" [innerHTML]="keynote.content"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tags - Show only when inline expanded -->
+                  <div *ngIf="inlineExpandedTopics.has(i) && lesson.tags && lesson.tags.length > 0" class="tags-modern">
+                    <div class="tag-list">
+                      <span *ngFor="let tag of lesson.tags" class="tag-modern">{{tag.tagName}}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div *ngIf="topic.lessons.length > 2" class="more-lessons-indicator">
+              <div *ngIf="!inlineExpandedTopics.has(i) && topic.lessons.length > 2" class="more-lessons-indicator">
                 <p>+{{topic.lessons.length - 2}} more lessons... <span class="click-hint">Click to expand</span></p>
               </div>
             </div>
@@ -266,13 +347,107 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       margin-top: 20px;
       font-size: 1.1rem;
       opacity: 0.8;
-    }
-
-    /* Content Section */
+    }    /* Content Section */
     .content-section {
       max-width: 1200px;
       margin: 0 auto;
       padding: 40px 20px;
+    }
+    
+    /* Course Heading Section */
+    .course-heading-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 16px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .course-heading-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="25" cy="75" r="0.5" fill="white" opacity="0.1"/><circle cx="75" cy="25" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      pointer-events: none;
+    }
+    
+    .course-heading-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .course-breadcrumb {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .breadcrumb-item {
+      font-weight: 500;
+    }
+    
+    .breadcrumb-item.current {
+      opacity: 1;
+      font-weight: 600;
+    }
+    
+    .breadcrumb-separator {
+      margin: 0 8px;
+      font-size: 1rem;
+    }
+    
+    .course-main-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin: 0 0 24px 0;
+      line-height: 1.2;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .course-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .course-stats {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 12px 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-item:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+    
+    .stat-item mat-icon {
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+    
+    .difficulty {
+      text-transform: capitalize;
     }
 
     /* Course Overview */
@@ -339,13 +514,47 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-
-    /* Topics Container */
+    }    /* Topics Container */
     .topics-container {
       display: flex;
       flex-direction: column;
       gap: 40px;
+    }
+    
+    .topics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 2px solid #e0e7ff;
+      margin-bottom: 20px;
+    }
+      .topics-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+    
+    .topics-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .expand-all-btn,
+    .collapse-all-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .expand-all-btn:hover,
+    .collapse-all-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     /* Topic Block */
@@ -412,6 +621,13 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       display: grid;
       gap: 16px;
       max-width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .lessons-grid.inline-expanded {
+      background: #f8f9ff;
+      border-radius: 0 0 16px 16px;
+      border-top: 2px solid #e0e7ff;
     }
       .lesson-item {
       background: #ffffff;
@@ -895,11 +1111,29 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
         min-width: 100%;
         max-width: 400px;
       }
-      
-      .course-overview {
+        .course-overview {
         flex-direction: column;
         text-align: center;
         padding: 24px;
+      }
+      
+      .course-heading-section {
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      
+      .course-main-title {
+        font-size: 2.2rem;
+      }
+      
+      .course-stats {
+        gap: 16px;
+        justify-content: center;
+      }
+      
+      .stat-item {
+        padding: 10px 14px;
+        font-size: 0.9rem;
       }
       
       .course-title {
@@ -948,11 +1182,33 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       .keynote-item {
         padding: 10px;
       }
-      
-      .keynote-header {
+        .keynote-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
+      }
+        /* Topics header mobile styles */
+      .topics-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px 0;
+      }
+      
+      .topics-title {
+        font-size: 1.5rem;
+      }
+      
+      .topics-actions {
+        align-self: flex-end;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      
+      .expand-all-btn,
+      .collapse-all-btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
       }
       
       /* Expanded view mobile styles */
@@ -1008,9 +1264,46 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       .topic-header-modern {
         padding: 16px;
       }
-      
-      .course-overview {
+        .course-overview {
         padding: 16px;
+      }
+      
+      .course-heading-section {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      
+      .course-main-title {
+        font-size: 1.8rem;
+      }
+      
+      .course-stats {
+        gap: 12px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .stat-item {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
+        .course-breadcrumb {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      
+      .topics-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .expand-all-btn,
+      .collapse-all-btn {
+        flex: 1;
+        max-width: 140px;
+        font-size: 0.85rem;
+        padding: 6px 12px;
       }
       
       .lesson-title-modern {
@@ -1052,10 +1345,10 @@ export class CustomerViewComponent implements OnInit {
   filteredCourses: Course[] = [];
   topics: (Topic & { lessons: (Lesson & { keynotes: LessonKeynote[]; tags: Tag[] })[] })[] = [];
   selectedCategoryId: number | null = null;
-  selectedCourseId: number | null = null;
-  selectedCourse: Course | null = null;
+  selectedCourseId: number | null = null;  selectedCourse: Course | null = null;
   loading = false;
-  expandedTopics = new Set<number>();
+  expandedTopics = new Set<number>(); // For popup expansion (individual clicks)
+  inlineExpandedTopics = new Set<number>(); // For inline expansion (expand all)
 
   constructor(
     private categoryService: CategoryService,
@@ -1083,11 +1376,11 @@ export class CustomerViewComponent implements OnInit {
     this.topics = [];
     this.filteredCourses = this.courses.filter(c => c.categoryId === this.selectedCategoryId);
   }
-
   onCourseChange() {
     this.selectedCourse = this.courses.find(c => c.courseId === this.selectedCourseId) || null;
     this.topics = [];
-    this.expandedTopics.clear(); // Clear expanded topics when course changes
+    this.expandedTopics.clear(); // Clear popup expanded topics when course changes
+    this.inlineExpandedTopics.clear(); // Clear inline expanded topics when course changes
     if (this.selectedCourseId) {
       this.loading = true;
       this.topicService.getTopicsByCourseId(this.selectedCourseId).subscribe(topics => {
@@ -1113,13 +1406,13 @@ export class CustomerViewComponent implements OnInit {
       }, () => { this.loading = false; });
     }
   }
-
   toggleTopic(topicIndex: number) {
+    // Individual click opens popup (full screen)
     if (this.expandedTopics.has(topicIndex)) {
       this.expandedTopics.delete(topicIndex);
     } else {
-      // Close other topics and open this one (optional - for single topic open at a time)
-      // this.expandedTopics.clear();
+      // Close other popups and open this one
+      this.expandedTopics.clear();
       this.expandedTopics.add(topicIndex);
     }
   }
@@ -1129,5 +1422,42 @@ export class CustomerViewComponent implements OnInit {
       event.stopPropagation();
     }
     this.expandedTopics.delete(topicIndex);
+  }
+
+  collapseAll() {
+    this.inlineExpandedTopics.clear();
+  }
+
+  expandAll() {
+    // Expand all topics inline (not popup)
+    this.topics.forEach((_, index) => {
+      this.inlineExpandedTopics.add(index);
+    });
+  }
+
+  getDisplayLessons(topic: any, topicIndex: number) {
+    // If inline expanded, show all lessons; otherwise show only first 2
+    return this.inlineExpandedTopics.has(topicIndex) ? topic.lessons : topic.lessons.slice(0, 2);
+  }
+
+  getCategoryName(categoryId: number): string {
+    const category = this.categories.find(cat => cat.categoryId === categoryId);
+    return category ? category.name : 'Unknown Category';
+  }
+
+  getTotalLessonsCount(): number {
+    return this.topics.reduce((total, topic) => total + topic.lessons.length, 0);
+  }
+
+  getTotalDuration(): number {
+    let totalMinutes = 0;
+    this.topics.forEach(topic => {
+      topic.lessons.forEach(lesson => {
+        if (lesson.durationMinutes) {
+          totalMinutes += lesson.durationMinutes;
+        }
+      });
+    });
+    return totalMinutes;
   }
 }
