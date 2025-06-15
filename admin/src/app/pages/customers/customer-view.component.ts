@@ -28,284 +28,557 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
     MatIconModule,
     MatProgressSpinnerModule
     
-  ],
-  template: `
-    <div class="customer-container">
-      <h1 class="main-title">Explore Courses</h1>
-      <div class="filters-row">
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>Category</mat-label>
-          <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="onCategoryChange()">
-            <mat-option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="filter-field">
-          <mat-label>Course</mat-label>
-          <mat-select [(ngModel)]="selectedCourseId" (selectionChange)="onCourseChange()" [disabled]="!selectedCategoryId">
-            <mat-option *ngFor="let course of filteredCourses" [value]="course.courseId">{{course.title}}</mat-option>
-          </mat-select>
-        </mat-form-field>
+  ],  template: `
+    <div class="modern-customer-view">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">Discover Vedic Astrology</h1>
+          <p class="hero-subtitle">Explore ancient wisdom through our comprehensive courses</p>
+        </div>
+        <div class="hero-bg-pattern"></div>
       </div>
-      <mat-progress-spinner *ngIf="loading" mode="indeterminate" color="primary" class="loading-spinner"></mat-progress-spinner>
-      <ng-container *ngIf="selectedCourse && !loading">
-        <mat-card class="course-card">
-          <div class="course-header">
-            <img *ngIf="selectedCourse.thumbnailUrl" [src]="selectedCourse.thumbnailUrl" class="course-thumb" alt="Course thumbnail">
-            <div>
-              <h2>{{selectedCourse.title}}</h2>
-              <p class="course-desc">{{selectedCourse.description}}</p>
-              <mat-chip color="primary" selected>{{selectedCourse.difficultyLevel | titlecase}}</mat-chip>
-              <mat-chip color="accent" selected *ngIf="selectedCourse.price">₹{{selectedCourse.price}}</mat-chip>
+
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-container">
+          <div class="filter-group">            <mat-form-field appearance="fill" class="modern-select">
+              <mat-label>Choose Category</mat-label>
+              <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="onCategoryChange()">
+                <mat-option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="modern-select">
+              <mat-label>Choose Course</mat-label>
+              <mat-select [(ngModel)]="selectedCourseId" (selectionChange)="onCourseChange()" [disabled]="!selectedCategoryId">
+                <mat-option *ngFor="let course of filteredCourses" [value]="course.courseId">{{course.title}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading-section">
+        <mat-progress-spinner mode="indeterminate" color="primary" diameter="60"></mat-progress-spinner>
+        <p>Loading course content...</p>
+      </div>
+
+      <!-- Course Content -->
+      <div *ngIf="selectedCourse && !loading" class="content-section">
+        <!-- Course Overview -->
+        <div class="course-overview">
+          <div class="course-info">
+            <div class="course-meta">
+              <span class="difficulty-badge" [class]="'diff-' + selectedCourse.difficultyLevel">{{selectedCourse.difficultyLevel | titlecase}}</span>
+              <span *ngIf="selectedCourse.price" class="price-badge">₹{{selectedCourse.price}}</span>
+            </div>
+            <h2 class="course-title">{{selectedCourse.title}}</h2>
+            <p class="course-description">{{selectedCourse.description}}</p>
+          </div>
+          <div class="course-visual" *ngIf="selectedCourse.thumbnailUrl">
+            <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image">
+          </div>
+        </div>
+
+        <!-- Topics & Lessons -->
+        <div class="topics-container">
+          <div *ngFor="let topic of topics; let i = index" class="topic-block">
+            <div class="topic-header-modern">
+              <div class="topic-number">{{i + 1}}</div>
+              <div class="topic-info">
+                <h3 class="topic-title-modern">{{topic.title}}</h3>
+                <p class="topic-desc-modern">{{topic.description}}</p>
+              </div>
+            </div>
+            
+            <div class="lessons-grid">
+              <div *ngFor="let lesson of topic.lessons; let j = index" class="lesson-item">
+                <div class="lesson-content">
+                  <div class="lesson-header-modern">
+                    <h4 class="lesson-title-modern">{{lesson.title}}</h4>
+                    <div class="lesson-status">
+                      <span class="status-badge" [class]="lesson.isFree ? 'free' : 'premium'">
+                        {{lesson.isFree ? 'Free' : 'Premium'}}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="lesson-desc-modern">{{lesson.description}}</p>
+                  
+                  <!-- Keynotes -->
+                  <div *ngIf="lesson.keynotes && lesson.keynotes.length > 0" class="keynotes-modern">
+                    <h5 class="section-title">Key Insights</h5>
+                    <div class="keynotes-list">
+                      <div *ngFor="let keynote of lesson.keynotes" class="keynote-item" [class.important]="keynote.isImportant">
+                        <div class="keynote-header">
+                          <span class="keynote-title-modern">{{keynote.title}}</span>
+                          <div class="keynote-meta" *ngIf="keynote.relatedPlanet || keynote.relatedZodiac">
+                            <span *ngIf="keynote.relatedPlanet" class="meta-tag planet">{{keynote.relatedPlanet}}</span>
+                            <span *ngIf="keynote.relatedZodiac" class="meta-tag zodiac">{{keynote.relatedZodiac}}</span>
+                          </div>
+                        </div>
+                        <p class="keynote-content-modern">{{keynote.content}}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Tags -->
+                  <div *ngIf="lesson.tags && lesson.tags.length > 0" class="tags-modern">
+                    <div class="tag-list">
+                      <span *ngFor="let tag of lesson.tags" class="tag-modern">{{tag.tagName}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </mat-card>
-        <div *ngFor="let topic of topics; let i = index" class="topic-section">
-          <mat-card class="topic-card hoverable">
-            <div class="topic-header">
-              <mat-icon class="topic-avatar">auto_stories</mat-icon>
-              <h3 class="topic-title">{{topic.title}}</h3>
-            </div>
-            <p class="topic-desc">{{topic.description}}</p>
-            <div *ngFor="let lesson of topic.lessons; let j = index" class="lesson-section">
-              <mat-card class="lesson-card hoverable">                <div class="lesson-header">
-                  <mat-icon class="lesson-avatar">menu_book</mat-icon>
-                  <span class="lesson-title">{{lesson.title}}</span>
-                  <!-- <mat-chip *ngIf="lesson.isFree" color="primary" selected class="chip-hover">Free</mat-chip> -->
-                  <!-- <mat-chip *ngIf="!lesson.isFree" color="warn" selected class="chip-hover">Paid</mat-chip> -->
-                </div>
-                <div class="lesson-desc">{{lesson.description}}</div>                <div *ngIf="lesson.keynotes && lesson.keynotes.length > 0" class="keynotes-section">
-                  <h4>Keynotes</h4>
-                  <div class="keynote-chips">
-                    <mat-chip *ngFor="let keynote of lesson.keynotes" [color]="keynote.isImportant ? 'accent' : ''" selected class="chip-hover">
-                      <span class="keynote-title">{{keynote.title}}</span>
-                      <span *ngIf="keynote.relatedPlanet">({{keynote.relatedPlanet}})</span>
-                      <span *ngIf="keynote.relatedZodiac">({{keynote.relatedZodiac}})</span>
-                    </mat-chip>
-                  </div>
-                  <ul class="keynote-list">
-                    <li *ngFor="let keynote of lesson.keynotes">
-                      <span class="keynote-content">{{keynote.content}}</span>
-                    </li>
-                  </ul>
-                </div>                <div *ngIf="lesson.tags && lesson.tags.length > 0" class="tags-section">
-                  <div class="tag-chips">
-                    <mat-chip *ngFor="let tag of lesson.tags" color="primary" selected class="chip-hover">{{tag.tagName}}</mat-chip>
-                  </div>
-                </div>
-              </mat-card>
-            </div>
-          </mat-card>
         </div>
-      </ng-container>
-      <div *ngIf="selectedCourseId && !selectedCourse && !loading" class="no-data">No course found.</div>
+      </div>
+
+      <!-- No Data -->
+      <div *ngIf="selectedCourseId && !selectedCourse && !loading" class="no-data-modern">
+        <mat-icon>search_off</mat-icon>
+        <h3>No course found</h3>
+        <p>Please try selecting a different course.</p>
+      </div>
     </div>
   `,
-  styles: [`
-    .customer-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 16px 40px 16px;
+  styles: [`    .modern-customer-view {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
-    .main-title {
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 80px 20px 60px;
       text-align: center;
-      color: #1976d2;
+      overflow: hidden;
+    }
+    
+    .hero-bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: white;
+      padding: 40px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    .filter-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .filter-group {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .modern-select {
+      min-width: 280px;
+      font-size: 16px;
+    }
+
+    /* Loading Section */
+    .loading-section {
+      text-align: center;
+      padding: 80px 20px;
+      color: white;
+    }
+    
+    .loading-section p {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+
+    /* Content Section */
+    .content-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Course Overview */
+    .course-overview {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
       margin-bottom: 40px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .course-info {
+      flex: 1;
+    }
+    
+    .course-meta {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .difficulty-badge, .price-badge {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .difficulty-badge.diff-beginner { background: #e8f5e8; color: #2e7d32; }
+    .difficulty-badge.diff-intermediate { background: #fff3e0; color: #ef6c00; }
+    .difficulty-badge.diff-advanced { background: #ffebee; color: #c62828; }
+    
+    .price-badge {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+    
+    .course-title {
       font-size: 2.5rem;
       font-weight: 700;
+      margin: 0 0 16px 0;
+      color: #333;
     }
-    .filters-row {
-      display: flex;
-      gap: 32px;
-      margin-bottom: 40px;
-      justify-content: center;
+    
+    .course-description {
+      font-size: 1.1rem;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
     }
-    .filter-field {
-      min-width: 220px;
-      flex: 1;
-      margin-right: 12px;
+    
+    .course-visual {
+      flex-shrink: 0;
     }
-    .loading-spinner {
-      display: block;
-      margin: 48px auto 32px auto;
-    }
-    .course-card {
-      margin-bottom: 48px;
-      background: #f5faff;
-      border-left: 6px solid #1976d2;
-      transition: box-shadow 0.2s;
-      padding: 24px 24px 24px 24px;
-    }
-    .course-card:hover {
-      box-shadow: 0 4px 24px 0 rgba(25, 118, 210, 0.12);
-    }
-    .course-header {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
-    .course-thumb {
-      width: 100px;
-      height: 100px;
+    
+    .course-image {
+      width: 200px;
+      height: 150px;
       object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #e0e0e0;
-      margin-right: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     }
-    .course-desc {
-      color: #555;
-      margin: 12px 0 0 0;
+
+    /* Topics Container */
+    .topics-container {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
     }
-    .topic-section {
-      margin-bottom: 48px;
+
+    /* Topic Block */
+    .topic-block {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
-    .topic-card {
-      background: #fff8e1;
-      border-left: 4px solid #ffb300;
-      margin-bottom: 24px;
-      padding: 24px 24px 16px 24px;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .topic-card.hoverable:hover {
-      box-shadow: 0 4px 24px 0 rgba(255, 179, 0, 0.12);
-      transform: translateY(-2px) scale(1.01);
-    }
-    .topic-header {
+    
+    .topic-header-modern {
       display: flex;
       align-items: center;
-      gap: 16px;
+      padding: 32px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
+      border-bottom: 1px solid #e0e7ff;
+    }
+      .topic-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-right: 24px;
+      flex-shrink: 0;
+    }
+    
+    .topic-title-modern {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: #333;
+    }
+    
+    .topic-desc-modern {
+      font-size: 1rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Lessons Grid */
+    .lessons-grid {
+      padding: 32px;
+      display: grid;
+      gap: 24px;
+    }
+      .lesson-item {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 4px solid #ff6b6b;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .lesson-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.15);
+    }
+    
+    .lesson-header-modern {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       margin-bottom: 12px;
     }
-    .topic-avatar {
-      background: #ffe082;
-      color: #ff9800;
-      border-radius: 50%;
-      padding: 6px;
-      font-size: 32px;
-    }
-    .topic-title {
-      color: #ff9800;
-      margin-bottom: 4px;
+    
+    .lesson-title-modern {
       font-size: 1.3rem;
       font-weight: 600;
+      margin: 0;
+      color: #333;
+      flex: 1;
     }
-    .topic-desc {
+    
+    .lesson-status {
+      margin-left: 16px;
+    }
+    
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .status-badge.free {
+      background: #e8f5e8;
+      color: #2e7d32;
+    }
+    
+    .status-badge.premium {
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+    
+    .lesson-desc-modern {
       color: #666;
-      margin-bottom: 20px;
+      line-height: 1.6;
+      margin: 0 0 20px 0;
     }
-    .lesson-section {
-      margin-bottom: 24px;
+
+    /* Keynotes Modern */
+    .keynotes-modern {
+      margin-top: 24px;
     }
-    .lesson-card {
-      background: #f3f7fa;
-      border-left: 3px solid #2196f3;
-      margin-bottom: 16px;
-      padding: 20px 20px 12px 20px;
-      transition: box-shadow 0.2s, transform 0.2s;
+      .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #e74c3c;
+      margin: 0 0 16px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .lesson-card.hoverable:hover {
-      box-shadow: 0 4px 24px 0 rgba(33, 150, 243, 0.12);
-      transform: translateY(-2px) scale(1.01);
-    }
-    .lesson-header {
+    
+    .keynotes-list {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 16px;
-      font-size: 1.1rem;
-      font-weight: 500;
+    }
+    
+    .keynote-item {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 3px solid #e0e7ff;
+      transition: border-color 0.3s ease;
+    }
+      .keynote-item.important {
+      border-left-color: #e74c3c;
+      background: #fef9f9;
+    }
+    
+    .keynote-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 8px;
     }
-    .lesson-avatar {
-      background: #bbdefb;
-      color: #1976d2;
-      border-radius: 50%;
-      padding: 6px;
-      font-size: 28px;
-    }
-    .lesson-title {
-      color: #1976d2;
+    
+    .keynote-title-modern {
       font-weight: 600;
+      color: #333;
     }
-    .lesson-desc {
-      color: #444;
-      margin-bottom: 12px;
+    
+    .keynote-meta {
+      display: flex;
+      gap: 8px;
     }
-    .chip-hover {
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      margin-right: 8px;
-      margin-bottom: 4px;
+    
+    .meta-tag {
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
     }
-    .chip-hover:hover {
-      background: #e3f2fd !important;
-      color: #1976d2 !important;
-      box-shadow: 0 2px 8px 0 rgba(25, 118, 210, 0.10);
+    
+    .meta-tag.planet {
+      background: #fff3e0;
+      color: #ef6c00;
     }
-    .content-type-chip.type-video { background: #e3f2fd; color: #1976d2; }
-    .content-type-chip.type-article { background: #f3e5f5; color: #7b1fa2; }
-    .content-type-chip.type-quiz { background: #fff3e0; color: #f57c00; }
-    .content-type-chip.type-exercise { background: #e8f5e8; color: #388e3c; }    .keynotes-section h4 { margin: 12px 0 8px 0; color: #388e3c; }
-    .keynote-chips, .tag-chips {
+    
+    .meta-tag.zodiac {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+    
+    .keynote-content-modern {
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* Tags Modern */
+    .tags-modern {
+      margin-top: 16px;
+    }
+    
+    .tag-list {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 8px;
     }
-    .keynote-list { margin: 0 0 0 0; padding-left: 24px; }
-    .keynote-content { color: #333; }
-    .tags-section { margin-top: 12px; }
-    .no-data { text-align: center; color: #888; margin-top: 40px; }
-    /* Responsive styles */
-    @media (max-width: 700px) {
-      .customer-container {
-        padding: 16px 2vw 24px 2vw;
+    
+    .tag-modern {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* No Data Modern */
+    .no-data-modern {
+      text-align: center;
+      padding: 80px 20px;
+      color: white;
+    }
+    
+    .no-data-modern mat-icon {
+      font-size: 4rem;
+      width: 4rem;
+      height: 4rem;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+    
+    .no-data-modern h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.5rem;
+    }
+    
+    .no-data-modern p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
       }
-      .main-title {
+      
+      .filter-group {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .modern-select {
+        min-width: 100%;
+        max-width: 400px;
+      }
+      
+      .course-overview {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px;
+      }
+      
+      .course-title {
         font-size: 2rem;
-        margin-bottom: 24px;
       }
-      .filters-row {
+      
+      .topic-header-modern {
+        padding: 24px;
         flex-direction: column;
-        gap: 16px;
-        margin-bottom: 24px;
+        text-align: center;
       }
-      .filter-field {
-        min-width: 0;
-        width: 100%;
+      
+      .topic-number {
         margin-right: 0;
+        margin-bottom: 16px;
       }
-      .course-header {
+      
+      .lessons-grid {
+        padding: 20px;
+      }
+      
+      .lesson-header-modern {
         flex-direction: column;
-        gap: 12px;
         align-items: flex-start;
-      }
-      .course-thumb {
-        width: 80px;
-        height: 80px;
-        margin-right: 0;
-      }
-      .topic-header {
-        flex-direction: row;
         gap: 8px;
-        margin-bottom: 8px;
       }
-      .topic-title {
-        font-size: 1.1rem;
-      }
-      .lesson-header {
-        font-size: 1rem;
-        gap: 8px;
-        margin-bottom: 6px;
-      }
-      .topic-section {
-        margin-bottom: 28px;
-      }
-      .lesson-section {
-        margin-bottom: 14px;
-      }
-      .lesson-card {
-        padding: 12px 8px 8px 8px;
-      }
-      .topic-card {
-        padding: 12px 8px 8px 8px;
+      
+      .lesson-status {
+        margin-left: 0;
       }
     }
   `]
