@@ -5,12 +5,17 @@ import com.vedicastrology.dto.CategoryDTO;
 import com.vedicastrology.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -21,8 +26,8 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(CategoryController.class)
+@ContextConfiguration(classes = {CategoryController.class, CategoryControllerTest.TestSecurityConfig.class})
 class CategoryControllerTest {
 
     @Autowired
@@ -47,9 +52,7 @@ class CategoryControllerTest {
         testCategoryDTO.setThumbnailUrl("https://example.com/thumbnail.jpg");
         testCategoryDTO.setParentCategoryId(null);
         testCategoryDTO.setParentCategoryName(null);
-    }
-
-    @Test
+    }    @Test
     void createCategory_Success() throws Exception {
         // Arrange
         CategoryDTO inputDTO = new CategoryDTO();
@@ -180,10 +183,8 @@ class CategoryControllerTest {
         subcategory.setParentCategoryName("Test Category");
 
         List<CategoryDTO> subcategories = Arrays.asList(subcategory);
-        when(categoryService.getSubcategories(1L)).thenReturn(subcategories);
-
-        // Act & Assert
-        mockMvc.perform(get("/api/categories/1/subcategories"))
+        when(categoryService.getSubcategories(1L)).thenReturn(subcategories);        // Act & Assert
+        mockMvc.perform(get("/api/categories/subcategories/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].categoryId").value(2L))
@@ -235,8 +236,19 @@ class CategoryControllerTest {
         mockMvc.perform(put("/api/categories/99")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDTO)))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isInternalServerError());        verify(categoryService).updateCategory(eq(99L), any(CategoryDTO.class));
+    }
 
-        verify(categoryService).updateCategory(eq(99L), any(CategoryDTO.class));
+    @Configuration
+    @EnableWebSecurity
+    static class TestSecurityConfig {
+        
+        @Bean
+        @Primary
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http.authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+                .csrf(csrf -> csrf.disable());
+            return http.build();
+        }
     }
 }

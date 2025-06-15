@@ -446,29 +446,25 @@ class LessonKeynoteServiceTest {
         keynote1.setKeynoteId(1L);
         keynote1.setOrderSequence(1);
         
-        LessonKeynote keynote2 = new LessonKeynote();
-        keynote2.setKeynoteId(2L);
+        LessonKeynote keynote2 = new LessonKeynote();        keynote2.setKeynoteId(2L);
         keynote2.setOrderSequence(2);
         
         LessonKeynote keynote3 = new LessonKeynote();
         keynote3.setKeynoteId(3L);
         keynote3.setOrderSequence(3);
 
-        when(lessonKeynoteRepository.findById(1L)).thenReturn(Optional.of(keynote1));
-        when(lessonKeynoteRepository.findById(2L)).thenReturn(Optional.of(keynote2));
-        when(lessonKeynoteRepository.findById(3L)).thenReturn(Optional.of(keynote3));
         when(lessonKeynoteRepository.findByLessonIdOrderByOrderSequence(1L))
-            .thenReturn(Arrays.asList(keynote2, keynote1, keynote3)); // Reordered
+            .thenReturn(Arrays.asList(keynote1, keynote2, keynote3)) // Original order
+            .thenReturn(Arrays.asList(keynote2, keynote1, keynote3)); // After reorder call
 
         // Act
-        List<LessonKeynoteDTO> result = lessonKeynoteService.reorderKeynotes(1L, keynoteIds);
-
+        List<LessonKeynoteDTO> result = lessonKeynoteService.reorderKeynotes(1L, keynoteIds);        
+        
         // Assert
         assertNotNull(result);
         assertEquals(3, result.size());
-        verify(lessonKeynoteRepository, times(3)).findById(anyLong());
+        verify(lessonKeynoteRepository, times(2)).findByLessonIdOrderByOrderSequence(1L); // Called twice: once in reorderKeynotes, once in getKeynotesByLessonId
         verify(lessonKeynoteRepository, times(3)).save(any(LessonKeynote.class));
-        verify(lessonKeynoteRepository).findByLessonIdOrderByOrderSequence(1L);
     }
 
     @Test

@@ -25,19 +25,35 @@ public class CourseService {
 
     public Course createCourse(Course course) {
         return courseRepository.save(course);
-    }
-
-    public Course updateCourse(Long courseId, Course updatedCourse) {
+    }    public Course updateCourse(Long courseId, Course updatedCourse) {
         return courseRepository.findById(courseId).map(course -> {
-            course.setTitle(updatedCourse.getTitle());
-            course.setDescription(updatedCourse.getDescription());
-            course.setLoginId(updatedCourse.getLoginId());
-            course.setCategoryId(updatedCourse.getCategoryId());
-            course.setDifficultyLevel(updatedCourse.getDifficultyLevel());
-            course.setPrice(updatedCourse.getPrice());
-            course.setDurationHours(updatedCourse.getDurationHours());
-            course.setThumbnailUrl(updatedCourse.getThumbnailUrl());
-            course.setIsPublished(updatedCourse.getIsPublished());
+            if (updatedCourse.getTitle() != null) {
+                course.setTitle(updatedCourse.getTitle());
+            }
+            if (updatedCourse.getDescription() != null) {
+                course.setDescription(updatedCourse.getDescription());
+            }
+            if (updatedCourse.getLoginId() != null) {
+                course.setLoginId(updatedCourse.getLoginId());
+            }
+            if (updatedCourse.getCategoryId() != null) {
+                course.setCategoryId(updatedCourse.getCategoryId());
+            }
+            if (updatedCourse.getDifficultyLevel() != null) {
+                course.setDifficultyLevel(updatedCourse.getDifficultyLevel());
+            }
+            if (updatedCourse.getPrice() != null) {
+                course.setPrice(updatedCourse.getPrice());
+            }
+            if (updatedCourse.getDurationHours() != null) {
+                course.setDurationHours(updatedCourse.getDurationHours());
+            }
+            if (updatedCourse.getThumbnailUrl() != null) {
+                course.setThumbnailUrl(updatedCourse.getThumbnailUrl());
+            }
+            if (updatedCourse.getIsPublished() != null) {
+                course.setIsPublished(updatedCourse.getIsPublished());
+            }
             return courseRepository.save(course);
         }).orElseThrow(() -> new RuntimeException("Course not found"));
     }
