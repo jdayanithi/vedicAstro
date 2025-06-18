@@ -44,10 +44,59 @@
           &:not([disabled]):hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }          &[disabled] {
+            opacity: 0.7;
+          }
+        }
+
+        /* Divider */
+        .divider {
+          display: flex;
+          align-items: center;
+          margin: 24px 0 16px 0;
+          text-align: center;
+
+          &::before,
+          &::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
           }
 
-          &[disabled] {
-            opacity: 0.7;
+          span {
+            padding: 0 16px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+
+        /* Google Login Button */
+        .google-login-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          height: 44px;
+          background-color: white;
+          color: #333;
+          border: 1px solid #dadce0;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background-color: #f8f9fa;
+            border-color: #c6c6c6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+          }
+
+          .google-icon {
+            width: 20px;
+            height: 20px;
           }
         }
       }

@@ -1,9 +1,13 @@
 package com.vedicastrology.controller;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.vedicastrology.config.JwtService;
 import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
+import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,8 @@ import java.util.Map;
 @RequestMapping("/api/login")
 public class LoginController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private LoginService loginService;
 
@@ -27,6 +33,9 @@ public class LoginController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private GoogleJwtService googleJwtService;
 
     @PostMapping
     public ResponseEntity<?> createLogin(@RequestBody Login login) {
@@ -157,6 +166,78 @@ public class LoginController {
             return ResponseEntity.ok(loginService.searchLogins(query));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }    @PostMapping("/google")
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request) {
+        logger.info("🔍 Google login request received");
+        
+        try {
+            String googleToken = request.get("token");
+            logger.debug("📝 Received token: {}", googleToken != null ? "Present (length: " + googleToken.length() + ")" : "NULL");
+            
+            if (googleToken == null || googleToken.isEmpty()) {
+                logger.error("❌ Google token is missing or empty");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Bad Request", "Google token is required"));
+            }
+
+            logger.info("🔐 Starting Google JWT token verification...");
+            
+            // Verify Google JWT token
+            GoogleIdToken.Payload payload = googleJwtService.verifyGoogleToken(googleToken);
+            logger.info("✅ Google JWT token verified successfully");
+            
+            // Extract user information from Google token
+            String email = payload.getEmail();
+            String firstName = (String) payload.get("given_name");
+            String lastName = (String) payload.get("family_name");
+            String googleId = payload.getSubject();            // Check if user exists in database, if not create new user
+            Login existingLogin = null;
+            try {
+                existingLogin = loginService.findByUsername(email);
+            } catch (RuntimeException e) {
+                // User doesn't exist, create new one
+                Login newLogin = new Login();                newLogin.setUsername(email);
+                newLogin.setFirstName(firstName);
+                newLogin.setLastName(lastName);
+                newLogin.setRole("student"); // Default role for Google users                newLogin.setPassword(passwordEncoder.encode("GOOGLE_USER")); // Placeholder password
+                newLogin.setGoogleId(googleId); // Store Google ID
+                newLogin.setPhoneNumber("GOOGLE_" + System.currentTimeMillis()); // Unique placeholder
+                
+                try {
+                    existingLogin = loginService.createLogin(newLogin);
+                } catch (Exception createEx) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(new ErrorResponse("Registration failed", createEx.getMessage()));
+                }
+            }
+
+            // Create UserDetails for JWT token generation
+            UserDetails userDetails = User.builder()
+                .username(existingLogin.getUsername())
+                .password("") // No password for Google users
+                .roles(existingLogin.getRole())
+                .build();
+            
+            // Generate JWT token
+            String jwtToken = jwtService.generateToken(userDetails);
+            
+            // Create response with token
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", jwtToken);            response.put("username", existingLogin.getUsername());
+            response.put("role", existingLogin.getRole());
+            response.put("firstName", existingLogin.getFirstName());
+            response.put("lastName", existingLogin.getLastName());
+            response.put("email", existingLogin.getUsername()); // username contains email for Google users
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse("Authentication failed", "Invalid Google token"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Server error", "Google authentication failed: " + e.getMessage()));
         }
     }
 }

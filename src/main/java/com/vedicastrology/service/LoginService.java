@@ -3,6 +3,8 @@ package com.vedicastrology.service;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.UserType;
 import com.vedicastrology.repository.LoginRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,25 +14,40 @@ import java.util.List;
 @Service
 public class LoginService {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
+
     @Autowired
     private LoginRepository loginRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public Login createLogin(Login login) {
+    private PasswordEncoder passwordEncoder;    public Login createLogin(Login login) {
+        logger.info("📝 Creating new login for username: {}", login.getUsername());
+        
         if (loginRepository.existsByUsername(login.getUsername())) {
+            logger.error("❌ Username already exists: {}", login.getUsername());
             throw new RuntimeException("Username already exists");
         }
         
+        logger.debug("🔍 Checking user type for new login...");
         // Set default user type if not provided
         if (login.getUserType() == null) {
             login.setUserType(UserType.student);
+            logger.debug("✅ Set default user type to: student");
         }
         
+        logger.debug("🔐 Encoding password for new user...");
         // Hash the password before saving
         login.setPassword(passwordEncoder.encode(login.getPassword()));
-        return loginRepository.save(login);
+        
+        try {
+            Login savedLogin = loginRepository.save(login);
+            logger.info("✅ Successfully created login with ID: {} for username: {}", 
+                       savedLogin.getId(), savedLogin.getUsername());
+            return savedLogin;
+        } catch (Exception e) {
+            logger.error("💥 Failed to save new login: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to create login: " + e.getMessage(), e);
+        }
     }
 
     public Login updateLogin(Long id, Login login) {
@@ -105,5 +122,24 @@ public class LoginService {
 
     public List<Login> searchLogins(String query) {
         return searchUsers(query);
+    }    public Login findByUsername(String username) {
+        logger.debug("🔍 Searching for user with username: {}", username);
+        
+        try {
+            Login login = loginRepository.findByUsername(username);
+            if (login == null) {
+                logger.debug("❌ User not found with username: {}", username);
+                throw new RuntimeException("User not found");
+            }
+            logger.debug("✅ Found user: {} with ID: {}", login.getUsername(), login.getId());
+            return login;
+        } catch (Exception e) {
+            logger.error("💥 Error searching for user {}: {}", username, e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    public Login findByEmail(String email) {
+        return loginRepository.findByUsername(email); // Assuming email is used as username
     }
 }

@@ -20,9 +20,18 @@
           </button>
           <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
           <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 6 characters</mat-error>
-        </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+        </mat-form-field>        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+        
+        <!-- Divider -->
+        <div class="divider">
+          <span>OR</span>
+        </div>
+        
+        <!-- Google Login Button -->
+        <button mat-raised-button class="google-login-btn" type="button" (click)="signInWithGoogle()">
+          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
+          Continue with Google
+        </button>
       </form>
 
       <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onSubmit()">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
+import { GoogleAuthService, GoogleUser } from '../../service/google-auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
 import { NetworkStatusService } from '../../service/network-status.service';
@@ -16,11 +17,11 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   hidePassword = true;
   isLoginMode = true;
-  userTypes = ['student', 'instructor', 'admin'];
-  constructor(
+  userTypes = ['student', 'instructor', 'admin'];  constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private googleAuthService: GoogleAuthService,
     private dialog: MatDialog,
     private networkStatus: NetworkStatusService
   ) {
@@ -108,7 +109,6 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-
   toggleMode(): void {
     this.isLoginMode = !this.isLoginMode;
     this.loginForm.reset();
@@ -116,5 +116,38 @@ export class LoginComponent implements OnInit {
     if (!this.isLoginMode) {
       this.registerForm.patchValue({ userType: 'student' });
     }
+  }
+
+  signInWithGoogle(): void {
+    this.googleAuthService.signIn().then((googleUser: GoogleUser) => {
+      // Send the Google ID token to your backend for verification
+      this.authService.googleLogin(googleUser.credential).subscribe({
+        next: (response) => {
+          // Navigation is handled by the AuthService
+        },
+        error: (error) => {
+          let errorMessage = 'Google login failed. Please try again.';
+          
+          if (error.status === 0) {
+            errorMessage = this.networkStatus.getConnectionErrorMessage();
+          } else if (error.status >= 500) {
+            errorMessage = 'Server error occurred. Please try again later.';
+          } else if (error.error?.message) {
+            errorMessage = error.error.message;
+          }
+          
+          this.dialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: { message: errorMessage }
+          });
+        }
+      });
+    }).catch((error) => {
+      console.error('Google sign-in error:', error);
+      this.dialog.open(ErrorDialogComponent, {
+        width: '400px',
+        data: { message: 'Google sign-in was cancelled or failed.' }
+      });
+    });
   }
 }

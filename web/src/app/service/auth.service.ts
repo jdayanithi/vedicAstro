@@ -60,35 +60,47 @@ export class AuthService {
         this.currentUserRole.next(session.role);
       }
     }
-  }
-  login(email: string, password: string): Observable<any> {
+  }  login(email: string, password: string): Observable<any> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
       .pipe(
         tap((response: LoginResponse) => {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('session', JSON.stringify({
-            email: response.username,
-            role: response.role,
-            firstName: response.firstName,
-            lastName: response.lastName,
-            birthDate: response.birthDate,
-            birthTime: response.birthTime,
-            birthPlace: response.birthPlace,
-            userType: response.userType,
-            zodiacSign: response.zodiacSign,
-            risingSign: response.risingSign,
-            moonSign: response.moonSign,
-            timestamp: new Date()
-          }));
-          this.isAuthenticated.next(true);
-          this.currentUserRole.next(response.role);
-          
-          // Redirect to the originally intended URL or default to landing page
-          const redirectTo = this.redirectUrl || '/landing';
-          this.redirectUrl = null; // Clear the redirect URL
-          this.router.navigate([redirectTo]);
+          this.handleLoginSuccess(response);
         })
       );
+  }
+
+  googleLogin(googleToken: string): Observable<any> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login/google`, { token: googleToken })
+      .pipe(
+        tap((response: LoginResponse) => {
+          this.handleLoginSuccess(response);
+        })
+      );
+  }
+
+  private handleLoginSuccess(response: LoginResponse): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('session', JSON.stringify({
+      email: response.username,
+      role: response.role,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      birthDate: response.birthDate,
+      birthTime: response.birthTime,
+      birthPlace: response.birthPlace,
+      userType: response.userType,
+      zodiacSign: response.zodiacSign,
+      risingSign: response.risingSign,
+      moonSign: response.moonSign,
+      timestamp: new Date()
+    }));
+    this.isAuthenticated.next(true);
+    this.currentUserRole.next(response.role);
+    
+    // Redirect to the originally intended URL or default to landing page
+    const redirectTo = this.redirectUrl || '/landing';
+    this.redirectUrl = null; // Clear the redirect URL
+    this.router.navigate([redirectTo]);
   }
 
   register(registerData: RegisterRequest): Observable<any> {

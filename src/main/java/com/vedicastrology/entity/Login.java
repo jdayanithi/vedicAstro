@@ -28,10 +28,11 @@ public class Login {
     private String firstName;
     
     @Column(nullable = false)
-    private String lastName;
-    
-    @Column(unique = true, nullable = false)
+    private String lastName;    @Column(unique = true)
     private String phoneNumber;
+    
+    @Column(unique = true) // Google ID for OAuth users
+    private String googleId;
     
     @Column(name = "birth_date")
     private LocalDate birthDate;
