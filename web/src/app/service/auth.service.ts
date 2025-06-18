@@ -40,6 +40,9 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   private currentUserRole = new BehaviorSubject<string | null>(null);
   private apiUrl = 'http://localhost:8080/api';
+  
+  // Store the URL the user wanted to access before being redirected to login
+  redirectUrl: string | null = null;
 
   constructor(
     private router: Router,
@@ -58,7 +61,6 @@ export class AuthService {
       }
     }
   }
-
   login(email: string, password: string): Observable<any> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
       .pipe(
@@ -80,6 +82,11 @@ export class AuthService {
           }));
           this.isAuthenticated.next(true);
           this.currentUserRole.next(response.role);
+          
+          // Redirect to the originally intended URL or default to landing page
+          const redirectTo = this.redirectUrl || '/landing';
+          this.redirectUrl = null; // Clear the redirect URL
+          this.router.navigate([redirectTo]);
         })
       );
   }

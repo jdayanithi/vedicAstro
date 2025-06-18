@@ -40,12 +40,10 @@ export class LoginComponent implements OnInit {
       birthPlace: ['', Validators.required],
       bio: [''],
       userType: ['student', Validators.required]
-    });
-
-    // Redirect to view-all if already logged in
+    });    // Redirect to landing if already logged in
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/view-all']);
+        this.router.navigate(['/landing']);
       }
     });
   }
@@ -57,7 +55,7 @@ export class LoginComponent implements OnInit {
       if (this.loginForm.valid) {
         const { email, password } = this.loginForm.value;        this.authService.login(email, password).subscribe({
           next: (response) => {
-            this.router.navigate(['/view-all']);
+            // Navigation is now handled by the AuthService
           },
           error: (error) => {
             let errorMessage = 'An error occurred. Please try again.';

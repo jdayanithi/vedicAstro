@@ -11,6 +11,7 @@ import { ViewAllComponent } from './pages/view-all/view-all.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { SearchByNameComponent } from './pages/search-by-name/search-by-name.component';
 import { LoginComponent } from './pages/login/login.component';
+import { LandingComponent } from './pages/landing/landing.component';
 import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -23,6 +24,7 @@ import { IonicModule } from '@ionic/angular';
         ViewPostComponent,
         SearchByNameComponent,
         LoginComponent,
+        LandingComponent,
         ErrorDialogComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
