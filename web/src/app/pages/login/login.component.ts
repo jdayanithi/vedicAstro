@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
@@ -12,12 +12,14 @@ import { NetworkStatusService } from '../../service/network-status.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
+  @ViewChild('googleButton', { static: false }) googleButton!: ElementRef;
+  
   loginForm: FormGroup;
   registerForm: FormGroup;
   hidePassword = true;
   isLoginMode = true;
-  userTypes = ['student', 'instructor', 'admin'];  constructor(
+  userTypes = ['student', 'instructor', 'admin'];constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
@@ -50,6 +52,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    // Render the official Google Sign-In button as a fallback
+    if (this.googleButton?.nativeElement) {
+      this.googleAuthService.renderButton(this.googleButton.nativeElement);
+    }
+  }
 
   onSubmit(): void {
     if (this.isLoginMode) {
@@ -117,12 +126,14 @@ export class LoginComponent implements OnInit {
       this.registerForm.patchValue({ userType: 'student' });
     }
   }
-
   signInWithGoogle(): void {
+    console.log('Google Sign-In button clicked');
     this.googleAuthService.signIn().then((googleUser: GoogleUser) => {
+      console.log('Google Sign-In successful:', googleUser);
       // Send the Google ID token to your backend for verification
       this.authService.googleLogin(googleUser.credential).subscribe({
         next: (response) => {
+          console.log('Backend login successful:', response);
           // Navigation is handled by the AuthService
         },
         error: (error) => {
@@ -141,12 +152,22 @@ export class LoginComponent implements OnInit {
             data: { message: errorMessage }
           });
         }
-      });
-    }).catch((error) => {
+      });    }).catch((error) => {
       console.error('Google sign-in error:', error);
+      
+      let errorMessage = 'Google sign-in failed. Please try again.';
+      
+      if (error.message.includes('not displayed')) {
+        errorMessage = 'Google Sign-In popup was blocked. Please try clicking the Google Sign-In button directly, or check your browser\'s popup settings.';
+      } else if (error.message.includes('skipped')) {
+        errorMessage = 'Google Sign-In was cancelled. Please try again.';
+      } else if (error.message.includes('library not loaded')) {
+        errorMessage = 'Google Sign-In is not available. Please refresh the page and try again.';
+      }
+      
       this.dialog.open(ErrorDialogComponent, {
         width: '400px',
-        data: { message: 'Google sign-in was cancelled or failed.' }
+        data: { message: errorMessage }
       });
     });
   }

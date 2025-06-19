@@ -26,12 +26,14 @@
         <div class="divider">
           <span>OR</span>
         </div>
-        
-        <!-- Google Login Button -->
+          <!-- Google Login Button -->
         <button mat-raised-button class="google-login-btn" type="button" (click)="signInWithGoogle()">
           <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
           Continue with Google
         </button>
+        
+        <!-- Official Google Sign-In Button (fallback) -->
+        <div #googleButton class="google-signin-fallback" style="margin-top: 8px;"></div>
       </form>
 
       <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onSubmit()">

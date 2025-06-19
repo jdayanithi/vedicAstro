@@ -24,19 +24,28 @@ export class GoogleAuthService {
 
   constructor() {
     this.initializeGoogleSignIn();
-  }
-  private async initializeGoogleSignIn(): Promise<void> {
+  }  private async initializeGoogleSignIn(): Promise<void> {
     if (typeof window !== 'undefined' && window.google) {
-      window.google.accounts.id.initialize({
-        client_id: environment.googleClientId,
-        callback: this.handleCredentialResponse.bind(this),
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
+      try {
+        window.google.accounts.id.initialize({
+          client_id: environment.googleClientId,
+          callback: this.handleCredentialResponse.bind(this),
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        });
+        console.log('Google Sign-In initialized successfully');
+      } catch (error) {
+        console.error('Error initializing Google Sign-In:', error);
+      }
     } else {
       // Retry after a short delay if google library is not loaded yet
       setTimeout(() => this.initializeGoogleSignIn(), 100);
     }
+  }
+
+  // Method to re-initialize Google Sign-In (useful after logout)
+  reinitialize(): void {
+    this.initializeGoogleSignIn();
   }
   private handleCredentialResponse(response: any): void {
     if (response.credential) {
@@ -61,7 +70,6 @@ export class GoogleAuthService {
     }).join(''));
     return JSON.parse(jsonPayload);
   }
-
   signIn(): Promise<GoogleUser> {
     return new Promise((resolve, reject) => {
       if (typeof window !== 'undefined' && window.google) {
@@ -79,13 +87,26 @@ export class GoogleAuthService {
           }
         });
 
-        // Trigger the Google Sign-In prompt
-        window.google.accounts.id.prompt((notification: any) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            subscription.unsubscribe();
-            reject(new Error('Google Sign-In prompt was not displayed or was skipped'));
-          }
-        });
+        // First try to trigger the Google Sign-In prompt
+        try {
+          window.google.accounts.id.prompt((notification: any) => {
+            console.log('Google prompt notification:', notification);
+            
+            if (notification.isNotDisplayed()) {
+              console.log('Google prompt not displayed, might be due to user interaction requirements');
+              subscription.unsubscribe();
+              reject(new Error('Google Sign-In prompt was not displayed. Please try clicking the Google Sign-In button directly.'));
+            } else if (notification.isSkippedMoment()) {
+              console.log('Google prompt was skipped');
+              subscription.unsubscribe();
+              reject(new Error('Google Sign-In was skipped. Please try again.'));
+            }
+          });
+        } catch (error) {
+          console.error('Error triggering Google prompt:', error);
+          subscription.unsubscribe();
+          reject(new Error('Failed to initialize Google Sign-In. Please try refreshing the page.'));
+        }
       } else {
         reject(new Error('Google Sign-In library not loaded'));
       }
@@ -102,11 +123,22 @@ export class GoogleAuthService {
       });
     }
   }
-
   signOut(): void {
     if (typeof window !== 'undefined' && window.google) {
+      // Disable auto-select to prevent automatic sign-in
       window.google.accounts.id.disableAutoSelect();
+      
+      // Cancel any pending prompts
+      try {
+        window.google.accounts.id.cancel();
+      } catch (error) {
+        console.log('No pending Google Sign-In prompts to cancel');
+      }
     }
+    
+    // Clear the internal user state
     this.googleUser$.next(null);
+    
+    console.log('Google OAuth state cleared');
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { GoogleAuthService } from './google-auth.service';
 
 interface LoginResponse {
   token: string;
@@ -43,10 +44,10 @@ export class AuthService {
   
   // Store the URL the user wanted to access before being redirected to login
   redirectUrl: string | null = null;
-
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private googleAuthService: GoogleAuthService
   ) {
     this.checkSession();
   }
@@ -105,13 +106,19 @@ export class AuthService {
 
   register(registerData: RegisterRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, registerData);
-  }
-
-  logout(): void {
+  }  logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('session');
     this.isAuthenticated.next(false);
     this.currentUserRole.next(null);
+    
+    // Sign out from Google OAuth and reinitialize
+    this.googleAuthService.signOut();
+    // Reinitialize Google Sign-In to clear any cached state
+    setTimeout(() => {
+      this.googleAuthService.reinitialize();
+    }, 100);
+    
     this.router.navigate(['/login']);
   }
 

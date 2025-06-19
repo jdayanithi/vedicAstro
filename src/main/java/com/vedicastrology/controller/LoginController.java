@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.vedicastrology.config.JwtService;
 import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
+import com.vedicastrology.entity.UserType;
 import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
 import org.slf4j.Logger;
@@ -197,12 +198,15 @@ public class LoginController {
                 existingLogin = loginService.findByUsername(email);
             } catch (RuntimeException e) {
                 // User doesn't exist, create new one
-                Login newLogin = new Login();                newLogin.setUsername(email);
+                Login newLogin = new Login();
+                newLogin.setUsername(email);
                 newLogin.setFirstName(firstName);
                 newLogin.setLastName(lastName);
-                newLogin.setRole("student"); // Default role for Google users                newLogin.setPassword(passwordEncoder.encode("GOOGLE_USER")); // Placeholder password
+                newLogin.setRole("student"); // Default role for Google users
+                newLogin.setUserType(UserType.student); // Set UserType enum
+                newLogin.setPassword("GOOGLE_USER"); // Placeholder password (will be encoded in service)
                 newLogin.setGoogleId(googleId); // Store Google ID
-                newLogin.setPhoneNumber("GOOGLE_" + System.currentTimeMillis()); // Unique placeholder
+                newLogin.setPhoneNumber(null); // Make phone number nullable for Google users
                 
                 try {
                     existingLogin = loginService.createLogin(newLogin);
