@@ -49,10 +49,104 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-
   <mat-sidenav-content>
-    <div class="content">
-      <router-outlet></router-outlet>
+    <div class="app-wrapper">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+      
+      <!-- Sticky Footer -->
+      <footer class="app-footer">
+        <div class="footer-content">
+          <div class="footer-section brand-section">
+            <div class="footer-logo">
+              <span class="logo-icon">🌟</span>
+              <h3>VedicAstro</h3>
+            </div>
+            <p class="footer-tagline">Unlock the wisdom of the stars and discover your cosmic destiny</p>
+            <div class="social-links">
+              <button mat-icon-button class="social-btn" aria-label="Facebook">
+                <mat-icon>facebook</mat-icon>
+              </button>
+              <button mat-icon-button class="social-btn" aria-label="Twitter">
+                <mat-icon svgIcon="twitter" class="twitter-icon">alternate_email</mat-icon>
+              </button>
+              <button mat-icon-button class="social-btn" aria-label="Instagram">
+                <mat-icon>camera_alt</mat-icon>
+              </button>
+              <button mat-icon-button class="social-btn" aria-label="YouTube">
+                <mat-icon>play_circle_filled</mat-icon>
+              </button>
+            </div>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Services</h4>
+            <ul class="footer-links">
+              <li><a routerLink="/courses">Astrology Courses</a></li>
+              <li><a routerLink="/horoscope">Daily Horoscope</a></li>
+              <li><a routerLink="/birth-chart">Birth Chart Reading</a></li>
+              <li><a routerLink="/consultation">Personal Consultation</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Learn</h4>
+            <ul class="footer-links">
+              <li><a routerLink="/about">About Vedic Astrology</a></li>
+              <li><a routerLink="/zodiac">Zodiac Signs</a></li>
+              <li><a routerLink="/planets">Planetary Influence</a></li>
+              <li><a routerLink="/blog">Astrology Blog</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Support</h4>
+            <ul class="footer-links">
+              <li><a routerLink="/help">Help Center</a></li>
+              <li><a routerLink="/contact">Contact Us</a></li>
+              <li><a routerLink="/privacy">Privacy Policy</a></li>
+              <li><a routerLink="/terms">Terms of Service</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section newsletter-section">
+            <h4>Stay Connected</h4>
+            <p>Get cosmic insights delivered to your inbox</p>
+            <div class="newsletter-form">
+              <mat-form-field appearance="outline" class="newsletter-input">
+                <mat-label>Your email</mat-label>
+                <input matInput type="email" placeholder="Enter your email">
+                <mat-icon matSuffix>email</mat-icon>
+              </mat-form-field>
+              <button mat-raised-button color="primary" class="subscribe-btn">
+                <mat-icon>send</mat-icon>
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-bottom-content">
+            <p>&copy; 2025 VedicAstro. All rights reserved.</p>
+            <div class="cosmic-elements">
+              <span class="zodiac-symbol">♈</span>
+              <span class="zodiac-symbol">♉</span>
+              <span class="zodiac-symbol">♊</span>
+              <span class="zodiac-symbol">♋</span>
+              <span class="zodiac-symbol">♌</span>
+              <span class="zodiac-symbol">♍</span>
+              <span class="zodiac-symbol">♎</span>
+              <span class="zodiac-symbol">♏</span>
+              <span class="zodiac-symbol">♐</span>
+              <span class="zodiac-symbol">♑</span>
+              <span class="zodiac-symbol">♒</span>
+              <span class="zodiac-symbol">♓</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

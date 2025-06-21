@@ -30,20 +30,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-
-    this.registerForm = this.formBuilder.group({
+    });    this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      birthTime: ['', Validators.required],
-      birthPlace: ['', Validators.required],
       bio: [''],
       userType: ['student', Validators.required]
-    });    // Redirect to landing if already logged in
+    });// Redirect to landing if already logged in
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.router.navigate(['/landing']);
