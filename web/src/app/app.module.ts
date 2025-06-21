@@ -13,6 +13,7 @@ import { SearchByNameComponent } from './pages/search-by-name/search-by-name.com
 import { LoginComponent } from './pages/login/login.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { CoursesExplorerComponent } from './pages/courses/courses-explorer/courses-explorer.component';
+import { PurchaseFormComponent } from './pages/courses/purchase-form/purchase-form.component';
 import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -27,6 +28,7 @@ import { IonicModule } from '@ionic/angular';
         LoginComponent,
         LandingComponent,
         CoursesExplorerComponent,
+        PurchaseFormComponent,
         ErrorDialogComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,

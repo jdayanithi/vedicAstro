@@ -1,7 +1,9 @@
 package com.vedicastrology.service;
 
+import com.vedicastrology.dto.CourseDTO;
 import com.vedicastrology.dto.PaymentDTO;
 import com.vedicastrology.dto.UserCourseAccessDTO;
+import com.vedicastrology.dto.EnrolledCourseDTO;
 import com.vedicastrology.entity.Course;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.Payment;
@@ -91,7 +93,17 @@ public class PaymentService {
         return courses.stream()
                 .map(this::courseToCourseDTO)
                 .collect(Collectors.toList());
-    }    // Check if user has access to a specific course
+    }
+
+    // Get user's enrolled courses with payment status (including pending)
+    public List<EnrolledCourseDTO> getUserEnrolledCoursesWithStatus(Long loginId) {
+        List<Payment> payments = paymentRepository.findPaymentsWithCoursesByLoginId(loginId);
+        return payments.stream()
+                .map(this::paymentToEnrolledCourseDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Check if user has access to a specific course
     public boolean checkUserCourseAccess(Long loginId, Long courseId) {
         return paymentRepository.hasUserAccessToCourse(loginId, courseId);
     }
@@ -143,6 +155,7 @@ public class PaymentService {
         dto.setCreatedBy(payment.getCreatedBy() != null ? payment.getCreatedBy().getId() : null);
         dto.setModifiedBy(payment.getModifiedBy() != null ? payment.getModifiedBy().getId() : null);
         dto.setComments(payment.getComments());
+        dto.setPaymentProofUrl(payment.getPaymentProofUrl());
         return dto;
     }
 
@@ -166,6 +179,7 @@ public class PaymentService {
         }
         
         payment.setComments(dto.getComments());
+        payment.setPaymentProofUrl(dto.getPaymentProofUrl());
         Login login = loginRepository.findById(dto.getLoginId())
                 .orElseThrow(() -> new EntityNotFoundException("Login not found"));
         payment.setLogin(login);
@@ -173,5 +187,33 @@ public class PaymentService {
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         payment.setCourse(course);
         return payment;
+    }
+
+    // Helper method to convert Payment with Course to EnrolledCourseDTO
+    private EnrolledCourseDTO paymentToEnrolledCourseDTO(Payment payment) {
+        EnrolledCourseDTO dto = new EnrolledCourseDTO();
+        
+        // Course details
+        com.vedicastrology.entity.Course course = payment.getCourse();
+        dto.setCourseId(course.getCourseId());
+        dto.setTitle(course.getTitle());        dto.setDescription(course.getDescription());
+        dto.setLoginId(course.getLoginId());
+        dto.setCategoryId(course.getCategoryId());
+        dto.setDifficultyLevel(course.getDifficultyLevel() != null ? course.getDifficultyLevel().name() : null);
+        dto.setPrice(course.getPrice());
+        dto.setDurationHours(course.getDurationHours());
+        dto.setThumbnailUrl(course.getThumbnailUrl());
+        dto.setIsPublished(course.getIsPublished());
+        dto.setCreatedAt(course.getCreatedAt());
+        dto.setUpdatedAt(course.getUpdatedAt());
+        
+        // Payment details
+        dto.setPaymentStatus(payment.getStatus().name());
+        dto.setPaymentDate(payment.getPaymentDate());
+        dto.setTransactionId(payment.getTransactionId());
+        dto.setPaidAmount(payment.getAmount());
+        dto.setPaymentMethod(payment.getPaymentMethod());
+        
+        return dto;
     }
 }

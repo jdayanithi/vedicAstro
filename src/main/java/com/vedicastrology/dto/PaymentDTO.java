@@ -15,6 +15,7 @@ public class PaymentDTO {
     private Long createdBy;
     private Long modifiedBy;
     private String comments;
+    private String paymentProofUrl;
 
     // Getters and setters
     public Long getPaymentId() { return paymentId; }
@@ -39,4 +40,7 @@ public class PaymentDTO {
     public void setModifiedBy(Long modifiedBy) { this.modifiedBy = modifiedBy; }
     public String getComments() { return comments; }
     public void setComments(String comments) { this.comments = comments; }
+
+    public String getPaymentProofUrl() { return paymentProofUrl; }
+    public void setPaymentProofUrl(String paymentProofUrl) { this.paymentProofUrl = paymentProofUrl; }
 }

@@ -120,13 +120,21 @@
                     (click)="enrollInCourse(course)">
               <mat-icon>play_circle_filled</mat-icon>
               Start Course
+            </button>            <!-- Paid Course - Payment is pending -->
+            <button mat-raised-button 
+                    color="warn" 
+                    class="enroll-btn pending-btn"
+                    *ngIf="course.price && course.price > 0 && isCoursePaymentPending(course.courseId)"
+                    disabled>
+              <mat-icon>schedule</mat-icon>
+              Payment Pending
             </button>
 
-            <!-- Paid Course - User has access -->
+            <!-- Paid Course - User has access (payment completed) -->
             <button mat-raised-button 
                     color="primary" 
                     class="enroll-btn access-granted"
-                    *ngIf="course.price && course.price > 0 && hasAccessToCourse(course.courseId)"
+                    *ngIf="course.price && course.price > 0 && isCoursePaymentCompleted(course.courseId)"
                     (click)="enrollInCourse(course)">
               <mat-icon>play_circle_filled</mat-icon>
               Continue Course
@@ -136,15 +144,23 @@
             <button mat-raised-button 
                     color="accent" 
                     class="enroll-btn purchase-btn"
-                    *ngIf="course.price && course.price > 0 && !hasAccessToCourse(course.courseId)"
+                    *ngIf="course.price && course.price > 0 && !getCoursePaymentStatus(course.courseId)"
                     (click)="enrollInCourse(course)">
               <mat-icon>shopping_cart</mat-icon>
               Purchase Course
             </button>
 
-            <!-- Access Status Badge for Paid Courses -->
+            <!-- Payment Status Badges -->
+            <!-- Payment Pending Badge -->
+            <div class="access-badge pending-badge" 
+                 *ngIf="course.price && course.price > 0 && isCoursePaymentPending(course.courseId)">
+              <mat-icon class="access-icon">schedule</mat-icon>
+              <span class="access-text">Purchase Pending</span>
+            </div>
+
+            <!-- Access Granted Badge -->
             <div class="access-badge" 
-                 *ngIf="course.price && course.price > 0 && hasAccessToCourse(course.courseId)">
+                 *ngIf="course.price && course.price > 0 && isCoursePaymentCompleted(course.courseId)">
               <mat-icon class="access-icon">verified</mat-icon>
               <span class="access-text">Purchased</span>
             </div>

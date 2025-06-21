@@ -1,0 +1,142 @@
+<div class="purchase-form-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon class="header-icon">payment</mat-icon>
+      Complete Your Purchase
+    </h2>
+    <button mat-icon-button (click)="onCancel()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div mat-dialog-content class="dialog-content">
+    <!-- Course Information -->
+    <div class="course-info">
+      <div class="course-thumbnail">
+        <img [src]="data.course.thumbnailUrl || 'https://via.placeholder.com/120x80/6366f1/ffffff?text=Course'" 
+             [alt]="data.course.title" class="course-image">
+      </div>
+      <div class="course-details">
+        <h3 class="course-title">{{ data.course.title }}</h3>
+        <p class="course-price">₹{{ data.course.price || 0 }}</p>
+        <p class="course-description">{{ data.course.description }}</p>
+      </div>
+    </div>
+
+    <!-- Payment Form -->
+    <form [formGroup]="purchaseForm" (ngSubmit)="onSubmit()" class="payment-form">
+      <!-- Payment Method -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Payment Method</mat-label>
+        <mat-select formControlName="paymentMethod">
+          <mat-option value="UPI">UPI</mat-option>
+          <mat-option value="NetBanking">Net Banking</mat-option>
+          <mat-option value="CreditCard">Credit Card</mat-option>
+          <mat-option value="DebitCard">Debit Card</mat-option>
+          <mat-option value="BankTransfer">Bank Transfer</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>payment</mat-icon>
+      </mat-form-field>
+
+      <!-- Amount (Read-only) -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Amount</mat-label>
+        <input matInput formControlName="amount" readonly>
+        <span matPrefix>₹&nbsp;</span>
+        <mat-icon matSuffix>monetization_on</mat-icon>
+      </mat-form-field>
+
+      <!-- Transaction ID -->
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Transaction ID</mat-label>
+        <input matInput 
+               formControlName="transactionId" 
+               placeholder="Enter transaction ID from your payment app">
+        <mat-icon matSuffix>receipt</mat-icon>
+        <mat-error *ngIf="purchaseForm.get('transactionId')?.hasError('required')">
+          Transaction ID is required
+        </mat-error>
+        <mat-error *ngIf="purchaseForm.get('transactionId')?.hasError('minlength')">
+          Transaction ID must be at least 5 characters
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Payment Proof Upload -->
+      <div class="file-upload-section">
+        <label class="file-upload-label">Payment Proof (Screenshot) *</label>
+        
+        <div class="file-upload-area" [class.has-file]="selectedFile">
+          <input type="file" 
+                 #fileInput 
+                 (change)="onFileSelected($event)" 
+                 accept="image/*" 
+                 class="file-input"
+                 id="file-upload">
+          
+          <div class="upload-content" *ngIf="!selectedFile" (click)="fileInput.click()">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <p class="upload-text">Click to upload payment screenshot</p>
+            <p class="upload-hint">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
+          </div>
+
+          <div class="file-preview" *ngIf="selectedFile && previewUrl">
+            <img [src]="previewUrl" alt="Payment proof" class="preview-image">
+            <div class="file-info">
+              <p class="file-name">{{ selectedFile.name }}</p>
+              <button mat-icon-button 
+                      type="button" 
+                      (click)="removeFile()" 
+                      class="remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Comments -->
+      <mat-form-field appearance="outline" class="form-field comments-field">
+        <mat-label>Additional Comments (Optional)</mat-label>
+        <textarea matInput 
+                  formControlName="comments" 
+                  rows="3" 
+                  placeholder="Any additional information about your payment..."></textarea>
+        <mat-icon matSuffix>note</mat-icon>
+      </mat-form-field>
+
+      <!-- Payment Instructions -->
+      <div class="payment-instructions">
+        <h4>
+          <mat-icon>info</mat-icon>
+          Payment Instructions
+        </h4>
+        <ol>
+          <li>Complete the payment using your preferred method</li>
+          <li>Take a screenshot of the successful payment confirmation</li>
+          <li>Enter the transaction ID from your payment app</li>
+          <li>Upload the payment screenshot as proof</li>
+          <li>Submit this form for verification</li>
+        </ol>
+        <p class="verification-note">
+          <mat-icon>schedule</mat-icon>
+          Your payment will be verified within 24 hours and you'll get course access once approved.
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" [disabled]="isSubmitting">
+      Cancel
+    </button>
+    <button mat-raised-button 
+            color="primary" 
+            (click)="onSubmit()" 
+            [disabled]="!purchaseForm.valid || !selectedFile || isSubmitting"
+            class="submit-btn">
+      <mat-icon *ngIf="!isSubmitting">send</mat-icon>
+      <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+      {{ isSubmitting ? 'Submitting...' : 'Submit Payment' }}
+    </button>
+  </div>
+</div>

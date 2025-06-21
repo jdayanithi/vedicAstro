@@ -46,6 +46,9 @@ public class Payment {
     @Column(columnDefinition = "TEXT")
     private String comments;
 
+    @Column(name = "payment_proof_url")
+    private String paymentProofUrl;
+
     // Getters and setters
     public Long getPaymentId() { return paymentId; }
     public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
@@ -69,4 +72,7 @@ public class Payment {
     public void setModifiedBy(Login modifiedBy) { this.modifiedBy = modifiedBy; }
     public String getComments() { return comments; }
     public void setComments(String comments) { this.comments = comments; }
+
+    public String getPaymentProofUrl() { return paymentProofUrl; }
+    public void setPaymentProofUrl(String paymentProofUrl) { this.paymentProofUrl = paymentProofUrl; }
 }

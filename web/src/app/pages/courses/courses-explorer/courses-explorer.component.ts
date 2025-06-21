@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseService, Course } from '../../../service/course.service';
 import { CategoryService, Category } from '../../../service/category.service';
-import { PaymentService, UserCourseAccess, UserEnrolledCourse } from '../../../service/payment.service';
+import { PaymentService, UserCourseAccess, UserEnrolledCourse, EnrolledCourseWithStatus } from '../../../service/payment.service';
 import { AuthService } from '../../../service/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PurchaseFormComponent } from '../purchase-form/purchase-form.component';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -16,6 +18,7 @@ export class CoursesExplorerComponent implements OnInit {
   categories: Category[] = [];
   userCourseAccess: UserCourseAccess[] = [];
   userEnrolledCourses: UserEnrolledCourse[] = [];
+  userEnrolledCoursesWithStatus: EnrolledCourseWithStatus[] = [];
   selectedCategory: number | null = null;
   selectedTab: 'all' | 'free' | 'paid' | 'my-courses' = 'all';
   loading = true;
@@ -26,35 +29,40 @@ export class CoursesExplorerComponent implements OnInit {
     private courseService: CourseService,
     private categoryService: CategoryService,
     private paymentService: PaymentService,
-    private authService: AuthService
-  ) {}  ngOnInit(): void {
+    private authService: AuthService,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnInit(): void {
     // Get current user ID from session
     const session = this.authService.getSession();
     this.currentUserId = session?.userId || session?.id || session?.loginId || null;
     this.loadData();
-  }loadData(): void {
+  }
+
+  loadData(): void {
     // Create observables array
     const observables: any = {
       categories: this.categoryService.getAllCategories(),
       courses: this.courseService.getAllCourses()
-    };
-
-    // Add user-specific data if user is logged in
+    };    // Add user-specific data if user is logged in
     if (this.currentUserId) {
       observables.userAccess = this.paymentService.getUserCourseAccessListByLoginId(this.currentUserId);
       observables.enrolledCourses = this.paymentService.getUserEnrolledCoursesByLoginId(this.currentUserId);
+      observables.enrolledCoursesWithStatus = this.paymentService.getUserEnrolledCoursesWithStatusByLoginId(this.currentUserId);
     } else {
       observables.userAccess = this.paymentService.getUserCourseAccess();
       observables.enrolledCourses = this.paymentService.getUserEnrolledCourses();
+      observables.enrolledCoursesWithStatus = this.paymentService.getUserEnrolledCoursesWithStatus();
     }
 
     // Load all data in parallel
     forkJoin(observables).subscribe({
-      next: (data: any) => {
-        this.categories = data.categories.filter((cat: any) => cat.isPublished);
+      next: (data: any) => {        this.categories = data.categories.filter((cat: any) => cat.isPublished);
         this.courses = data.courses.filter((course: any) => course.isPublished);
         this.userCourseAccess = data.userAccess || [];
         this.userEnrolledCourses = data.enrolledCourses || [];
+        this.userEnrolledCoursesWithStatus = data.enrolledCoursesWithStatus || [];
         this.filterCourses();
         this.loading = false;
       },
@@ -89,6 +97,7 @@ export class CoursesExplorerComponent implements OnInit {
       }
     });
   }
+
   onCategoryChange(): void {
     this.filterCourses();
   }
@@ -99,7 +108,9 @@ export class CoursesExplorerComponent implements OnInit {
 
   onSearchChange(): void {
     this.filterCourses();
-  }  filterCourses(): void {
+  }
+
+  filterCourses(): void {
     let filtered = [...this.courses];
 
     // Filter by tab selection
@@ -107,10 +118,9 @@ export class CoursesExplorerComponent implements OnInit {
       filtered = filtered.filter(course => !course.price || course.price === 0);
     } else if (this.selectedTab === 'paid') {
       // For paid courses, show ALL paid courses (not just those user has access to)
-      filtered = filtered.filter(course => course.price && course.price > 0);
-    } else if (this.selectedTab === 'my-courses') {
-      // For My Courses, show only enrolled courses
-      const enrolledCourseIds = this.userEnrolledCourses.map(course => course.courseId);
+      filtered = filtered.filter(course => course.price && course.price > 0);    } else if (this.selectedTab === 'my-courses') {
+      // For My Courses, show enrolled courses with all payment statuses (including pending)
+      const enrolledCourseIds = this.userEnrolledCoursesWithStatus.map(course => course.courseId);
       filtered = filtered.filter(course => enrolledCourseIds.includes(course.courseId));
     }
     // For 'all' tab, show ALL published courses (no additional filtering)
@@ -123,7 +133,7 @@ export class CoursesExplorerComponent implements OnInit {
     // Filter by search term
     if (this.searchTerm.trim()) {
       const searchLower = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(course => 
+      filtered = filtered.filter(course =>
         course.title.toLowerCase().includes(searchLower) ||
         course.description.toLowerCase().includes(searchLower)
       );
@@ -155,7 +165,8 @@ export class CoursesExplorerComponent implements OnInit {
       const days = Math.floor(hours / 24);
       const remainingHours = hours % 24;
       return `${days} day${days !== 1 ? 's' : ''} ${remainingHours > 0 ? remainingHours + ' hr' : ''}`;
-    }  }
+    }
+  }
 
   trackByFn(index: number, course: Course): number {
     return course.courseId;
@@ -169,9 +180,26 @@ export class CoursesExplorerComponent implements OnInit {
     // For paid courses count, show ALL paid courses
     return this.courses.filter(course => course.price && course.price > 0).length;
   }
-
   getMyCourseCount(): number {
-    return this.userEnrolledCourses.length;
+    return this.userEnrolledCoursesWithStatus.length;
+  }
+
+  // Get payment status for a specific course
+  getCoursePaymentStatus(courseId: number): string | null {
+    const enrolledCourse = this.userEnrolledCoursesWithStatus.find(course => course.courseId === courseId);
+    return enrolledCourse ? enrolledCourse.paymentStatus : null;
+  }
+
+  // Check if course payment is pending
+  isCoursePaymentPending(courseId: number): boolean {
+    const status = this.getCoursePaymentStatus(courseId);
+    return status === 'pending';
+  }
+
+  // Check if course payment is completed
+  isCoursePaymentCompleted(courseId: number): boolean {
+    const status = this.getCoursePaymentStatus(courseId);
+    return status === 'completed';
   }
 
   hasAccessToCourse(courseId: number): boolean {
@@ -190,7 +218,7 @@ export class CoursesExplorerComponent implements OnInit {
 
   enrollInCourse(course: Course): void {
     const isPaidCourse = course.price && course.price > 0;
-    
+
     if (isPaidCourse) {
       const hasAccess = this.hasAccessToCourse(course.courseId);
       if (!hasAccess) {
@@ -205,11 +233,24 @@ export class CoursesExplorerComponent implements OnInit {
       this.startCourse(course);
     }
   }
-
   private initiatePayment(course: Course): void {
-    // TODO: Implement payment initiation logic
-    console.log('Initiating payment for course:', course.title);
-    alert(`Payment for "${course.title}" will be implemented soon! Price: ₹${course.price}`);
+    // Open purchase form dialog
+    const dialogRef = this.dialog.open(PurchaseFormComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      data: { course },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.success) {
+        // Payment submitted successfully
+        alert(`Payment submitted successfully! Your course access will be activated once payment is verified.`);
+        // Optionally reload data to refresh course access
+        this.loadData();
+      }
+    });
   }
 
   private startCourse(course: Course): void {

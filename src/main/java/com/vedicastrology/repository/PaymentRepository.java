@@ -28,4 +28,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     // Check if user has access to a specific course
     @Query("SELECT CASE WHEN COUNT(p) > 0 THEN true ELSE false END FROM Payment p WHERE p.login.id = :loginId AND p.course.courseId = :courseId AND p.status = 'completed'")
     boolean hasUserAccessToCourse(@Param("loginId") Long loginId, @Param("courseId") Long courseId);
+
+    // Get all payments for a user (including pending ones) with course details
+    @Query("SELECT p FROM Payment p JOIN FETCH p.course WHERE p.login.id = :loginId ORDER BY p.paymentDate DESC")
+    List<Payment> findPaymentsWithCoursesByLoginId(@Param("loginId") Long loginId);
 }
