@@ -121,15 +121,9 @@
               <mat-icon *ngIf="course.isFree">play_circle_filled</mat-icon>
               <mat-icon *ngIf="course.isPaid && !course.isEnrolled">shopping_cart</mat-icon>
               <mat-icon *ngIf="course.isEnrolled && course.paymentStatus === 'pending'">schedule</mat-icon>
-              <mat-icon *ngIf="course.isEnrolled && course.hasAccess">play_circle_filled</mat-icon>
-              <mat-icon *ngIf="course.isEnrolled && !course.hasAccess">block</mat-icon>
+              <mat-icon *ngIf="course.isEnrolled && course.hasAccess">play_circle_filled</mat-icon>              <mat-icon *ngIf="course.isEnrolled && !course.hasAccess">block</mat-icon>
               {{ getButtonText(course) }}
             </button>
-
-            <!-- Debug Info (temporary) -->
-            <div class="debug-info" style="font-size: 0.7rem; color: red; margin-top: 4px;" *ngIf="course.isEnrolled || course.paymentStatus">
-              Debug: isEnrolled={{course.isEnrolled}}, paymentStatus='{{course.paymentStatus}}', hasAccess={{course.hasAccess}}
-            </div>
 
             <!-- Payment Status Badges -->
             <!-- Payment Pending Badge -->

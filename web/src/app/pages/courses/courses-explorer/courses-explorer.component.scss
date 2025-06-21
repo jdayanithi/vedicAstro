@@ -12,8 +12,11 @@ $shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1);
 $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
 
 .courses-explorer {
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  margin-top: 64px; // Account for fixed toolbar height
+  padding-bottom: 40px; // Add some bottom padding
   
   // Header Section
   .header-section {
@@ -58,7 +61,7 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
         }
         
         @media (max-width: 768px) {
-          font-size: 2.2rem;
+          font-size: 2rem !important;
           flex-direction: column;
           gap: 8px;
           
@@ -79,16 +82,23 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
         margin-right: auto;
         
         @media (max-width: 768px) {
-          font-size: 1rem;
+          font-size: 0.9rem !important;
         }
       }
     }
-  }
-  // Search and Filter Section
+  }  // Search and Filter Section
   .search-filter-section {
     background: white;
-    padding: 30px 0;
+    padding: 20px 0 30px;
     box-shadow: $shadow-light;
+    position: sticky;
+    top: 64px; // Stick below the fixed toolbar
+    z-index: 10; // Ensure it stays above course content
+    border-bottom: 1px solid $border-color;
+    
+    @media (max-width: 768px) {
+      padding: 15px 0 20px;
+    }
     
     .search-filter-content {
       max-width: 1200px;
@@ -151,15 +161,16 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
             }
           }
         }
-        
-        @media (max-width: 768px) {
+          @media (max-width: 968px) {
           .tab-group {
-            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
             
             .tab-button {
               flex: 1;
+              min-width: 120px;
               padding: 10px 12px;
-              font-size: 0.9rem;
+              font-size: 0.85rem;
               
               mat-icon {
                 font-size: 16px;
@@ -173,18 +184,57 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
             }
           }
         }
+        
+        @media (max-width: 768px) {
+          .tab-group {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            
+            .tab-button {
+              flex: 1;
+              padding: 8px 10px;
+              font-size: 0.8rem;
+              
+              mat-icon {
+                font-size: 14px;
+                width: 14px;
+                height: 14px;
+              }
+              
+              .course-count {
+                font-size: 0.7rem;
+                margin-left: 2px;
+              }
+            }
+          }
+        }
       }
-      
-      // Search and Category Row
+        // Search and Category Row
       .search-category-row {
         display: grid;
         grid-template-columns: 2fr 1fr auto;
         gap: 20px;
         align-items: end;
         
+        @media (max-width: 968px) {
+          grid-template-columns: 1fr 1fr;
+          gap: 15px;
+          
+          .results-info {
+            grid-column: 1 / -1;
+            order: 3;
+          }
+        }
+        
         @media (max-width: 768px) {
           grid-template-columns: 1fr;
           gap: 15px;
+          
+          .results-info {
+            order: 3;
+          }
         }
         
         .search-field, .category-field {
@@ -239,13 +289,13 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
       font-size: 1.1rem;
       margin: 0;
     }
-  }
-  
-  // Courses Section
+  }  // Courses Section
   .courses-section {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px 60px;
+    padding: 30px 20px 60px;
+    position: relative;
+    min-height: 60vh; // Ensure minimum height for content visibility
     
     .courses-grid {
       display: grid;
@@ -561,4 +611,46 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
 // Stagger animation for course grid
 .courses-grid .course-card {
   animation-delay: calc(var(--animation-order, 0) * 0.1s);
+}
+
+// Responsive fixes
+@media (max-width: 768px) {
+  .courses-explorer {
+    margin-top: 56px; // Adjust for smaller toolbar on mobile
+    
+    .header-section {
+      padding: 40px 0 30px;
+      
+      .page-title {
+        font-size: 2rem !important;
+      }
+      
+      .page-subtitle {
+        font-size: 0.9rem !important;
+      }
+    }
+    
+    .search-filter-section {
+      padding: 20px 0;
+      
+      .search-filter-content {
+        padding: 0 15px;
+        gap: 15px;
+      }
+    }
+    
+    .courses-section {
+      padding: 30px 15px 50px;
+    }
+  }
+}
+
+// Ensure proper overflow handling
+body {
+  overflow-x: hidden;
+}
+
+.courses-explorer {
+  overflow-x: hidden;
+  width: 100%;
 }

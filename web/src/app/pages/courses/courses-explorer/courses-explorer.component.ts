@@ -75,18 +75,6 @@ export class CoursesExplorerComponent implements OnInit {
     }    courseObservable.subscribe({
       next: (courses) => {
         this.allCourses = courses.filter(course => course.isPublished);
-        console.log(`Loaded ${this.selectedTab} courses:`, this.allCourses);
-        
-        // Debug: Log courses with payment status
-        const enrolledCourses = this.allCourses.filter(course => course.isEnrolled);
-        if (enrolledCourses.length > 0) {
-          console.log('Enrolled courses:', enrolledCourses.map(course => ({
-            title: course.title,
-            isEnrolled: course.isEnrolled,
-            paymentStatus: course.paymentStatus,
-            hasAccess: course.hasAccess
-          })));
-        }
         
         this.filterCourses();
         this.loading = false;
@@ -125,9 +113,7 @@ export class CoursesExplorerComponent implements OnInit {
   onCategoryFilter(categoryId: number | null): void {
     this.selectedCategory = categoryId;
     this.filterCourses();
-  }
-  onTabChange(tab: 'all' | 'free' | 'paid' | 'my-courses'): void {
-    console.log('Tab changed to:', tab);
+  }  onTabChange(tab: 'all' | 'free' | 'paid' | 'my-courses'): void {
     this.selectedTab = tab;
     this.selectedCategory = null; // Reset category filter
     this.searchTerm = ''; // Reset search
@@ -286,9 +272,7 @@ export class CoursesExplorerComponent implements OnInit {
       }
     });
   }
-
   private startCourse(course: CourseWithAccess): void {
-    console.log('Starting course:', course.title);
     alert(`Starting course "${course.title}". Course content will be implemented soon!`);
   }
 }
