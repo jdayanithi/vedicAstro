@@ -17,8 +17,7 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
   position: relative;
   margin-top: 64px; // Account for fixed toolbar height
   padding-bottom: 40px; // Add some bottom padding
-  
-  // Header Section
+    // Header Section
   .header-section {
     background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
     color: white;
@@ -26,6 +25,7 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: hidden;
     
+    // Astrology background pattern
     &::before {
       content: '';
       position: absolute;
@@ -33,11 +33,23 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="15" cy="8" r="0.5" fill="rgba(255,255,255,0.15)"/><circle cx="8" cy="15" r="0.8" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>') repeat;
-      opacity: 0.1;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="astro-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><g fill="rgba(255,255,255,0.08)"><circle cx="20" cy="20" r="2"/><circle cx="80" cy="30" r="1.5"/><circle cx="50" cy="70" r="1"/><circle cx="15" cy="85" r="1.2"/><circle cx="90" cy="80" r="0.8"/><path d="M30,40 L32,35 L34,40 L39,38 L34,42 L32,47 L30,42 L25,38 Z" opacity="0.6"/><path d="M70,15 L71,12 L72,15 L75,14 L72,16 L71,19 L70,16 L67,14 Z" opacity="0.5"/><circle cx="60" cy="50" r="8" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/><circle cx="25" cy="65" r="6" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/></g></pattern></defs><rect width="200" height="200" fill="url(%23astro-pattern)"/></svg>') repeat;
+      opacity: 1;
     }
     
-    .header-content {
+    // Constellation overlay
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><g fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M50,50 L80,30 L120,45 L150,25 L180,40"/><path d="M200,60 L230,40 L270,55 L300,35 L330,50"/><path d="M60,120 L90,100 L130,115 L160,95 L190,110"/><path d="M220,130 L250,110 L290,125 L320,105 L350,120"/><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.8)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.6)"/><circle cx="120" cy="45" r="2" fill="rgba(255,255,255,0.7)"/><circle cx="150" cy="25" r="1" fill="rgba(255,255,255,0.5)"/><circle cx="180" cy="40" r="1.5" fill="rgba(255,255,255,0.8)"/><circle cx="200" cy="60" r="2" fill="rgba(255,255,255,0.6)"/><circle cx="230" cy="40" r="1.5" fill="rgba(255,255,255,0.7)"/><circle cx="270" cy="55" r="1" fill="rgba(255,255,255,0.5)"/><circle cx="300" cy="35" r="2" fill="rgba(255,255,255,0.8)"/><circle cx="330" cy="50" r="1.5" fill="rgba(255,255,255,0.6)"/></g></svg>') repeat-x;
+      opacity: 0.6;
+      animation: float-constellations 20s ease-in-out infinite;
+    }
+      .header-content {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
@@ -45,7 +57,46 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
       position: relative;
       z-index: 1;
       
-      .page-title {
+      // Floating zodiac symbols
+      &::before {
+        content: '♈ ♉ ♊ ♋ ♌ ♍ ♎ ♏ ♐ ♑ ♒ ♓';
+        position: absolute;
+        top: -20px;
+        left: 0;
+        right: 0;
+        font-size: 1.5rem;
+        opacity: 0.15;
+        letter-spacing: 2rem;
+        animation: zodiac-float 15s ease-in-out infinite;
+        pointer-events: none;
+        
+        @media (max-width: 768px) {
+          font-size: 1rem;
+          letter-spacing: 1rem;
+          top: -10px;
+        }
+      }
+      
+      // Additional mystical elements
+      &::after {
+        content: '☽ ☾ ★ ✦ ◐ ◑';
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        right: 0;
+        font-size: 1.2rem;
+        opacity: 0.1;
+        letter-spacing: 3rem;
+        animation: twinkle-stars 8s ease-in-out infinite;
+        pointer-events: none;
+        
+        @media (max-width: 768px) {
+          font-size: 0.9rem;
+          letter-spacing: 2rem;
+          bottom: -10px;
+        }
+      }
+        .page-title {
         font-size: 3rem;
         font-weight: 700;
         margin: 0 0 16px 0;
@@ -53,11 +104,13 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
         align-items: center;
         justify-content: center;
         gap: 16px;
-        
-        .title-icon {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+          .title-icon {
           font-size: 3rem;
           width: 3rem;
           height: 3rem;
+          filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+          animation: twinkle-stars 6s ease-in-out infinite;
         }
         
         @media (max-width: 768px) {
@@ -611,6 +664,39 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
 // Stagger animation for course grid
 .courses-grid .course-card {
   animation-delay: calc(var(--animation-order, 0) * 0.1s);
+}
+
+// Astrology-themed animations
+@keyframes float-constellations {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes twinkle-stars {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes zodiac-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
 }
 
 // Responsive fixes
