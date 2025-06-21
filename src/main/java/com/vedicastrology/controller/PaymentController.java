@@ -148,4 +148,28 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Failed to create payment: " + e.getMessage());
         }
     }
+
+    // Debug endpoint to check all payments with status
+    @GetMapping("/debug/all-payments")
+    public ResponseEntity<?> getAllPaymentsDebug() {
+        try {
+            List<Payment> payments = paymentService.getAllPaymentsRaw();
+            return ResponseEntity.ok(payments.stream()
+                .map(p -> {
+                    return new Object() {
+                        public final Long paymentId = p.getPaymentId();
+                        public final Long loginId = p.getLogin() != null ? p.getLogin().getId() : null;
+                        public final Long courseId = p.getCourse() != null ? p.getCourse().getCourseId() : null;
+                        public final String courseName = p.getCourse() != null ? p.getCourse().getTitle() : null;
+                        public final BigDecimal amount = p.getAmount();
+                        public final String status = p.getStatus() != null ? p.getStatus().name() : "NULL";
+                        public final String paymentMethod = p.getPaymentMethod();
+                        public final String transactionId = p.getTransactionId();
+                    };
+                })
+                .toList());
+        } catch (Exception e) {
+            return ResponseEntity.ok("Error: " + e.getMessage());
+        }
+    }
 }

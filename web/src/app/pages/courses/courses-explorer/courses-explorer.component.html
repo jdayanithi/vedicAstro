@@ -13,25 +13,25 @@
   <div class="search-filter-section">
     <div class="search-filter-content">      <!-- Course Type Tabs -->
       <div class="course-tabs">
-        <mat-button-toggle-group [(ngModel)]="selectedTab" (change)="onTabChange()" class="tab-group">
+        <mat-button-toggle-group [(ngModel)]="selectedTab" (change)="onTabChange(selectedTab)" class="tab-group">
           <mat-button-toggle value="all" class="tab-button">
             <mat-icon>apps</mat-icon>
             All Courses
-            <span class="course-count">({{ courses.length }})</span>
+            <span class="course-count">({{ allCourses.length }})</span>
           </mat-button-toggle>
           <mat-button-toggle value="free" class="tab-button">
             <mat-icon>card_giftcard</mat-icon>
             Free Courses
-            <span class="course-count">({{ getFreeCourseCount() }})</span>
+            <span class="course-count">({{ freeCoursesCount }})</span>
           </mat-button-toggle>
           <mat-button-toggle value="paid" class="tab-button">
             <mat-icon>payment</mat-icon>
             Paid Courses
-            <span class="course-count">({{ getPaidCourseCount() }})</span>
-          </mat-button-toggle>          <mat-button-toggle value="my-courses" class="tab-button" *ngIf="currentUserId">
+            <span class="course-count">({{ paidCoursesCount }})</span>
+          </mat-button-toggle>          <mat-button-toggle value="my-courses" class="tab-button" *ngIf="isLoggedIn">
             <mat-icon>bookmark</mat-icon>
             My Courses
-            <span class="course-count">({{ getMyCourseCount() }})</span>
+            <span class="course-count">({{ myCoursesCount }})</span>
           </mat-button-toggle>
         </mat-button-toggle-group>
       </div>
@@ -81,14 +81,15 @@
         <div class="course-thumbnail">
           <img [src]="course.thumbnailUrl || 'https://via.placeholder.com/400x200/6366f1/ffffff?text=Course+Image'" 
                [alt]="course.title"
-               class="thumbnail-image">
-          <div class="course-overlay">
-            <div class="difficulty-badge" [style.background-color]="getDifficultyColor(course.difficultyLevel)">
+               class="thumbnail-image">          <div class="course-overlay">
+            <div class="difficulty-badge" 
+                 *ngIf="course.difficultyLevel" 
+                 [style.background-color]="getDifficultyColor(course.difficultyLevel)">
               {{ course.difficultyLevel }}
             </div>
-            <div class="duration-badge">
+            <div class="duration-badge" *ngIf="course.durationHours">
               <mat-icon>schedule</mat-icon>
-              {{ formatDuration(course.estimatedDuration) }}
+              {{ formatDuration(course.durationHours) }}
             </div>
           </div>
         </div>
@@ -104,65 +105,52 @@
           </div>
 
           <p class="course-description">{{ course.description }}</p>          <div class="course-footer">
-            <div class="course-price" *ngIf="course.price">
+            <div class="course-price" *ngIf="course.isPaid">
               <span class="price-label">Price:</span>
               <span class="price-value">₹{{ course.price }}</span>
             </div>
-            <div class="course-price free" *ngIf="!course.price">
+            <div class="course-price free" *ngIf="course.isFree">
               <span class="price-value">Free</span>
-            </div>
-
-            <!-- Free Course Button -->
+            </div>            <!-- Course Action Button -->
             <button mat-raised-button 
-                    color="primary" 
+                    [color]="getButtonColor(course)"
                     class="enroll-btn"
-                    *ngIf="!course.price || course.price === 0"
+                    [class]="getButtonClass(course)"
+                    [disabled]="isButtonDisabled(course)"
                     (click)="enrollInCourse(course)">
-              <mat-icon>play_circle_filled</mat-icon>
-              Start Course
-            </button>            <!-- Paid Course - Payment is pending -->
-            <button mat-raised-button 
-                    color="warn" 
-                    class="enroll-btn pending-btn"
-                    *ngIf="course.price && course.price > 0 && isCoursePaymentPending(course.courseId)"
-                    disabled>
-              <mat-icon>schedule</mat-icon>
-              Payment Pending
+              <mat-icon *ngIf="course.isFree">play_circle_filled</mat-icon>
+              <mat-icon *ngIf="course.isPaid && !course.isEnrolled">shopping_cart</mat-icon>
+              <mat-icon *ngIf="course.isEnrolled && course.paymentStatus === 'pending'">schedule</mat-icon>
+              <mat-icon *ngIf="course.isEnrolled && course.hasAccess">play_circle_filled</mat-icon>
+              <mat-icon *ngIf="course.isEnrolled && !course.hasAccess">block</mat-icon>
+              {{ getButtonText(course) }}
             </button>
 
-            <!-- Paid Course - User has access (payment completed) -->
-            <button mat-raised-button 
-                    color="primary" 
-                    class="enroll-btn access-granted"
-                    *ngIf="course.price && course.price > 0 && isCoursePaymentCompleted(course.courseId)"
-                    (click)="enrollInCourse(course)">
-              <mat-icon>play_circle_filled</mat-icon>
-              Continue Course
-            </button>
-
-            <!-- Paid Course - User needs to purchase -->
-            <button mat-raised-button 
-                    color="accent" 
-                    class="enroll-btn purchase-btn"
-                    *ngIf="course.price && course.price > 0 && !getCoursePaymentStatus(course.courseId)"
-                    (click)="enrollInCourse(course)">
-              <mat-icon>shopping_cart</mat-icon>
-              Purchase Course
-            </button>
+            <!-- Debug Info (temporary) -->
+            <div class="debug-info" style="font-size: 0.7rem; color: red; margin-top: 4px;" *ngIf="course.isEnrolled || course.paymentStatus">
+              Debug: isEnrolled={{course.isEnrolled}}, paymentStatus='{{course.paymentStatus}}', hasAccess={{course.hasAccess}}
+            </div>
 
             <!-- Payment Status Badges -->
             <!-- Payment Pending Badge -->
             <div class="access-badge pending-badge" 
-                 *ngIf="course.price && course.price > 0 && isCoursePaymentPending(course.courseId)">
+                 *ngIf="course.isEnrolled && course.paymentStatus === 'pending'">
               <mat-icon class="access-icon">schedule</mat-icon>
               <span class="access-text">Purchase Pending</span>
             </div>
 
             <!-- Access Granted Badge -->
             <div class="access-badge" 
-                 *ngIf="course.price && course.price > 0 && isCoursePaymentCompleted(course.courseId)">
+                 *ngIf="course.isEnrolled && course.paymentStatus === 'completed'">
               <mat-icon class="access-icon">verified</mat-icon>
               <span class="access-text">Purchased</span>
+            </div>
+
+            <!-- Free Course Badge -->
+            <div class="access-badge free-badge" 
+                 *ngIf="course.isFree">
+              <mat-icon class="access-icon">card_giftcard</mat-icon>
+              <span class="access-text">Free Course</span>
             </div>
           </div>
         </div>
@@ -176,10 +164,9 @@
       </p>
       <p class="empty-description" *ngIf="selectedTab !== 'paid'">
         Try adjusting your search criteria or category filter to find more courses.
-      </p>
-      <button mat-stroked-button 
+      </p>      <button mat-stroked-button 
               color="primary" 
-              (click)="selectedCategory = null; searchTerm = ''; selectedTab = 'all'; filterCourses()">
+              (click)="selectedCategory = null; searchTerm = ''; selectedTab = 'all'; onTabChange('all')">
         <mat-icon>refresh</mat-icon>
         Reset Filters
       </button>

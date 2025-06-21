@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GoogleAuthService } from './google-auth.service';
 import { environment } from '../../environments/environment';
@@ -46,6 +46,16 @@ export class AuthService {
   
   // Store the URL the user wanted to access before being redirected to login
   redirectUrl: string | null = null;
+
+  // Public observables
+  get isAuthenticated$(): Observable<boolean> {
+    return this.isAuthenticated.asObservable();
+  }
+
+  get currentUserRole$(): Observable<string | null> {
+    return this.currentUserRole.asObservable();
+  }
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -57,29 +67,35 @@ export class AuthService {
   private checkSession(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      this.isAuthenticated.next(true);
-      const session = this.getSession();
-      if (session) {
-        this.currentUserRole.next(session.role);
-      }
+      // Validate token with backend
+      this.validateToken().subscribe({
+        next: (isValid) => {
+          if (isValid) {
+            this.isAuthenticated.next(true);
+            const session = this.getSession();
+            if (session) {
+              this.currentUserRole.next(session.role);
+            }
+          } else {
+            this.clearSession();
+          }
+        },
+        error: () => {
+          this.clearSession();
+        }
+      });
+    } else {
+      this.clearSession();
     }
-  }  login(email: string, password: string): Observable<any> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
-      .pipe(
-        tap((response: LoginResponse) => {
-          this.handleLoginSuccess(response);
-        })
-      );
   }
 
-  googleLogin(googleToken: string): Observable<any> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login/google`, { token: googleToken })
-      .pipe(
-        tap((response: LoginResponse) => {
-          this.handleLoginSuccess(response);
-        })
-      );
+  private validateToken(): Observable<boolean> {
+    return this.http.get<any>(`${this.apiUrl}/auth/validate-token`).pipe(
+      tap(() => true),
+      catchError(() => of(false))
+    );
   }
+
   private handleLoginSuccess(response: LoginResponse): void {
     localStorage.setItem('token', response.token);
     localStorage.setItem('session', JSON.stringify({
@@ -122,6 +138,44 @@ export class AuthService {
     }, 100);
     
     this.router.navigate(['/login']);
+  }
+
+  clearSession(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('session');
+    sessionStorage.clear();
+    this.isAuthenticated.next(false);
+    this.currentUserRole.next(null);
+    
+    // Clear any cookies
+    document.cookie.split(";").forEach((c) => {
+      const eqPos = c.indexOf("=");
+      const name = eqPos > -1 ? c.substr(0, eqPos) : c;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    });
+  }
+
+  redirectToLogin(): void {
+    this.clearSession();
+    this.router.navigate(['/login']);
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
+      .pipe(
+        tap((response: LoginResponse) => {
+          this.handleLoginSuccess(response);
+        })
+      );
+  }
+
+  googleLogin(googleToken: string): Observable<any> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login/google`, { token: googleToken })
+      .pipe(
+        tap((response: LoginResponse) => {
+          this.handleLoginSuccess(response);
+        })
+      );
   }
 
   isLoggedIn(): Observable<boolean> {

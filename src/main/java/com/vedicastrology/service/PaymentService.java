@@ -25,10 +25,16 @@ public class PaymentService {
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
-    private CourseRepository courseRepository;
+    private CourseRepository courseRepository;    public List<PaymentDTO> getAllPayments() {
+        return paymentRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
 
-    public List<PaymentDTO> getAllPayments() {
-        return paymentRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    // Debug method to get raw payment entities
+    public List<Payment> getAllPaymentsRaw() {
+        return paymentRepository.findAll();
     }
 
     public PaymentDTO getPaymentById(Long id) {

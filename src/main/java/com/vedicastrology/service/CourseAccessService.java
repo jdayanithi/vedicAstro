@@ -1,0 +1,153 @@
+package com.vedicastrology.service;
+
+import com.vedicastrology.dto.CourseWithAccessDTO;
+import com.vedicastrology.entity.Course;
+import com.vedicastrology.entity.Payment;
+import com.vedicastrology.entity.PaymentStatus;
+import com.vedicastrology.entity.Category;
+import com.vedicastrology.repository.CourseRepository;
+import com.vedicastrology.repository.PaymentRepository;
+import com.vedicastrology.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class CourseAccessService {
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    /**
+     * Get all courses with access information for a specific user
+     */
+    public List<CourseWithAccessDTO> getCoursesWithAccess(Long userId) {
+        // Get all published courses
+        List<Course> allCourses = courseRepository.findByIsPublishedTrue();
+        
+        // Get all payments for the user
+        List<Payment> userPayments = userId != null ? 
+            paymentRepository.findPaymentsWithCoursesByLoginId(userId) : 
+            List.of();
+        
+        // Create a map of course payments for quick lookup
+        Map<Long, Payment> coursePaymentMap = userPayments.stream()
+            .collect(Collectors.toMap(
+                payment -> payment.getCourse().getCourseId(),
+                payment -> payment,
+                (existing, replacement) -> {
+                    // Keep the most recent payment if multiple payments exist for same course
+                    return existing.getPaymentDate().isAfter(replacement.getPaymentDate()) ? 
+                        existing : replacement;
+                }
+            ));
+
+        // Get categories for category names
+        Map<Long, String> categoryMap = categoryRepository.findAll().stream()
+            .collect(Collectors.toMap(Category::getCategoryId, Category::getName));
+
+        // Convert courses to DTOs with access information
+        return allCourses.stream()
+            .map(course -> mapToCourseWithAccessDTO(course, coursePaymentMap.get(course.getCourseId()), categoryMap))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Get courses with access information for anonymous users
+     */
+    public List<CourseWithAccessDTO> getCoursesWithoutAccess() {
+        return getCoursesWithAccess(null);
+    }
+
+    /**
+     * Get only enrolled courses for a user (with any payment status)
+     */
+    public List<CourseWithAccessDTO> getEnrolledCoursesWithAccess(Long userId) {
+        List<CourseWithAccessDTO> allCourses = getCoursesWithAccess(userId);
+        return allCourses.stream()
+            .filter(course -> course.getIsEnrolled())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Get only free courses
+     */
+    public List<CourseWithAccessDTO> getFreeCoursesWithAccess(Long userId) {
+        List<CourseWithAccessDTO> allCourses = getCoursesWithAccess(userId);
+        return allCourses.stream()
+            .filter(course -> course.getIsFree())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Get only paid courses
+     */
+    public List<CourseWithAccessDTO> getPaidCoursesWithAccess(Long userId) {
+        List<CourseWithAccessDTO> allCourses = getCoursesWithAccess(userId);
+        return allCourses.stream()
+            .filter(course -> course.getIsPaid())
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Map Course entity to CourseWithAccessDTO with payment information
+     */
+    private CourseWithAccessDTO mapToCourseWithAccessDTO(Course course, Payment payment, Map<Long, String> categoryMap) {
+        CourseWithAccessDTO dto = new CourseWithAccessDTO();
+        
+        // Basic course information
+        dto.setCourseId(course.getCourseId());
+        dto.setTitle(course.getTitle());
+        dto.setDescription(course.getDescription());
+        dto.setLoginId(course.getLoginId());
+        dto.setCategoryId(course.getCategoryId());
+        dto.setCategoryName(categoryMap.get(course.getCategoryId()));
+        dto.setDifficultyLevel(course.getDifficultyLevel() != null ? course.getDifficultyLevel().name() : null);
+        dto.setPrice(course.getPrice());
+        dto.setDurationHours(course.getDurationHours());
+        dto.setThumbnailUrl(course.getThumbnailUrl());
+        dto.setIsPublished(course.getIsPublished());
+        dto.setCreatedAt(course.getCreatedAt());
+        dto.setUpdatedAt(course.getUpdatedAt());
+        
+        // Determine course type
+        boolean isFree = course.getPrice() == null || course.getPrice().compareTo(BigDecimal.ZERO) <= 0;
+        dto.setIsFree(isFree);
+        dto.setIsPaid(!isFree);
+          // Payment and access information
+        if (payment != null) {
+            dto.setIsEnrolled(true);
+            dto.setPaymentStatus(payment.getStatus() != null ? payment.getStatus().name() : "pending");
+            dto.setPaymentDate(payment.getPaymentDate());
+            dto.setTransactionId(payment.getTransactionId());
+            dto.setPaidAmount(payment.getAmount());
+            dto.setPaymentMethod(payment.getPaymentMethod());
+            dto.setPaymentProofUrl(payment.getPaymentProofUrl());
+            dto.setExpiryDate(payment.getExpiryDate());
+            
+            // Determine access
+            PaymentStatus status = payment.getStatus() != null ? payment.getStatus() : PaymentStatus.pending;
+            boolean hasAccess = isFree || status == PaymentStatus.completed;
+            dto.setHasAccess(hasAccess);
+            dto.setCanAccess(hasAccess);
+        } else {
+            // No payment found
+            dto.setIsEnrolled(false);
+            dto.setPaymentStatus(null);
+            dto.setHasAccess(isFree); // Free courses are always accessible
+            dto.setCanAccess(isFree);
+        }
+        
+        return dto;
+    }
+}

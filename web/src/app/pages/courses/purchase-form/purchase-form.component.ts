@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PaymentService } from '../../../service/payment.service';
 import { AuthService } from '../../../service/auth.service';
-import { Course } from '../../../service/course.service';
+import { CourseWithAccess } from '../../../service/course.service';
 
 @Component({
   selector: 'app-purchase-form',
@@ -21,7 +21,7 @@ export class PurchaseFormComponent implements OnInit {
     private paymentService: PaymentService,
     private authService: AuthService,
     public dialogRef: MatDialogRef<PurchaseFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { course: Course }
+    @Inject(MAT_DIALOG_DATA) public data: { course: CourseWithAccess }
   ) {    this.purchaseForm = this.fb.group({
       transactionId: ['', [Validators.required, Validators.minLength(5)]],
       paymentMethod: ['UPI', Validators.required],

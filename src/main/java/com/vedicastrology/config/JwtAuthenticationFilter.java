@@ -28,19 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final ObjectMapper objectMapper;    @Override
-    protected void doFilterInternal(
+    private final ObjectMapper objectMapper;    @Override    protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        // Skip JWT validation for public endpoints
-        String requestPath = request.getRequestURI();
-        if (isPublicEndpoint(requestPath)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         try {
             final String authHeader = request.getHeader("Authorization");
             
@@ -48,23 +40,49 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            
-            final String jwt = authHeader.substring(7);
-            final String userEmail = jwtService.extractUsername(jwt);
-            
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-                
-                if (jwtService.isTokenValid(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+              final String jwt = authHeader.substring(7);
+            final String userIdOrEmail = jwtService.extractUsername(jwt);            if (userIdOrEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                // Try to load user by ID first (for JWT tokens created with user ID)
+                try {
+                    Long userId = Long.parseLong(userIdOrEmail);
+                    // For JWT tokens with user ID, validate the token by trying to extract claims
+                    try {
+                        // This will throw an exception if the token is invalid or expired
+                        jwtService.extractUsername(jwt);
+                        
+                        // Create a simple authentication token with the user ID
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userIdOrEmail, // Use the user ID as the principal
+                                null,
+                                java.util.Collections.emptyList() // Empty authorities for now
+                        );
+                        authToken.setDetails(
+                                new WebAuthenticationDetailsSource().buildDetails(request)
+                        );
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    } catch (Exception ex) {
+                        // JWT token is invalid or expired, continue as anonymous
+                    }
+                    filterChain.doFilter(request, response);
+                    return;
+                } catch (NumberFormatException e) {
+                    // Not a user ID, try loading by username/email
+                    try {
+                        UserDetails userDetails = this.userDetailsService.loadUserByUsername(userIdOrEmail);
+                        if (jwtService.isTokenValid(jwt, userDetails)) {
+                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+                            authToken.setDetails(
+                                    new WebAuthenticationDetailsSource().buildDetails(request)
+                            );
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        }
+                    } catch (Exception ex) {
+                        // Failed to load user or validate token, continue as anonymous
+                    }
                 }
             }
             filterChain.doFilter(request, response);
@@ -89,13 +107,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             body.put("message", "Invalid token");
             
             objectMapper.writeValue(response.getOutputStream(), body);
-        }
-    }
-
-    private boolean isPublicEndpoint(String requestPath) {
-        return requestPath.startsWith("/api/login") ||
-               requestPath.startsWith("/api/courses") ||
-               requestPath.startsWith("/api/categories") ||
-               requestPath.startsWith("/api/users");
-    }
+        }    }
 }

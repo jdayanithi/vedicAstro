@@ -61,12 +61,11 @@ public class SecurityConfig {
                                "/api/payments/**", "/api/notifications/**", "/api/posts/**", "/api/comments/**",
                                "/api/lesson-tags/**","/api/keynote-tags/**").permitAll()
                 .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
+            )            .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            .authenticationProvider(authenticationProvider());
-            //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // JWT filter disabled for development/testing
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

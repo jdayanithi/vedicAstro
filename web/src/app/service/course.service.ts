@@ -15,14 +15,64 @@ export interface Course {
   estimatedDuration: number;
 }
 
+export interface CourseWithAccess {
+  courseId: number;
+  title: string;
+  description: string;
+  loginId: number;
+  categoryId: number;
+  categoryName?: string;
+  difficultyLevel?: string;
+  price?: number;
+  durationHours?: number;
+  thumbnailUrl?: string;
+  isPublished: boolean;
+  createdAt: Date;
+  updatedAt?: Date;
+  
+  // Course type flags
+  isFree: boolean;
+  isPaid: boolean;
+  
+  // Access and enrollment info
+  isEnrolled: boolean;
+  hasAccess: boolean;
+  canAccess: boolean;
+  
+  // Payment details (if enrolled)
+  paymentStatus?: string; // 'pending' | 'completed' | null
+  paymentDate?: Date;
+  transactionId?: string;
+  paidAmount?: number;
+  paymentMethod?: string;
+  paymentProofUrl?: string;
+  expiryDate?: Date;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
   private apiUrl = `${environment.apiUrl}/courses`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}  // New unified API methods
+  getAllCoursesWithAccess(): Observable<CourseWithAccess[]> {
+    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/with-access`);
+  }
 
+  getMyCoursesWithAccess(): Observable<CourseWithAccess[]> {
+    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/my-courses`);
+  }
+
+  getFreeCoursesWithAccess(): Observable<CourseWithAccess[]> {
+    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/free`);
+  }
+
+  getPaidCoursesWithAccess(): Observable<CourseWithAccess[]> {
+    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/paid`);
+  }
+
+  // Legacy methods - keeping for backward compatibility
   getAllCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(this.apiUrl);
   }

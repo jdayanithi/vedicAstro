@@ -440,8 +440,7 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
                 margin-right: 4px;
               }
             }
-            
-            .access-badge {
+              .access-badge {
               display: flex;
               align-items: center;
               gap: 4px;
@@ -454,6 +453,10 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
               
               &.pending-badge {
                 background: linear-gradient(135deg, #f59e0b, #d97706);
+              }
+              
+              &.free-badge {
+                background: linear-gradient(135deg, #10b981, #059669);
               }
             }
             
