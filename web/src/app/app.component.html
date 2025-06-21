@@ -56,20 +56,19 @@
       </div>
       
       <!-- Sticky Footer -->
-      <footer class="app-footer">
+      <footer class="app-footer" *ngIf="!(isLoginPage$ | async)">
         <div class="footer-content">
           <div class="footer-section brand-section">
             <div class="footer-logo">
               <span class="logo-icon">🌟</span>
               <h3>VedicAstro</h3>
             </div>
-            <p class="footer-tagline">Unlock the wisdom of the stars and discover your cosmic destiny</p>
+            <p class="footer-tagline">Unlock the wisdom of the stars and discover your cosmic destiny.</p>
             <div class="social-links">
               <button mat-icon-button class="social-btn" aria-label="Facebook">
                 <mat-icon>facebook</mat-icon>
-              </button>
-              <button mat-icon-button class="social-btn" aria-label="Twitter">
-                <mat-icon svgIcon="twitter" class="twitter-icon">alternate_email</mat-icon>
+              </button>              <button mat-icon-button class="social-btn" aria-label="Twitter">
+                <mat-icon>alternate_email</mat-icon>
               </button>
               <button mat-icon-button class="social-btn" aria-label="Instagram">
                 <mat-icon>camera_alt</mat-icon>
@@ -79,8 +78,7 @@
               </button>
             </div>
           </div>
-          
-          <div class="footer-section">
+            <div class="footer-section">
             <h4>Services</h4>
             <ul class="footer-links">
               <li><a routerLink="/courses">Astrology Courses</a></li>
@@ -112,7 +110,7 @@
           
           <div class="footer-section newsletter-section">
             <h4>Stay Connected</h4>
-            <p>Get cosmic insights delivered to your inbox</p>
+            <p>Get cosmic insights delivered to your inbox.</p>
             <div class="newsletter-form">
               <mat-form-field appearance="outline" class="newsletter-input">
                 <mat-label>Your email</mat-label>
@@ -150,3 +148,14 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!-- Scroll to Top Button -->
+<button 
+  mat-fab 
+  class="scroll-to-top-btn"
+  [class.show]="showScrollToTop"
+  (click)="scrollToTop()"
+  aria-label="Scroll to top"
+  title="Back to top">
+  <mat-icon>keyboard_arrow_up</mat-icon>
+</button>

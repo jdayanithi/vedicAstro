@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Topic {
   topicId: number;
@@ -47,7 +48,7 @@ export interface LessonTag {
   providedIn: 'root'
 })
 export class TopicService {
-  private apiUrl = '/api/topics';
+  private apiUrl = `${environment.apiUrl}/topics`;
 
   constructor(private http: HttpClient) {}
 
@@ -64,7 +65,7 @@ export class TopicService {
   providedIn: 'root'
 })
 export class LessonService {
-  private apiUrl = '/api/lessons';
+  private apiUrl = `${environment.apiUrl}/lessons`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,7 @@
 package com.vedicastrology.service;
 
 import com.vedicastrology.dto.PaymentDTO;
+import com.vedicastrology.dto.UserCourseAccessDTO;
 import com.vedicastrology.entity.Course;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.Payment;
@@ -74,6 +75,60 @@ public class PaymentService {
 
     public void deletePayment(Long id) {
         paymentRepository.deleteById(id);
+    }
+
+    // Get all payments for a specific user
+    public List<PaymentDTO> getPaymentsByUserId(Long loginId) {
+        return paymentRepository.findByLoginId(loginId).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get user's enrolled courses (courses they have successfully paid for)
+    public List<com.vedicastrology.dto.CourseDTO> getUserEnrolledCourses(Long loginId) {
+        List<com.vedicastrology.entity.Course> courses = 
+            paymentRepository.findCoursesByLoginIdAndStatus(loginId, PaymentStatus.completed);
+        return courses.stream()
+                .map(this::courseToCourseDTO)
+                .collect(Collectors.toList());
+    }    // Check if user has access to a specific course
+    public boolean checkUserCourseAccess(Long loginId, Long courseId) {
+        return paymentRepository.hasUserAccessToCourse(loginId, courseId);
+    }
+
+    // Get user course access information
+    public List<UserCourseAccessDTO> getUserCourseAccessList(Long loginId) {
+        List<Payment> payments = paymentRepository.findByLoginIdAndStatus(loginId, PaymentStatus.completed);
+        return payments.stream()
+                .map(this::toUserCourseAccessDTO)
+                .collect(Collectors.toList());
+    }    // Helper method to convert Course entity to CourseDTO
+    private com.vedicastrology.dto.CourseDTO courseToCourseDTO(com.vedicastrology.entity.Course course) {
+        com.vedicastrology.dto.CourseDTO dto = new com.vedicastrology.dto.CourseDTO();
+        dto.setCourseId(course.getCourseId());
+        dto.setTitle(course.getTitle());
+        dto.setDescription(course.getDescription());
+        dto.setLoginId(course.getLoginId()); // loginId is a direct field in Course
+        dto.setCategoryId(course.getCategoryId()); // categoryId is a direct field in Course
+        dto.setDifficultyLevel(course.getDifficultyLevel() != null ? course.getDifficultyLevel().name() : null);
+        dto.setPrice(course.getPrice());
+        dto.setDurationHours(course.getDurationHours());
+        dto.setThumbnailUrl(course.getThumbnailUrl());
+        dto.setIsPublished(course.getIsPublished());
+        dto.setCreatedAt(course.getCreatedAt());
+        dto.setUpdatedAt(course.getUpdatedAt());
+        return dto;
+    }
+
+    // Helper method to convert Payment to UserCourseAccessDTO
+    private UserCourseAccessDTO toUserCourseAccessDTO(Payment payment) {
+        UserCourseAccessDTO dto = new UserCourseAccessDTO();
+        dto.setCourseId(payment.getCourse().getCourseId());
+        dto.setHasAccess(payment.getStatus() == PaymentStatus.completed);
+        dto.setPaymentStatus(payment.getStatus().name());
+        dto.setPaymentDate(payment.getPaymentDate());
+        dto.setExpiryDate(payment.getExpiryDate());
+        return dto;
     }
 
     private PaymentDTO toDTO(Payment payment) {

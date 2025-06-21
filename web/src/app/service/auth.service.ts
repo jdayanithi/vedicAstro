@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GoogleAuthService } from './google-auth.service';
+import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   token: string;
+  userId: number;
   username: string;
   role: string;
   firstName: string;
@@ -40,7 +42,7 @@ interface RegisterRequest {
 export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   private currentUserRole = new BehaviorSubject<string | null>(null);
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = environment.apiUrl;
   
   // Store the URL the user wanted to access before being redirected to login
   redirectUrl: string | null = null;
@@ -78,10 +80,10 @@ export class AuthService {
         })
       );
   }
-
   private handleLoginSuccess(response: LoginResponse): void {
     localStorage.setItem('token', response.token);
     localStorage.setItem('session', JSON.stringify({
+      userId: response.userId,
       email: response.username,
       role: response.role,
       firstName: response.firstName,

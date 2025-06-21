@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from './service/auth.service';
 import { NetworkStatusService } from './service/network-status.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, filter, startWith } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +17,14 @@ export class AppComponent implements OnInit {
   isAdmin$: Observable<boolean>;
   isOnline$: Observable<boolean>;
   isSidenavOpen = false;
+  isLoginPage$: Observable<boolean>;
+  showScrollToTop = false;
   
   constructor(
     private authService: AuthService,
     private networkStatus: NetworkStatusService,
-    private platform: Platform
+    private platform: Platform,
+    private router: Router
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     this.isAdmin$ = this.authService.getCurrentUserRole().pipe(
@@ -28,16 +32,26 @@ export class AppComponent implements OnInit {
     );
     this.isOnline$ = this.networkStatus.isOnline;
     
+    this.isLoginPage$ = this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event: NavigationEnd) => event.urlAfterRedirects === '/login'),
+      startWith(this.router.url === '/login')
+    );
+    
     // Disable context menu and keyboard shortcuts
     this.disableSecurityFeatures();
   }
-
   async ngOnInit() {
     // Initialize status bar when platform is ready
     if (this.platform.is('capacitor')) {
       await this.initializeStatusBar();
     }
-  }  private async initializeStatusBar(): Promise<void> {
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showScrollToTop = window.scrollY > 300;
+  }private async initializeStatusBar(): Promise<void> {
     try {
       // Set status bar to not overlay the WebView content
       await StatusBar.setOverlaysWebView({ overlay: false });
@@ -118,10 +132,15 @@ export class AppComponent implements OnInit {
 
   toggleSidenav(): void {
     this.isSidenavOpen = !this.isSidenavOpen;
-  }
-
-  logout(): void {
+  }  logout(): void {
     this.authService.logout();
     this.isSidenavOpen = false;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 }

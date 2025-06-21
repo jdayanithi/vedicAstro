@@ -1,0 +1,172 @@
+<div class="courses-explorer">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon class="title-icon">school</mat-icon>
+        Explore Courses
+      </h1>
+      <p class="page-subtitle">Discover your path to mastering Vedic Astrology</p>
+    </div>
+  </div>
+  <!-- Search and Filter Section -->
+  <div class="search-filter-section">
+    <div class="search-filter-content">      <!-- Course Type Tabs -->
+      <div class="course-tabs">
+        <mat-button-toggle-group [(ngModel)]="selectedTab" (change)="onTabChange()" class="tab-group">
+          <mat-button-toggle value="all" class="tab-button">
+            <mat-icon>apps</mat-icon>
+            All Courses
+            <span class="course-count">({{ courses.length }})</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="free" class="tab-button">
+            <mat-icon>card_giftcard</mat-icon>
+            Free Courses
+            <span class="course-count">({{ getFreeCourseCount() }})</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="paid" class="tab-button">
+            <mat-icon>payment</mat-icon>
+            Paid Courses
+            <span class="course-count">({{ getPaidCourseCount() }})</span>
+          </mat-button-toggle>          <mat-button-toggle value="my-courses" class="tab-button" *ngIf="currentUserId">
+            <mat-icon>bookmark</mat-icon>
+            My Courses
+            <span class="course-count">({{ getMyCourseCount() }})</span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <!-- Search and Category Row -->
+      <div class="search-category-row">
+        <!-- Search Bar -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search courses</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (ngModelChange)="onSearchChange()"
+                 placeholder="Find your perfect course...">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Category Filter -->
+        <mat-form-field appearance="outline" class="category-field">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+            <mat-option [value]="null">All Categories</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>category</mat-icon>
+        </mat-form-field>
+
+        <!-- Results Count -->
+        <div class="results-info">
+          <span class="results-count">{{ filteredCourses.length }} course{{ filteredCourses.length !== 1 ? 's' : '' }} found</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-section" *ngIf="loading">
+    <mat-spinner class="loading-spinner"></mat-spinner>
+    <p class="loading-text">Loading courses...</p>
+  </div>
+
+  <!-- Courses Grid -->
+  <div class="courses-section" *ngIf="!loading">
+    <div class="courses-grid">
+      <div class="course-card" *ngFor="let course of filteredCourses; trackBy: trackByFn">        <!-- Course Thumbnail -->
+        <div class="course-thumbnail">
+          <img [src]="course.thumbnailUrl || 'https://via.placeholder.com/400x200/6366f1/ffffff?text=Course+Image'" 
+               [alt]="course.title"
+               class="thumbnail-image">
+          <div class="course-overlay">
+            <div class="difficulty-badge" [style.background-color]="getDifficultyColor(course.difficultyLevel)">
+              {{ course.difficultyLevel }}
+            </div>
+            <div class="duration-badge">
+              <mat-icon>schedule</mat-icon>
+              {{ formatDuration(course.estimatedDuration) }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Content -->
+        <div class="course-content">
+          <div class="course-header">
+            <h3 class="course-title">{{ course.title }}</h3>
+            <div class="course-category">
+              <mat-icon class="category-icon">folder</mat-icon>
+              {{ getCategoryName(course.categoryId) }}
+            </div>
+          </div>
+
+          <p class="course-description">{{ course.description }}</p>          <div class="course-footer">
+            <div class="course-price" *ngIf="course.price">
+              <span class="price-label">Price:</span>
+              <span class="price-value">₹{{ course.price }}</span>
+            </div>
+            <div class="course-price free" *ngIf="!course.price">
+              <span class="price-value">Free</span>
+            </div>
+
+            <!-- Free Course Button -->
+            <button mat-raised-button 
+                    color="primary" 
+                    class="enroll-btn"
+                    *ngIf="!course.price || course.price === 0"
+                    (click)="enrollInCourse(course)">
+              <mat-icon>play_circle_filled</mat-icon>
+              Start Course
+            </button>
+
+            <!-- Paid Course - User has access -->
+            <button mat-raised-button 
+                    color="primary" 
+                    class="enroll-btn access-granted"
+                    *ngIf="course.price && course.price > 0 && hasAccessToCourse(course.courseId)"
+                    (click)="enrollInCourse(course)">
+              <mat-icon>play_circle_filled</mat-icon>
+              Continue Course
+            </button>
+
+            <!-- Paid Course - User needs to purchase -->
+            <button mat-raised-button 
+                    color="accent" 
+                    class="enroll-btn purchase-btn"
+                    *ngIf="course.price && course.price > 0 && !hasAccessToCourse(course.courseId)"
+                    (click)="enrollInCourse(course)">
+              <mat-icon>shopping_cart</mat-icon>
+              Purchase Course
+            </button>
+
+            <!-- Access Status Badge for Paid Courses -->
+            <div class="access-badge" 
+                 *ngIf="course.price && course.price > 0 && hasAccessToCourse(course.courseId)">
+              <mat-icon class="access-icon">verified</mat-icon>
+              <span class="access-text">Purchased</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    <!-- Empty State -->
+    <div class="empty-state" *ngIf="filteredCourses.length === 0">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h3 class="empty-title">No courses found</h3>
+      <p class="empty-description" *ngIf="selectedTab === 'paid'">
+        You don't have access to any paid courses yet. Purchase courses to access premium content.
+      </p>
+      <p class="empty-description" *ngIf="selectedTab !== 'paid'">
+        Try adjusting your search criteria or category filter to find more courses.
+      </p>
+      <button mat-stroked-button 
+              color="primary" 
+              (click)="selectedCategory = null; searchTerm = ''; selectedTab = 'all'; filterCourses()">
+        <mat-icon>refresh</mat-icon>
+        Reset Filters
+      </button>
+    </div>
+  </div>
+</div>

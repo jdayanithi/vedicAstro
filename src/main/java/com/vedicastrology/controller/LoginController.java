@@ -94,24 +94,31 @@ public class LoginController {
     public ResponseEntity<?> validateLogin(@RequestBody Login loginRequest) {
         try {
             Login login = loginService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword());
-            
-            // Create UserDetails for JWT token generation
+              // Create UserDetails for JWT token generation
             UserDetails userDetails = User.builder()
-                .username(login.getUsername())
+                .username(login.getId().toString()) // Use user ID as username in JWT
                 .password(login.getPassword())
                 .roles(login.getRole())
                 .build();
-            
-            // Generate JWT token
+              // Generate JWT token
             String token = jwtService.generateToken(userDetails);
-            
-            // Create response with token
+              // Create response with token and user details
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
+            response.put("userId", login.getId()); // Add user ID
             response.put("username", login.getUsername());
             response.put("role", login.getRole());
             response.put("firstName", login.getFirstName());
             response.put("lastName", login.getLastName());
+            response.put("birthDate", login.getBirthDate());
+            response.put("birthTime", login.getBirthTime());
+            response.put("birthPlace", login.getBirthPlace());
+            response.put("profilePicture", login.getProfilePicture());
+            response.put("bio", login.getBio());
+            response.put("userType", login.getUserType() != null ? login.getUserType().name() : null);
+            response.put("zodiacSign", login.getZodiacSign());
+            response.put("risingSign", login.getRisingSign());
+            response.put("moonSign", login.getMoonSign());
             
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {

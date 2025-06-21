@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -166,16 +167,16 @@ import { Component, OnInit } from '@angular/core';
   `]
 })
 export class LandingComponent implements OnInit {
-  showComingSoon = true;
+  showComingSoon = false; // Changed to false since we now have the courses explorer
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Initialize component
   }
 
   exploreContent(): void {
-    // For now, just show a message
-    alert('Course explorer coming soon! This will show interactive courses with lessons, keynotes, and learning paths.');
+    // Navigate to the courses explorer page
+    this.router.navigate(['/courses']);
   }
 }

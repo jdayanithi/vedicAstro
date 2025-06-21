@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-const BASIC_URL = 'http://localhost:8080/';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +16,10 @@ export class CommentService {
       postedBy: postedBy
     }
 
-    return this.http.post<any>(BASIC_URL + `api/comments/create`, content, {params});
+    return this.http.post<any>(`${environment.apiUrl}/comments/create`, content, {params});
   }
 
   getAllCommentsByPost(postId:number): Observable<any>{
-    return this.http.get(BASIC_URL+ `api/comments/${postId}`);
+    return this.http.get(`${environment.apiUrl}/comments/${postId}`);
   }
 }

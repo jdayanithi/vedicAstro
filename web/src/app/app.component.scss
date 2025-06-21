@@ -20,13 +20,20 @@ mat-toolbar {
 }
 
 mat-sidenav-container {
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
   margin-top: 64px;
   padding-top: 0;
+  overflow: auto;
+}
+
+mat-sidenav-content {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .app-wrapper {
-  min-height: calc(100vh - 64px);
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -62,6 +69,7 @@ mat-sidenav {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
+  min-height: calc(100vh - 200px); /* Ensure minimum height for proper footer positioning */
 }
 
 .network-status {
@@ -379,6 +387,60 @@ mat-sidenav {
           color: #c084fc;
         }
       }
+    }
+  }
+}
+
+// Scroll to top button styles
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.95);
+  }
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  // Mobile responsiveness
+  @media (max-width: 768px) {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
     }
   }
 }
