@@ -2,7 +2,6 @@ package com.vedicastrology.service;
 
 import com.vedicastrology.dto.LessonKeynoteDTO;
 import com.vedicastrology.entity.LessonKeynote;
-import com.vedicastrology.entity.Lesson;
 import com.vedicastrology.repository.LessonKeynoteRepository;
 import com.vedicastrology.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;

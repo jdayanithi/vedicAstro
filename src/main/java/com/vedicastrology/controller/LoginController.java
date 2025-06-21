@@ -5,8 +5,10 @@ import com.vedicastrology.config.JwtService;
 import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.UserType;
+import com.vedicastrology.service.EmailService;
 import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
+import com.vedicastrology.util.PasswordGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,14 @@ public class LoginController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtService jwtService;    @Autowired
+    private GoogleJwtService googleJwtService;
 
     @Autowired
-    private GoogleJwtService googleJwtService;
+    private EmailService emailService;
+
+    @Autowired
+    private PasswordGenerator passwordGenerator;
 
     @PostMapping
     public ResponseEntity<?> createLogin(@RequestBody Login login) {
@@ -195,22 +201,40 @@ public class LoginController {
             String googleId = payload.getSubject();            // Check if user exists in database, if not create new user
             Login existingLogin = null;
             try {
-                existingLogin = loginService.findByUsername(email);
-            } catch (RuntimeException e) {
+                existingLogin = loginService.findByUsername(email);            } catch (RuntimeException e) {
                 // User doesn't exist, create new one
+                logger.info("🔔 Creating new Google OAuth user for email: {}", email);
+                
+                // Generate a secure password for backup access
+                String generatedPassword = passwordGenerator.generateSecurePassword();
+                logger.debug("🔐 Generated secure password for new user");
+                
                 Login newLogin = new Login();
                 newLogin.setUsername(email);
                 newLogin.setFirstName(firstName);
                 newLogin.setLastName(lastName);
                 newLogin.setRole("student"); // Default role for Google users
                 newLogin.setUserType(UserType.student); // Set UserType enum
-                newLogin.setPassword("GOOGLE_USER"); // Placeholder password (will be encoded in service)
+                newLogin.setPassword(generatedPassword); // Use generated password (will be encoded in service)
                 newLogin.setGoogleId(googleId); // Store Google ID
                 newLogin.setPhoneNumber(null); // Make phone number nullable for Google users
                 
                 try {
                     existingLogin = loginService.createLogin(newLogin);
+                    logger.info("✅ Successfully created new user with ID: {}", existingLogin.getId());
+                    
+                    // Send welcome email with account details in the background
+                    try {
+                        emailService.sendWelcomeEmailToGoogleUser(email, firstName, lastName, generatedPassword);
+                        logger.info("📧 Welcome email sent successfully to: {}", email);
+                    } catch (Exception emailEx) {
+                        // Log email error but don't fail the login process
+                        logger.error("⚠️ Failed to send welcome email to {}, but user creation succeeded: {}", 
+                                   email, emailEx.getMessage());
+                    }
+                    
                 } catch (Exception createEx) {
+                    logger.error("💥 Failed to create new Google user: {}", createEx.getMessage(), createEx);
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(new ErrorResponse("Registration failed", createEx.getMessage()));
                 }
