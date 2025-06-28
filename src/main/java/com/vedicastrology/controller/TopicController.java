@@ -1,6 +1,7 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.TopicDTO;
+import com.vedicastrology.dto.TopicDetailDTO;
 import com.vedicastrology.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,5 +54,11 @@ public class TopicController {
     public ResponseEntity<Void> deleteTopic(@PathVariable Long topicId) {
         topicService.deleteTopic(topicId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{topicId}/details")
+    public ResponseEntity<TopicDetailDTO> getTopicDetails(@PathVariable Long topicId) {
+        TopicDetailDTO topicDetails = topicService.getTopicDetails(topicId);
+        return ResponseEntity.ok(topicDetails);
     }
 }

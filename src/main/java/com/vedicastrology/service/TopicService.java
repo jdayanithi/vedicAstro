@@ -1,10 +1,8 @@
 package com.vedicastrology.service;
 
-import com.vedicastrology.dto.TopicDTO;
-import com.vedicastrology.entity.Course;
-import com.vedicastrology.entity.Topic;
-import com.vedicastrology.repository.CourseRepository;
-import com.vedicastrology.repository.TopicRepository;
+import com.vedicastrology.dto.*;
+import com.vedicastrology.entity.*;
+import com.vedicastrology.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,18 @@ public class TopicService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    @Autowired
+    private LessonKeynoteRepository lessonKeynoteRepository;
+
+    @Autowired
+    private LessonTagRepository lessonTagRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     public List<TopicDTO> getAllTopics() {
         List<Topic> topics = topicRepository.findAll();
@@ -127,6 +137,151 @@ public class TopicService {
         dto.setOrderNumber(topic.getOrderNumber());
         dto.setCreatedAt(topic.getCreatedAt());
         dto.setUpdatedAt(topic.getUpdatedAt());
+        return dto;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+    }    public TopicDetailDTO getTopicDetails(Long topicId) {
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new EntityNotFoundException("Topic not found with ID: " + topicId));
+
+        // Get all lessons for this topic
+        List<Lesson> lessons = lessonRepository.findByTopic_TopicIdOrderByOrderNumberAsc(topicId);
+
+        // Convert lessons to detailed DTOs with keynotes and tags
+        List<LessonDetailDTO> lessonDetails = lessons.stream()
+                .map(this::convertToLessonDetailDTO)
+                .collect(Collectors.toList());
+
+        return new TopicDetailDTO(
+                topic.getTopicId(),
+                topic.getTitle(),
+                topic.getDescription(),
+                topic.getCourse().getCourseId(),
+                topic.getOrderNumber(),
+                topic.getStatusFlag(), // Using statusFlag instead of isPublished
+                topic.getCreatedAt(),
+                topic.getUpdatedAt(),
+                lessonDetails
+        );
+    }    private LessonDetailDTO convertToLessonDetailDTO(Lesson lesson) {
+        // Get keynotes for this lesson
+        List<LessonKeynote> keynotes = lessonKeynoteRepository.findByLessonIdOrderByOrderSequence(lesson.getLessonId());
+        List<LessonKeynoteDTO> keynoteDetails = keynotes.stream()
+                .map(this::convertToKeynoteDTO)
+                .collect(Collectors.toList());
+
+        // Get tags for this lesson
+        List<LessonTag> lessonTags = lessonTagRepository.findByLesson_LessonId(lesson.getLessonId());
+        List<TagDTO> tagDetails = lessonTags.stream()
+                .map(lessonTag -> {
+                    Tag tag = lessonTag.getTag();
+                    return tag != null ? convertToTagDTO(tag) : null;
+                })
+                .filter(tag -> tag != null)
+                .collect(Collectors.toList());
+
+        return new LessonDetailDTO(
+                lesson.getLessonId(),
+                lesson.getTitle(),
+                lesson.getDescription(),
+                lesson.getContentUrl(), // Using contentUrl as content
+                lesson.getTopic().getTopicId(),
+                lesson.getOrderNumber(),
+                lesson.getIsFree(),
+                lesson.getDurationMinutes(),
+                lesson.getContentUrl(), // Using contentUrl as videoUrl 
+                null, // audioUrl not available in entity
+                null, // documentUrl not available in entity
+                lesson.getStatusFlag(), // Using statusFlag instead of isPublished
+                lesson.getCreatedAt(),
+                lesson.getUpdatedAt(),
+                keynoteDetails,
+                tagDetails
+        );
+    }    private LessonKeynoteDTO convertToKeynoteDTO(LessonKeynote keynote) {
+        LessonKeynoteDTO dto = new LessonKeynoteDTO();
+        dto.setKeynoteId(keynote.getKeynoteId());
+        dto.setLessonId(keynote.getLessonId());
+        dto.setTitle(keynote.getTitle());
+        dto.setContent(keynote.getContent());
+        dto.setContentType(keynote.getContentType());
+        dto.setOrderSequence(keynote.getOrderSequence());
+        dto.setIsImportant(keynote.getIsImportant());
+        dto.setHasVisualAid(keynote.getHasVisualAid());
+        dto.setVisualAidUrl(keynote.getVisualAidUrl());
+        dto.setRelatedPlanet(keynote.getRelatedPlanet());
+        dto.setRelatedZodiac(keynote.getRelatedZodiac());
+        dto.setCreatedAt(keynote.getCreatedAt());
+        dto.setUpdatedAt(keynote.getUpdatedAt());
+        return dto;
+    }    private TagDTO convertToTagDTO(Tag tag) {
+        TagDTO dto = new TagDTO();
+        dto.setTagId(tag.getTagId());
+        dto.setTagName(tag.getTagName());
+        dto.setTagCategory(tag.getTagCategory());
+        dto.setDescription(tag.getDescription());
+        dto.setCreatedByUserId(tag.getCreatedByUserId());
+        dto.setStatusFlag(tag.getStatusFlag());
+        dto.setCreatedAt(tag.getCreatedAt());
         return dto;
     }
 }

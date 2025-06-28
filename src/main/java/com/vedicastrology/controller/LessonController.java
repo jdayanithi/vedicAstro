@@ -1,6 +1,7 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.LessonDTO;
+import com.vedicastrology.dto.LessonDetailDTO;
 import com.vedicastrology.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,5 +54,11 @@ public class LessonController {
     public ResponseEntity<Void> deleteLesson(@PathVariable Long lessonId) {
         lessonService.deleteLesson(lessonId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{lessonId}/details")
+    public ResponseEntity<LessonDetailDTO> getLessonDetails(@PathVariable Long lessonId) {
+        LessonDetailDTO lessonDetails = lessonService.getLessonDetails(lessonId);
+        return ResponseEntity.ok(lessonDetails);
     }
 }
