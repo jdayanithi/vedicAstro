@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CourseService, CourseWithAccess } from '../../../service/course.service';
 import { CategoryService, Category } from '../../../service/category.service';
 import { AuthService } from '../../../service/auth.service';
@@ -19,13 +20,13 @@ export class CoursesExplorerComponent implements OnInit {
   loading = true;
   searchTerm = '';
   currentUserId: number | null = null;
-  isLoggedIn = false;
-  constructor(
+  isLoggedIn = false;  constructor(
+    private router: Router,
     private courseService: CourseService,
     private categoryService: CategoryService,
     private authService: AuthService,
     private dialog: MatDialog
-  ) {}  ngOnInit(): void {
+  ) {}ngOnInit(): void {
     // Check authentication status first
     this.authService.isAuthenticated$.subscribe((isAuth: boolean) => {
       this.isLoggedIn = isAuth;
@@ -298,13 +299,7 @@ export class CoursesExplorerComponent implements OnInit {
       }
     });
   }  private startCourse(course: CourseWithAccess): void {
-    console.log(`Starting course: ${course.title} (ID: ${course.courseId})`);
-    
-    // TODO: Navigate to course content page when implemented
-    // For now, show a message
-    alert(`Starting course "${course.title}". Course content will be implemented soon!`);
-    
-    // Placeholder for navigation to course content
-    // this.router.navigate(['/courses', course.courseId, 'content']);
+    // Navigate to the customer course view to show topics and lessons
+    this.router.navigate(['/customer-course', course.courseId]);
   }
 }

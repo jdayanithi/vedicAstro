@@ -76,6 +76,10 @@ export class LessonService {
   getLessonById(lessonId: number): Observable<Lesson> {
     return this.http.get<Lesson>(`${this.apiUrl}/${lessonId}`);
   }
+
+  getLessonDetails(lessonId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${lessonId}/details`);
+  }
 }
 
 @Injectable({

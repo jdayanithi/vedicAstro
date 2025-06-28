@@ -1,0 +1,176 @@
+<div class="course-viewer" *ngIf="!loading && courseContent">
+  <!-- Header -->
+  <div class="course-header">
+    <div class="header-content">
+      <button mat-icon-button (click)="goBackToCourses()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      
+      <div class="course-info">
+        <h1 class="course-title">{{ courseContent.course.title }}</h1>
+        <p class="course-description">{{ courseContent.course.description }}</p>
+      </div>
+      
+      <button mat-icon-button (click)="toggleSidebar()" class="sidebar-toggle">
+        <mat-icon>{{ sidebarOpen ? 'menu_open' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span class="progress-text">
+          {{ courseContent.progress.completedLessons }} of {{ courseContent.progress.totalLessons }} lessons completed
+        </span>
+        <span class="progress-percentage">{{ courseContent.progress.percentage }}%</span>
+      </div>
+      <mat-progress-bar 
+        mode="determinate" 
+        [value]="courseContent.progress.percentage"
+        class="progress-bar">
+      </mat-progress-bar>
+    </div>
+  </div>
+  <!-- Main Content Area -->
+  <div class="course-content">
+    <!-- Inline Collapsible Course Navigation -->
+    <div class="course-navigation" [class.collapsed]="!sidebarOpen">
+      <div class="nav-content" *ngIf="sidebarOpen">
+        <h3 class="nav-title">Course Content</h3>
+        
+        <div class="topics-list">
+          <div 
+            *ngFor="let topic of courseContent.topics" 
+            class="topic-item"
+            [class.active]="selectedTopic?.topicId === topic.topicId">
+            
+            <div class="topic-header" (click)="selectTopic(topic)">
+              <mat-icon class="topic-icon">folder</mat-icon>
+              <span class="topic-title">{{ topic.title }}</span>
+              <mat-icon class="expand-icon">
+                {{ selectedTopic?.topicId === topic.topicId ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </div>
+            
+            <div class="lessons-list" [class.expanded]="selectedTopic?.topicId === topic.topicId">
+              <div 
+                *ngFor="let lesson of topic.lessons" 
+                class="lesson-item"
+                [class.active]="selectedLesson?.lessonId === lesson.lessonId"
+                [class.completed]="lesson.isCompleted"
+                (click)="selectLesson(lesson)">
+                
+                <mat-icon class="lesson-icon">
+                  {{ lesson.isCompleted ? 'check_circle' : 'play_circle_outline' }}
+                </mat-icon>
+                <span class="lesson-title">{{ lesson.title }}</span>
+                <span class="lesson-duration" *ngIf="lesson.duration">{{ lesson.duration }}m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="lesson-content" *ngIf="selectedLesson">
+        <!-- Lesson Header -->
+        <div class="lesson-header">
+          <div class="lesson-info">
+            <h2 class="lesson-title">{{ selectedLesson.title }}</h2>
+            <div class="lesson-meta">
+              <span class="lesson-topic">{{ selectedTopic?.title }}</span>
+              <span class="lesson-duration" *ngIf="selectedLesson.duration">
+                <mat-icon>schedule</mat-icon>
+                {{ selectedLesson.duration }} minutes
+              </span>
+            </div>
+          </div>
+          
+          <div class="lesson-actions">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              *ngIf="!selectedLesson.isCompleted"
+              (click)="markLessonComplete()">
+              <mat-icon>check</mat-icon>
+              Mark Complete
+            </button>
+            
+            <mat-chip 
+              *ngIf="selectedLesson.isCompleted" 
+              class="completed-chip">
+              <mat-icon>check_circle</mat-icon>
+              Completed
+            </mat-chip>
+          </div>
+        </div>
+
+        <!-- Video Section (if video URL exists) -->
+        <div class="video-section" *ngIf="selectedLesson.videoUrl">
+          <div class="video-container">
+            <iframe 
+              [src]="selectedLesson.videoUrl" 
+              frameborder="0" 
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Lesson Content -->
+        <div class="lesson-body">
+          <div class="content-text">
+            {{ selectedLesson.content }}
+          </div>
+          
+          <!-- Additional content sections can be added here -->
+          <div class="content-placeholder">
+            <mat-icon class="placeholder-icon">auto_stories</mat-icon>
+            <h3>Course Content Coming Soon</h3>
+            <p>
+              This is a preview of the lesson content. The full interactive course material 
+              including videos, exercises, and assessments will be available soon.
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="lesson-navigation">
+          <button 
+            mat-stroked-button 
+            (click)="goToPreviousLesson()"
+            class="nav-btn prev-btn">
+            <mat-icon>chevron_left</mat-icon>
+            Previous Lesson
+          </button>
+          
+          <button 
+            mat-raised-button 
+            color="primary"
+            (click)="goToNextLesson()"
+            class="nav-btn next-btn">
+            Next Lesson
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!selectedLesson">
+        <mat-icon class="empty-icon">school</mat-icon>
+        <h3>Select a lesson to start learning</h3>
+        <p>Choose a topic and lesson from the sidebar to begin your learning journey.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+  <p class="loading-text">Loading course content...</p>
+</div>
+
+<!-- Mobile Sidebar Overlay -->
+<!-- Removed: No longer needed for inline menu -->
