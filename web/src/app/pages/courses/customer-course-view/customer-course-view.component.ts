@@ -34,13 +34,12 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     <div class="modern-customer-view">      <!-- Hero Section -->
       <div class="hero-section">
         <div class="hero-content">
-          <h1 class="hero-title" *ngIf="!selectedCourse">Discover Vedic Astrology</h1>
-          <h1 class="hero-title" *ngIf="selectedCourse">{{selectedCourse.title}}</h1>
+          <h1 class="hero-title">Discover Vedic Astrology</h1>
           <p class="hero-subtitle" *ngIf="!selectedCourse">Explore ancient wisdom through our comprehensive courses</p>
-          <p class="hero-subtitle" *ngIf="selectedCourse">{{selectedCourse.description}}</p>
+          <p class="hero-subtitle" *ngIf="selectedCourse">Master the ancient wisdom of {{selectedCourse.title}}</p>
         </div>
         <div class="hero-bg-pattern"></div>
-      </div>      <!-- Filter Section (only show when not viewing specific course) -->
+      </div><!-- Filter Section (only show when not viewing specific course) -->
       <div class="filter-section" *ngIf="!isViewingSpecificCourse">
         <div class="filter-container">
           <div class="filter-group">
@@ -64,19 +63,26 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       <div *ngIf="loading" class="loading-section">
         <mat-progress-spinner mode="indeterminate" color="primary" diameter="60"></mat-progress-spinner>
         <p>Loading course content...</p>
-      </div>
-
-      <!-- Course Content -->
+      </div>      <!-- Course Content -->
       <div *ngIf="selectedCourse && !loading" class="content-section">
-        <!-- Course Heading -->
+        <!-- Course Heading with Integrated Thumbnail -->
         <div class="course-heading-section">
           <div class="course-heading-content">
-            <div class="course-breadcrumb">
-              <span class="breadcrumb-item">{{getCategoryName(selectedCourse.categoryId)}}</span>
-              <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
-              <span class="breadcrumb-item current">{{selectedCourse.title}}</span>
+            <!-- Course Header with Image and Title -->
+            <div class="course-header-with-image">
+              <div class="course-image-container" *ngIf="selectedCourse.thumbnailUrl">
+                <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image-integrated">
+              </div>
+              <div class="course-title-info">
+                <div class="course-breadcrumb">
+                  <span class="breadcrumb-item">{{getCategoryName(selectedCourse.categoryId)}}</span>
+                  <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+                  <span class="breadcrumb-item current">{{selectedCourse.title}}</span>
+                </div>
+                <h1 class="course-main-title">{{selectedCourse.title}}</h1>
+              </div>
             </div>
-            <h1 class="course-main-title">{{selectedCourse.title}}</h1>
+            
             <div class="course-summary">
               <div class="course-stats">
                 <div class="stat-item">
@@ -91,30 +97,18 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                   <mat-icon>star</mat-icon>
                   <span class="difficulty">{{selectedCourse.difficultyLevel | titlecase}}</span>
                 </div>
-                <div class="stat-item" *ngIf="selectedCourse.price">                  <mat-icon>currency_rupee</mat-icon>
+                <div class="stat-item" *ngIf="selectedCourse.price">
+                  <mat-icon>currency_rupee</mat-icon>
                   <span>₹{{selectedCourse.price}}</span>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <!-- Course Overview -->
-        <div class="course-overview">
-          <div class="course-info">
-            <div class="course-meta">
-              <span class="difficulty-badge" [class]="'diff-' + selectedCourse.difficultyLevel">{{selectedCourse.difficultyLevel | titlecase}}</span>
-              <span *ngIf="selectedCourse.price" class="price-badge">₹{{selectedCourse.price}}</span>
+            <!-- Course Description -->
+            <div class="course-description-section">
+              <p class="course-description">{{selectedCourse.description}}</p>
             </div>
-            <h2 class="course-title">{{selectedCourse.title}}</h2>
-            <p class="course-description">{{selectedCourse.description}}</p>
           </div>
-          <div class="course-visual" *ngIf="selectedCourse.thumbnailUrl">
-            <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image">
-          </div>
-        </div>
-
-        <!-- Topics & Lessons -->
+        </div><!-- Topics & Lessons -->
         <div class="topics-container">
           <!-- Topics Header -->
           <div class="topics-header" *ngIf="topics.length > 0">
@@ -312,13 +306,48 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     .loading-section p {
       margin-top: 20px;
       font-size: 1.1rem;
-    }
-
-    /* Content Section */
+    }    /* Content Section */
     .content-section {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px 40px;
+    }    /* Course Header with Integrated Thumbnail */
+    .course-header-with-image {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    
+    .course-image-container {
+      flex-shrink: 0;
+      width: 200px;
+    }
+    
+    .course-image-integrated {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .course-image-integrated:hover {
+      transform: scale(1.02);
+    }
+    
+    .course-title-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .course-main-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 8px 0 0 0;
+      line-height: 1.2;
     }
 
     /* Course Heading */
@@ -343,17 +372,8 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       color: #3f51b5;
       font-weight: 500;
     }
-    
-    .breadcrumb-separator {
+      .breadcrumb-separator {
       font-size: 16px;
-    }
-    
-    .course-main-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 20px;
-      line-height: 1.2;
     }
     
     .course-summary {
@@ -380,65 +400,23 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       font-weight: 500;
       color: #555;
     }
-    
-    .stat-item mat-icon {      color: #3f51b5;
+      .stat-item mat-icon {
+      color: #3f51b5;
       font-size: 20px;
     }
 
-    /* Course Overview */
-    .course-overview {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 40px;
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      margin-bottom: 40px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    
-    .course-meta {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    
-    .difficulty-badge, .price-badge {
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    
-    .difficulty-badge.diff-beginner { background: #e8f5e8; color: #2e7d32; }
-    .difficulty-badge.diff-intermediate { background: #fff3e0; color: #f57c00; }
-    .difficulty-badge.diff-advanced { background: #ffebee; color: #c62828; }
-    
-    .price-badge {
-      background: #e3f2fd;
-      color: #1976d2;
-    }
-    
-    .course-title {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 16px;
+    /* Course Description Section */
+    .course-description-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e9ecef;
     }
     
     .course-description {
       font-size: 1.1rem;
       line-height: 1.6;
       color: #666;
-    }
-    
-    .course-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin: 0;
     }
 
     /* Topics Container */
@@ -917,9 +895,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     .view-lesson-details-btn mat-icon {
       margin-right: 4px !important;
       font-size: 1.1rem !important;
-    }
-
-    /* Responsive Design */
+    }    /* Responsive Design */
     @media (max-width: 768px) {
       .hero-title {
         font-size: 2rem;
@@ -934,8 +910,26 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         min-width: auto;
       }
       
-      .course-overview {
-        grid-template-columns: 1fr;
+      .course-header-with-image {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .course-image-container {
+        width: 100%;
+      }
+      
+      .course-image-integrated {
+        height: 200px;
+      }
+      
+      .course-main-title {
+        font-size: 1.5rem;
+      }
+        .course-heading-section,
+      .topics-container {
+        padding: 24px;
+        margin: 24px 0;
       }
       
       .course-summary {
