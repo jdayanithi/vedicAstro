@@ -86,7 +86,7 @@ export class LessonService {
   providedIn: 'root'
 })
 export class LessonKeynoteService {
-  private apiUrl = '/api/lesson-keynotes';
+  private apiUrl = `${environment.apiUrl}/lesson-keynotes`;
 
   constructor(private http: HttpClient) {}
 
@@ -99,7 +99,7 @@ export class LessonKeynoteService {
   providedIn: 'root'
 })
 export class LessonTagService {
-  private apiUrl = '/api/lesson-tags';
+  private apiUrl = `${environment.apiUrl}/lesson-tags`;
 
   constructor(private http: HttpClient) {}
 
