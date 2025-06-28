@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, tap, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GoogleAuthService } from './google-auth.service';
 import { environment } from '../../environments/environment';
@@ -63,7 +63,6 @@ export class AuthService {
   ) {
     this.checkSession();
   }
-
   private checkSession(): void {
     const token = localStorage.getItem('token');
     if (token) {
@@ -85,7 +84,9 @@ export class AuthService {
         }
       });
     } else {
-      this.clearSession();
+      // Ensure clean state if no token
+      this.isAuthenticated.next(false);
+      this.currentUserRole.next(null);
     }
   }
 
@@ -125,33 +126,45 @@ export class AuthService {
   register(registerData: RegisterRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, registerData);
   }  logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('session');
-    this.isAuthenticated.next(false);
-    this.currentUserRole.next(null);
+    // Clear all authentication data first
+    this.clearSession();
     
     // Sign out from Google OAuth and reinitialize
     this.googleAuthService.signOut();
-    // Reinitialize Google Sign-In to clear any cached state
+    
+    // Add a delay to ensure cleanup is complete before reinitializing
     setTimeout(() => {
       this.googleAuthService.reinitialize();
-    }, 100);
+    }, 200);
     
-    this.router.navigate(['/login']);
+    // Navigate to login after a short delay to ensure state is cleared
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 100);
   }
-
   clearSession(): void {
+    // Clear localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('session');
+    
+    // Clear sessionStorage
     sessionStorage.clear();
+    
+    // Update authentication state
     this.isAuthenticated.next(false);
     this.currentUserRole.next(null);
     
-    // Clear any cookies
+    // Clear redirect URL
+    this.redirectUrl = null;
+    
+    // Clear any cookies (more comprehensive approach)
     document.cookie.split(";").forEach((c) => {
       const eqPos = c.indexOf("=");
-      const name = eqPos > -1 ? c.substr(0, eqPos) : c;
-      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      const name = eqPos > -1 ? c.substr(0, eqPos).trim() : c.trim();
+      // Clear for different paths and domains
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
     });
   }
 
@@ -159,21 +172,35 @@ export class AuthService {
     this.clearSession();
     this.router.navigate(['/login']);
   }
-
   login(email: string, password: string): Observable<any> {
+    // Clear any existing session before login
+    this.clearSession();
+    
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
       .pipe(
         tap((response: LoginResponse) => {
           this.handleLoginSuccess(response);
+        }),
+        catchError((error) => {
+          // Ensure session is cleared on login failure
+          this.clearSession();
+          throw error;
         })
       );
   }
-
   googleLogin(googleToken: string): Observable<any> {
+    // Clear any existing session before login
+    this.clearSession();
+    
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/google`, { token: googleToken })
       .pipe(
         tap((response: LoginResponse) => {
           this.handleLoginSuccess(response);
+        }),
+        catchError((error) => {
+          // Ensure session is cleared on login failure
+          this.clearSession();
+          throw error;
         })
       );
   }

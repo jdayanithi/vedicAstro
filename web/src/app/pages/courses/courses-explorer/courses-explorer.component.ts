@@ -176,14 +176,30 @@ export class CoursesExplorerComponent implements OnInit {
 
   canAccess(course: CourseWithAccess): boolean {
     return course.canAccess || false;
-  }
-  enrollInCourse(course: CourseWithAccess): void {
+  }  enrollInCourse(course: CourseWithAccess): void {
     if (!this.isLoggedIn) {
       // Redirect to login page
       this.authService.redirectToLogin();
       return;
     }
 
+    // If user is already enrolled and has access, start the course
+    if (course.isEnrolled && course.hasAccess) {
+      this.startCourse(course);
+      return;
+    }
+
+    // If user is enrolled but payment is pending, do nothing (button should be disabled)
+    if (course.isEnrolled && course.paymentStatus === 'pending') {
+      return;
+    }
+
+    // If user is enrolled but doesn't have access, do nothing (button should be disabled)
+    if (course.isEnrolled && !course.hasAccess) {
+      return;
+    }
+
+    // For new enrollments
     if (course.isFree) {
       this.startCourse(course);
     } else {
@@ -243,16 +259,26 @@ export class CoursesExplorerComponent implements OnInit {
       return course.isFree ? 'start-course' : 'purchase-course';
     }
   }
-
   isButtonDisabled(course: CourseWithAccess): boolean {
     if (!this.isLoggedIn) {
       return false;
     }
 
+    // If user is enrolled
     if (course.isEnrolled) {
-      return course.paymentStatus === 'pending' || !course.hasAccess;
+      // Disable if payment is pending
+      if (course.paymentStatus === 'pending') {
+        return true;
+      }
+      // Disable if no access (e.g., payment failed or access revoked)
+      if (!course.hasAccess) {
+        return true;
+      }
+      // Enable if has access (for "Continue Course")
+      return false;
     }
 
+    // For non-enrolled users, button is always enabled
     return false;
   }
 
@@ -271,8 +297,14 @@ export class CoursesExplorerComponent implements OnInit {
         this.loadCoursesForTab();
       }
     });
-  }
-  private startCourse(course: CourseWithAccess): void {
+  }  private startCourse(course: CourseWithAccess): void {
+    console.log(`Starting course: ${course.title} (ID: ${course.courseId})`);
+    
+    // TODO: Navigate to course content page when implemented
+    // For now, show a message
     alert(`Starting course "${course.title}". Course content will be implemented soon!`);
+    
+    // Placeholder for navigation to course content
+    // this.router.navigate(['/courses', course.courseId, 'content']);
   }
 }

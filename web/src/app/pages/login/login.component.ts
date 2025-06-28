@@ -38,10 +38,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
       lastName: ['', Validators.required],
       bio: [''],
       userType: ['student', Validators.required]
-    });// Redirect to landing if already logged in
+    });    // Redirect to landing if already logged in
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
       if (isLoggedIn) {
-        this.router.navigate(['/landing']);
+        // Add a small delay to ensure navigation happens after component initialization
+        setTimeout(() => {
+          this.router.navigate(['/landing']);
+        }, 100);
       }
     });
   }
@@ -54,15 +57,22 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.googleAuthService.renderButton(this.googleButton.nativeElement);
     }
   }
-
   onSubmit(): void {
     if (this.isLoginMode) {
       if (this.loginForm.valid) {
-        const { email, password } = this.loginForm.value;        this.authService.login(email, password).subscribe({
+        const { email, password } = this.loginForm.value;
+        
+        // Disable form to prevent multiple submissions
+        this.loginForm.disable();
+        
+        this.authService.login(email, password).subscribe({
           next: (response) => {
             // Navigation is now handled by the AuthService
+            this.loginForm.enable();
           },
           error: (error) => {
+            this.loginForm.enable();
+            
             let errorMessage = 'An error occurred. Please try again.';
               // Handle different types of errors
             if (error.status === 0) {
@@ -120,9 +130,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!this.isLoginMode) {
       this.registerForm.patchValue({ userType: 'student' });
     }
-  }
-  signInWithGoogle(): void {
+  }  signInWithGoogle(): void {
     console.log('Google Sign-In button clicked');
+    
     this.googleAuthService.signIn().then((googleUser: GoogleUser) => {
       console.log('Google Sign-In successful:', googleUser);
       // Send the Google ID token to your backend for verification
@@ -147,7 +157,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
             data: { message: errorMessage }
           });
         }
-      });    }).catch((error) => {
+      });
+    }).catch((error) => {
       console.error('Google sign-in error:', error);
       
       let errorMessage = 'Google sign-in failed. Please try again.';

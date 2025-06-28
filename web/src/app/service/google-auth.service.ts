@@ -36,17 +36,12 @@ export class GoogleAuthService {
         console.log('Google Sign-In initialized successfully');
       } catch (error) {
         console.error('Error initializing Google Sign-In:', error);
-      }
-    } else {
+      }    } else {
       // Retry after a short delay if google library is not loaded yet
       setTimeout(() => this.initializeGoogleSignIn(), 100);
     }
   }
 
-  // Method to re-initialize Google Sign-In (useful after logout)
-  reinitialize(): void {
-    this.initializeGoogleSignIn();
-  }
   private handleCredentialResponse(response: any): void {
     if (response.credential) {
       // Decode the JWT token to get user information
@@ -122,8 +117,7 @@ export class GoogleAuthService {
         text: 'continue_with'
       });
     }
-  }
-  signOut(): void {
+  }  signOut(): void {
     if (typeof window !== 'undefined' && window.google) {
       // Disable auto-select to prevent automatic sign-in
       window.google.accounts.id.disableAutoSelect();
@@ -140,5 +134,16 @@ export class GoogleAuthService {
     this.googleUser$.next(null);
     
     console.log('Google OAuth state cleared');
+  }
+
+  // Method to re-initialize Google Sign-In (useful after logout)
+  reinitialize(): void {
+    console.log('Reinitializing Google Sign-In...');
+    
+    // Clear any existing state
+    this.googleUser$.next(null);
+    
+    // Reinitialize the Google Sign-In
+    this.initializeGoogleSignIn();
   }
 }
