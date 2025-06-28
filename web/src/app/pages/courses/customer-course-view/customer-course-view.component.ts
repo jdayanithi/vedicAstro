@@ -91,16 +91,9 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                   <mat-icon>star</mat-icon>
                   <span class="difficulty">{{selectedCourse.difficultyLevel | titlecase}}</span>
                 </div>
-                <div class="stat-item" *ngIf="selectedCourse.price">
-                  <mat-icon>currency_rupee</mat-icon>
+                <div class="stat-item" *ngIf="selectedCourse.price">                  <mat-icon>currency_rupee</mat-icon>
                   <span>₹{{selectedCourse.price}}</span>
                 </div>
-              </div>
-              <div class="course-actions">
-                <button mat-raised-button color="primary" (click)="startCourse()" class="start-course-btn">
-                  <mat-icon>play_circle_filled</mat-icon>
-                  Start Learning
-                </button>
               </div>
             </div>
           </div>
@@ -388,15 +381,8 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       color: #555;
     }
     
-    .stat-item mat-icon {
-      color: #3f51b5;
+    .stat-item mat-icon {      color: #3f51b5;
       font-size: 20px;
-    }
-    
-    .start-course-btn {
-      padding: 12px 24px;
-      font-size: 1.1rem;
-      font-weight: 600;
     }
 
     /* Course Overview */
@@ -1205,12 +1191,5 @@ export class CustomerCourseViewComponent implements OnInit {
   }
   getTopicFreeCount(topic: any): number {
     return topic.lessons.filter((lesson: any) => lesson.isFree).length;
-  }
-
-  startCourse(): void {
-    // Start with the first topic if available
-    if (this.topics && this.topics.length > 0) {
-      this.router.navigate(['/topic', this.topics[0].topicId]);
-    }
   }
 }

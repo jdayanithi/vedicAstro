@@ -26,7 +26,6 @@ import { IonicModule } from '@ionic/angular';
         ViewPostComponent,
         SearchByNameComponent,
         LoginComponent,
-        LandingComponent,
         CoursesExplorerComponent,
         PurchaseFormComponent,
         ErrorDialogComponent
@@ -37,7 +36,8 @@ import { IonicModule } from '@ionic/angular';
         AngularMaterialModule,
         ReactiveFormsModule,
         FormsModule,
-        IonicModule.forRoot({})],    providers: [
+        IonicModule.forRoot({}),
+        LandingComponent],providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

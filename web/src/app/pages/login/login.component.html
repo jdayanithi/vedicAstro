@@ -31,8 +31,7 @@
     </div>
 
     <!-- Form Section -->
-    <div class="form-section">
-      <div class="mode-tabs">
+    <div class="form-section">      <div class="mode-tabs">
         <button 
           class="tab-button" 
           [class.active]="isLoginMode" 
@@ -45,6 +44,31 @@
           (click)="isLoginMode = false">
           Sign Up
         </button>
+      </div>
+
+      <!-- Enhanced Error Display -->
+      <div class="error-container" [class.show]="showError" [attr.data-type]="errorType">
+        <div class="error-content">
+          <mat-icon class="error-icon">
+            {{ errorType === 'error' ? 'error' : errorType === 'warning' ? 'warning' : 'info' }}
+          </mat-icon>
+          <div class="error-text">
+            <p class="error-message">{{ errorMessage }}</p>
+          </div>
+          <button mat-icon-button class="close-error" (click)="clearError()" *ngIf="errorType === 'error'">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div class="loading-overlay" [class.show]="isLoading">
+        <div class="loading-content">
+          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+          <p class="loading-text">
+            {{ isLoginMode ? 'Signing you in...' : 'Creating your account...' }}
+          </p>
+        </div>
       </div>
 
       <!-- Login Form -->
@@ -74,22 +98,20 @@
 
         <div class="forgot-password">
           <a href="#" class="forgot-link">Forgot password?</a>
-        </div>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" class="submit-btn">
-          <mat-icon>login</mat-icon>
-          Sign In to VedicAstro
+        </div>        <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || isLoading" class="submit-btn">
+          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="20" class="button-spinner"></mat-progress-spinner>
+          <mat-icon *ngIf="!isLoading">login</mat-icon>
+          <span>{{ isLoading ? 'Signing In...' : 'Sign In to VedicAstro' }}</span>
         </button>
         
         <!-- Divider -->
         <div class="divider">
           <span>or continue with</span>
-        </div>
-
-        <!-- Google Login Button -->
-        <button mat-stroked-button class="google-btn" type="button" (click)="signInWithGoogle()">
-          <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
-          Continue with Google
+        </div>        <!-- Google Login Button -->
+        <button mat-stroked-button class="google-btn" type="button" (click)="signInWithGoogle()" [disabled]="isLoading">
+          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="18" class="button-spinner"></mat-progress-spinner>
+          <img *ngIf="!isLoading" src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
+          <span>{{ isLoading ? 'Connecting...' : 'Continue with Google' }}</span>
         </button>
         
         <!-- Official Google Sign-In Button (fallback) -->
@@ -170,11 +192,10 @@
             <mat-icon matPrefix>group</mat-icon>
             <mat-error *ngIf="registerForm.get('userType')?.hasError('required')">User type is required</mat-error>
           </mat-form-field>
-        </div>
-
-        <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid" class="submit-btn">
-          <mat-icon>person_add</mat-icon>
-          Create Account
+        </div>        <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid || isLoading" class="submit-btn">
+          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="20" class="button-spinner"></mat-progress-spinner>
+          <mat-icon *ngIf="!isLoading">person_add</mat-icon>
+          <span>{{ isLoading ? 'Creating Account...' : 'Create Account' }}</span>
         </button>
       </form>
     </div>

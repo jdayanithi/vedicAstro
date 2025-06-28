@@ -19,7 +19,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
   registerForm: FormGroup;
   hidePassword = true;
   isLoginMode = true;
-  userTypes = ['student', 'instructor', 'admin'];constructor(
+  userTypes = ['student', 'instructor', 'admin'];
+  
+  // Enhanced error handling
+  isLoading = false;
+  errorMessage = '';
+  errorType: 'error' | 'warning' | 'info' | '' = '';
+  showError = false;constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
@@ -56,125 +62,151 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.googleButton?.nativeElement) {
       this.googleAuthService.renderButton(this.googleButton.nativeElement);
     }
-  }
-  onSubmit(): void {
+  }  onSubmit(): void {
     if (this.isLoginMode) {
       if (this.loginForm.valid) {
         const { email, password } = this.loginForm.value;
         
-        // Disable form to prevent multiple submissions
-        this.loginForm.disable();
+        this.setLoadingState(true);
         
         this.authService.login(email, password).subscribe({
           next: (response) => {
-            // Navigation is now handled by the AuthService
-            this.loginForm.enable();
+            this.setLoadingState(false);
+            this.showErrorMessage('Login successful! Redirecting...', 'info');
           },
           error: (error) => {
-            this.loginForm.enable();
-            
-            let errorMessage = 'An error occurred. Please try again.';
-              // Handle different types of errors
-            if (error.status === 0) {
-              // Network error or server not running
-              errorMessage = this.networkStatus.getConnectionErrorMessage();
-            } else if (error.status === 401) {
-              errorMessage = 'Invalid email or password. Please try again.';
-            } else if (error.status >= 500) {
-              errorMessage = 'Server error occurred. Please try again later.';
-            } else if (error.error?.message) {
-              errorMessage = error.error.message;
-            }
-            
-            this.dialog.open(ErrorDialogComponent, {
-              width: '400px',
-              data: { message: errorMessage }
-            });
+            this.setLoadingState(false);
+            const errorMessage = this.getErrorMessage(error);
+            this.showErrorMessage(errorMessage, 'error');
           }
         });
+      } else {
+        this.showErrorMessage('Please fill in all required fields correctly.', 'warning');
       }
     } else {
       if (this.registerForm.valid) {
+        this.setLoadingState(true);
+        
         this.authService.register(this.registerForm.value).subscribe({
           next: (response: { message: string }) => {
-            this.dialog.open(ErrorDialogComponent, {
-              width: '300px',
-              data: { message: 'Registration successful! Please login.' }
-            });
-            this.toggleMode();
-          },          error: (error) => {
+            this.setLoadingState(false);
+            this.showErrorMessage('Registration successful! Please login with your credentials.', 'info');
+            setTimeout(() => {
+              this.toggleMode();
+            }, 2000);
+          },
+          error: (error) => {
+            this.setLoadingState(false);
             let errorMessage = 'Registration failed. Please try again.';
-              // Handle different types of errors
-            if (error.status === 0) {
-              // Network error or server not running
-              errorMessage = this.networkStatus.getConnectionErrorMessage();
-            } else if (error.status >= 500) {
-              errorMessage = 'Server error occurred. Please try again later.';
-            } else if (error.error?.message) {
-              errorMessage = error.error.message;
+            
+            if (error.status === 409) {
+              errorMessage = 'An account with this email already exists. Please try logging in instead.';
+            } else {
+              errorMessage = this.getErrorMessage(error);
             }
             
-            this.dialog.open(ErrorDialogComponent, {
-              width: '400px',
-              data: { message: errorMessage }
-            });
+            this.showErrorMessage(errorMessage, 'error');
           }
         });
+      } else {
+        this.showErrorMessage('Please fill in all required fields correctly.', 'warning');
       }
     }
-  }
-  toggleMode(): void {
+  }toggleMode(): void {
     this.isLoginMode = !this.isLoginMode;
     this.loginForm.reset();
     this.registerForm.reset();
+    this.clearError(); // Clear errors when switching modes
     if (!this.isLoginMode) {
       this.registerForm.patchValue({ userType: 'student' });
     }
+  }
+
+  // Enhanced error handling methods
+  private showErrorMessage(message: string, type: 'error' | 'warning' | 'info' = 'error'): void {
+    this.errorMessage = message;
+    this.errorType = type;
+    this.showError = true;
+    
+    // Auto-hide error after 5 seconds for non-critical errors
+    if (type !== 'error') {
+      setTimeout(() => this.clearError(), 5000);
+    }
+  }
+  clearError(): void {
+    this.errorMessage = '';
+    this.errorType = '';
+    this.showError = false;
+  }
+
+  private setLoadingState(loading: boolean): void {
+    this.isLoading = loading;
+    if (loading) {
+      this.clearError();
+      if (this.isLoginMode) {
+        this.loginForm.disable();
+      } else {
+        this.registerForm.disable();
+      }
+    } else {
+      if (this.isLoginMode) {
+        this.loginForm.enable();
+      } else {
+        this.registerForm.enable();
+      }
+    }
+  }
+
+  private getErrorMessage(error: any): string {
+    if (error.status === 0) {
+      return this.networkStatus.getConnectionErrorMessage();
+    } else if (error.status === 401) {
+      return 'Invalid email or password. Please check your credentials and try again.';
+    } else if (error.status === 403) {
+      return 'Your account access has been restricted. Please contact support.';
+    } else if (error.status === 404) {
+      return 'Account not found. Please check your email or create a new account.';
+    } else if (error.status === 429) {
+      return 'Too many login attempts. Please wait a few minutes before trying again.';
+    } else if (error.status >= 500) {
+      return 'Server error occurred. Our team has been notified. Please try again later.';
+    } else if (error.error?.message) {
+      return error.error.message;
+    } else {
+      return 'An unexpected error occurred. Please try again.';
+    }
   }  signInWithGoogle(): void {
-    console.log('Google Sign-In button clicked');
+    this.setLoadingState(true);
     
     this.googleAuthService.signIn().then((googleUser: GoogleUser) => {
-      console.log('Google Sign-In successful:', googleUser);
       // Send the Google ID token to your backend for verification
       this.authService.googleLogin(googleUser.credential).subscribe({
         next: (response) => {
-          console.log('Backend login successful:', response);
-          // Navigation is handled by the AuthService
+          this.setLoadingState(false);
+          this.showErrorMessage('Google login successful! Redirecting...', 'info');
         },
         error: (error) => {
-          let errorMessage = 'Google login failed. Please try again.';
-          
-          if (error.status === 0) {
-            errorMessage = this.networkStatus.getConnectionErrorMessage();
-          } else if (error.status >= 500) {
-            errorMessage = 'Server error occurred. Please try again later.';
-          } else if (error.error?.message) {
-            errorMessage = error.error.message;
-          }
-          
-          this.dialog.open(ErrorDialogComponent, {
-            width: '400px',
-            data: { message: errorMessage }
-          });
+          this.setLoadingState(false);
+          const errorMessage = this.getErrorMessage(error);
+          this.showErrorMessage(errorMessage, 'error');
         }
       });
     }).catch((error) => {
-      console.error('Google sign-in error:', error);
+      this.setLoadingState(false);
       
       let errorMessage = 'Google sign-in failed. Please try again.';
       
       if (error.message.includes('not displayed')) {
-        errorMessage = 'Google Sign-In popup was blocked. Please try clicking the Google Sign-In button directly, or check your browser\'s popup settings.';
-      } else if (error.message.includes('skipped')) {
-        errorMessage = 'Google Sign-In was cancelled. Please try again.';
+        errorMessage = 'Google Sign-In popup was blocked. Please allow popups for this site and try again.';
+      } else if (error.message.includes('skipped') || error.message.includes('cancelled')) {
+        errorMessage = 'Google Sign-In was cancelled. Please try again if you want to continue.';
+        this.showErrorMessage(errorMessage, 'warning');
+        return;
       } else if (error.message.includes('library not loaded')) {
         errorMessage = 'Google Sign-In is not available. Please refresh the page and try again.';
       }
       
-      this.dialog.open(ErrorDialogComponent, {
-        width: '400px',
-        data: { message: errorMessage }
-      });
+      this.showErrorMessage(errorMessage, 'error');
     });
   }
 }
