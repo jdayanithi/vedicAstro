@@ -66,10 +66,18 @@ mat-sidenav {
 
 .content {
   flex: 1;
-  max-width: 1200px;
-  margin: 20px auto;
+  max-width: 1400px;
+  // margin: 20px auto;
   padding: 0 20px;
   min-height: calc(100vh - 200px); /* Ensure minimum height for proper footer positioning */
+  
+  @media (min-width: 1200px) {
+    padding: 0 30px;
+  }
+  
+  @media (min-width: 1400px) {
+    padding: 0 40px;
+  }
 }
 
 .network-status {

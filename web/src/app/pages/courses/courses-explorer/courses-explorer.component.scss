@@ -48,9 +48,8 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><g fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M50,50 L80,30 L120,45 L150,25 L180,40"/><path d="M200,60 L230,40 L270,55 L300,35 L330,50"/><path d="M60,120 L90,100 L130,115 L160,95 L190,110"/><path d="M220,130 L250,110 L290,125 L320,105 L350,120"/><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.8)"/><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.6)"/><circle cx="120" cy="45" r="2" fill="rgba(255,255,255,0.7)"/><circle cx="150" cy="25" r="1" fill="rgba(255,255,255,0.5)"/><circle cx="180" cy="40" r="1.5" fill="rgba(255,255,255,0.8)"/><circle cx="200" cy="60" r="2" fill="rgba(255,255,255,0.6)"/><circle cx="230" cy="40" r="1.5" fill="rgba(255,255,255,0.7)"/><circle cx="270" cy="55" r="1" fill="rgba(255,255,255,0.5)"/><circle cx="300" cy="35" r="2" fill="rgba(255,255,255,0.8)"/><circle cx="330" cy="50" r="1.5" fill="rgba(255,255,255,0.6)"/></g></svg>') repeat-x;
       opacity: 0.6;
       animation: float-constellations 20s ease-in-out infinite;
-    }
-      .header-content {
-      max-width: 1200px;
+    }    .header-content {
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px;
       text-align: center;
@@ -152,9 +151,8 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
     @media (max-width: 768px) {
       padding: 15px 0 20px;
     }
-    
-    .search-filter-content {
-      max-width: 1200px;
+      .search-filter-content {
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px;
       display: flex;
@@ -344,15 +342,14 @@ $shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
     }
   }  // Courses Section
   .courses-section {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 30px 20px 60px;
     position: relative;
     min-height: 60vh; // Ensure minimum height for content visibility
-    
-    .courses-grid {
+      .courses-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 24px;
       
       @media (max-width: 768px) {

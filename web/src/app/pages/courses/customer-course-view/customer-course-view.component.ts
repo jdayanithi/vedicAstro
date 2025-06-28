@@ -185,13 +185,8 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
             <!-- Expanded Topic Content (Inline) -->
             <div class="lessons-grid" 
                  [class.inline-expanded]="inlineExpandedTopics.has(i)"
-                 *ngIf="inlineExpandedTopics.has(i)">
-              <div class="lessons-header">
+                 *ngIf="inlineExpandedTopics.has(i)">              <div class="lessons-header">
                 <h4 class="lessons-section-title">Lessons in this Topic</h4>
-                <button mat-raised-button color="primary" (click)="viewTopicDetails(i, $event)" class="view-details-btn">
-                  <mat-icon>open_in_new</mat-icon>
-                  View Full Details
-                </button>
               </div>
                 <div *ngFor="let lesson of topic.lessons; let j = index" class="lesson-item">
                 <div class="lesson-content">
