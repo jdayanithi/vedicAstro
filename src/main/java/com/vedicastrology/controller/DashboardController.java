@@ -1,6 +1,8 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,11 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/api/secure/dashboard")
 public class DashboardController {
 
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+
     @Autowired
     private CourseService courseService;
-      @Autowired
+    @Autowired
     private PaymentService paymentService;
     
     @Autowired
@@ -34,11 +38,17 @@ public class DashboardController {
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping("/stats")
-    public ResponseEntity<Map<String, Object>> getDashboardStats() {
+    // Request DTO for empty request body
+    public static class EmptyRequest {
+        // Empty class for endpoints that don't need request parameters
+    }
+
+    @PostMapping("/stats")
+    public ResponseEntity<Map<String, Object>> getDashboardStats(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching dashboard statistics");
             Map<String, Object> stats = new HashMap<>();
-              // Get all data for statistics
+            // Get all data for statistics
             var courses = courseService.getAllCourses();
             var payments = paymentService.getAllPayments();
             var users = loginService.getAllLogins();
@@ -70,15 +80,18 @@ public class DashboardController {
             stats.put("totalLessons", lessons.size());
             stats.put("totalNotifications", notifications.size());
             
+            logger.info("✅ Dashboard statistics fetched successfully");
             return ResponseEntity.ok(stats);
         } catch (Exception e) {
+            logger.error("❌ Error fetching dashboard statistics: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/course-status")
-    public ResponseEntity<List<Map<String, Object>>> getCourseStatusChart() {
+    @PostMapping("/course-status")
+    public ResponseEntity<List<Map<String, Object>>> getCourseStatusChart(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching course status chart data");
             var courses = courseService.getAllCourses();
             
             long published = courses.stream()
@@ -100,18 +113,23 @@ public class DashboardController {
             unpublishedData.put("color", "#FF9800");
             chartData.add(unpublishedData);
             
+            logger.info("✅ Course status chart data fetched successfully");
             return ResponseEntity.ok(chartData);
         } catch (Exception e) {
+            logger.error("❌ Error fetching course status chart data: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
-    }    @GetMapping("/user-joining-trend")
-    public ResponseEntity<List<Map<String, Object>>> getUserJoiningTrend() {
+    }
+
+    @PostMapping("/user-joining-trend")
+    public ResponseEntity<List<Map<String, Object>>> getUserJoiningTrend(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching user joining trend data");
             var users = loginService.getAllLogins();
             Map<String, Integer> joinings = new HashMap<>();
             
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-              for (var user : users) {
+            for (var user : users) {
                 if (user.getCreatedDate() != null) {
                     String date = user.getCreatedDate().format(formatter);
                     joinings.put(date, joinings.getOrDefault(date, 0) + 1);
@@ -129,15 +147,18 @@ public class DashboardController {
             // Sort by date
             trendData.sort((a, b) -> ((String) a.get("date")).compareTo((String) b.get("date")));
             
+            logger.info("✅ User joining trend data fetched successfully");
             return ResponseEntity.ok(trendData);
         } catch (Exception e) {
+            logger.error("❌ Error fetching user joining trend data: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/payment-trend")
-    public ResponseEntity<List<Map<String, Object>>> getPaymentTrend() {
+    @PostMapping("/payment-trend")
+    public ResponseEntity<List<Map<String, Object>>> getPaymentTrend(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching payment trend data");
             var payments = paymentService.getAllPayments();
             Map<String, Map<String, Double>> monthlyData = new HashMap<>();
             
@@ -163,15 +184,18 @@ public class DashboardController {
                 trendData.add(dataPoint);
             }
             
+            logger.info("✅ Payment trend data fetched successfully");
             return ResponseEntity.ok(trendData);
         } catch (Exception e) {
+            logger.error("❌ Error fetching payment trend data: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/top-categories")
-    public ResponseEntity<List<Map<String, Object>>> getTopCategories() {
+    @PostMapping("/top-categories")
+    public ResponseEntity<List<Map<String, Object>>> getTopCategories(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching top categories data");
             var categories = categoryService.getAllCategories();
             var courses = courseService.getAllCourses();
             
@@ -187,7 +211,8 @@ public class DashboardController {
             String[] colors = {"#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", 
                               "#FF9F40", "#C9CBCF", "#4BC0C0", "#FF6384", "#36A2EB"};
             
-            int colorIndex = 0;            for (var category : categories) {
+            int colorIndex = 0;
+            for (var category : categories) {
                 Map<String, Object> dataPoint = new HashMap<>();
                 dataPoint.put("name", category.getName());
                 dataPoint.put("value", categoryCount.getOrDefault(category.getCategoryId(), 0));
@@ -199,8 +224,10 @@ public class DashboardController {
             // Sort by value descending
             chartData.sort((a, b) -> Integer.compare((Integer) b.get("value"), (Integer) a.get("value")));
             
+            logger.info("✅ Top categories data fetched successfully");
             return ResponseEntity.ok(chartData);
         } catch (Exception e) {
+            logger.error("❌ Error fetching top categories data: {}", e.getMessage(), e);
             return ResponseEntity.internalServerError().build();
         }
     }

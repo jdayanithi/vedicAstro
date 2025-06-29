@@ -24,11 +24,19 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+    return this.http.post<Category[]>(`${this.apiUrl}/get-all`, {});
+  }
+
+  getCategoryById(id: number): Observable<Category> {
+    return this.http.post<Category>(`${this.apiUrl}/get-by-id`, { id: id });
   }
 
   getRootCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/root`);
+    return this.http.post<Category[]>(`${this.apiUrl}/get-root`, {});
+  }
+
+  getCategoriesByParent(parentId: number): Observable<Category[]> {
+    return this.http.post<Category[]>(`${this.apiUrl}/get-by-parent`, { parentId: parentId });
   }
 
   createCategory(category: Category): Observable<Category> {

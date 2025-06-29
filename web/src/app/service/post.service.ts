@@ -15,17 +15,17 @@ export class PostService {
   }
 
   getAllPosts(): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/posts` );
+    return this.http.post(`${environment.apiUrl}/posts/get-all`, {} );
   }
 
   getPostById(postId:number): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/posts/${postId}` );
+    return this.http.post(`${environment.apiUrl}/posts/get-by-id`, { postId } );
   }
 
   likePost(postId:number): Observable<any>{
     return this.http.put(`${environment.apiUrl}/posts/${postId}/like`, {} );
   }
   searchByName(name:string): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/posts/search/${name}` );
+    return this.http.post(`${environment.apiUrl}/posts/search`, { name } );
   }
 }

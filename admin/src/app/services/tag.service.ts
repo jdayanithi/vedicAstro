@@ -20,11 +20,11 @@ export class TagService {
   constructor(private http: HttpClient) {}
 
   getTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(this.apiUrl);
+    return this.http.post<Tag[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getTagById(tagId: number): Observable<Tag> {
-    return this.http.get<Tag>(`${this.apiUrl}/${tagId}`);
+    return this.http.post<Tag>(`${this.apiUrl}/get-by-id`, { id: tagId });
   }
 
   createTag(tag: Tag): Observable<Tag> {

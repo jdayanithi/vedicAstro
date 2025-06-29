@@ -1,5 +1,6 @@
 package com.vedicastrology.controller;
 
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.service.LoginService;
@@ -27,9 +28,10 @@ public class UserProfileController {
     /**
      * Get current user's profile using JWT token
      */
-    @GetMapping("/profile")
-    public ResponseEntity<?> getUserProfile() {
+    @PostMapping("/profile")
+    public ResponseEntity<?> getUserProfile(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Fetching user profile");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated() && 
                 !authentication.getName().equals("anonymousUser")) {
@@ -53,8 +55,10 @@ public class UserProfileController {
                 profile.put("risingSign", login.getRisingSign());
                 profile.put("moonSign", login.getMoonSign());
                 
+                logger.info("✅ Fetched profile for user: {}", login.getUsername());
                 return ResponseEntity.ok(profile);
             } else {
+                logger.warn("❌ Unauthorized profile access attempt");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ErrorResponse("Authentication failed", "Token expired or invalid"));
             }

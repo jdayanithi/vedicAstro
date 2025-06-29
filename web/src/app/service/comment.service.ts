@@ -20,6 +20,6 @@ export class CommentService {
   }
 
   getAllCommentsByPost(postId:number): Observable<any>{
-    return this.http.get(`${environment.apiUrl}/comments/${postId}`);
+    return this.http.post(`${environment.apiUrl}/comments/get-by-post`, { postId });
   }
 }

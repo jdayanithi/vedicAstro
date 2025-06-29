@@ -27,15 +27,19 @@ export class LessonService {
   constructor(private http: HttpClient) {}
 
   getAllLessons(): Observable<Lesson[]> {
-    return this.http.get<Lesson[]>(this.apiUrl);
+    return this.http.post<Lesson[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getLessonsByTopicId(topicId: number): Observable<Lesson[]> {
-    return this.http.get<Lesson[]>(`${this.apiUrl}/topic/${topicId}`);
+    return this.http.post<Lesson[]>(`${this.apiUrl}/get-by-topic`, { topicId: topicId });
   }
 
   getLessonById(id: number): Observable<Lesson> {
-    return this.http.get<Lesson>(`${this.apiUrl}/${id}`);
+    return this.http.post<Lesson>(`${this.apiUrl}/get-by-id`, { id: id });
+  }
+
+  getLessonDetails(id: number): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/get-details`, { id: id });
   }
 
   createLesson(lesson: Partial<Lesson>): Observable<Lesson> {

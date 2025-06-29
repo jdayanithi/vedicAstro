@@ -4,6 +4,10 @@ import com.vedicastrology.dto.CourseDTO;
 import com.vedicastrology.dto.PaymentDTO;
 import com.vedicastrology.dto.UserCourseAccessDTO;
 import com.vedicastrology.dto.EnrolledCourseDTO;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.UserIdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.UserCourseRequest;
 import com.vedicastrology.service.PaymentService;
 import com.vedicastrology.service.FileUploadService;
 import com.vedicastrology.entity.Payment;
@@ -31,64 +35,81 @@ public class PaymentController {
     @Autowired
     private FileUploadService fileUploadService;
 
-    @GetMapping
-    public List<PaymentDTO> getAllPayments() {
+    @PostMapping("/get-all")
+    public List<PaymentDTO> getAllPayments(@RequestBody(required = false) EmptyRequest request) {
+        logger.info("🔍 Fetching all payments");
         return paymentService.getAllPayments();
     }
 
-    @GetMapping("/{id}")
-    public PaymentDTO getPaymentById(@PathVariable Long id) {
+    @PostMapping("/get-by-id")
+    public PaymentDTO getPaymentById(@RequestBody IdRequest request) {
+        Long id = request.getId();
+        logger.info("🔍 Fetching payment with ID: {}", id);
         return paymentService.getPaymentById(id);
     }
 
     // Get all payments for a specific user
-    @GetMapping("/user/{loginId}")
-    public List<PaymentDTO> getPaymentsByUserId(@PathVariable Long loginId) {
+    @PostMapping("/get-by-user")
+    public List<PaymentDTO> getPaymentsByUserId(@RequestBody UserIdRequest request) {
+        Long loginId = request.getLoginId();
+        logger.info("🔍 Fetching payments for user ID: {}", loginId);
         return paymentService.getPaymentsByUserId(loginId);
     }
 
     // Get user's enrolled courses (My Courses)
-    @GetMapping("/user/{loginId}/enrolled-courses")
-    public List<CourseDTO> getUserEnrolledCourses(@PathVariable Long loginId) {
+    @PostMapping("/user/enrolled-courses")
+    public List<CourseDTO> getUserEnrolledCourses(@RequestBody UserIdRequest request) {
+        Long loginId = request.getLoginId();
+        logger.info("🔍 Fetching enrolled courses for user ID: {}", loginId);
         return paymentService.getUserEnrolledCourses(loginId);
     }
 
     // Get user's enrolled courses with payment status (including pending)
-    @GetMapping("/user/{loginId}/enrolled-courses-with-status")
-    public List<EnrolledCourseDTO> getUserEnrolledCoursesWithStatus(@PathVariable Long loginId) {
+    @PostMapping("/user/enrolled-courses-with-status")
+    public List<EnrolledCourseDTO> getUserEnrolledCoursesWithStatus(@RequestBody UserIdRequest request) {
+        Long loginId = request.getLoginId();
+        logger.info("🔍 Fetching enrolled courses with status for user ID: {}", loginId);
         return paymentService.getUserEnrolledCoursesWithStatus(loginId);
     }
 
     // Check if user has access to a specific course
-    @GetMapping("/user/{loginId}/course/{courseId}/access")
-    public Boolean checkUserCourseAccess(@PathVariable Long loginId, @PathVariable Long courseId) {
+    @PostMapping("/user/course/access")
+    public Boolean checkUserCourseAccess(@RequestBody UserCourseRequest request) {
+        Long loginId = request.getLoginId();
+        Long courseId = request.getCourseId();
+        logger.info("🔍 Checking course access for user ID: {} and course ID: {}", loginId, courseId);
         return paymentService.checkUserCourseAccess(loginId, courseId);
     }
 
     // Get user course access information for all courses they have paid for
-    @GetMapping("/user/{loginId}/course-access")
-    public List<UserCourseAccessDTO> getUserCourseAccessList(@PathVariable Long loginId) {
+    @PostMapping("/user/course-access")
+    public List<UserCourseAccessDTO> getUserCourseAccessList(@RequestBody UserIdRequest request) {
+        Long loginId = request.getLoginId();
+        logger.info("🔍 Fetching course access list for user ID: {}", loginId);
         return paymentService.getUserCourseAccessList(loginId);
     }
 
     // Get current user's enrolled courses (using JWT token)
-    @GetMapping("/user/enrolled-courses")
-    public List<CourseDTO> getCurrentUserEnrolledCourses() {
+    @PostMapping("/current-user/enrolled-courses")
+    public List<CourseDTO> getCurrentUserEnrolledCourses(@RequestBody(required = false) EmptyRequest request) {
         Long loginId = getCurrentUserId();
+        logger.info("🔍 Fetching enrolled courses for current user ID: {}", loginId);
         return paymentService.getUserEnrolledCourses(loginId);
     }
 
     // Get current user's enrolled courses with payment status (using JWT token)
-    @GetMapping("/user/enrolled-courses-with-status")
-    public List<EnrolledCourseDTO> getCurrentUserEnrolledCoursesWithStatus() {
+    @PostMapping("/current-user/enrolled-courses-with-status")
+    public List<EnrolledCourseDTO> getCurrentUserEnrolledCoursesWithStatus(@RequestBody(required = false) EmptyRequest request) {
         Long loginId = getCurrentUserId();
+        logger.info("🔍 Fetching enrolled courses with status for current user ID: {}", loginId);
         return paymentService.getUserEnrolledCoursesWithStatus(loginId);
     }
 
     // Get current user's course access information (using JWT token)
-    @GetMapping("/user/course-access")
-    public List<UserCourseAccessDTO> getCurrentUserCourseAccessList() {
+    @PostMapping("/current-user/course-access")
+    public List<UserCourseAccessDTO> getCurrentUserCourseAccessList(@RequestBody(required = false) EmptyRequest request) {
         Long loginId = getCurrentUserId();
+        logger.info("🔍 Fetching course access list for current user ID: {}", loginId);
         return paymentService.getUserCourseAccessList(loginId);
     }    // Helper method to get current user ID from JWT token
     private Long getCurrentUserId() {
@@ -155,9 +176,10 @@ public class PaymentController {
     }
 
     // Debug endpoint to check all payments with status
-    @GetMapping("/debug/all-payments")
-    public ResponseEntity<?> getAllPaymentsDebug() {
+    @PostMapping("/debug/all-payments")
+    public ResponseEntity<?> getAllPaymentsDebug(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.debug("🔍 Fetching all payments for debug");
             List<Payment> payments = paymentService.getAllPaymentsRaw();
             return ResponseEntity.ok(payments.stream()
                 .map(p -> {
@@ -174,6 +196,7 @@ public class PaymentController {
                 })
                 .toList());
         } catch (Exception e) {
+            logger.error("❌ Error fetching all payments for debug: {}", e.getMessage(), e);
             return ResponseEntity.ok("Error: " + e.getMessage());
         }
     }

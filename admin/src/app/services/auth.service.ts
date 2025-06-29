@@ -211,7 +211,7 @@ export class AuthService {
   }
 
   private fetchUserProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${environment.apiUrl}/secure/user/profile`);
+    return this.http.post<UserProfile>(`${environment.apiUrl}/secure/user/profile`, {});
   }
 
   getUserProfile(): Observable<UserProfile> {
@@ -219,7 +219,7 @@ export class AuthService {
   }
 
   private validateToken(): Observable<boolean> {
-    return this.http.get<any>(`${environment.apiUrl}/secure/validate-token`).pipe(
+    return this.http.post<any>(`${environment.apiUrl}/secure/validate-token`, {}).pipe(
       tap(() => true),
       catchError(() => of(false))
     );

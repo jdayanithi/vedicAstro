@@ -2,6 +2,9 @@ package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.TopicDTO;
 import com.vedicastrology.dto.TopicDetailDTO;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.CourseIdRequest;
 import com.vedicastrology.service.TopicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +25,29 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @GetMapping
-    public ResponseEntity<List<TopicDTO>> getAllTopics() {
+    @PostMapping("/get-all")
+    public ResponseEntity<List<TopicDTO>> getAllTopics(@RequestBody(required = false) EmptyRequest request) {
+        logger.info("🔍 Fetching all topics");
         List<TopicDTO> topics = topicService.getAllTopics();
+        logger.info("✅ Fetched {} topics", topics.size());
         return ResponseEntity.ok(topics);
     }
 
-    @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<TopicDTO>> getAllTopicsByCourse(@PathVariable Long courseId) {
+    @PostMapping("/get-by-course")
+    public ResponseEntity<List<TopicDTO>> getAllTopicsByCourse(@RequestBody CourseIdRequest request) {
+        Long courseId = request.getCourseId();
+        logger.info("🔍 Fetching topics for course ID: {}", courseId);
         List<TopicDTO> topics = topicService.getAllTopicsByCourseId(courseId);
+        logger.info("✅ Fetched {} topics for course ID: {}", topics.size(), courseId);
         return ResponseEntity.ok(topics);
     }
 
-    @GetMapping("/{topicId}")
-    public ResponseEntity<TopicDTO> getTopicById(@PathVariable Long topicId) {
+    @PostMapping("/get-by-id")
+    public ResponseEntity<TopicDTO> getTopicById(@RequestBody IdRequest request) {
+        Long topicId = request.getId();
+        logger.info("🔍 Fetching topic with ID: {}", topicId);
         TopicDTO topic = topicService.getTopicById(topicId);
+        logger.info("✅ Fetched topic: {}", topic.getTitle());
         return ResponseEntity.ok(topic);
     }
 
@@ -60,9 +71,12 @@ public class TopicController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{topicId}/details")
-    public ResponseEntity<TopicDetailDTO> getTopicDetails(@PathVariable Long topicId) {
+    @PostMapping("/get-details")
+    public ResponseEntity<TopicDetailDTO> getTopicDetails(@RequestBody IdRequest request) {
+        Long topicId = request.getId();
+        logger.info("🔍 Fetching topic details for ID: {}", topicId);
         TopicDetailDTO topicDetails = topicService.getTopicDetails(topicId);
+        logger.info("✅ Fetched topic details for: {}", topicDetails.getTitle());
         return ResponseEntity.ok(topicDetails);
     }
 }

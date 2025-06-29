@@ -1,7 +1,12 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.NotificationDTO;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.UserIdRequest;
 import com.vedicastrology.service.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -9,22 +14,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/secure/notifications")
 public class NotificationController {
+    private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+    
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping
-    public List<NotificationDTO> getAll() {
-        return notificationService.getAll();
+    @PostMapping("/get-all")
+    public List<NotificationDTO> getAll(@RequestBody(required = false) EmptyRequest request) {
+        logger.info("🔍 Fetching all notifications");
+        List<NotificationDTO> notifications = notificationService.getAll();
+        logger.info("✅ Fetched {} notifications", notifications.size());
+        return notifications;
     }
 
-    @GetMapping("/user/{loginId}")
-    public List<NotificationDTO> getByLoginId(@PathVariable Long loginId) {
-        return notificationService.getByLoginId(loginId);
+    @PostMapping("/get-by-user")
+    public List<NotificationDTO> getByLoginId(@RequestBody UserIdRequest request) {
+        Long loginId = request.getLoginId();
+        logger.info("🔍 Fetching notifications for user ID: {}", loginId);
+        List<NotificationDTO> notifications = notificationService.getByLoginId(loginId);
+        logger.info("✅ Fetched {} notifications for user ID: {}", notifications.size(), loginId);
+        return notifications;
     }
 
-    @GetMapping("/{id}")
-    public NotificationDTO getById(@PathVariable Long id) {
-        return notificationService.getById(id);
+    @PostMapping("/get-by-id")
+    public NotificationDTO getById(@RequestBody IdRequest request) {
+        Long id = request.getId();
+        logger.info("🔍 Fetching notification with ID: {}", id);
+        NotificationDTO notification = notificationService.getById(id);
+        logger.info("✅ Fetched notification: {}", notification.getTitle());
+        return notification;
     }
 
     @PostMapping

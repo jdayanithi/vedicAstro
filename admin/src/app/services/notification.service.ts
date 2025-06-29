@@ -23,15 +23,15 @@ export class NotificationService {
   constructor(private http: HttpClient) {}
 
   getNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>(this.apiUrl);
+    return this.http.post<Notification[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getNotificationById(id: number): Observable<Notification> {
-    return this.http.get<Notification>(`${this.apiUrl}/${id}`);
+    return this.http.post<Notification>(`${this.apiUrl}/get-by-id`, { id });
   }
 
   getNotificationsByLoginId(loginId: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.apiUrl}/user/${loginId}`);
+    return this.http.post<Notification[]>(`${this.apiUrl}/get-by-user`, { loginId });
   }
 
   createNotification(notification: Notification): Observable<Notification> {

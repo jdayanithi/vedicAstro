@@ -71,16 +71,17 @@ export class PaymentService {
 
   // Get all payments for the current user
   getUserPayments(): Observable<Payment[]> {
-    return this.http.get<Payment[]>(`${this.apiUrl}/user`);
+    return this.http.post<Payment[]>(`${this.apiUrl}/get-by-user`, {});
   }
 
   // Check if user has access to a specific course
   checkCourseAccess(courseId: number): Observable<UserCourseAccess> {
-    return this.http.get<UserCourseAccess>(`${this.apiUrl}/access/course/${courseId}`);
+    return this.http.post<UserCourseAccess>(`${this.apiUrl}/access/course`, { courseId: courseId });
   }
+
   // Get all courses the user has access to
   getUserCourseAccess(): Observable<UserCourseAccess[]> {
-    return this.http.get<UserCourseAccess[]>(`${this.apiUrl}/user/course-access`);
+    return this.http.post<UserCourseAccess[]>(`${this.apiUrl}/user/course-access`, {});
   }
 
   // Create a new payment
@@ -90,42 +91,47 @@ export class PaymentService {
 
   // Get payment by transaction ID
   getPaymentByTransactionId(transactionId: string): Observable<Payment> {
-    return this.http.get<Payment>(`${this.apiUrl}/transaction/${transactionId}`);
+    return this.http.post<Payment>(`${this.apiUrl}/get-by-transaction`, { transactionId: transactionId });
   }
 
   // Verify payment status
   verifyPayment(paymentId: number): Observable<Payment> {
-    return this.http.post<Payment>(`${this.apiUrl}/${paymentId}/verify`, {});
+    return this.http.post<Payment>(`${this.apiUrl}/verify`, { id: paymentId });
   }
 
   // Get user's enrolled courses (for My Courses tab)
   getUserEnrolledCourses(): Observable<UserEnrolledCourse[]> {
-    return this.http.get<UserEnrolledCourse[]>(`${this.apiUrl}/user/enrolled-courses`);
+    return this.http.post<UserEnrolledCourse[]>(`${this.apiUrl}/current-user/enrolled-courses`, {});
   }
 
   // Get user's enrolled courses by login ID
   getUserEnrolledCoursesByLoginId(loginId: number): Observable<UserEnrolledCourse[]> {
-    return this.http.get<UserEnrolledCourse[]>(`${this.apiUrl}/user/${loginId}/enrolled-courses`);
+    return this.http.post<UserEnrolledCourse[]>(`${this.apiUrl}/user/enrolled-courses`, { loginId: loginId });
   }
 
   // Get user's enrolled courses with payment status by login ID
   getUserEnrolledCoursesWithStatusByLoginId(loginId: number): Observable<EnrolledCourseWithStatus[]> {
-    return this.http.get<EnrolledCourseWithStatus[]>(`${this.apiUrl}/user/${loginId}/enrolled-courses-with-status`);
+    return this.http.post<EnrolledCourseWithStatus[]>(`${this.apiUrl}/user/enrolled-courses-with-status`, { loginId: loginId });
   }
 
   // Get user's enrolled courses with payment status (for current user)
   getUserEnrolledCoursesWithStatus(): Observable<EnrolledCourseWithStatus[]> {
-    return this.http.get<EnrolledCourseWithStatus[]>(`${this.apiUrl}/user/enrolled-courses-with-status`);
+    return this.http.post<EnrolledCourseWithStatus[]>(`${this.apiUrl}/current-user/enrolled-courses-with-status`, {});
   }
 
   // Check if specific user has access to a course
   checkUserCourseAccessByLoginId(loginId: number, courseId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/user/${loginId}/course/${courseId}/access`);
+    return this.http.post<boolean>(`${this.apiUrl}/user/course/access`, { loginId: loginId, courseId: courseId });
   }
 
   // Get user's course access list by login ID
   getUserCourseAccessListByLoginId(loginId: number): Observable<UserCourseAccess[]> {
-    return this.http.get<UserCourseAccess[]>(`${this.apiUrl}/user/${loginId}/course-access`);
+    return this.http.post<UserCourseAccess[]>(`${this.apiUrl}/user/course-access`, { loginId: loginId });
+  }
+
+  // Get current user's course access list
+  getCurrentUserCourseAccessList(): Observable<UserCourseAccess[]> {
+    return this.http.post<UserCourseAccess[]>(`${this.apiUrl}/current-user/course-access`, {});
   }
 
   // Create payment with proof (for file upload)

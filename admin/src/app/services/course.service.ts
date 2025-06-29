@@ -28,11 +28,23 @@ export class CourseService {
   constructor(private http: HttpClient) {}
 
   getAllCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(this.apiUrl);
+    return this.http.post<Course[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get<Course>(`${this.apiUrl}/${id}`);
+    return this.http.post<Course>(`${this.apiUrl}/get-by-id`, { id: id });
+  }
+
+  getCoursesByCategory(categoryId: number): Observable<Course[]> {
+    return this.http.post<Course[]>(`${this.apiUrl}/get-by-category`, { categoryId: categoryId });
+  }
+
+  getCoursesByLogin(loginId: number): Observable<Course[]> {
+    return this.http.post<Course[]>(`${this.apiUrl}/get-by-login`, { loginId: loginId });
+  }
+
+  getPublishedCourses(): Observable<Course[]> {
+    return this.http.post<Course[]>(`${this.apiUrl}/get-published`, {});
   }
 
   createCourse(course: Partial<Course>): Observable<Course> {

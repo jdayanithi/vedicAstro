@@ -25,11 +25,15 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   getPayments(): Observable<Payment[]> {
-    return this.http.get<Payment[]>(this.apiUrl);
+    return this.http.post<Payment[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getPaymentById(paymentId: number): Observable<Payment> {
-    return this.http.get<Payment>(`${this.apiUrl}/${paymentId}`);
+    return this.http.post<Payment>(`${this.apiUrl}/get-by-id`, { id: paymentId });
+  }
+
+  getPaymentsByUserId(loginId: number): Observable<Payment[]> {
+    return this.http.post<Payment[]>(`${this.apiUrl}/get-by-user`, { loginId: loginId });
   }
 
   createPayment(payment: Payment): Observable<Payment> {

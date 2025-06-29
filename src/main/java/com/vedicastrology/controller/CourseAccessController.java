@@ -24,10 +24,10 @@ public class CourseAccessController {
      * Get all courses with access information for the current user
      * Works for both authenticated and anonymous users
      */
-    @GetMapping("/with-access")
-    public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess(HttpServletRequest request) {
+    @PostMapping("/with-access")
+    public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess(@RequestBody(required = false) EmptyRequest request, HttpServletRequest httpRequest) {
         logger.info("🌍 /with-access endpoint called");
-        logger.debug("📧 Authorization header: {}", request.getHeader("Authorization"));
+        logger.debug("📧 Authorization header: {}", httpRequest.getHeader("Authorization"));
         
         Long userId = getCurrentUserId();
         logger.info("👤 Final userId from getCurrentUserId(): {}", userId);
@@ -40,8 +40,8 @@ public class CourseAccessController {
     /**
      * Get all courses without authentication (for anonymous users)
      */
-    @GetMapping("/public")
-    public ResponseEntity<List<CourseWithAccessDTO>> getPublicCourses() {
+    @PostMapping("/public")
+    public ResponseEntity<List<CourseWithAccessDTO>> getPublicCourses(@RequestBody(required = false) EmptyRequest request) {
         List<CourseWithAccessDTO> courses = courseAccessService.getCoursesWithAccess(null);
         return ResponseEntity.ok(courses);
     }
@@ -49,8 +49,8 @@ public class CourseAccessController {
     /**
      * Get only enrolled courses for the current user
      */
-    @GetMapping("/my-courses")
-    public ResponseEntity<List<CourseWithAccessDTO>> getMyCoursesWithAccess() {
+    @PostMapping("/my-courses")
+    public ResponseEntity<List<CourseWithAccessDTO>> getMyCoursesWithAccess(@RequestBody(required = false) EmptyRequest request) {
         Long userId = getCurrentUserId();
         if (userId == null) {
             return ResponseEntity.ok(List.of()); // Return empty list for anonymous users
@@ -63,8 +63,8 @@ public class CourseAccessController {
     /**
      * Get only free courses with access information
      */
-    @GetMapping("/free")
-    public ResponseEntity<List<CourseWithAccessDTO>> getFreeCoursesWithAccess() {
+    @PostMapping("/free")
+    public ResponseEntity<List<CourseWithAccessDTO>> getFreeCoursesWithAccess(@RequestBody(required = false) EmptyRequest request) {
         Long userId = getCurrentUserId();
         List<CourseWithAccessDTO> courses = courseAccessService.getFreeCoursesWithAccess(userId);
         return ResponseEntity.ok(courses);
@@ -73,8 +73,8 @@ public class CourseAccessController {
     /**
      * Get only paid courses with access information
      */
-    @GetMapping("/paid")
-    public ResponseEntity<List<CourseWithAccessDTO>> getPaidCoursesWithAccess() {
+    @PostMapping("/paid")
+    public ResponseEntity<List<CourseWithAccessDTO>> getPaidCoursesWithAccess(@RequestBody(required = false) EmptyRequest request) {
         Long userId = getCurrentUserId();
         List<CourseWithAccessDTO> courses = courseAccessService.getPaidCoursesWithAccess(userId);
         return ResponseEntity.ok(courses);
@@ -83,8 +83,8 @@ public class CourseAccessController {
     /**
      * Debug endpoint to check enrolled courses data
      */
-    @GetMapping("/debug/enrolled")
-    public ResponseEntity<List<CourseWithAccessDTO>> debugEnrolledCourses() {
+    @PostMapping("/debug/enrolled")
+    public ResponseEntity<List<CourseWithAccessDTO>> debugEnrolledCourses(@RequestBody(required = false) EmptyRequest request) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated()) {
@@ -128,4 +128,12 @@ public class CourseAccessController {
         logger.debug("🚫 Returning null (anonymous user)");
         return null; // Anonymous user
     }
+}
+
+/**
+ * Empty request class for endpoints that don't need request parameters
+ */
+class EmptyRequest {
+    // Empty class for POST endpoints that don't need parameters
+    public EmptyRequest() {}
 }

@@ -2,6 +2,9 @@ package com.vedicastrology.controller;
 
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.service.LoginService;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.SearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +53,12 @@ public class AdminUserController {
     /**
      * Get any user by ID (Admin only)
      */
-    @GetMapping("/{id}")
+    @PostMapping("/get-by-id")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<?> getUser(@PathVariable Long id) {
+    public ResponseEntity<?> getUser(@RequestBody IdRequest request) {
+        Long id = request.getId();
         try {
+            logger.info("🔍 Admin fetching user with ID: {}", id);
             return ResponseEntity.ok(loginService.getLoginById(id));
         } catch (Exception e) {
             logger.error("💥 Error fetching user {}: {}", id, e.getMessage(), e);
@@ -64,10 +69,11 @@ public class AdminUserController {
     /**
      * Get all users (Admin only)
      */
-    @GetMapping
+    @PostMapping("/get-all")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<?> getAllUsers() {
+    public ResponseEntity<?> getAllUsers(@RequestBody(required = false) EmptyRequest request) {
         try {
+            logger.info("🔍 Admin fetching all users");
             return ResponseEntity.ok(loginService.getAllLogins());
         } catch (Exception e) {
             logger.error("💥 Error fetching all users: {}", e.getMessage(), e);
@@ -93,10 +99,12 @@ public class AdminUserController {
     /**
      * Search users by query (Admin only)
      */
-    @GetMapping("/search")
+    @PostMapping("/search")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<?> searchUsers(@RequestParam("query") String query) {
+    public ResponseEntity<?> searchUsers(@RequestBody SearchRequest request) {
+        String query = request.getQuery();
         try {
+            logger.info("🔍 Admin searching users with query: '{}'", query);
             return ResponseEntity.ok(loginService.searchLogins(query));
         } catch (Exception e) {
             logger.error("💥 Error searching users with query '{}': {}", query, e.getMessage(), e);

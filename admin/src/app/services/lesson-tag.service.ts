@@ -18,7 +18,7 @@ export class LessonTagService {
   constructor(private http: HttpClient) {}
 
   getTagsByLessonId(lessonId: number): Observable<LessonTag[]> {
-    return this.http.get<LessonTag[]>(`${this.apiUrl}/lesson/${lessonId}`);
+    return this.http.post<LessonTag[]>(`${this.apiUrl}/get-by-lesson`, { lessonId });
   }
 
   addLessonTag(lessonTag: LessonTag): Observable<LessonTag> {

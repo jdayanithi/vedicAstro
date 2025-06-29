@@ -31,11 +31,11 @@ export class LessonKeynoteService {
 
   // Basic CRUD operations
   getAllKeynotes(): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(this.apiUrl);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getKeynoteById(id: number): Observable<LessonKeynote> {
-    return this.http.get<LessonKeynote>(`${this.apiUrl}/${id}`);
+    return this.http.post<LessonKeynote>(`${this.apiUrl}/get-by-id`, { id: id });
   }
 
   createKeynote(keynote: LessonKeynote): Observable<LessonKeynote> {
@@ -52,31 +52,31 @@ export class LessonKeynoteService {
 
   // Specialized operations
   getKeynotesByLessonId(lessonId: number): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-lesson`, { lessonId: lessonId });
   }
 
   getImportantKeynotesByLessonId(lessonId: number): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}/important`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-important-by-lesson`, { lessonId: lessonId });
   }
 
   getKeynotesByContentType(lessonId: number, contentType: string): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}/content-type/${contentType}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-content-type`, { lessonId: lessonId, contentType: contentType });
   }
 
   getKeynotesWithVisualAids(lessonId: number): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}/visual-aids`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-visual-aids-by-lesson`, { lessonId: lessonId });
   }
 
   getKeynotesByPlanet(planet: string): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/planet/${planet}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-planet`, { planet: planet });
   }
 
   getKeynotesByZodiac(zodiac: string): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/zodiac/${zodiac}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-zodiac`, { zodiac: zodiac });
   }
 
   searchKeynotes(query: string): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/search?query=${encodeURIComponent(query)}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/search`, { query: query });
   }
 
   reorderKeynotes(lessonId: number, keynoteIds: number[]): Observable<LessonKeynote[]> {
@@ -85,11 +85,14 @@ export class LessonKeynoteService {
 
   // Add paginated fetch to the service
   getKeynotesPaginated(page: number, size: number, lessonId?: number, contentType?: string, importantOnly?: boolean, searchQuery?: string) {
-    let url = `${this.apiUrl}?page=${page}&size=${size}`;
-    if (lessonId) url += `&lessonId=${lessonId}`;
-    if (contentType) url += `&contentType=${contentType}`;
-    if (importantOnly) url += `&importantOnly=true`;
-    if (searchQuery) url += `&search=${encodeURIComponent(searchQuery)}`;
-    return this.http.get<{ content: LessonKeynote[], totalElements: number }>(url);
+    const requestBody = {
+      page: page,
+      size: size,
+      lessonId: lessonId,
+      contentType: contentType,
+      importantOnly: importantOnly,
+      search: searchQuery
+    };
+    return this.http.post<{ content: LessonKeynote[], totalElements: number }>(`${this.apiUrl}/get-paginated`, requestBody);
   }
 }

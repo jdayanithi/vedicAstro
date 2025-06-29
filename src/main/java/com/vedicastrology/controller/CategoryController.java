@@ -1,6 +1,9 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.CategoryDTO;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.ParentIdRequest;
 import com.vedicastrology.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +38,8 @@ public class CategoryController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+    @PostMapping("/get-all")
+    public ResponseEntity<List<CategoryDTO>> getAllCategories(@RequestBody(required = false) EmptyRequest request) {
         logger.info("🔍 Fetching all categories");
         try {
             List<CategoryDTO> categories = categoryService.getAllCategories();
@@ -48,8 +51,8 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/root")
-    public ResponseEntity<List<CategoryDTO>> getRootCategories() {
+    @PostMapping("/get-root")
+    public ResponseEntity<List<CategoryDTO>> getRootCategories(@RequestBody(required = false) EmptyRequest request) {
         logger.info("🔍 Fetching root categories");
         try {
             List<CategoryDTO> rootCategories = categoryService.getRootCategories();
@@ -91,8 +94,9 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
+    @PostMapping("/get-by-id")
+    public ResponseEntity<CategoryDTO> getCategoryById(@RequestBody IdRequest request) {
+        Long id = request.getId();
         logger.info("🔍 Fetching category with ID: {}", id);
         try {
             CategoryDTO category = categoryService.getCategoryById(id);
@@ -104,8 +108,9 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/subcategories/{parentId}")
-    public ResponseEntity<List<CategoryDTO>> getSubcategories(@PathVariable Long parentId) {
+    @PostMapping("/get-subcategories")
+    public ResponseEntity<List<CategoryDTO>> getSubcategories(@RequestBody ParentIdRequest request) {
+        Long parentId = request.getParentId();
         logger.info("🔍 Fetching subcategories for parent ID: {}", parentId);
         try {
             List<CategoryDTO> subcategories = categoryService.getSubcategories(parentId);

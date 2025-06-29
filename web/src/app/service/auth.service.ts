@@ -209,7 +209,7 @@ export class AuthService {
   }
 
   private validateToken(): Observable<boolean> {
-    return this.http.get<any>(`${this.apiUrl}/secure/validate-token`).pipe(
+    return this.http.post<any>(`${this.apiUrl}/secure/validate-token`, {}).pipe(
       tap(() => true),
       catchError(() => of(false))
     );
@@ -273,7 +273,7 @@ export class AuthService {
   }
 
   private fetchUserProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.apiUrl}/secure/user/profile`);
+    return this.http.post<UserProfile>(`${this.apiUrl}/secure/user/profile`, {});
   }
 
   register(registerData: RegisterRequest): Observable<any> {

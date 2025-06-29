@@ -35,11 +35,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+    return this.http.post<User[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+    return this.http.post<User>(`${this.apiUrl}/get-by-id`, { id });
   }
 
   createUser(user: User): Observable<User> {
@@ -63,6 +63,6 @@ export class UserService {
       });
     }
     console.log('Searching users with query:', query);
-    return this.http.get<User[]>(`${this.apiUrl}/search?query=${query}`);
+    return this.http.post<User[]>(`${this.apiUrl}/search`, { query });
   }
 }

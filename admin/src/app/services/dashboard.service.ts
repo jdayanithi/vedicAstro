@@ -43,22 +43,22 @@ export class DashboardService {
   constructor(private http: HttpClient) {}
 
   getDashboardStats(): Observable<DashboardStats> {
-    return this.http.get<DashboardStats>(`${this.apiUrl}/stats`);
+    return this.http.post<DashboardStats>(`${this.apiUrl}/stats`, {});
   }
 
   getCourseStatusChart(): Observable<ChartData[]> {
-    return this.http.get<ChartData[]>(`${this.apiUrl}/course-status`);
+    return this.http.post<ChartData[]>(`${this.apiUrl}/course-status`, {});
   }
 
   getUserJoiningTrend(): Observable<UserJoiningData[]> {
-    return this.http.get<UserJoiningData[]>(`${this.apiUrl}/user-joining-trend`);
+    return this.http.post<UserJoiningData[]>(`${this.apiUrl}/user-joining-trend`, {});
   }
 
   getPaymentTrend(): Observable<PaymentTrendData[]> {
-    return this.http.get<PaymentTrendData[]>(`${this.apiUrl}/payment-trend`);
+    return this.http.post<PaymentTrendData[]>(`${this.apiUrl}/payment-trend`, {});
   }
 
   getTopCategoriesChart(): Observable<ChartData[]> {
-    return this.http.get<ChartData[]>(`${this.apiUrl}/top-categories`);
+    return this.http.post<ChartData[]>(`${this.apiUrl}/top-categories`, {});
   }
 }

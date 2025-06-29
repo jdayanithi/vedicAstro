@@ -23,18 +23,18 @@ export class CategoryService {
   constructor(private http: HttpClient) {}
 
   getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+    return this.http.post<Category[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getRootCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/root`);
+    return this.http.post<Category[]>(`${this.apiUrl}/get-root`, {});
   }
 
   getCategoryById(categoryId: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/${categoryId}`);
+    return this.http.post<Category>(`${this.apiUrl}/get-by-id`, { id: categoryId });
   }
 
   getSubcategories(parentId: number): Observable<Category[]> {
-    return this.http.get<Category[]>(`${this.apiUrl}/subcategories/${parentId}`);
+    return this.http.post<Category[]>(`${this.apiUrl}/get-subcategories`, { parentId: parentId });
   }
 }

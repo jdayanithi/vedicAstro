@@ -25,42 +25,42 @@ export class KeynoteTagService {
 
   // Get all keynote tags
   getAllKeynoteTags(): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(this.apiUrl);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-all`, {});
   }
 
   // Get keynote tag by ID
   getKeynoteTagById(keynoteTagId: number): Observable<KeynoteTag> {
-    return this.http.get<KeynoteTag>(`${this.apiUrl}/${keynoteTagId}`);
+    return this.http.post<KeynoteTag>(`${this.apiUrl}/get-by-id`, { id: keynoteTagId });
   }
 
   // Get tags by keynote ID
   getTagsByKeynoteId(keynoteId: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/keynote/${keynoteId}`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-by-keynote`, { keynoteId });
   }
 
   // Get keynotes by tag ID
   getKeynotesByTagId(tagId: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/tag/${tagId}`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-by-tag`, { tagId });
   }
 
   // Get keynote tags by lesson ID
   getKeynoteTagsByLessonId(lessonId: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/lesson/${lessonId}`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-by-lesson`, { lessonId });
   }
 
   // Get tags by keynote ID with minimum relevance score
   getTagsByKeynoteIdWithMinRelevance(keynoteId: number, minScore: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/keynote/${keynoteId}/relevance/${minScore}`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-keynote-tags-with-relevance`, { keynoteId, minScore });
   }
 
   // Get keynotes by tag ID with minimum relevance score
   getKeynotesByTagIdWithMinRelevance(tagId: number, minScore: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/tag/${tagId}/relevance/${minScore}`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-tag-keynotes-with-relevance`, { tagId, minScore });
   }
 
   // Get top tags by relevance for a keynote
   getTopTagsByKeynoteId(keynoteId: number): Observable<KeynoteTag[]> {
-    return this.http.get<KeynoteTag[]>(`${this.apiUrl}/keynote/${keynoteId}/top-tags`);
+    return this.http.post<KeynoteTag[]>(`${this.apiUrl}/get-top-tags`, { keynoteId });
   }
 
   // Create keynote tag association

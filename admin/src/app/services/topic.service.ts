@@ -23,15 +23,15 @@ export class TopicService {
   constructor(private http: HttpClient) {}
 
   getAllTopics(): Observable<Topic[]> {
-    return this.http.get<Topic[]>(this.apiUrl);
+    return this.http.post<Topic[]>(`${this.apiUrl}/get-all`, {});
   }
 
   getTopicsByCourseId(courseId: number): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${this.apiUrl}/course/${courseId}`);
+    return this.http.post<Topic[]>(`${this.apiUrl}/get-by-course`, { courseId: courseId });
   }
 
   getTopicById(id: number): Observable<Topic> {
-    return this.http.get<Topic>(`${this.apiUrl}/${id}`);
+    return this.http.post<Topic>(`${this.apiUrl}/get-by-id`, { id: id });
   }
 
   createTopic(topic: Partial<Topic>): Observable<Topic> {

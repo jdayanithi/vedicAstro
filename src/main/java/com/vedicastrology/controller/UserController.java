@@ -1,7 +1,9 @@
 package com.vedicastrology.controller;
 
-
+import com.vedicastrology.dto.request.CommonRequestDTOs.SearchRequest;
 import com.vedicastrology.service.LoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +14,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/secure/users")
 public class UserController {
     
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     @Autowired
     private LoginService loginService;
     
-    @GetMapping("/search")
-    public ResponseEntity<?> searchUsers(@RequestParam String query) {
+    @PostMapping("/search")
+    public ResponseEntity<?> searchUsers(@RequestBody SearchRequest request) {
+        String query = request.getQuery();
         try {
+            logger.info("🔍 Searching users with query: '{}'", query);
             List<UserSearchResponse> users = loginService.searchUsers(query)
                 .stream()
                 .map(login -> new UserSearchResponse(
@@ -28,8 +34,10 @@ public class UserController {
                     login.getUserType().toString()
                 ))
                 .collect(Collectors.toList());
+            logger.info("✅ Found {} users matching query: '{}'", users.size(), query);
             return ResponseEntity.ok(users);
         } catch (Exception e) {
+            logger.error("💥 Error searching users with query '{}': {}", query, e.getMessage(), e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

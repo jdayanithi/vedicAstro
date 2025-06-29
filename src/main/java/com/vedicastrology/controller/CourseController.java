@@ -1,7 +1,8 @@
 package com.vedicastrology.controller;
 
-
 import com.vedicastrology.entity.Course;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
 import com.vedicastrology.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,8 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @GetMapping
-    public List<Course> getAllCourses() {
+    @PostMapping("/get-all")
+    public List<Course> getAllCourses(@RequestBody(required = false) EmptyRequest request) {
         logger.info("🔍 Fetching all courses");
         try {
             List<Course> courses = courseService.getAllCourses();
@@ -35,8 +36,9 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
+    @PostMapping("/get-by-id")
+    public ResponseEntity<Course> getCourseById(@RequestBody IdRequest request) {
+        Long id = request.getId();
         logger.info("🔍 Fetching course with ID: {}", id);
         try {
             Optional<Course> course = courseService.getCourseById(id);
@@ -48,8 +50,8 @@ public class CourseController {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            logger.error("💥 Error fetching course {}: {}", id, e.getMessage(), e);
-            return ResponseEntity.notFound().build();
+            logger.error("💥 Error fetching course with ID {}: {}", id, e.getMessage(), e);
+            throw e;
         }
     }
 

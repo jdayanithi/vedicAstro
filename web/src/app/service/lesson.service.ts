@@ -53,11 +53,11 @@ export class TopicService {
   constructor(private http: HttpClient) {}
 
   getTopicsByCourseId(courseId: number): Observable<Topic[]> {
-    return this.http.get<Topic[]>(`${this.apiUrl}/course/${courseId}`);
+    return this.http.post<Topic[]>(`${this.apiUrl}/get-by-course`, { courseId });
   }
 
   getTopicById(topicId: number): Observable<Topic> {
-    return this.http.get<Topic>(`${this.apiUrl}/${topicId}`);
+    return this.http.post<Topic>(`${this.apiUrl}/get-by-id`, { id: topicId });
   }
 }
 
@@ -70,15 +70,19 @@ export class LessonService {
   constructor(private http: HttpClient) {}
 
   getLessonsByTopicId(topicId: number): Observable<Lesson[]> {
-    return this.http.get<Lesson[]>(`${this.apiUrl}/topic/${topicId}`);
+    return this.http.post<Lesson[]>(`${this.apiUrl}/get-by-topic`, { topicId: topicId });
   }
 
   getLessonById(lessonId: number): Observable<Lesson> {
-    return this.http.get<Lesson>(`${this.apiUrl}/${lessonId}`);
+    return this.http.post<Lesson>(`${this.apiUrl}/get-by-id`, { id: lessonId });
   }
 
   getLessonDetails(lessonId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${lessonId}/details`);
+    return this.http.post<any>(`${this.apiUrl}/get-details`, { id: lessonId });
+  }
+
+  getAllLessons(): Observable<Lesson[]> {
+    return this.http.post<Lesson[]>(`${this.apiUrl}/get-all`, {});
   }
 }
 
@@ -91,7 +95,39 @@ export class LessonKeynoteService {
   constructor(private http: HttpClient) {}
 
   getKeynotesByLessonId(lessonId: number): Observable<LessonKeynote[]> {
-    return this.http.get<LessonKeynote[]>(`${this.apiUrl}/lesson/${lessonId}`);
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-lesson`, { lessonId: lessonId });
+  }
+
+  getAllKeynotes(): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-all`, {});
+  }
+
+  getKeynoteById(keynoteId: number): Observable<LessonKeynote> {
+    return this.http.post<LessonKeynote>(`${this.apiUrl}/get-by-id`, { id: keynoteId });
+  }
+
+  getImportantKeynotesByLessonId(lessonId: number): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-important-by-lesson`, { lessonId: lessonId });
+  }
+
+  getKeynotesByContentType(lessonId: number, contentType: string): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-content-type`, { lessonId: lessonId, contentType: contentType });
+  }
+
+  getKeynotesWithVisualAids(lessonId: number): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-visual-aids-by-lesson`, { lessonId: lessonId });
+  }
+
+  getKeynotesByPlanet(planet: string): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-planet`, { planet: planet });
+  }
+
+  getKeynotesByZodiac(zodiac: string): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/get-by-zodiac`, { zodiac: zodiac });
+  }
+
+  searchKeynotes(query: string): Observable<LessonKeynote[]> {
+    return this.http.post<LessonKeynote[]>(`${this.apiUrl}/search`, { query: query });
   }
 }
 
@@ -104,6 +140,18 @@ export class LessonTagService {
   constructor(private http: HttpClient) {}
 
   getTagsByLessonId(lessonId: number): Observable<LessonTag[]> {
-    return this.http.get<LessonTag[]>(`${this.apiUrl}/lesson/${lessonId}`);
+    return this.http.post<LessonTag[]>(`${this.apiUrl}/get-by-lesson`, { lessonId: lessonId });
+  }
+
+  getAllLessonTags(): Observable<LessonTag[]> {
+    return this.http.post<LessonTag[]>(`${this.apiUrl}/get-all`, {});
+  }
+
+  getTagsByTagId(tagId: number): Observable<LessonTag[]> {
+    return this.http.post<LessonTag[]>(`${this.apiUrl}/get-by-tag`, { tagId: tagId });
+  }
+
+  getLessonTagById(lessonTagId: number): Observable<LessonTag> {
+    return this.http.post<LessonTag>(`${this.apiUrl}/get-by-id`, { id: lessonTagId });
   }
 }
