@@ -1,6 +1,6 @@
 package com.vedicastrology.config;
 
-import com.vedicastrology.util.PasswordEncryptionUtil;
+import com.vedicastrology.util.JasyptPasswordEncryptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class MailConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(MailConfiguration.class);
     
     @Autowired
-    private PasswordEncryptionUtil passwordEncryptionUtil;
+    private JasyptPasswordEncryptionUtil passwordEncryptionUtil;
     
     @Value("${spring.mail.host}")
     private String host;

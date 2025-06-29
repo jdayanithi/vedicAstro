@@ -34,3 +34,26 @@ build/
 
 /node_modules/*
 package-lock.json
+
+### Security - Credential Protection ###
+# Never commit these files containing credentials
+.env
+.env.*
+*.key
+config/*.key
+application-*.properties.local
+**/secret.key
+**/email.key
+
+# Environment-specific configuration files
+application-local.properties
+application-secret.properties
+
+# Database dumps and backups
+*.sql.backup
+*.db.backup
+database-backup/
+
+# Log files that might contain sensitive info
+logs/
+*.log

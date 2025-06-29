@@ -146,10 +146,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    // File upload size exceeded
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<Map<String, Object>> handleMaxSizeException(
-            MaxUploadSizeExceededException ex) {
+    // Override parent method to handle file upload size exceeded
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(
+            MaxUploadSizeExceededException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         
         String userMessage = "File size exceeds maximum allowed limit";
         Map<String, Object> errorResponse = createErrorResponse(
@@ -157,7 +157,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         
         logError(errorResponse.get("errorId").toString(), "FILE_SIZE_EXCEEDED", ex, userMessage);
         
-        return new ResponseEntity<>(errorResponse, HttpStatus.PAYLOAD_TOO_LARGE);
+        return new ResponseEntity<>(errorResponse, headers, HttpStatus.PAYLOAD_TOO_LARGE);
     }
 
     // Authentication errors

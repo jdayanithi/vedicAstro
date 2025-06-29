@@ -19,7 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class PasswordEncryptorTool implements CommandLineRunner {
     
     @Autowired
-    private PasswordEncryptionUtil passwordEncryptionUtil;
+    private JasyptPasswordEncryptionUtil passwordEncryptionUtil;
     
     public static void main(String[] args) {
         System.setProperty("spring.main.web-application-type", "NONE");
@@ -67,7 +67,16 @@ public class PasswordEncryptorTool implements CommandLineRunner {
     
     private void encryptPassword(String password) {
         try {
-            passwordEncryptionUtil.printEncryptedPassword(password);
+            String encrypted = passwordEncryptionUtil.encryptPassword(password);
+            System.out.println("==================================================");
+            System.out.println("🔐 ENCRYPTED PASSWORD FOR APPLICATION.PROPERTIES");
+            System.out.println("==================================================");
+            System.out.println("Plain text: " + password);
+            System.out.println("Encrypted:  ENC(" + encrypted + ")");
+            System.out.println("==================================================");
+            System.out.println("Copy the encrypted value to application.properties:");
+            System.out.println("spring.mail.password=ENC(" + encrypted + ")");
+            System.out.println("==================================================");
         } catch (Exception e) {
             System.out.println("❌ Encryption failed: " + e.getMessage());
         }
