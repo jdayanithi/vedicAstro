@@ -18,7 +18,7 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private apiUrl = `${environment.apiUrl}/notifications`;
+  private apiUrl = `${environment.apiUrl}/secure/notifications`;
 
   constructor(private http: HttpClient) {}
 

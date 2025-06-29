@@ -15,7 +15,7 @@ export interface Tag {
 
 @Injectable({ providedIn: 'root' })
 export class TagService {
-  private apiUrl = `${environment.apiUrl}/tags`;
+  private apiUrl = `${environment.apiUrl}/secure/tags`;
 
   constructor(private http: HttpClient) {}
 

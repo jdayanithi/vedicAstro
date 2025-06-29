@@ -23,7 +23,7 @@ export interface Course {
   providedIn: 'root'
 })
 export class CourseService {
-  private apiUrl = `${environment.apiUrl}/courses`;
+  private apiUrl = `${environment.apiUrl}/secure/courses`;
 
   constructor(private http: HttpClient) {}
 

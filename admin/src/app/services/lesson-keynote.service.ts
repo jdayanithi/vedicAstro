@@ -25,7 +25,7 @@ export interface LessonKeynote {
   providedIn: 'root'
 })
 export class LessonKeynoteService {
-  private apiUrl = `${environment.apiUrl}/lesson-keynotes`;
+  private apiUrl = `${environment.apiUrl}/secure/lesson-keynotes`;
 
   constructor(private http: HttpClient) { }
 

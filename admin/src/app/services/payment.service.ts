@@ -20,7 +20,7 @@ export interface Payment {
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
-  private apiUrl = `${environment.apiUrl}/payments`;
+  private apiUrl = `${environment.apiUrl}/secure/payments`;
 
   constructor(private http: HttpClient) {}
 

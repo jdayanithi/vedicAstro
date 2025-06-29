@@ -38,7 +38,7 @@ export interface PaymentTrendData {
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = `${environment.apiUrl}/dashboard`;
+  private apiUrl = `${environment.apiUrl}/secure/dashboard`;
 
   constructor(private http: HttpClient) {}
 

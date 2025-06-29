@@ -23,7 +23,7 @@ export interface Lesson {
   providedIn: 'root'
 })
 export class LessonService {
-  private apiUrl = `${environment.apiUrl}/lessons`;
+  private apiUrl = `${environment.apiUrl}/secure/lessons`;
   constructor(private http: HttpClient) {}
 
   getAllLessons(): Observable<Lesson[]> {

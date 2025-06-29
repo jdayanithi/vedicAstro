@@ -13,7 +13,7 @@ export interface LessonTag {
 
 @Injectable({ providedIn: 'root' })
 export class LessonTagService {
-  private apiUrl = `${environment.apiUrl}/lesson-tags`;
+  private apiUrl = `${environment.apiUrl}/secure/lesson-tags`;
 
   constructor(private http: HttpClient) {}
 

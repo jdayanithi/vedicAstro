@@ -14,8 +14,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                            req.url.includes('/api/register/') ||
                            req.url.includes('/api/auth/');
   
-  // All /api/secure/* and /api/courses/* endpoints require authentication (never public)
-  const isSecureEndpoint = req.url.includes('/api/secure/') || req.url.includes('/api/courses/');
+  // All /api/secure/*, /api/courses/*, and /api/admin/* endpoints require authentication (never public)
+  const isSecureEndpoint = req.url.includes('/api/secure/') || req.url.includes('/api/courses/') || req.url.includes('/api/admin/');
   
   if (token && (!isPublicEndpoint || isSecureEndpoint)) {
     const cloned = req.clone({

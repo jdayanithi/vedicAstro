@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/users")
+@RequestMapping("/api/secure/admin/users")
 public class AdminUserController {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);

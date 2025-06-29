@@ -30,7 +30,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = `${environment.apiUrl}/login`;
+  private apiUrl = `${environment.apiUrl}/secure/admin/users`;
 
   constructor(private http: HttpClient) { }
 
