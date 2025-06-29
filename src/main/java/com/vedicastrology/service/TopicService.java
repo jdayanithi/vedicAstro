@@ -25,13 +25,8 @@ public class TopicService {
     private LessonRepository lessonRepository;
 
     @Autowired
-    private LessonKeynoteRepository lessonKeynoteRepository;
-
-    @Autowired
+    private LessonKeynoteRepository lessonKeynoteRepository;    @Autowired
     private LessonTagRepository lessonTagRepository;
-
-    @Autowired
-    private TagRepository tagRepository;
 
     public List<TopicDTO> getAllTopics() {
         List<Topic> topics = topicRepository.findAll();
@@ -136,70 +131,11 @@ public class TopicService {
         dto.setDescription(topic.getDescription());
         dto.setOrderNumber(topic.getOrderNumber());
         dto.setCreatedAt(topic.getCreatedAt());
-        dto.setUpdatedAt(topic.getUpdatedAt());
+        dto.setUpdatedAt(topic.getUpdatedAt());        
         return dto;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        }
-    }    public TopicDetailDTO getTopicDetails(Long topicId) {
+    public TopicDetailDTO getTopicDetails(Long topicId) {
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new EntityNotFoundException("Topic not found with ID: " + topicId));
 
