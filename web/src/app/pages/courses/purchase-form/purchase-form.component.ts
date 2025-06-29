@@ -51,11 +51,11 @@ export class PurchaseFormComponent implements OnInit {
     this.previewUrl = null;
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.purchaseForm.valid && this.selectedFile) {
       this.isSubmitting = true;
       
-      const session = this.authService.getSession();
+      const session = await this.authService.getSession();
       const userId = session?.userId || session?.id || session?.loginId;
       
       if (!userId) {

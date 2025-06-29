@@ -100,7 +100,7 @@
             <h3 class="course-title">{{ course.title }}</h3>
             <div class="course-category">
               <mat-icon class="category-icon">folder</mat-icon>
-              {{ getCategoryName(course.categoryId) }}
+              {{ course.categoryName || 'Unknown Category' }}
             </div>
           </div>
 

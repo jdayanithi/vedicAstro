@@ -33,9 +33,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4201", "http://localhost:8100"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        
+        // Set preflight response cache duration (in seconds) - reduces repeated preflight requests
+        configuration.setMaxAge(7200L); // Cache preflight response for 2 hours (increased from 1 hour)
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();        
         source.registerCorsConfiguration("/**", configuration);
@@ -53,21 +56,13 @@ public class SecurityConfig {
                 .requestMatchers("/", "/*.js", "/*.css", "/*.html", "/*.ico", "/*.png", "/*.jpg", "/*.svg", "/*.woff", "/*.woff2", "/*.ttf").permitAll()
                 
                 // Allow public login endpoints (unprotected)
-                .requestMatchers("/api/login/validate", "/api/login/google").permitAll()
-                .requestMatchers("/api/login/encode-password", "/api/login/validate-password", "/api/login/test-password").permitAll()
+                .requestMatchers("/api/login/**").permitAll()
                 .requestMatchers("/api/register/**").permitAll()
-                .requestMatchers("/api/auth/validate-token", "/api/auth/logout").permitAll()
                 
-                // Allow public course access (without authentication)
-                .requestMatchers("/api/courses/public", "/api/courses/free").permitAll()
-                
-                // Allow public category read access (without authentication)
-                .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/root", "/api/categories/subcategories/*", "/api/categories/*").permitAll()
-                
-                // Protect user profile and admin endpoints - require authentication
-                .requestMatchers("/api/user/**").authenticated()
-                .requestMatchers("/api/admin/**").authenticated()
-                
+                // Allow public course and category browsing (GET only)
+                .requestMatchers(HttpMethod.GET, "/api/courses", "/api/courses/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/**").permitAll()
+
                 // Protect all other API endpoints - require authentication
                 .requestMatchers("/api/**").authenticated()
                 

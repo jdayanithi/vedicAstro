@@ -9,12 +9,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   
-  // Add token to all API requests except public login endpoints
-  const isPublicLoginEndpoint = req.url.includes('/login/validate') || 
-                               req.url.includes('/login/google') ||
-                               req.url.includes('/register');
+  // Add token to all API requests except public endpoints
+  const isPublicEndpoint = req.url.includes('/api/login/') || 
+                           req.url.includes('/api/register/') ||
+                           (req.method === 'GET' && (req.url.includes('/api/courses') || req.url.includes('/api/categories')));
   
-  if (token && !isPublicLoginEndpoint) {
+  if (token && !isPublicEndpoint) {
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     });
