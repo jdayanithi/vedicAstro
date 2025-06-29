@@ -71,7 +71,8 @@
                 "input": "src/theme/variables.css"
               }
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/web/"
           },
           "configurations": {
             "production": {
