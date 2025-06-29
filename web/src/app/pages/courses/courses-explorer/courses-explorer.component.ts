@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CourseService, CourseWithAccess, Course } from '../../../service/course.service';
 import { CategoryService, Category } from '../../../service/category.service';
 import { AuthService } from '../../../service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PurchaseFormComponent } from '../purchase-form/purchase-form.component';
-import { map, of } from 'rxjs';
+import { map, of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-courses-explorer',
   templateUrl: './courses-explorer.component.html',
   styleUrls: ['./courses-explorer.component.scss']
 })
-export class CoursesExplorerComponent implements OnInit {
+export class CoursesExplorerComponent implements OnInit, OnDestroy {
   allCourses: CourseWithAccess[] = [];
   filteredCourses: CourseWithAccess[] = [];
   categories: Category[] = [];
@@ -23,7 +23,9 @@ export class CoursesExplorerComponent implements OnInit {
   loading = true;
   searchTerm = '';
   currentUserId: number | null = null;
-  isLoggedIn = false;  constructor(
+  isLoggedIn = false;
+  private authSubscription?: Subscription;
+  private visibilityChangeHandler?: () => void;  constructor(
     private router: Router,
     private courseService: CourseService,
     private categoryService: CategoryService,
@@ -32,11 +34,14 @@ export class CoursesExplorerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Setup page visibility listener
+    this.setupPageVisibilityListener();
+    
     // Load categories immediately when component initializes
     this.loadCategoriesIfNeeded();
     
     // Check authentication status first
-    this.authService.isAuthenticated$.subscribe(async (isAuth: boolean) => {
+    this.authSubscription = this.authService.isAuthenticated$.subscribe(async (isAuth: boolean) => {
       this.isLoggedIn = isAuth;
       if (isAuth) {
         // Get current user ID from session
@@ -45,11 +50,43 @@ export class CoursesExplorerComponent implements OnInit {
       } else {
         this.currentUserId = null;
       }
-      this.loadData();
+      
+      // Only load data if page is visible
+      if (!document.hidden) {
+        this.loadData();
+      }
     });
   }
 
+  ngOnDestroy(): void {
+    // Clean up subscriptions and event listeners
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+    
+    if (this.visibilityChangeHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
+  }
+
+  private setupPageVisibilityListener(): void {
+    this.visibilityChangeHandler = () => {
+      if (!document.hidden) {
+        // Page became visible, load data if needed
+        this.loadData();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', this.visibilityChangeHandler);
+  }
+
   loadData(): void {
+    // Don't load data if page is not visible
+    if (document.hidden) {
+      console.log('Page is hidden, skipping course data load');
+      return;
+    }
+    
     this.loading = true;
     
     // Don't load categories immediately - load them only when needed

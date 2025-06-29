@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService, CourseWithAccess } from '../../../service/course.service';
 import { AuthService } from '../../../service/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
 
 export interface Lesson {
   lessonId: number;
@@ -37,7 +38,7 @@ export interface CourseContent {
   templateUrl: './course-viewer.component.html',
   styleUrls: ['./course-viewer.component.scss']
 })
-export class CourseViewerComponent implements OnInit {
+export class CourseViewerComponent implements OnInit, OnDestroy {
   courseId: number | null = null;
   courseContent: CourseContent | null = null;
   selectedTopic: Topic | null = null;
@@ -45,6 +46,8 @@ export class CourseViewerComponent implements OnInit {
   loading = true;
   sidebarOpen = true;
   isMobile = false;
+  private subscriptions: Subscription = new Subscription();
+  private visibilityChangeHandler?: () => void;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,26 +58,58 @@ export class CourseViewerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Setup page visibility listener
+    this.setupPageVisibilityListener();
+    
     // Check screen size
     this.checkScreenSize();
     window.addEventListener('resize', () => this.checkScreenSize());
 
     // Get course ID from route
-    this.route.params.subscribe(params => {
-      this.courseId = +params['id'];
-      if (this.courseId) {
-        this.loadCourseContent();
-      } else {
-        this.router.navigate(['/courses']);
-      }
-    });
+    this.subscriptions.add(
+      this.route.params.subscribe(params => {
+        this.courseId = +params['id'];
+        if (this.courseId) {
+          // Only load if page is visible
+          if (!document.hidden) {
+            this.loadCourseContent();
+          }
+        } else {
+          this.router.navigate(['/courses']);
+        }
+      })
+    );
 
     // Check authentication
-    this.authService.isAuthenticated$.subscribe(isAuth => {
-      if (!isAuth) {
-        this.router.navigate(['/login']);
+    this.subscriptions.add(
+      this.authService.isAuthenticated$.subscribe(isAuth => {
+        if (!isAuth) {
+          this.router.navigate(['/login']);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    // Clean up subscriptions and event listeners
+    this.subscriptions.unsubscribe();
+    
+    if (this.visibilityChangeHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityChangeHandler);
+    }
+  }
+
+  private setupPageVisibilityListener(): void {
+    this.visibilityChangeHandler = () => {
+      if (!document.hidden && this.courseId) {
+        // Page became visible and we have a course ID, load content if needed
+        if (!this.courseContent) {
+          this.loadCourseContent();
+        }
       }
-    });
+    };
+    
+    document.addEventListener('visibilitychange', this.visibilityChangeHandler);
   }
 
   private checkScreenSize(): void {
@@ -85,6 +120,12 @@ export class CourseViewerComponent implements OnInit {
   }
 
   private loadCourseContent(): void {
+    // Don't load if page is not visible
+    if (document.hidden) {
+      console.log('Page is hidden, skipping course content load');
+      return;
+    }
+    
     this.loading = true;
     
     // For now, we'll create mock data since the backend course content API might not be fully implemented
@@ -94,6 +135,12 @@ export class CourseViewerComponent implements OnInit {
 
   private loadMockCourseContent(): void {
     if (!this.courseId) return;
+
+    // Don't load if page is not visible
+    if (document.hidden) {
+      console.log('Page is hidden, skipping mock course content load');
+      return;
+    }
 
     // Get course details first
     this.courseService.getAllCoursesWithAccess().subscribe({

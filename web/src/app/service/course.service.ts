@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { PageVisibilityService } from './page-visibility.service';
 
 export interface Course {
   courseId: number;
@@ -55,7 +56,10 @@ export interface CourseWithAccess {
 export class CourseService {
   private secureApiUrl = `${environment.apiUrl}/secure/courses`; // Secure user-specific endpoints
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private pageVisibilityService: PageVisibilityService
+  ) {}
 
   // Secure API methods - require authentication and include user-specific access data
   // These endpoints moved to /api/secure/courses/** pattern
@@ -97,5 +101,54 @@ export class CourseService {
 
   deleteCourse(courseId: number): Observable<void> {
     return this.http.delete<void>(`${this.secureApiUrl}/${courseId}`);
+  }
+
+  // Page visibility aware methods
+  /**
+   * Get all courses with access information, but only if page is visible
+   * Returns empty observable if page is hidden
+   */
+  getAllCoursesWithAccessWhenVisible(): Observable<CourseWithAccess[]> {
+    if (!this.pageVisibilityService.isPageVisible) {
+      console.log('Page is hidden, skipping getAllCoursesWithAccess API call');
+      return EMPTY;
+    }
+    return this.getAllCoursesWithAccess();
+  }
+
+  /**
+   * Get user's enrolled courses, but only if page is visible
+   * Returns empty observable if page is hidden
+   */
+  getMyCoursesWithAccessWhenVisible(): Observable<CourseWithAccess[]> {
+    if (!this.pageVisibilityService.isPageVisible) {
+      console.log('Page is hidden, skipping getMyCoursesWithAccess API call');
+      return EMPTY;
+    }
+    return this.getMyCoursesWithAccess();
+  }
+
+  /**
+   * Get free courses, but only if page is visible
+   * Returns empty observable if page is hidden
+   */
+  getFreeCoursesWithAccessWhenVisible(): Observable<CourseWithAccess[]> {
+    if (!this.pageVisibilityService.isPageVisible) {
+      console.log('Page is hidden, skipping getFreeCoursesWithAccess API call');
+      return EMPTY;
+    }
+    return this.getFreeCoursesWithAccess();
+  }
+
+  /**
+   * Get paid courses, but only if page is visible
+   * Returns empty observable if page is hidden
+   */
+  getPaidCoursesWithAccessWhenVisible(): Observable<CourseWithAccess[]> {
+    if (!this.pageVisibilityService.isPageVisible) {
+      console.log('Page is hidden, skipping getPaidCoursesWithAccess API call');
+      return EMPTY;
+    }
+    return this.getPaidCoursesWithAccess();
   }
 }

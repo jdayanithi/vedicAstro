@@ -166,10 +166,10 @@ configuration.setAllowedOrigins(Arrays.asList(
 ### Token Validation
 ```bash
 # Test protected endpoint without token
-curl -X GET http://localhost:8080/api/courses/with-access
+curl -X GET http://localhost:8080/api/secure/courses/with-access
 
 # Test with valid token
-curl -X GET http://localhost:8080/api/courses/with-access \
+curl -X GET http://localhost:8080/api/secure/courses/with-access \
   -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
