@@ -39,10 +39,6 @@
         <mat-icon>school</mat-icon>
         <span>Courses</span>
       </a>
-      <a mat-list-item routerLink="/view-all" (click)="toggleSidenav()">
-        <mat-icon>home</mat-icon>
-        <span>Home</span>
-      </a>
       <a mat-list-item routerLink="/create-post" (click)="toggleSidenav()" *ngIf="isAdmin$ | async">
         <mat-icon>add</mat-icon>
         <span>Create Post</span>
