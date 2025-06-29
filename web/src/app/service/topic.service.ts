@@ -69,7 +69,7 @@ export interface Topic {
   providedIn: 'root'
 })
 export class TopicService {
-  private apiUrl = `${environment.apiUrl}/topics`;
+  private apiUrl = `${environment.apiUrl}/secure/topics`;
 
   constructor(private http: HttpClient) {}
 

@@ -8,7 +8,7 @@ import java.util.*;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping("/api/dashboard")
+@RequestMapping("/api/secure/dashboard")
 public class DashboardController {
 
     @Autowired

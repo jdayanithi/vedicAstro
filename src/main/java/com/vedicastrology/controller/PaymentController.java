@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/secure/payments")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;

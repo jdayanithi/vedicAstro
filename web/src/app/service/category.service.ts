@@ -18,7 +18,7 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = `${environment.apiUrl}/categories`;
+  private apiUrl = `${environment.apiUrl}/secure/categories`;
 
   constructor(private http: HttpClient) {}
 

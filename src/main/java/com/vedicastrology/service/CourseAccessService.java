@@ -174,4 +174,37 @@ public class CourseAccessService {
         
         return dto;
     }
+
+    /**
+     * Get single course by ID with access information for a specific user
+     */
+    public CourseWithAccessDTO getCourseByIdWithAccess(Long courseId, Long userId) {
+        System.out.println("🔍 CourseAccessService: Getting course " + courseId + " with access for userId: " + userId);
+        
+        // Get the specific course
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null || !course.getIsPublished()) {
+            System.out.println("❌ Course not found or not published: " + courseId);
+            return null;
+        }
+        
+        // Get payments for this specific course and user
+        List<Payment> userPayments = userId != null ? 
+            paymentRepository.findPaymentsWithCoursesByLoginIdAndCourseId(userId, courseId) : 
+            List.of();
+        
+        // Convert to DTO with access information
+        return convertToDTO(course, userPayments, userId);
+    }
+
+    /**
+     * Convert course and payment information to DTO
+     */
+    private CourseWithAccessDTO convertToDTO(Course course, List<Payment> userPayments, Long userId) {
+        // For simplicity, assuming only one payment per course per user in this context
+        Payment payment = userPayments.isEmpty() ? null : userPayments.get(0);
+        Map<Long, String> categoryMap = categoryRepository.findAll().stream()
+            .collect(Collectors.toMap(Category::getCategoryId, Category::getName));
+        return mapToCourseWithAccessDTO(course, payment, categoryMap);
+    }
 }

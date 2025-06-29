@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/keynote-tags")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/secure/keynote-tags")
 public class KeynoteTagController {
     
     @Autowired

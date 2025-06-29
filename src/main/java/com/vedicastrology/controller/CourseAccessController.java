@@ -12,8 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courses")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:4200"})
+@RequestMapping("/api/secure/courses")
 public class CourseAccessController {
 
     @Autowired
@@ -97,7 +96,7 @@ public class CourseAccessController {
         }
         return ResponseEntity.ok(List.of());
     }
-
+    
     /**
      * Helper method to get current user ID from JWT token or return null for anonymous users
      */

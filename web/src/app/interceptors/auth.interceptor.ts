@@ -15,9 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
     // Check if this is a public endpoint based on backend SecurityConfig
     const isPublicEndpoint = request.url.includes('/api/login/') || 
                             request.url.includes('/api/register/') ||
-                            (request.method === 'GET' && (request.url.includes('/api/courses') || request.url.includes('/api/categories')));
+                            request.url.includes('/api/auth/');
     
-    if (isPublicEndpoint) {
+    // All /api/secure/** endpoints require authentication (never public)
+    const isSecureEndpoint = request.url.includes('/api/secure/') ;
+    
+    if (isPublicEndpoint && !isSecureEndpoint) {
       // For public endpoints, proceed without token
       return next.handle(request).pipe(
         catchError((error: HttpErrorResponse) => {

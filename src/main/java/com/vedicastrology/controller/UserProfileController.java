@@ -16,8 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:4200", "http://localhost:4201"})
+@RequestMapping("/api/secure/user")
 public class UserProfileController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserProfileController.class);

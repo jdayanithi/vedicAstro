@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/courses")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/secure/courses")
 public class CourseController {
 
     @Autowired

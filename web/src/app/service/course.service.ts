@@ -53,46 +53,49 @@ export interface CourseWithAccess {
   providedIn: 'root'
 })
 export class CourseService {
-  private apiUrl = `${environment.apiUrl}/courses`;
+  private secureApiUrl = `${environment.apiUrl}/secure/courses`; // Secure user-specific endpoints
 
-  constructor(private http: HttpClient) {}  // New unified API methods
+  constructor(private http: HttpClient) {}
+
+  // Secure API methods - require authentication and include user-specific access data
+  // These endpoints moved to /api/secure/courses/** pattern
   getAllCoursesWithAccess(): Observable<CourseWithAccess[]> {
-    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/with-access`);
+    return this.http.get<CourseWithAccess[]>(`${this.secureApiUrl}/with-access`);
   }
 
   getMyCoursesWithAccess(): Observable<CourseWithAccess[]> {
-    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/my-courses`);
+    return this.http.get<CourseWithAccess[]>(`${this.secureApiUrl}/my-courses`);
   }
 
   getFreeCoursesWithAccess(): Observable<CourseWithAccess[]> {
-    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/free`);
+    return this.http.get<CourseWithAccess[]>(`${this.secureApiUrl}/free`);
   }
 
   getPaidCoursesWithAccess(): Observable<CourseWithAccess[]> {
-    return this.http.get<CourseWithAccess[]>(`${this.apiUrl}/paid`);
+    return this.http.get<CourseWithAccess[]>(`${this.secureApiUrl}/paid`);
   }
 
-  // Legacy methods - keeping for backward compatibility
+  // Basic course API methods - require authentication but no user-specific data
   getAllCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(this.apiUrl);
+    return this.http.get<Course[]>(`${this.secureApiUrl}/with-access`);
   }
 
   getCourseById(courseId: number): Observable<Course> {
-    return this.http.get<Course>(`${this.apiUrl}/${courseId}`);
+    return this.http.get<Course>(`${this.secureApiUrl}/${courseId}`);
   }
   getCoursesByCategoryId(categoryId: number): Observable<Course[]> {
-    return this.http.get<Course[]>(`${this.apiUrl}/category/${categoryId}`);
+    return this.http.get<Course[]>(`${this.secureApiUrl}/category/${categoryId}`);
   }
 
   addCourse(course: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, course);
+    return this.http.post<any>(`${this.secureApiUrl}`, course);
   }
 
   updateCourse(courseId: number, course: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${courseId}`, course);
+    return this.http.put<any>(`${this.secureApiUrl}/${courseId}`, course);
   }
 
   deleteCourse(courseId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${courseId}`);
+    return this.http.delete<void>(`${this.secureApiUrl}/${courseId}`);
   }
 }

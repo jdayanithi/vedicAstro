@@ -14,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.http.HttpMethod;
 import java.util.Arrays;
 
 @Configuration
@@ -58,13 +57,12 @@ public class SecurityConfig {
                 // Allow public login endpoints (unprotected)
                 .requestMatchers("/api/login/**").permitAll()
                 .requestMatchers("/api/register/**").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 
-                // Allow public course and category browsing (GET only)
-                .requestMatchers(HttpMethod.GET, "/api/courses", "/api/courses/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/**").permitAll()
-
-                // Protect all other API endpoints - require authentication
-                .requestMatchers("/api/**").authenticated()
+                // Protect course management endpoints - require authentication  
+                .requestMatchers("/api/courses/**").authenticated()
+                // Protect all secure API endpoints - require authentication
+                .requestMatchers("/api/secure/**").authenticated()
                 
                 // Allow error pages
                 .requestMatchers("/error").permitAll()

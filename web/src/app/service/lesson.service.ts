@@ -48,7 +48,7 @@ export interface LessonTag {
   providedIn: 'root'
 })
 export class TopicService {
-  private apiUrl = `${environment.apiUrl}/topics`;
+  private apiUrl = `${environment.apiUrl}/secure/topics`;
 
   constructor(private http: HttpClient) {}
 
@@ -65,7 +65,7 @@ export class TopicService {
   providedIn: 'root'
 })
 export class LessonService {
-  private apiUrl = `${environment.apiUrl}/lessons`;
+  private apiUrl = `${environment.apiUrl}/secure/lessons`;
 
   constructor(private http: HttpClient) {}
 
@@ -86,7 +86,7 @@ export class LessonService {
   providedIn: 'root'
 })
 export class LessonKeynoteService {
-  private apiUrl = `${environment.apiUrl}/lesson-keynotes`;
+  private apiUrl = `${environment.apiUrl}/secure/lesson-keynotes`;
 
   constructor(private http: HttpClient) {}
 
@@ -99,7 +99,7 @@ export class LessonKeynoteService {
   providedIn: 'root'
 })
 export class LessonTagService {
-  private apiUrl = `${environment.apiUrl}/lesson-tags`;
+  private apiUrl = `${environment.apiUrl}/secure/lesson-tags`;
 
   constructor(private http: HttpClient) {}
 

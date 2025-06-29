@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/lesson-tags")
+@RequestMapping("/api/secure/lesson-tags")
 public class LessonTagController {
     @Autowired
     private LessonTagService lessonTagService;

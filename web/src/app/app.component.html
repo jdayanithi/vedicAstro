@@ -10,8 +10,8 @@
     <mat-icon color="warn">wifi_off</mat-icon>
     <span class="offline-text">Offline</span>  </div>
   
-  <!-- Always show courses button -->
-  <button mat-icon-button routerLink="/landing" matTooltip="Courses">
+  <!-- Show courses button except on login page -->
+  <button mat-icon-button routerLink="/landing" matTooltip="Courses" *ngIf="!(isLoginPage$ | async)">
     <mat-icon>school</mat-icon>
   </button>
   

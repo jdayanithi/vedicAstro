@@ -64,7 +64,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');
       const session = this.getSession();
-      
+
       if (token && session) {
         // Validate token with backend instead of just local parsing
         this.validateToken().subscribe({
@@ -73,13 +73,13 @@ export class AuthService {
               this.isAuthenticated.next(true);
               this.currentUserRole.next(session.role);
               this.currentUser.next(session);
-              
+
               // Set auto logout timer based on JWT expiration
               try {
                 const tokenData = JSON.parse(atob(token.split('.')[1]));
                 const expirationTime = tokenData.exp * 1000; // Convert to milliseconds
                 const now = Date.now();
-                
+
                 if (expirationTime > now) {
                   this.autoLogoutTimer(expirationTime - now);
                 } else {
@@ -107,7 +107,7 @@ export class AuthService {
                   this.isAuthenticated.next(true);
                   this.currentUserRole.next(profile.role);
                   this.currentUser.next(profile);
-                  
+
                   // Set auto logout timer
                   try {
                     const tokenData = JSON.parse(atob(token.split('.')[1]));
@@ -160,7 +160,7 @@ export class AuthService {
         tap(response => {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.token);
-            
+
             // Fetch user profile after successful login
             this.fetchUserProfile().subscribe({
               next: (profile: UserProfile) => {
@@ -168,7 +168,7 @@ export class AuthService {
                 this.isAuthenticated.next(true);
                 this.currentUserRole.next(profile.role);
                 this.currentUser.next(profile);
-                
+
                 // Set auto logout timer
                 try {
                   const tokenData = JSON.parse(atob(response.token.split('.')[1]));
@@ -211,7 +211,7 @@ export class AuthService {
   }
 
   private fetchUserProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${environment.apiUrl}/user/profile`);
+    return this.http.get<UserProfile>(`${environment.apiUrl}/secure/user/profile`);
   }
 
   getUserProfile(): Observable<UserProfile> {
@@ -219,7 +219,7 @@ export class AuthService {
   }
 
   private validateToken(): Observable<boolean> {
-    return this.http.get<any>(`${environment.apiUrl}/auth/validate-token`).pipe(
+    return this.http.get<any>(`${environment.apiUrl}/secure/validate-token`).pipe(
       tap(() => true),
       catchError(() => of(false))
     );

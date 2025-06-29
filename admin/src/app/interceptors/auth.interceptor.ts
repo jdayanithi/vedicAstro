@@ -12,9 +12,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // Add token to all API requests except public endpoints
   const isPublicEndpoint = req.url.includes('/api/login/') || 
                            req.url.includes('/api/register/') ||
-                           (req.method === 'GET' && (req.url.includes('/api/courses') || req.url.includes('/api/categories')));
+                           req.url.includes('/api/auth/');
   
-  if (token && !isPublicEndpoint) {
+  // All /api/secure/* and /api/courses/* endpoints require authentication (never public)
+  const isSecureEndpoint = req.url.includes('/api/secure/') || req.url.includes('/api/courses/');
+  
+  if (token && (!isPublicEndpoint || isSecureEndpoint)) {
     const cloned = req.clone({
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     });

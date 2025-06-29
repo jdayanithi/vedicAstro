@@ -51,7 +51,7 @@ export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   private currentUserRole = new BehaviorSubject<string | null>(null);
   private apiUrl = environment.apiUrl;
-  
+
   // Store the URL the user wanted to access before being redirected to login
   redirectUrl: string | null = null;
 
@@ -66,7 +66,7 @@ export class AuthService {
       if (DEBUG_JWT) {
         console.log(`[JWT-DEBUG] Setting storage item: ${key} on platform: ${Capacitor.getPlatform()}`);
       }
-      
+
       if (this.isNative) {
         // Use Capacitor Preferences for mobile
         await Preferences.set({
@@ -93,7 +93,7 @@ export class AuthService {
       if (DEBUG_JWT) {
         console.log(`[JWT-DEBUG] Getting storage item: ${key} on platform: ${Capacitor.getPlatform()}`);
       }
-      
+
       if (this.isNative) {
         // Use Capacitor Preferences for mobile
         const result = await Preferences.get({ key: key });
@@ -150,7 +150,7 @@ export class AuthService {
   }  private checkSession(): void {
     // Add delay for mobile platforms to ensure storage is ready
     const checkDelay = this.isNative ? 100 : 0;
-    
+
     setTimeout(async () => {
       const token = await this.getStorageItem('token');
       if (token) {
@@ -209,7 +209,7 @@ export class AuthService {
   }
 
   private validateToken(): Observable<boolean> {
-    return this.http.get<any>(`${this.apiUrl}/auth/validate-token`).pipe(
+    return this.http.get<any>(`${this.apiUrl}/secure/validate-token`).pipe(
       tap(() => true),
       catchError(() => of(false))
     );
@@ -221,18 +221,18 @@ export class AuthService {
         console.log(`[JWT-DEBUG] Handling login success on platform: ${Capacitor.getPlatform()}`);
         console.log(`[JWT-DEBUG] Received token length:`, response.token?.length || 0);
       }
-      
+
       // Store token using platform-aware storage
       await this.setStorageItem('token', response.token);
       this.isAuthenticated.next(true);
-      
+
       // Fetch user profile after storing token
       this.fetchUserProfile().subscribe({
         next: async (profile) => {
           if (DEBUG_JWT) {
             console.log(`[JWT-DEBUG] Fetched user profile:`, profile.username);
           }
-          
+
           const sessionData = JSON.stringify({
             userId: profile.userId,
             email: profile.username,
@@ -248,14 +248,14 @@ export class AuthService {
             moonSign: profile.moonSign,
             timestamp: new Date()
           });
-          
+
           await this.setStorageItem('session', sessionData);
           this.currentUserRole.next(profile.role);
-          
+
           if (DEBUG_JWT) {
             console.log(`[JWT-DEBUG] Login success complete. Redirecting...`);
           }
-          
+
           // Redirect to the originally intended URL or default to landing page
           const redirectTo = this.redirectUrl || '/landing';
           this.redirectUrl = null; // Clear the redirect URL
@@ -273,7 +273,7 @@ export class AuthService {
   }
 
   private fetchUserProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`);
+    return this.http.get<UserProfile>(`${this.apiUrl}/secure/user/profile`);
   }
 
   register(registerData: RegisterRequest): Observable<any> {
@@ -281,15 +281,15 @@ export class AuthService {
   }  logout(): void {
     // Clear all authentication data first
     this.clearSession();
-    
+
     // Sign out from Google OAuth and reinitialize
     this.googleAuthService.signOut();
-    
+
     // Add a delay to ensure cleanup is complete before reinitializing
     setTimeout(() => {
       this.googleAuthService.reinitialize();
     }, 200);
-    
+
     // Navigate to login after a short delay to ensure state is cleared
     setTimeout(() => {
       this.router.navigate(['/login']);
@@ -300,13 +300,13 @@ export class AuthService {
       // Clear platform-aware storage
       await this.removeStorageItem('token');
       await this.removeStorageItem('session');
-      
+
       // Also clear localStorage for web fallback
       if (!this.isNative) {
         localStorage.removeItem('token');
         localStorage.removeItem('session');
         sessionStorage.clear();
-        
+
         // Clear any cookies (more comprehensive approach)
         document.cookie.split(";").forEach((c) => {
           const eqPos = c.indexOf("=");
@@ -317,11 +317,11 @@ export class AuthService {
           document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
         });
       }
-      
+
       // Update authentication state
       this.isAuthenticated.next(false);
       this.currentUserRole.next(null);
-      
+
       // Clear redirect URL
       this.redirectUrl = null;
     } catch (error) {
@@ -340,7 +340,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     // Clear any existing session before login
     this.clearSession();
-    
+
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/validate`, { username: email, password })
       .pipe(
         tap(async (response: LoginResponse) => {
@@ -357,7 +357,7 @@ export class AuthService {
   googleLogin(googleToken: string): Observable<any> {
     // Clear any existing session before login
     this.clearSession();
-    
+
     return this.http.post<LoginResponse>(`${this.apiUrl}/login/google`, { token: googleToken })
       .pipe(
         tap(async (response: LoginResponse) => {

@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/topics")
+@RequestMapping("/api/secure/topics")
 public class TopicController {
 
     @Autowired
