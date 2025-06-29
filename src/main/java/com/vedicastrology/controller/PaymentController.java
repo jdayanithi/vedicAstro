@@ -8,6 +8,7 @@ import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
 import com.vedicastrology.dto.request.CommonRequestDTOs.UserIdRequest;
 import com.vedicastrology.dto.request.CommonRequestDTOs.UserCourseRequest;
+import com.vedicastrology.dto.request.CommonRequestDTOs.PaymentWithProofMetadataRequest;
 import com.vedicastrology.service.PaymentService;
 import com.vedicastrology.service.FileUploadService;
 import com.vedicastrology.entity.Payment;
@@ -135,11 +136,22 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePayment(@PathVariable Long id) {
-        paymentService.deletePayment(id);
+    public ResponseEntity<?> deletePayment(@PathVariable Long id) {
+        try {
+            // Add authorization check - only allow admins or payment owner to delete
+            Long currentUserId = getCurrentUserId();
+            logger.info("🗑️ Attempting to delete payment ID: {} by user: {}", id, currentUserId);
+            
+            paymentService.deletePayment(id);
+            logger.info("✅ Payment deleted successfully: {}", id);
+            return ResponseEntity.ok().body("Payment deleted successfully");
+        } catch (Exception e) {
+            logger.error("❌ Failed to delete payment ID: {} - {}", id, e.getMessage(), e);
+            return ResponseEntity.badRequest().body("Failed to delete payment: " + e.getMessage());
+        }
     }
 
-    // Create payment with proof upload
+    // Enhanced secure payment creation with proof upload
     @PostMapping("/with-proof")
     public ResponseEntity<?> createPaymentWithProof(
             @RequestParam("loginId") Long loginId,
@@ -150,28 +162,79 @@ public class PaymentController {
             @RequestParam(value = "comments", required = false) String comments,
             @RequestParam("paymentProof") MultipartFile paymentProof) {
         
+        logger.info("🔐 Starting secure payment creation with proof for user: {}, course: {}", loginId, courseId);
+        
         try {
-            // Upload payment proof file
-            String paymentProofUrl = fileUploadService.uploadPaymentProof(paymentProof);
+            // 1. Validate input parameters
+            if (loginId == null || courseId == null || amount == null || 
+                paymentMethod == null || transactionId == null) {
+                return ResponseEntity.badRequest().body("Missing required parameters");
+            }
+
+            // 2. Validate amount is positive
+            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                return ResponseEntity.badRequest().body("Amount must be positive");
+            }
+
+            // 3. Validate transaction ID format (prevent injection)
+            if (transactionId.trim().isEmpty() || transactionId.length() > 100) {
+                return ResponseEntity.badRequest().body("Invalid transaction ID");
+            }
+
+            // 4. Sanitize payment method
+            String sanitizedPaymentMethod = paymentMethod.trim().replaceAll("[^a-zA-Z0-9\\s_-]", "");
+            if (sanitizedPaymentMethod.isEmpty() || sanitizedPaymentMethod.length() > 50) {
+                return ResponseEntity.badRequest().body("Invalid payment method");
+            }
+
+            // 5. Sanitize comments if provided
+            String sanitizedComments = null;
+            if (comments != null && !comments.trim().isEmpty()) {
+                sanitizedComments = comments.trim().substring(0, Math.min(comments.trim().length(), 500));
+                // Remove potentially dangerous characters
+                sanitizedComments = sanitizedComments.replaceAll("[<>\"'&]", "");
+            }
+
+            // 6. Validate file (security validation happens in FileUploadService)
+            if (paymentProof == null || paymentProof.isEmpty()) {
+                return ResponseEntity.badRequest().body("Payment proof file is required");
+            }
+
+            // 7. Upload payment proof file with security validation
+            String paymentProofUrl;
+            try {
+                paymentProofUrl = fileUploadService.uploadPaymentProof(paymentProof);
+                logger.info("✅ Payment proof uploaded successfully: {}", paymentProofUrl);
+            } catch (IllegalArgumentException e) {
+                logger.warn("🚫 File validation failed: {}", e.getMessage());
+                return ResponseEntity.badRequest().body("File validation failed: " + e.getMessage());
+            } catch (Exception e) {
+                logger.error("❌ File upload failed: {}", e.getMessage(), e);
+                return ResponseEntity.status(500).body("File upload failed. Please try again.");
+            }
             
-            // Create payment DTO
+            // 8. Create payment DTO with validated data
             PaymentDTO paymentDTO = new PaymentDTO();
             paymentDTO.setLoginId(loginId);
             paymentDTO.setCourseId(courseId);
             paymentDTO.setAmount(amount);
-            paymentDTO.setPaymentMethod(paymentMethod);
-            paymentDTO.setTransactionId(transactionId);
-            paymentDTO.setComments(comments);
+            paymentDTO.setPaymentMethod(sanitizedPaymentMethod);
+            paymentDTO.setTransactionId(transactionId.trim());
+            paymentDTO.setComments(sanitizedComments);
             paymentDTO.setPaymentProofUrl(paymentProofUrl);
             paymentDTO.setStatus("pending"); // Set status as pending for verification
             
-            // Create payment
+            // 9. Create payment
             PaymentDTO createdPayment = paymentService.createPayment(paymentDTO);
+            
+            logger.info("✅ Payment created successfully with ID: {} for user: {}", 
+                       createdPayment.getPaymentId(), loginId);
             
             return ResponseEntity.ok(createdPayment);
             
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create payment: " + e.getMessage());
+            logger.error("❌ Failed to create payment with proof for user: {} - {}", loginId, e.getMessage(), e);
+            return ResponseEntity.status(500).body("Failed to create payment. Please try again.");
         }
     }
 

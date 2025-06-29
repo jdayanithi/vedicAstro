@@ -1,5 +1,7 @@
 package com.vedicastrology.dto.request;
 
+import java.math.BigDecimal;
+
 /**
  * Common request DTOs used across multiple controllers
  */
@@ -266,5 +268,38 @@ public class CommonRequestDTOs {
         public NameRequest(String name) { this.name = name; }
         public String getName() { return name; }
         public void setName(String name) { this.name = name; }
+    }
+
+    /**
+     * Request class for secure payment creation (without file upload)
+     * Used for metadata validation before file upload
+     */
+    public static class PaymentWithProofMetadataRequest {
+        private Long loginId;
+        private Long courseId;
+        private java.math.BigDecimal amount;
+        private String paymentMethod;
+        private String transactionId;
+        private String comments;
+        
+        public PaymentWithProofMetadataRequest() {}
+        
+        public Long getLoginId() { return loginId; }
+        public void setLoginId(Long loginId) { this.loginId = loginId; }
+        
+        public Long getCourseId() { return courseId; }
+        public void setCourseId(Long courseId) { this.courseId = courseId; }
+        
+        public java.math.BigDecimal getAmount() { return amount; }
+        public void setAmount(java.math.BigDecimal amount) { this.amount = amount; }
+        
+        public String getPaymentMethod() { return paymentMethod; }
+        public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+        
+        public String getTransactionId() { return transactionId; }
+        public void setTransactionId(String transactionId) { this.transactionId = transactionId; }
+        
+        public String getComments() { return comments; }
+        public void setComments(String comments) { this.comments = comments; }
     }
 }
