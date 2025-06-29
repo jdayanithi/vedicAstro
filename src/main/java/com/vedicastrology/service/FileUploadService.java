@@ -1,5 +1,7 @@
 package com.vedicastrology.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +15,8 @@ import java.util.UUID;
 
 @Service
 public class FileUploadService {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileUploadService.class);
 
     @Value("${app.upload.dir:uploads}")
     private String uploadDir;
@@ -57,9 +61,10 @@ public class FileUploadService {
         try {
             Path fullPath = Paths.get(uploadDir, filePath);
             Files.deleteIfExists(fullPath);
+            logger.debug("🗑️ Successfully deleted file: {}", filePath);
         } catch (IOException e) {
             // Log error but don't throw exception
-            System.err.println("Failed to delete file: " + filePath);
+            logger.error("💥 Failed to delete file: {} - {}", filePath, e.getMessage(), e);
         }
     }
 }

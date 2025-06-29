@@ -7,6 +7,8 @@ import com.vedicastrology.dto.EnrolledCourseDTO;
 import com.vedicastrology.service.PaymentService;
 import com.vedicastrology.service.FileUploadService;
 import com.vedicastrology.entity.Payment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/secure/payments")
 public class PaymentController {
+
+    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+
     @Autowired
     private PaymentService paymentService;
 

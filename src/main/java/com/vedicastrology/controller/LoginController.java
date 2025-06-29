@@ -200,9 +200,9 @@ public class LoginController {
     @PostMapping("/validate-password")
     public ResponseEntity<?> validatePassword(@RequestBody PasswordValidationRequest request) {
         try {
-            System.out.println("Received validation request:");
-            System.out.println("Raw password length: " + (request.getRawPassword() != null ? request.getRawPassword().length() : "null"));
-            System.out.println("Encoded password: " + request.getEncodedPassword());
+            logger.debug("Received validation request:");
+            logger.debug("Raw password length: {}", (request.getRawPassword() != null ? request.getRawPassword().length() : "null"));
+            logger.debug("Encoded password: {}", request.getEncodedPassword());
             
             boolean isValid = loginService.validatePassword(request.getRawPassword(), request.getEncodedPassword());
             

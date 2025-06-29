@@ -2,6 +2,8 @@ package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.CourseWithAccessDTO;
 import com.vedicastrology.service.CourseAccessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,8 @@ import java.util.List;
 @RequestMapping("/api/secure/courses")
 public class CourseAccessController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CourseAccessController.class);
+
     @Autowired
     private CourseAccessService courseAccessService;    /**
      * Get all courses with access information for the current user
@@ -22,11 +26,11 @@ public class CourseAccessController {
      */
     @GetMapping("/with-access")
     public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess(HttpServletRequest request) {
-        System.out.println("🌍 /with-access endpoint called");
-        System.out.println("📧 Authorization header: " + request.getHeader("Authorization"));
+        logger.info("🌍 /with-access endpoint called");
+        logger.debug("📧 Authorization header: {}", request.getHeader("Authorization"));
         
         Long userId = getCurrentUserId();
-        System.out.println("👤 Final userId from getCurrentUserId(): " + userId);
+        logger.info("👤 Final userId from getCurrentUserId(): {}", userId);
         
         // Always return courses, but with different access info based on authentication
         List<CourseWithAccessDTO> courses = courseAccessService.getCoursesWithAccess(userId);
@@ -92,7 +96,7 @@ public class CourseAccessController {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("💥 Error in debugEnrolledCourses: {}", e.getMessage(), e);
         }
         return ResponseEntity.ok(List.of());
     }
@@ -103,26 +107,25 @@ public class CourseAccessController {
     private Long getCurrentUserId() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println("🔐 Authentication object: " + authentication);
+            logger.debug("🔐 Authentication object: {}", authentication);
             
             if (authentication != null && authentication.isAuthenticated()) {
                 // The username in JWT is actually the user ID (we set it as user ID in login)
                 String userIdString = authentication.getName();
-                System.out.println("👤 Username from authentication: " + userIdString);
-                System.out.println("🔍 Is authenticated: " + authentication.isAuthenticated());
-                System.out.println("📜 Authorities: " + authentication.getAuthorities());
+                logger.debug("👤 Username from authentication: {}", userIdString);
+                logger.debug("🔍 Is authenticated: {}", authentication.isAuthenticated());
+                logger.debug("📜 Authorities: {}", authentication.getAuthorities());
                 
                 if (!userIdString.equals("anonymousUser")) {
                     Long userId = Long.parseLong(userIdString);
-                    System.out.println("✅ Parsed user ID: " + userId);
+                    logger.debug("✅ Parsed user ID: {}", userId);
                     return userId;
                 }
             }
         } catch (Exception e) {
-            System.err.println("❌ Error getting user ID: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("❌ Error getting user ID: {}", e.getMessage(), e);
         }
-        System.out.println("🚫 Returning null (anonymous user)");
+        logger.debug("🚫 Returning null (anonymous user)");
         return null; // Anonymous user
     }
 }

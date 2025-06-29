@@ -8,6 +8,8 @@ import com.vedicastrology.entity.Category;
 import com.vedicastrology.repository.CourseRepository;
 import com.vedicastrology.repository.PaymentRepository;
 import com.vedicastrology.repository.CategoryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class CourseAccessService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CourseAccessService.class);
 
     @Autowired
     private CourseRepository courseRepository;
@@ -32,23 +36,22 @@ public class CourseAccessService {
      * Get all courses with access information for a specific user
      */
     public List<CourseWithAccessDTO> getCoursesWithAccess(Long userId) {
-        System.out.println("🔍 CourseAccessService: Getting courses with access for userId: " + userId);
+        logger.info("🔍 CourseAccessService: Getting courses with access for userId: {}", userId);
         
         // Get all published courses
         List<Course> allCourses = courseRepository.findByIsPublishedTrue();
-        System.out.println("📚 Found " + allCourses.size() + " published courses");
+        logger.info("📚 Found {} published courses", allCourses.size());
         
         // Get all payments for the user
         List<Payment> userPayments = userId != null ? 
             paymentRepository.findPaymentsWithCoursesByLoginId(userId) : 
             List.of();
         
-        System.out.println("💳 Found " + userPayments.size() + " payments for user");
+        logger.info("💳 Found {} payments for user", userPayments.size());
         for (Payment payment : userPayments) {
-            System.out.println("   Payment: courseId=" + payment.getCourse().getCourseId() + 
-                              ", status=" + payment.getStatus() + 
-                              ", amount=" + payment.getAmount() + 
-                              ", date=" + payment.getPaymentDate());
+            logger.debug("   Payment: courseId={}, status={}, amount={}, date={}", 
+                        payment.getCourse().getCourseId(), payment.getStatus(), 
+                        payment.getAmount(), payment.getPaymentDate());
         }
         
         // Create a map of course payments for quick lookup
@@ -138,10 +141,10 @@ public class CourseAccessService {
           
         // Payment and access information
         if (payment != null) {
-            System.out.println("💰 Course " + course.getCourseId() + " (" + course.getTitle() + ") has payment:");
-            System.out.println("   Status: " + payment.getStatus());
-            System.out.println("   Amount: " + payment.getAmount());
-            System.out.println("   Date: " + payment.getPaymentDate());
+            logger.debug("💰 Course {} ({}) has payment:", course.getCourseId(), course.getTitle());
+            logger.debug("   Status: {}", payment.getStatus());
+            logger.debug("   Amount: {}", payment.getAmount());
+            logger.debug("   Date: {}", payment.getPaymentDate());
             
             dto.setIsEnrolled(true);
             String statusString = payment.getStatus() != null ? payment.getStatus().name() : "pending";
@@ -159,11 +162,11 @@ public class CourseAccessService {
             dto.setHasAccess(hasAccess);
             dto.setCanAccess(hasAccess);
             
-            System.out.println("   Final DTO: isEnrolled=" + dto.getIsEnrolled() + 
-                              ", paymentStatus=" + dto.getPaymentStatus() + 
-                              ", hasAccess=" + dto.getHasAccess());
+            logger.debug("   Final DTO: isEnrolled={}, paymentStatus={}, hasAccess={}", 
+                        dto.getIsEnrolled(), dto.getPaymentStatus(), dto.getHasAccess());
         } else {
-            System.out.println("📝 Course " + course.getCourseId() + " (" + course.getTitle() + ") has NO payment - isFree: " + isFree);
+            logger.debug("📝 Course {} ({}) has NO payment - isFree: {}", 
+                        course.getCourseId(), course.getTitle(), isFree);
             
             // No payment found
             dto.setIsEnrolled(false);
@@ -179,12 +182,12 @@ public class CourseAccessService {
      * Get single course by ID with access information for a specific user
      */
     public CourseWithAccessDTO getCourseByIdWithAccess(Long courseId, Long userId) {
-        System.out.println("🔍 CourseAccessService: Getting course " + courseId + " with access for userId: " + userId);
+        logger.info("🔍 CourseAccessService: Getting course {} with access for userId: {}", courseId, userId);
         
         // Get the specific course
         Course course = courseRepository.findById(courseId).orElse(null);
         if (course == null || !course.getIsPublished()) {
-            System.out.println("❌ Course not found or not published: " + courseId);
+            logger.warn("❌ Course not found or not published: {}", courseId);
             return null;
         }
         

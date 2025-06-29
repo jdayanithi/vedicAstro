@@ -4,6 +4,8 @@ import com.vedicastrology.dto.CategoryDTO;
 import com.vedicastrology.entity.Category;
 import com.vedicastrology.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class CategoryService {
+
+    private static final Logger logger = LoggerFactory.getLogger(CategoryService.class);
 
     @Autowired
     private CategoryRepository categoryRepository;    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
