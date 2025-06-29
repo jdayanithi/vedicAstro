@@ -209,6 +209,18 @@ export class CoursesExplorerComponent implements OnInit {
   }
 
   getButtonText(course: CourseWithAccess): string {
+    // Debug logging to identify the issue
+    console.log('Course Debug Info:', {
+      courseId: course.courseId,
+      title: course.title,
+      isLoggedIn: this.isLoggedIn,
+      isEnrolled: course.isEnrolled,
+      hasAccess: course.hasAccess,
+      paymentStatus: course.paymentStatus,
+      isFree: course.isFree,
+      isPaid: course.isPaid
+    });
+
     if (!this.isLoggedIn) {
       return course.isFree ? 'Start Course' : 'Purchase Course';
     }
@@ -216,6 +228,8 @@ export class CoursesExplorerComponent implements OnInit {
     if (course.isEnrolled) {
       if (course.paymentStatus === 'pending') {
         return 'Payment Pending';
+      } else if (course.paymentStatus === 'completed' && course.hasAccess) {
+        return 'Continue Course';
       } else if (course.hasAccess) {
         return 'Continue Course';
       } else {
@@ -233,6 +247,8 @@ export class CoursesExplorerComponent implements OnInit {
     if (course.isEnrolled) {
       if (course.paymentStatus === 'pending') {
         return 'warn';
+      } else if (course.paymentStatus === 'completed' && course.hasAccess) {
+        return 'primary';
       } else if (course.hasAccess) {
         return 'primary';
       } else {
@@ -270,6 +286,10 @@ export class CoursesExplorerComponent implements OnInit {
       // Disable if payment is pending
       if (course.paymentStatus === 'pending') {
         return true;
+      }
+      // Enable if payment is completed and has access
+      if (course.paymentStatus === 'completed' && course.hasAccess) {
+        return false;
       }
       // Disable if no access (e.g., payment failed or access revoked)
       if (!course.hasAccess) {

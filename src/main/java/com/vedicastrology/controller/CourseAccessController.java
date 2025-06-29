@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,13 @@ public class CourseAccessController {
      * Works for both authenticated and anonymous users
      */
     @GetMapping("/with-access")
-    public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess() {
+    public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess(HttpServletRequest request) {
+        System.out.println("🌍 /with-access endpoint called");
+        System.out.println("📧 Authorization header: " + request.getHeader("Authorization"));
+        
         Long userId = getCurrentUserId();
+        System.out.println("👤 Final userId from getCurrentUserId(): " + userId);
+        
         // Always return courses, but with different access info based on authentication
         List<CourseWithAccessDTO> courses = courseAccessService.getCoursesWithAccess(userId);
         return ResponseEntity.ok(courses);
@@ -98,16 +104,26 @@ public class CourseAccessController {
     private Long getCurrentUserId() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println("🔐 Authentication object: " + authentication);
+            
             if (authentication != null && authentication.isAuthenticated()) {
                 // The username in JWT is actually the user ID (we set it as user ID in login)
                 String userIdString = authentication.getName();
+                System.out.println("👤 Username from authentication: " + userIdString);
+                System.out.println("🔍 Is authenticated: " + authentication.isAuthenticated());
+                System.out.println("📜 Authorities: " + authentication.getAuthorities());
+                
                 if (!userIdString.equals("anonymousUser")) {
-                    return Long.parseLong(userIdString);
+                    Long userId = Long.parseLong(userIdString);
+                    System.out.println("✅ Parsed user ID: " + userId);
+                    return userId;
                 }
             }
         } catch (Exception e) {
-            // If there's any error, treat as anonymous user
+            System.err.println("❌ Error getting user ID: " + e.getMessage());
+            e.printStackTrace();
         }
+        System.out.println("🚫 Returning null (anonymous user)");
         return null; // Anonymous user
     }
 }

@@ -32,13 +32,24 @@ public class CourseAccessService {
      * Get all courses with access information for a specific user
      */
     public List<CourseWithAccessDTO> getCoursesWithAccess(Long userId) {
+        System.out.println("🔍 CourseAccessService: Getting courses with access for userId: " + userId);
+        
         // Get all published courses
         List<Course> allCourses = courseRepository.findByIsPublishedTrue();
+        System.out.println("📚 Found " + allCourses.size() + " published courses");
         
         // Get all payments for the user
         List<Payment> userPayments = userId != null ? 
             paymentRepository.findPaymentsWithCoursesByLoginId(userId) : 
             List.of();
+        
+        System.out.println("💳 Found " + userPayments.size() + " payments for user");
+        for (Payment payment : userPayments) {
+            System.out.println("   Payment: courseId=" + payment.getCourse().getCourseId() + 
+                              ", status=" + payment.getStatus() + 
+                              ", amount=" + payment.getAmount() + 
+                              ", date=" + payment.getPaymentDate());
+        }
         
         // Create a map of course payments for quick lookup
         Map<Long, Payment> coursePaymentMap = userPayments.stream()
@@ -124,10 +135,17 @@ public class CourseAccessService {
         boolean isFree = course.getPrice() == null || course.getPrice().compareTo(BigDecimal.ZERO) <= 0;
         dto.setIsFree(isFree);
         dto.setIsPaid(!isFree);
-          // Payment and access information
+          
+        // Payment and access information
         if (payment != null) {
+            System.out.println("💰 Course " + course.getCourseId() + " (" + course.getTitle() + ") has payment:");
+            System.out.println("   Status: " + payment.getStatus());
+            System.out.println("   Amount: " + payment.getAmount());
+            System.out.println("   Date: " + payment.getPaymentDate());
+            
             dto.setIsEnrolled(true);
-            dto.setPaymentStatus(payment.getStatus() != null ? payment.getStatus().name() : "pending");
+            String statusString = payment.getStatus() != null ? payment.getStatus().name() : "pending";
+            dto.setPaymentStatus(statusString);
             dto.setPaymentDate(payment.getPaymentDate());
             dto.setTransactionId(payment.getTransactionId());
             dto.setPaidAmount(payment.getAmount());
@@ -140,7 +158,13 @@ public class CourseAccessService {
             boolean hasAccess = isFree || status == PaymentStatus.completed;
             dto.setHasAccess(hasAccess);
             dto.setCanAccess(hasAccess);
+            
+            System.out.println("   Final DTO: isEnrolled=" + dto.getIsEnrolled() + 
+                              ", paymentStatus=" + dto.getPaymentStatus() + 
+                              ", hasAccess=" + dto.getHasAccess());
         } else {
+            System.out.println("📝 Course " + course.getCourseId() + " (" + course.getTitle() + ") has NO payment - isFree: " + isFree);
+            
             // No payment found
             dto.setIsEnrolled(false);
             dto.setPaymentStatus(null);
