@@ -15,6 +15,21 @@ ion-app {
   padding-top: 0 !important;
 }
 
+/* Status bar handling for Capacitor apps */
+.capacitor-android {
+  --status-bar-height: 24px;
+}
+
+.capacitor-ios {
+  --status-bar-height: env(safe-area-inset-top, 20px);
+}
+
+/* Prevent content from going behind status bar */
+.capacitor-android ion-content,
+.capacitor-ios ion-content {
+  --padding-top: var(--status-bar-height);
+}
+
 app-root {
   display: block;
   width: 100%;

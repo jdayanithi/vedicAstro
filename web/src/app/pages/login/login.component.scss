@@ -15,10 +15,10 @@ $border-color: #e2e8f0;
   right: 0;
   bottom: 0;
   overflow-y: auto;
-  padding: 40px 20px;
+  padding: 60px 20px 40px 20px;
   box-sizing: border-box;
   background: 
-    linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.7) 100%),
+    linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%),
     url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=90') center center/cover no-repeat;
   background-size: cover;
   background-position: center center;
@@ -45,7 +45,6 @@ $border-color: #e2e8f0;
   box-shadow: 
     0 20px 40px rgba(0, 0, 0, 0.1),
     0 0 80px rgba(103, 102, 241, 0.2);
-  animation: slideUp 0.8s ease-out;
 
     // Header section
     .header-section {
@@ -58,7 +57,6 @@ $border-color: #e2e8f0;
           font-size: 48px;
           margin-bottom: 12px;
           filter: drop-shadow(0 4px 8px rgba(103, 102, 241, 0.3));
-          animation: pulse 2s infinite;
         }
         
         h1 {
@@ -138,7 +136,6 @@ $border-color: #e2e8f0;
           position: relative;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           backdrop-filter: blur(10px);
-          animation: errorSlideIn 0.4s ease-out;
           
           .error-icon {
             flex-shrink: 0;
@@ -352,7 +349,6 @@ $border-color: #e2e8f0;
           gap: 8px;
           
           &:hover:not([disabled]) {
-            transform: translateY(-2px);
             box-shadow: 
               0 8px 25px rgba(103, 102, 241, 0.4),
               0 4px 12px rgba(139, 92, 246, 0.3);
@@ -414,7 +410,6 @@ $border-color: #e2e8f0;
           &:hover {
             border-color: #d1d5db;
             background: #f9fafb;
-            transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           }
         }
@@ -454,202 +449,22 @@ $border-color: #e2e8f0;
   }
 
 
-// Animations
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+// Status bar handling for Capacitor apps
+.capacitor-android .login-container {
+  padding-top: calc(60px + 24px); // 60px base + 24px status bar
 }
 
-@keyframes twinkleStars {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-@keyframes moonFloat {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-8px) rotate(1deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(0deg);
-  }
-  75% {
-    transform: translateY(-8px) rotate(-1deg);
-  }
-}
-
-@keyframes moonGlow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.3;
-  }
-  25% {
-    transform: translateY(-10px) rotate(5deg);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translateY(-20px) rotate(0deg);
-    opacity: 0.8;
-  }
-  75% {
-    transform: translateY(-10px) rotate(-5deg);
-    opacity: 0.6;
-  }
-}
-
-@keyframes shootingStar {
-  0% {
-    opacity: 0;
-    transform: translateX(0) translateY(0) scale(0);
-  }
-  10% {
-    opacity: 1;
-    transform: translateX(-20px) translateY(20px) scale(1);
-  }
-  90% {
-    opacity: 1;
-    transform: translateX(-300px) translateY(300px) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-350px) translateY(350px) scale(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    filter: drop-shadow(0 4px 8px rgba(103, 102, 241, 0.3));
-  }
-  50% {
-    transform: scale(1.05);
-    filter: drop-shadow(0 6px 12px rgba(103, 102, 241, 0.5));
-  }
-}
-
-// Cosmic drift animations for expanded background
-@keyframes cosmicDrift {
-  0%, 100% {
-    background-position: center center;
-    background-size: cover;
-  }
-  25% {
-    background-position: 48% 52%;
-    background-size: cover;
-  }
-  50% {
-    background-position: 52% 48%;
-    background-size: cover;
-  }
-  75% {
-    background-position: 48% 52%;
-    background-size: cover;
-  }
-}
-
-@keyframes nebulaDrift {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.8;
-  }
-  25% {
-    transform: translate(2%, -1%) scale(1.05);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translate(-1%, 2%) scale(1.1);
-    opacity: 0.85;
-  }
-  75% {
-    transform: translate(1%, -2%) scale(1.05);
-    opacity: 0.9;
-  }
+.capacitor-ios .login-container {
+  padding-top: calc(60px + env(safe-area-inset-top, 20px)); // 60px base + safe area
 }
 
 // Responsive design
 @media (max-width: 768px) {
   .login-container {
-    padding: 20px 15px;
+    padding: 80px 15px 20px 15px;
     align-items: flex-start;
     
-    // Adjust background for mobile
-    &::after {
-      background-size: 400px 200px;
-      height: 100%;
-      min-height: 100vh;
-    }
-    
-    &::before {
-      height: calc(100% + 20%);
-      min-height: 120vh;
-    }
-    
-    .background-animation {
-      .moon {
-        width: 70px;
-        height: 70px;
-        top: 8%;
-        right: 8%;
-        
-        &::after {
-          width: 110px;
-          height: 110px;
-          top: -20px;
-          left: -20px;
-        }
-      }
-      
-      .zodiac-symbols {
-        font-size: 18px;
-        
-        .symbol {
-          &:nth-child(1) { top: 15%; left: 8%; }
-          &:nth-child(2) { top: 12%; right: 22%; }
-          &:nth-child(3) { bottom: 30%; left: 12%; }
-          &:nth-child(4) { bottom: 25%; right: 15%; }
-          &:nth-child(5) { top: 45%; left: 3%; }
-          &:nth-child(6) { top: 55%; right: 5%; }
-        }
-      }
-      
-      .shooting-star {
-        display: none; // Hide shooting stars on mobile for better performance
-      }
-    }    .login-card {
+    .login-card {
       max-width: 100%;
       margin: 0 0 20px 0;
       border-radius: 16px;
@@ -690,35 +505,19 @@ $border-color: #e2e8f0;
       }
     }
   }
+  
+  // Additional status bar padding for mobile Capacitor apps
+  .capacitor-android .login-container {
+    padding-top: calc(80px + 24px); // 80px mobile base + 24px status bar
+  }
+  
+  .capacitor-ios .login-container {
+    padding-top: calc(80px + env(safe-area-inset-top, 20px)); // 80px mobile base + safe area
+  }
 }
 
 @media (max-width: 480px) {
   .login-container {
-    // Further optimize background for very small screens
-    &::after {
-      background-size: 300px 150px;
-      opacity: 0.6;
-    }
-    
-    .background-animation {
-      .zodiac-symbols {
-        font-size: 16px;
-        opacity: 0.2;
-      }
-      
-      .moon {
-        width: 50px;
-        height: 50px;
-        
-        &::after {
-          width: 90px;
-          height: 90px;
-          top: -20px;
-          left: -20px;
-        }
-      }
-    }
-    
     .login-card {
       .header-section {
         .brand-logo {
@@ -738,38 +537,8 @@ $border-color: #e2e8f0;
 // High-resolution displays
 @media (min-width: 1440px) {
   .login-container {
-    .background-animation {
-      .moon {
-        width: 120px;
-        height: 120px;
-        
-        &::after {
-          width: 160px;
-          height: 160px;
-          top: -20px;
-          left: -20px;
-        }
-      }
-      
-      .zodiac-symbols {
-        font-size: 28px;
-      }
-    }
-  }
-}
-
-// Enhanced responsiveness for wide screens
-@media (min-width: 1440px) {
-  .login-container {
     background-size: cover;
     background-position: center center;
-    
-    &::before {
-      width: 140%;
-      height: 140%;
-      top: -20%;
-      left: -20%;
-    }
   }
 }
 
@@ -777,13 +546,6 @@ $border-color: #e2e8f0;
   .login-container {
     background-size: cover;
     background-position: center center;
-    
-    &::before {
-      width: 160%;
-      height: 160%;
-      top: -30%;
-      left: -30%;
-    }
   }
 }
 
@@ -792,13 +554,6 @@ $border-color: #e2e8f0;
   .login-container {
     background-size: cover;
     background-position: center center;
-    
-    &::before {
-      width: 180%;
-      height: 120%;
-      top: -10%;
-      left: -40%;
-    }
   }
 }
 
@@ -817,17 +572,12 @@ $border-color: #e2e8f0;
   display: none;
 }
 
-// Enhanced Button Animations
+// Enhanced Button Styles (Static)
 .submit-btn {
   transition: all 0.3s ease;
   
   &:not(:disabled):hover {
-    transform: translateY(-1px);
     box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
-  }
-  
-  &:not(:disabled):active {
-    transform: translateY(0);
   }
 }
 
@@ -837,12 +587,7 @@ $border-color: #e2e8f0;
   &:not(:disabled):hover {
     background: #f8fafc;
     border-color: #e2e8f0;
-    transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  }
-  
-  &:not(:disabled):active {
-    transform: translateY(0);
   }
 }
 
@@ -866,18 +611,6 @@ $border-color: #e2e8f0;
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-}
-
-// Error Animation
-@keyframes errorSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 

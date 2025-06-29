@@ -88,12 +88,13 @@ public class LoginController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-    }
-
-    @PostMapping("/validate")
+    }    @PostMapping("/validate")
     public ResponseEntity<?> validateLogin(@RequestBody Login loginRequest) {
+        logger.info("🔐 Login attempt for username: {}", loginRequest.getUsername());
+        
         try {
             Login login = loginService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword());
+            logger.info("✅ Login successful for user: {} (ID: {})", login.getUsername(), login.getId());
               // Create UserDetails for JWT token generation
             UserDetails userDetails = User.builder()
                 .username(login.getId().toString()) // Use user ID as username in JWT
@@ -119,12 +120,13 @@ public class LoginController {
             response.put("zodiacSign", login.getZodiacSign());
             response.put("risingSign", login.getRisingSign());
             response.put("moonSign", login.getMoonSign());
-            
-            return ResponseEntity.ok(response);
+              return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
+            logger.error("❌ Authentication failed for username: {} - {}", loginRequest.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication failed", e.getMessage()));
         } catch (Exception e) {
+            logger.error("💥 Server error during login for username: {} - {}", loginRequest.getUsername(), e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Server error", "An unexpected error occurred"));
         }

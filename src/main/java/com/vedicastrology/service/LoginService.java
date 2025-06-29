@@ -99,13 +99,26 @@ public class LoginService {
             throw new RuntimeException("Login not found");
         }
         loginRepository.deleteById(id);
-    }
-
-    public Login validateLogin(String username, String password) {
+    }    public Login validateLogin(String username, String password) {
+        logger.info("🔍 Validating login for username: {}", username);
+        
         Login login = loginRepository.findByUsername(username);
-        if (login == null || !passwordEncoder.matches(password, login.getPassword())) {
+        if (login == null) {
+            logger.warn("❌ User not found: {}", username);
             throw new RuntimeException("Invalid username or password");
         }
+        
+        logger.debug("✅ User found: {} (ID: {})", login.getUsername(), login.getId());
+        
+        boolean passwordMatches = passwordEncoder.matches(password, login.getPassword());
+        logger.debug("🔐 Password validation result: {}", passwordMatches);
+        
+        if (!passwordMatches) {
+            logger.warn("❌ Password mismatch for user: {}", username);
+            throw new RuntimeException("Invalid username or password");
+        }
+        
+        logger.info("✅ Login validation successful for user: {}", username);
         return login;
     }
 

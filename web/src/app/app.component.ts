@@ -45,6 +45,13 @@ export class AppComponent implements OnInit {
     // Initialize status bar when platform is ready
     if (this.platform.is('capacitor')) {
       await this.initializeStatusBar();
+      
+      // Add platform-specific CSS classes
+      if (this.platform.is('android')) {
+        document.body.classList.add('capacitor-android');
+      } else if (this.platform.is('ios')) {
+        document.body.classList.add('capacitor-ios');
+      }
     }
   }
 
