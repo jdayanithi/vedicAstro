@@ -14,7 +14,12 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
     
-    if (token) {
+    // Add token to all API requests except public login endpoints
+    const isPublicLoginEndpoint = request.url.includes('/login/validate') || 
+                                 request.url.includes('/login/google') ||
+                                 request.url.includes('/register');
+    
+    if (token && !isPublicLoginEndpoint) {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
@@ -24,8 +29,9 @@ export class AuthInterceptor implements HttpInterceptor {
     
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          // Token is invalid or expired, clear session and redirect to login
+        // Handle 401 Unauthorized responses for protected routes (/api)
+        if (error.status === 401 && request.url.includes('/api')) {
+          // Token expired or invalid - redirect to login
           this.authService.redirectToLogin();
         }
         return throwError(() => error);

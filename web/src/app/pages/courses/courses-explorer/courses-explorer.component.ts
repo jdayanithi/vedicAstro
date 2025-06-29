@@ -44,18 +44,37 @@ export class CoursesExplorerComponent implements OnInit {
   loadData(): void {
     this.loading = true;
     
-    // Load categories
-    this.categoryService.getAllCategories().subscribe({
-      next: (categories) => {
-        this.categories = categories.filter(cat => cat.isPublished);
-      },
-      error: (error) => {
-        console.error('Error loading categories:', error);
-      }
-    });
+    // Don't load categories immediately - load them only when needed
+    // this.categoryService.getAllCategories().subscribe({
+    //   next: (categories) => {
+    //     this.categories = categories.filter(cat => cat.isPublished);
+    //   },
+    //   error: (error) => {
+    //     console.error('Error loading categories:', error);
+    //   }
+    // });
 
     // Load courses based on selected tab
     this.loadCoursesForTab();
+  }
+
+  // Lazy load categories only when needed
+  private loadCategoriesIfNeeded(): void {
+    if (this.categories.length === 0) {
+      this.categoryService.getAllCategories().subscribe({
+        next: (categories) => {
+          this.categories = categories.filter(cat => cat.isPublished);
+        },
+        error: (error) => {
+          console.error('Error loading categories:', error);
+        }
+      });
+    }
+  }
+
+  // Load categories when user opens the category dropdown
+  onCategoryDropdownOpen(): void {
+    this.loadCategoriesIfNeeded();
   }
 
   loadCoursesForTab(): void {
@@ -112,6 +131,7 @@ export class CoursesExplorerComponent implements OnInit {
   }
 
   onCategoryFilter(categoryId: number | null): void {
+    this.loadCategoriesIfNeeded(); // Load categories only when filtering is needed
     this.selectedCategory = categoryId;
     this.filterCourses();
   }  onTabChange(tab: 'all' | 'free' | 'paid' | 'my-courses'): void {
@@ -127,6 +147,7 @@ export class CoursesExplorerComponent implements OnInit {
   }
 
   getCategoryName(categoryId: number): string {
+    this.loadCategoriesIfNeeded(); // Load categories only when category name is needed
     const category = this.categories.find(cat => cat.categoryId === categoryId);
     return category ? category.name : 'Unknown';
   }

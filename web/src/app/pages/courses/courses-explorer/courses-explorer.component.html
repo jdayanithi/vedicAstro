@@ -51,7 +51,7 @@
         <!-- Category Filter -->
         <mat-form-field appearance="outline" class="category-field">
           <mat-label>Category</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
+          <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()" (openedChange)="onCategoryDropdownOpen()">
             <mat-option [value]="null">All Categories</mat-option>
             <mat-option *ngFor="let category of categories" [value]="category.categoryId">
               {{ category.name }}

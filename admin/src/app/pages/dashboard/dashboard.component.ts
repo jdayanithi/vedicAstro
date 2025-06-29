@@ -7,7 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
-import { AuthService, LoginResponse } from '../../services/auth.service';
+import { AuthService, LoginResponse, UserProfile } from '../../services/auth.service';
 import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTrendData } from '../../services/dashboard.service';
 
 @Component({
@@ -737,7 +737,7 @@ import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTr
   `],
 })
 export class DashboardComponent implements OnInit {
-  sessionData: LoginResponse | null;
+  sessionData: UserProfile | null;
   loading = true;
   stats: DashboardStats | null = null;
   courseStatusData: ChartData[] = [];

@@ -7,6 +7,9 @@ import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   token: string;
+}
+
+interface UserProfile {
   userId: number;
   username: string;
   role: string;
@@ -65,15 +68,50 @@ export class AuthService {
   }  private checkSession(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      // For development/testing, skip server validation to avoid 401 errors
-      // Just check if session data exists locally
-      const session = this.getSession();
-      if (session) {
-        this.isAuthenticated.next(true);
-        this.currentUserRole.next(session.role);
-      } else {
-        this.clearSession();
-      }    } else {
+      // Validate token with server
+      this.validateToken().subscribe({
+        next: (isValid) => {
+          if (isValid) {
+            const session = this.getSession();
+            if (session) {
+              this.isAuthenticated.next(true);
+              this.currentUserRole.next(session.role);
+            } else {
+              // Token is valid but no session data, fetch profile
+              this.fetchUserProfile().subscribe({
+                next: (profile: UserProfile) => {
+                  localStorage.setItem('session', JSON.stringify({
+                    userId: profile.userId,
+                    email: profile.username,
+                    role: profile.role,
+                    firstName: profile.firstName,
+                    lastName: profile.lastName,
+                    birthDate: profile.birthDate,
+                    birthTime: profile.birthTime,
+                    birthPlace: profile.birthPlace,
+                    userType: profile.userType,
+                    zodiacSign: profile.zodiacSign,
+                    risingSign: profile.risingSign,
+                    moonSign: profile.moonSign,
+                    timestamp: new Date()
+                  }));
+                  this.isAuthenticated.next(true);
+                  this.currentUserRole.next(profile.role);
+                },
+                error: () => {
+                  this.clearSession();
+                }
+              });
+            }
+          } else {
+            this.clearSession();
+          }
+        },
+        error: () => {
+          this.clearSession();
+        }
+      });
+    } else {
       // Ensure clean state if no token
       this.isAuthenticated.next(false);
       this.currentUserRole.next(null);
@@ -89,28 +127,42 @@ export class AuthService {
 
   private handleLoginSuccess(response: LoginResponse): void {
     localStorage.setItem('token', response.token);
-    localStorage.setItem('session', JSON.stringify({
-      userId: response.userId,
-      email: response.username,
-      role: response.role,
-      firstName: response.firstName,
-      lastName: response.lastName,
-      birthDate: response.birthDate,
-      birthTime: response.birthTime,
-      birthPlace: response.birthPlace,
-      userType: response.userType,
-      zodiacSign: response.zodiacSign,
-      risingSign: response.risingSign,
-      moonSign: response.moonSign,
-      timestamp: new Date()
-    }));
     this.isAuthenticated.next(true);
-    this.currentUserRole.next(response.role);
     
-    // Redirect to the originally intended URL or default to landing page
-    const redirectTo = this.redirectUrl || '/landing';
-    this.redirectUrl = null; // Clear the redirect URL
-    this.router.navigate([redirectTo]);
+    // Fetch user profile after storing token
+    this.fetchUserProfile().subscribe({
+      next: (profile) => {
+        localStorage.setItem('session', JSON.stringify({
+          userId: profile.userId,
+          email: profile.username,
+          role: profile.role,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          birthDate: profile.birthDate,
+          birthTime: profile.birthTime,
+          birthPlace: profile.birthPlace,
+          userType: profile.userType,
+          zodiacSign: profile.zodiacSign,
+          risingSign: profile.risingSign,
+          moonSign: profile.moonSign,
+          timestamp: new Date()
+        }));
+        this.currentUserRole.next(profile.role);
+        
+        // Redirect to the originally intended URL or default to landing page
+        const redirectTo = this.redirectUrl || '/landing';
+        this.redirectUrl = null; // Clear the redirect URL
+        this.router.navigate([redirectTo]);
+      },
+      error: (error) => {
+        console.error('Failed to fetch user profile:', error);
+        this.clearSession();
+      }
+    });
+  }
+
+  private fetchUserProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/user/profile`);
   }
 
   register(registerData: RegisterRequest): Observable<any> {
@@ -215,5 +267,9 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserProfile(): Observable<UserProfile> {
+    return this.fetchUserProfile();
   }
 }

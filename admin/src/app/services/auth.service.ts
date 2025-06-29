@@ -7,6 +7,10 @@ import { isPlatformBrowser } from '@angular/common';
 
 export interface LoginResponse {
   token: string;
+}
+
+export interface UserProfile {
+  userId: number;
   username: string;
   role: string;
   firstName: string;
@@ -41,7 +45,7 @@ export interface RegisterRequest {
 export class AuthService {
   private isAuthenticated = new BehaviorSubject<boolean>(false);
   private currentUserRole = new BehaviorSubject<string | null>(null);
-  private currentUser = new BehaviorSubject<LoginResponse | null>(null);
+  private currentUser = new BehaviorSubject<UserProfile | null>(null);
   private platformId = inject(PLATFORM_ID);
   private tokenExpirationTimer: any;
 
@@ -81,6 +85,28 @@ export class AuthService {
         } catch (e) {
           this.logout();
         }
+      } else if (token) {
+        // Token exists but no session, fetch profile
+        this.fetchUserProfile().subscribe({
+          next: (profile: UserProfile) => {
+            localStorage.setItem('session', JSON.stringify(profile));
+            this.isAuthenticated.next(true);
+            this.currentUserRole.next(profile.role);
+            this.currentUser.next(profile);
+            
+            // Set auto logout timer
+            try {
+              const tokenData = JSON.parse(atob(token.split('.')[1]));
+              const expirationTime = tokenData.exp * 1000;
+              this.autoLogoutTimer(expirationTime - Date.now());
+            } catch (e) {
+              this.logout();
+            }
+          },
+          error: () => {
+            this.logout();
+          }
+        });
       }
     }
   }
@@ -94,7 +120,7 @@ export class AuthService {
     }, duration);
   }
 
-  private getSession(): LoginResponse | null {
+  private getSession(): UserProfile | null {
     if (isPlatformBrowser(this.platformId)) {
       const sessionData = localStorage.getItem('session');
       return sessionData ? JSON.parse(sessionData) : null;
@@ -102,7 +128,7 @@ export class AuthService {
     return null;
   }
 
-  getCurrentUser(): LoginResponse | null {
+  getCurrentUser(): UserProfile | null {
     return this.getSession();
   }
 
@@ -112,20 +138,29 @@ export class AuthService {
         tap(response => {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('token', response.token);
-            localStorage.setItem('session', JSON.stringify(response));
             
-            // Set auto logout timer
-            try {
-              const tokenData = JSON.parse(atob(response.token.split('.')[1]));
-              const expirationTime = tokenData.exp * 1000;
-              this.autoLogoutTimer(expirationTime - Date.now());
-            } catch (e) {
-              console.error('Error setting auto logout timer:', e);
-            }
+            // Fetch user profile after successful login
+            this.fetchUserProfile().subscribe({
+              next: (profile: UserProfile) => {
+                localStorage.setItem('session', JSON.stringify(profile));
+                this.isAuthenticated.next(true);
+                this.currentUserRole.next(profile.role);
+                this.currentUser.next(profile);
+                
+                // Set auto logout timer
+                try {
+                  const tokenData = JSON.parse(atob(response.token.split('.')[1]));
+                  const expirationTime = tokenData.exp * 1000;
+                  this.autoLogoutTimer(expirationTime - Date.now());
+                } catch (e) {
+                  console.error('Error setting auto logout timer:', e);
+                }
+              },
+              error: () => {
+                this.logout();
+              }
+            });
           }
-          this.isAuthenticated.next(true);
-          this.currentUserRole.next(response.role);
-          this.currentUser.next(response);
         })
       );
   }
@@ -151,5 +186,13 @@ export class AuthService {
 
   getToken(): string | null {
     return isPlatformBrowser(this.platformId) ? localStorage.getItem('token') : null;
+  }
+
+  private fetchUserProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${environment.apiUrl}/user/profile`);
+  }
+
+  getUserProfile(): Observable<UserProfile> {
+    return this.fetchUserProfile();
   }
 }
