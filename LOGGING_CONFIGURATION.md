@@ -266,3 +266,81 @@ The structured log format makes it easy to integrate with log management systems
 - **Graylog**
 
 The pipe-separated format can be easily parsed and indexed for searching and alerting.
+
+## 🔒 Sensitive Data Masking
+
+The logging system automatically masks sensitive information to protect user privacy and security:
+
+### Masking Patterns
+
+| Data Type | Original | Masked | Pattern |
+|-----------|----------|---------|---------|
+| **Username** | `johndoe` | `j***e` | First and last char visible (if >4 chars) |
+| **User ID** | `123456789` | `1***9` | First and last digit visible (if >4 digits) |
+| **Password** | `myPassword123` | `***MASKED***` | Completely hidden |
+| **Credit Card** | `4532 1234 5678 9012` | `****-****-****-****` | Completely masked |
+| **Phone Number** | `555-123-4567` | `***-***-****` | Completely masked |
+| **SSN** | `123-45-6789` | `***-**-****` | Completely masked |
+| **Email** | `john.doe@example.com` | `john.doe***@example.com` | Username partially masked |
+
+### Automatic Detection
+
+The masking system automatically detects and masks sensitive data in:
+- **Usernames and User IDs** - in all log entry fields
+- **Password fields** - detected by keywords like "password", "pwd", "pass"
+- **Credit card numbers** - 16-digit patterns with spaces or dashes
+- **Phone numbers** - Common US phone number patterns
+- **Social Security Numbers** - XXX-XX-XXXX patterns
+- **Email addresses** - Standard email format patterns
+
+### Usage Examples
+
+```java
+// Basic authentication logging (username automatically masked)
+structuredLoggingService.logAuthenticationAttempt("admin", "192.168.1.1", "Browser", false, "Invalid password");
+// Output: [AUTHENTICATION] ... | User: a***n | IP: 192.168.1.1 | Status: FAILED
+
+// Login with password field (password completely masked)
+structuredLoggingService.logAuthenticationAttemptWithPassword("user", "secret123", "192.168.1.1", "Browser", true, "Success");
+// Output: [AUTHENTICATION] ... | User: u***r | Password: ***MASKED*** | Status: SUCCESS
+
+// User registration with email masking
+structuredLoggingService.logUserRegistrationEvent("newuser", "new@example.com", 12345L, "192.168.1.1", true, "Account created");
+// Output: [USER_REGISTRATION] ... | User: n***r | Email: new***@example.com | UserID: 1***5
+
+// Details field with sensitive data automatically masked
+structuredLoggingService.logSecurityEvent("LOGIN_ATTEMPT", "user", "192.168.1.1", 
+    "Failed login with password: hackerpass and card 4532123456789012");
+// Output: [SECURITY] ... | Details: Failed login with password: ***MASKED*** and card ****-****-****-****
+```
+
+### Additional Security Methods
+
+```java
+// Password change events
+structuredLoggingService.logPasswordChangeEvent("username", userId, ipAddress, success, reason);
+
+// User registration events
+structuredLoggingService.logUserRegistrationEvent(username, email, userId, ipAddress, success, details);
+
+// Authentication with password logging
+structuredLoggingService.logAuthenticationAttemptWithPassword(username, password, ipAddress, userAgent, success, reason);
+```
+
+### Masking Configuration
+
+The masking functionality is built into the `StructuredLoggingService` and includes:
+
+- **Log Injection Prevention** - Removes control characters that could break log parsing
+- **Length Limiting** - Truncates extremely long values to prevent log bloat
+- **Pattern-Based Detection** - Uses regex patterns to identify sensitive data types
+- **Context-Aware Masking** - Different masking strategies for different data types
+
+### Testing Masking
+
+Run the sensitive data masking test to verify functionality:
+```bash
+mvn test -Dtest=SensitiveDataMaskingTest
+```
+
+This test verifies that all sensitive data patterns are properly masked in log output.
