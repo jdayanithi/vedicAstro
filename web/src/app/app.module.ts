@@ -18,6 +18,7 @@ import { ErrorDialogComponent } from './shared/components/error-dialog/error-dia
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { IonicModule } from '@ionic/angular';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -37,6 +38,7 @@ import { IonicModule } from '@ionic/angular';
         ReactiveFormsModule,
         FormsModule,
         IonicModule.forRoot({}),
+        SharedModule,
         LandingComponent],providers: [
         {
             provide: HTTP_INTERCEPTORS,
