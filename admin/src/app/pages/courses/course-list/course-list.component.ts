@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { CourseService, Course } from '../../../services/course.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-course-list',
   standalone: true,
   imports: [
@@ -467,7 +468,8 @@ export class CourseListComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -548,3 +550,4 @@ export class CourseListComponent implements OnInit {
     this.pageSize = event.pageSize;
   }
 }
+

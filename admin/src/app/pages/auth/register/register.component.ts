@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-register',
   standalone: true,
   imports: [
@@ -151,7 +152,8 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -228,3 +230,4 @@ export class RegisterComponent {
     }
   }
 }
+

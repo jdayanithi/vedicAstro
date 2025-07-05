@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-error-dialog',
   template: `
     <h2 mat-dialog-title>Error</h2>

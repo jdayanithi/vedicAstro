@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { TopicService, Topic } from '../../../services/topic.service';
 import { CourseService, Course } from '../../../services/course.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-topic',
   standalone: true,
   imports: [
@@ -118,7 +119,8 @@ export class AddTopicComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
 
-  constructor() {
+  constructor(
+    private cdr: ChangeDetectorRef) {
     this.topicForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -276,3 +278,4 @@ export class AddTopicComponent implements OnInit {
     });
   }
 }
+

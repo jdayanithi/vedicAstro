@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,6 +27,7 @@ import { TagService, Tag } from '../../../services/tag.service';
 import { CourseService, Course } from '../../../services/course.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-lesson',
   standalone: true,  imports: [
     CommonModule,
@@ -950,7 +951,8 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
   private lessonTagService = inject(LessonTagService);
   private keynoteTagService = inject(KeynoteTagService);
   private tagService = inject(TagService);
-  constructor() {
+  constructor(
+    private cdr: ChangeDetectorRef) {
     this.lessonForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -1200,7 +1202,7 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
   getContentPlaceholder(contentType: string): string {
     switch (contentType) {
       case 'bullet_points':
-        return 'Enter bullet points, one per line:\n• Point 1\n• Point 2\n• Point 3';
+        return 'Enter bullet points, one per line:\nâ€¢ Point 1\nâ€¢ Point 2\nâ€¢ Point 3';
       case 'quote':
         return 'Enter the quote text...';
       case 'example':
@@ -1213,7 +1215,7 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
   getContentHint(contentType: string): string {
     switch (contentType) {
       case 'bullet_points':
-        return 'Use bullet points (•), dashes (-), or asterisks (*) to separate points';
+        return 'Use bullet points (â€¢), dashes (-), or asterisks (*) to separate points';
       case 'quote':
         return 'Inspirational or educational quotes related to the lesson';
       case 'example':
@@ -1726,3 +1728,4 @@ export class AddLessonComponent implements OnInit {  lessonForm: FormGroup;
     }
   }
 }
+

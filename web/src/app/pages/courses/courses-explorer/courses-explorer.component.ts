@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CourseService, CourseWithAccess, Course } from '../../../service/course.service';
 import { CategoryService, Category } from '../../../service/category.service';
@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-courses-explorer',
   templateUrl: './courses-explorer.component.html',
   styleUrls: ['./courses-explorer.component.scss'],
@@ -42,7 +43,8 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private categoryService: CategoryService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -477,3 +479,4 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
     };
   }
 }
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PostService } from 'src/app/service/post.service';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-search-by-name',
   templateUrl: './search-by-name.component.html',
   styleUrls: ['./search-by-name.component.scss'],
@@ -24,7 +25,8 @@ export class SearchByNameComponent {
   name:any = "";
 
   constructor(private postService: PostService,
-    private snackBar: MatSnackBar){}
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef){}
 
 
     searchByName(){
@@ -37,3 +39,4 @@ export class SearchByNameComponent {
     }
 
 }
+

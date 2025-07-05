@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,7 @@ import { AuthService, LoginResponse, UserProfile } from '../../services/auth.ser
 import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTrendData } from '../../services/dashboard.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-dashboard',
   standalone: true,
   imports: [
@@ -67,7 +68,7 @@ import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTr
               <mat-card-subtitle>Revenue & transactions</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <div class="stat-number">₹{{ formatCurrency(stats?.totalPaymentAmount || 0) }}</div>
+              <div class="stat-number">â‚¹{{ formatCurrency(stats?.totalPaymentAmount || 0) }}</div>
               <div class="stat-details">
                 <span>{{ stats?.totalPayments || 0 }} Transactions</span>
               </div>
@@ -211,7 +212,7 @@ import { DashboardService, DashboardStats, ChartData, UserJoiningData, PaymentTr
                            [style.height.%]="getBarHeight(data.amount, getMaxPaymentAmount())">
                       </div>
                       <div class="bar-label">{{ data.month }}</div>
-                      <div class="bar-value">₹{{ formatCurrency(data.amount) }}</div>
+                      <div class="bar-value">â‚¹{{ formatCurrency(data.amount) }}</div>
                       <div class="bar-count">{{ data.count }} payments</div>
                     </div>
                   </div>
@@ -747,7 +748,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private cdr: ChangeDetectorRef
   ) {
     this.sessionData = this.authService.getCurrentUser();
   }
@@ -853,3 +855,4 @@ export class DashboardComponent implements OnInit {
     return rotation;
   }
 }
+

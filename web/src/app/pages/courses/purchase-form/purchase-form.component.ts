@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PaymentService } from '../../../service/payment.service';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../../../AngularMaterialModule';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-purchase-form',
   templateUrl: './purchase-form.component.html',
   styleUrls: ['./purchase-form.component.scss'],
@@ -97,3 +98,4 @@ export class PurchaseFormComponent implements OnInit {
     this.dialogRef.close();
   }
 }
+

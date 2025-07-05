@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import { TagService, Tag } from '../../services/tag.service';
 import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-customer-view',
   standalone: true,  imports: [
     CommonModule,
@@ -89,7 +90,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
                 </div>
                 <div class="stat-item" *ngIf="selectedCourse.price">
                   <mat-icon>currency_rupee</mat-icon>
-                  <span>₹{{selectedCourse.price}}</span>
+                  <span>â‚¹{{selectedCourse.price}}</span>
                 </div>
               </div>
             </div>
@@ -101,7 +102,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
           <div class="course-info">
             <div class="course-meta">
               <span class="difficulty-badge" [class]="'diff-' + selectedCourse.difficultyLevel">{{selectedCourse.difficultyLevel | titlecase}}</span>
-              <span *ngIf="selectedCourse.price" class="price-badge">₹{{selectedCourse.price}}</span>
+              <span *ngIf="selectedCourse.price" class="price-badge">â‚¹{{selectedCourse.price}}</span>
             </div>
             <h2 class="course-title">{{selectedCourse.title}}</h2>
             <p class="course-description">{{selectedCourse.description}}</p>
@@ -1357,7 +1358,8 @@ export class CustomerViewComponent implements OnInit {
     private lessonService: LessonService,
     private keynoteService: LessonKeynoteService,
     private tagService: TagService,
-    private lessonTagService: LessonTagService // Add LessonTagService
+    private lessonTagService: LessonTagService // Add LessonTagService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -1461,3 +1463,4 @@ export class CustomerViewComponent implements OnInit {
     return totalMinutes;
   }
 }
+

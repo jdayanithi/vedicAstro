@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { LessonKeynoteService, LessonKeynote } from '../../../services/lesson-keynote.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-keynote-details',
   standalone: true,
   imports: [
@@ -481,7 +482,8 @@ export class KeynoteDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private keynoteService: LessonKeynoteService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -524,7 +526,7 @@ export class KeynoteDetailsComponent implements OnInit {
     return content.split('\n')
       .map(line => line.trim())
       .filter(line => line.length > 0)
-      .map(line => line.replace(/^[•\-\*]\s*/, ''));
+      .map(line => line.replace(/^[â€¢\-\*]\s*/, ''));
   }
 
   onImageError(event: any): void {
@@ -535,3 +537,4 @@ export class KeynoteDetailsComponent implements OnInit {
     this.router.navigate(['/keynotes']);
   }
 }
+

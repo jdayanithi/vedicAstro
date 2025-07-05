@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,6 +18,7 @@ import { CourseService } from '../../../services/course.service';
 import { Observable, startWith, map } from 'rxjs';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-payment-form',
   standalone: true,
   imports: [
@@ -92,7 +93,7 @@ import { Observable, startWith, map } from 'rxjs';
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>Amount</mat-label>
                   <input matInput type="number" formControlName="amount" required step="0.01" min="0">
-                  <span matPrefix>₹&nbsp;</span>
+                  <span matPrefix>â‚¹&nbsp;</span>
                   <mat-error *ngIf="paymentForm.get('amount')?.hasError('required')">
                     Amount is required
                   </mat-error>
@@ -328,7 +329,8 @@ export class PaymentFormComponent implements OnInit {
     private courseService: CourseService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {
     this.createForm();
   }
@@ -447,3 +449,4 @@ export class PaymentFormComponent implements OnInit {
     return `TXN${timestamp}${random}`.toUpperCase();
   }
 }
+

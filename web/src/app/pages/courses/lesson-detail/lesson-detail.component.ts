@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -55,6 +55,7 @@ interface LessonDetail {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-lesson-detail',
   standalone: true,  imports: [
     CommonModule,
@@ -771,7 +772,8 @@ export class LessonDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private cdr: ChangeDetectorRef
   ) {}  ngOnInit(): void {
     console.log('LessonDetailComponent ngOnInit called');
     
@@ -848,3 +850,4 @@ export class LessonDetailComponent implements OnInit {
     }
   }
 }
+

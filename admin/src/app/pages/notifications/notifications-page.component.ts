@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,7 @@ import { NotificationService, Notification } from '../../services/notification.s
 import { NotificationFormComponent } from './notification-form.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-notifications-page',
   standalone: true,  imports: [
     CommonModule,
@@ -283,7 +284,8 @@ export class NotificationsPageComponent implements OnInit {
   constructor(
     private notificationService: NotificationService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -350,3 +352,4 @@ export class NotificationsPageComponent implements OnInit {
     }
   }
 }
+
