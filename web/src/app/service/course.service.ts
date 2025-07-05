@@ -81,14 +81,15 @@ export class CourseService {
 
   // Basic course API methods - require authentication but no user-specific data
   getAllCourses(): Observable<Course[]> {
-    return this.http.post<Course[]>(`${this.secureApiUrl}/get-with-access`, {});
+    return this.http.post<Course[]>(`${this.secureApiUrl}/get-all`, {});
   }
 
   getCourseById(courseId: number): Observable<Course> {
+    // Use the correct format expected by SecureIdRequest DTO
     return this.http.post<Course>(`${this.secureApiUrl}/get-by-id`, { id: courseId });
   }
   getCoursesByCategoryId(categoryId: number): Observable<Course[]> {
-    return this.http.post<Course[]>(`${this.secureApiUrl}/get-by-category`, { categoryId });
+    return this.http.post<Course[]>(`${this.secureApiUrl}/get-by-category`, { id: categoryId });
   }
 
   addCourse(course: any): Observable<any> {

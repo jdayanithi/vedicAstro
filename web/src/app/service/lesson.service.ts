@@ -70,7 +70,7 @@ export class LessonService {
   constructor(private http: HttpClient) {}
 
   getLessonsByTopicId(topicId: number): Observable<Lesson[]> {
-    return this.http.post<Lesson[]>(`${this.apiUrl}/get-by-topic`, { topicId: topicId });
+    return this.http.post<Lesson[]>(`${this.apiUrl}/get-by-topic`, { id: topicId });
   }
 
   getLessonById(lessonId: number): Observable<Lesson> {

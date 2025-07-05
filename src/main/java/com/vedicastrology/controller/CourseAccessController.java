@@ -1,9 +1,8 @@
 package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.CourseWithAccessDTO;
+import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.service.CourseAccessService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,9 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/secure/courses")
+@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:4200"})
 public class CourseAccessController {
-
-    private static final Logger logger = LoggerFactory.getLogger(CourseAccessController.class);
 
     @Autowired
     private CourseAccessService courseAccessService;    /**
@@ -26,11 +24,11 @@ public class CourseAccessController {
      */
     @PostMapping("/with-access")
     public ResponseEntity<List<CourseWithAccessDTO>> getCoursesWithAccess(@RequestBody(required = false) EmptyRequest request, HttpServletRequest httpRequest) {
-        logger.info("🌍 /with-access endpoint called");
-        logger.debug("📧 Authorization header: {}", httpRequest.getHeader("Authorization"));
+        System.out.println("🌍 /with-access endpoint called");
+        System.out.println("📧 Authorization header: " + httpRequest.getHeader("Authorization"));
         
         Long userId = getCurrentUserId();
-        logger.info("👤 Final userId from getCurrentUserId(): {}", userId);
+        System.out.println("👤 Final userId from getCurrentUserId(): " + userId);
         
         // Always return courses, but with different access info based on authentication
         List<CourseWithAccessDTO> courses = courseAccessService.getCoursesWithAccess(userId);
@@ -40,8 +38,8 @@ public class CourseAccessController {
     /**
      * Get all courses without authentication (for anonymous users)
      */
-    @PostMapping("/public")
-    public ResponseEntity<List<CourseWithAccessDTO>> getPublicCourses(@RequestBody(required = false) EmptyRequest request) {
+    @GetMapping("/public")
+    public ResponseEntity<List<CourseWithAccessDTO>> getPublicCourses() {
         List<CourseWithAccessDTO> courses = courseAccessService.getCoursesWithAccess(null);
         return ResponseEntity.ok(courses);
     }
@@ -83,8 +81,8 @@ public class CourseAccessController {
     /**
      * Debug endpoint to check enrolled courses data
      */
-    @PostMapping("/debug/enrolled")
-    public ResponseEntity<List<CourseWithAccessDTO>> debugEnrolledCourses(@RequestBody(required = false) EmptyRequest request) {
+    @GetMapping("/debug/enrolled")
+    public ResponseEntity<List<CourseWithAccessDTO>> debugEnrolledCourses() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated()) {
@@ -96,44 +94,37 @@ public class CourseAccessController {
                 }
             }
         } catch (Exception e) {
-            logger.error("💥 Error in debugEnrolledCourses: {}", e.getMessage(), e);
+            e.printStackTrace();
         }
         return ResponseEntity.ok(List.of());
     }
-    
+
     /**
      * Helper method to get current user ID from JWT token or return null for anonymous users
      */
     private Long getCurrentUserId() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            logger.debug("🔐 Authentication object: {}", authentication);
+            System.out.println("🔐 Authentication object: " + authentication);
             
             if (authentication != null && authentication.isAuthenticated()) {
                 // The username in JWT is actually the user ID (we set it as user ID in login)
                 String userIdString = authentication.getName();
-                logger.debug("👤 Username from authentication: {}", userIdString);
-                logger.debug("🔍 Is authenticated: {}", authentication.isAuthenticated());
-                logger.debug("📜 Authorities: {}", authentication.getAuthorities());
+                System.out.println("👤 Username from authentication: " + userIdString);
+                System.out.println("🔍 Is authenticated: " + authentication.isAuthenticated());
+                System.out.println("📜 Authorities: " + authentication.getAuthorities());
                 
                 if (!userIdString.equals("anonymousUser")) {
                     Long userId = Long.parseLong(userIdString);
-                    logger.debug("✅ Parsed user ID: {}", userId);
+                    System.out.println("✅ Parsed user ID: " + userId);
                     return userId;
                 }
             }
         } catch (Exception e) {
-            logger.error("❌ Error getting user ID: {}", e.getMessage(), e);
+            System.err.println("❌ Error getting user ID: " + e.getMessage());
+            e.printStackTrace();
         }
-        logger.debug("🚫 Returning null (anonymous user)");
+        System.out.println("🚫 Returning null (anonymous user)");
         return null; // Anonymous user
     }
-}
-
-/**
- * Empty request class for endpoints that don't need request parameters
- */
-class EmptyRequest {
-    // Empty class for POST endpoints that don't need parameters
-    public EmptyRequest() {}
 }

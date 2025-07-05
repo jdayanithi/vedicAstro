@@ -5,13 +5,13 @@ import com.vedicastrology.dto.PaymentDTO;
 import com.vedicastrology.dto.UserCourseAccessDTO;
 import com.vedicastrology.dto.EnrolledCourseDTO;
 import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
-import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
-import com.vedicastrology.dto.request.CommonRequestDTOs.UserIdRequest;
-import com.vedicastrology.dto.request.CommonRequestDTOs.UserCourseRequest;
-import com.vedicastrology.dto.request.CommonRequestDTOs.PaymentWithProofMetadataRequest;
+import com.vedicastrology.dto.request.SecureRequestDTOs.SecureIdRequest;
+import com.vedicastrology.dto.request.SecureRequestDTOs.SecureUserCourseRequest;
+import com.vedicastrology.security.InputSanitizationService;
 import com.vedicastrology.service.PaymentService;
 import com.vedicastrology.service.FileUploadService;
 import com.vedicastrology.entity.Payment;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,9 @@ public class PaymentController {
 
     @Autowired
     private FileUploadService fileUploadService;
+    
+    @Autowired
+    private InputSanitizationService inputSanitizationService;
 
     @PostMapping("/get-all")
     public List<PaymentDTO> getAllPayments(@RequestBody(required = false) EmptyRequest request) {
@@ -43,51 +46,119 @@ public class PaymentController {
     }
 
     @PostMapping("/get-by-id")
-    public PaymentDTO getPaymentById(@RequestBody IdRequest request) {
+    public ResponseEntity<?> getPaymentById(@Valid @RequestBody SecureIdRequest request) {
         Long id = request.getId();
         logger.info("🔍 Fetching payment with ID: {}", id);
-        return paymentService.getPaymentById(id);
+        try {
+            // Additional validation for ID
+            if (id == null || id <= 0) {
+                logger.warn("🚨 Invalid payment ID provided: {}", id);
+                return ResponseEntity.badRequest().body("Invalid payment ID");
+            }
+            
+            PaymentDTO payment = paymentService.getPaymentById(id);
+            logger.info("✅ Fetched payment with ID: {}", id);
+            return ResponseEntity.ok(payment);
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION in get payment by ID: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("💥 Error fetching payment with ID {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch payment");
+        }
     }
 
     // Get all payments for a specific user
     @PostMapping("/get-by-user")
-    public List<PaymentDTO> getPaymentsByUserId(@RequestBody UserIdRequest request) {
-        Long loginId = request.getLoginId();
+    public ResponseEntity<?> getPaymentsByUserId(@Valid @RequestBody SecureIdRequest request) {
+        Long loginId = request.getId();
         logger.info("🔍 Fetching payments for user ID: {}", loginId);
-        return paymentService.getPaymentsByUserId(loginId);
+        try {
+            // Additional validation for ID
+            if (loginId == null || loginId <= 0) {
+                logger.warn("🚨 Invalid user ID provided: {}", loginId);
+                return ResponseEntity.badRequest().body("Invalid user ID");
+            }
+            
+            List<PaymentDTO> payments = paymentService.getPaymentsByUserId(loginId);
+            logger.info("✅ Fetched {} payments for user ID: {}", payments.size(), loginId);
+            return ResponseEntity.ok(payments);
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION in get payments by user: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("💥 Error fetching payments for user {}: {}", loginId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch payments");
+        }
     }
 
     // Get user's enrolled courses (My Courses)
     @PostMapping("/user/enrolled-courses")
-    public List<CourseDTO> getUserEnrolledCourses(@RequestBody UserIdRequest request) {
-        Long loginId = request.getLoginId();
+    public ResponseEntity<?> getUserEnrolledCourses(@Valid @RequestBody SecureIdRequest request) {
+        Long loginId = request.getId();
         logger.info("🔍 Fetching enrolled courses for user ID: {}", loginId);
-        return paymentService.getUserEnrolledCourses(loginId);
+        try {
+            if (loginId == null || loginId <= 0) {
+                return ResponseEntity.badRequest().body("Invalid user ID");
+            }
+            List<CourseDTO> courses = paymentService.getUserEnrolledCourses(loginId);
+            return ResponseEntity.ok(courses);
+        } catch (Exception e) {
+            logger.error("💥 Error fetching enrolled courses for user {}: {}", loginId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch courses");
+        }
     }
 
     // Get user's enrolled courses with payment status (including pending)
     @PostMapping("/user/enrolled-courses-with-status")
-    public List<EnrolledCourseDTO> getUserEnrolledCoursesWithStatus(@RequestBody UserIdRequest request) {
-        Long loginId = request.getLoginId();
+    public ResponseEntity<?> getUserEnrolledCoursesWithStatus(@Valid @RequestBody SecureIdRequest request) {
+        Long loginId = request.getId();
         logger.info("🔍 Fetching enrolled courses with status for user ID: {}", loginId);
-        return paymentService.getUserEnrolledCoursesWithStatus(loginId);
+        try {
+            if (loginId == null || loginId <= 0) {
+                return ResponseEntity.badRequest().body("Invalid user ID");
+            }
+            List<EnrolledCourseDTO> courses = paymentService.getUserEnrolledCoursesWithStatus(loginId);
+            return ResponseEntity.ok(courses);
+        } catch (Exception e) {
+            logger.error("💥 Error fetching enrolled courses with status for user {}: {}", loginId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch courses");
+        }
     }
 
     // Check if user has access to a specific course
     @PostMapping("/user/course/access")
-    public Boolean checkUserCourseAccess(@RequestBody UserCourseRequest request) {
-        Long loginId = request.getLoginId();
+    public ResponseEntity<?> checkUserCourseAccess(@Valid @RequestBody SecureUserCourseRequest request) {
+        Long loginId = request.getUserId();
         Long courseId = request.getCourseId();
         logger.info("🔍 Checking course access for user ID: {} and course ID: {}", loginId, courseId);
-        return paymentService.checkUserCourseAccess(loginId, courseId);
+        try {
+            if (loginId == null || loginId <= 0 || courseId == null || courseId <= 0) {
+                return ResponseEntity.badRequest().body("Invalid user ID or course ID");
+            }
+            Boolean hasAccess = paymentService.checkUserCourseAccess(loginId, courseId);
+            return ResponseEntity.ok(hasAccess);
+        } catch (Exception e) {
+            logger.error("💥 Error checking course access for user {} and course {}: {}", loginId, courseId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to check access");
+        }
     }
 
     // Get user course access information for all courses they have paid for
     @PostMapping("/user/course-access")
-    public List<UserCourseAccessDTO> getUserCourseAccessList(@RequestBody UserIdRequest request) {
-        Long loginId = request.getLoginId();
+    public ResponseEntity<?> getUserCourseAccessList(@Valid @RequestBody SecureIdRequest request) {
+        Long loginId = request.getId();
         logger.info("🔍 Fetching course access list for user ID: {}", loginId);
-        return paymentService.getUserCourseAccessList(loginId);
+        try {
+            if (loginId == null || loginId <= 0) {
+                return ResponseEntity.badRequest().body("Invalid user ID");
+            }
+            List<UserCourseAccessDTO> accessList = paymentService.getUserCourseAccessList(loginId);
+            return ResponseEntity.ok(accessList);
+        } catch (Exception e) {
+            logger.error("💥 Error fetching course access list for user {}: {}", loginId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch access list");
+        }
     }
 
     // Get current user's enrolled courses (using JWT token)
@@ -125,9 +196,29 @@ public class PaymentController {
         throw new RuntimeException("User not authenticated");
     }
 
-    @PostMapping
-    public PaymentDTO createPayment(@RequestBody PaymentDTO dto) {
-        return paymentService.createPayment(dto);
+    @PostMapping("/create")
+    public ResponseEntity<?> createPayment(@RequestBody PaymentDTO dto) {
+        try {
+            // Sanitize payment-related text fields
+            if (dto.getPaymentMethod() != null) {
+                String sanitizedMethod = inputSanitizationService.sanitizeString(dto.getPaymentMethod(), "paymentMethod");
+                dto.setPaymentMethod(sanitizedMethod);
+            }
+            if (dto.getTransactionId() != null) {
+                String sanitizedTxnId = inputSanitizationService.sanitizeString(dto.getTransactionId(), "transactionId");
+                dto.setTransactionId(sanitizedTxnId);
+            }
+            
+            PaymentDTO created = paymentService.createPayment(dto);
+            logger.info("✅ Created payment with ID: {}", created.getPaymentId());
+            return ResponseEntity.ok(created);
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION in create payment: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid payment data: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("💥 Error creating payment: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to create payment");
+        }
     }
 
     @PutMapping("/{id}")

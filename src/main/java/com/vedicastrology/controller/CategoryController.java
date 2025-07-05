@@ -4,7 +4,9 @@ import com.vedicastrology.dto.CategoryDTO;
 import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.dto.request.CommonRequestDTOs.IdRequest;
 import com.vedicastrology.dto.request.CommonRequestDTOs.ParentIdRequest;
+import com.vedicastrology.security.InputSanitizationService;
 import com.vedicastrology.service.CategoryService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,32 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    
+    @Autowired
+    private InputSanitizationService inputSanitizationService;
 
     @PostMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         logger.info("📝 Creating new category: {}", categoryDTO.getName());
         try {
+            // Sanitize input fields
+            if (categoryDTO.getName() != null) {
+                categoryDTO.setName(inputSanitizationService.sanitizeInput(categoryDTO.getName(), "categoryName"));
+            }
+            if (categoryDTO.getDescription() != null) {
+                categoryDTO.setDescription(inputSanitizationService.sanitizeInput(categoryDTO.getDescription(), "categoryDescription"));
+            }
+            
             CategoryDTO createdCategory = categoryService.createCategory(categoryDTO);
             logger.info("✅ Successfully created category with ID: {}", createdCategory.getCategoryId());
             return ResponseEntity.ok(createdCategory);
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION in create category: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid category data: " + e.getMessage());
         } catch (Exception e) {
             logger.error("💥 Error creating category: {}", e.getMessage(), e);
-            throw e;
+            return ResponseEntity.internalServerError().body("Failed to create category");
         }
     }
 
@@ -95,30 +111,53 @@ public class CategoryController {
     }
 
     @PostMapping("/get-by-id")
-    public ResponseEntity<CategoryDTO> getCategoryById(@RequestBody IdRequest request) {
+    public ResponseEntity<?> getCategoryById(@Valid @RequestBody IdRequest request) {
         Long id = request.getId();
         logger.info("🔍 Fetching category with ID: {}", id);
         try {
+            // Additional validation for ID
+            if (id == null || id <= 0) {
+                logger.warn("🚨 Invalid category ID provided: {}", id);
+                return ResponseEntity.badRequest().body("Invalid category ID");
+            }
+            
             CategoryDTO category = categoryService.getCategoryById(id);
-            logger.info("✅ Successfully fetched category: {}", category.getName());
-            return ResponseEntity.ok(category);
+            if (category != null) {
+                logger.info("✅ Successfully fetched category: {}", category.getName());
+                return ResponseEntity.ok(category);
+            } else {
+                logger.warn("⚠️ Category with ID {} not found", id);
+                return ResponseEntity.notFound().build();
+            }
+        } catch (SecurityException e) {
+            logger.error("� SECURITY_VIOLATION in get category by ID: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid request: " + e.getMessage());
         } catch (Exception e) {
-            logger.error("💥 Error fetching category {}: {}", id, e.getMessage(), e);
-            throw e;
+            logger.error("�💥 Error fetching category {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch category");
         }
     }
 
     @PostMapping("/get-subcategories")
-    public ResponseEntity<List<CategoryDTO>> getSubcategories(@RequestBody ParentIdRequest request) {
+    public ResponseEntity<?> getSubcategories(@Valid @RequestBody ParentIdRequest request) {
         Long parentId = request.getParentId();
         logger.info("🔍 Fetching subcategories for parent ID: {}", parentId);
         try {
+            // Additional validation for ID
+            if (parentId == null || parentId <= 0) {
+                logger.warn("🚨 Invalid parent ID provided: {}", parentId);
+                return ResponseEntity.badRequest().body("Invalid parent ID");
+            }
+            
             List<CategoryDTO> subcategories = categoryService.getSubcategories(parentId);
             logger.info("✅ Successfully fetched {} subcategories for parent {}", subcategories.size(), parentId);
             return ResponseEntity.ok(subcategories);
+        } catch (SecurityException e) {
+            logger.error("� SECURITY_VIOLATION in get subcategories: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid request: " + e.getMessage());
         } catch (Exception e) {
-            logger.error("💥 Error fetching subcategories for parent {}: {}", parentId, e.getMessage(), e);
-            throw e;
+            logger.error("�💥 Error fetching subcategories for parent {}: {}", parentId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Failed to fetch subcategories");
         }
     }
 

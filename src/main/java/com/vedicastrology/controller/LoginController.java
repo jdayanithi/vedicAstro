@@ -5,10 +5,13 @@ import com.vedicastrology.config.JwtService;
 import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.UserType;
+import com.vedicastrology.dto.request.SecureRequestDTOs.SecureLoginRequest;
+import com.vedicastrology.security.InputSanitizationService;
 import com.vedicastrology.service.EmailService;
 import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
 import com.vedicastrology.util.PasswordGenerator;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +48,23 @@ public class LoginController {
 
     @Autowired
     private PasswordGenerator passwordGenerator;
+    
+    @Autowired
+    private InputSanitizationService inputSanitizationService;
 
     /**
      * Login with username and password
      */
     @PostMapping("/validate")
-    public ResponseEntity<?> validateLogin(@RequestBody Login loginRequest) {
-        logger.info("🔐 Login attempt for username: {}", loginRequest.getUsername());
-        
+    public ResponseEntity<?> validateLogin(@Valid @RequestBody SecureLoginRequest loginRequest) {
         try {
-            Login login = loginService.validateLogin(loginRequest.getUsername(), loginRequest.getPassword());
+            // Additional sanitization layer
+            String sanitizedUsername = inputSanitizationService.sanitizeString(loginRequest.getUsername(), "username");
+            String sanitizedPassword = inputSanitizationService.sanitizeString(loginRequest.getPassword(), "password");
+            
+            logger.info("🔐 Login attempt for username: {}", sanitizedUsername);
+            
+            Login login = loginService.validateLogin(sanitizedUsername, sanitizedPassword);
             logger.info("✅ Login successful for user: {} (ID: {})", login.getUsername(), login.getId());
             
             // Create UserDetails for JWT token generation
@@ -72,6 +82,10 @@ public class LoginController {
             response.put("token", token);
             
             return ResponseEntity.ok(response);
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION during login: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("Invalid request", "Login data contains invalid characters"));
         } catch (RuntimeException e) {
             logger.error("❌ Authentication failed for username: {} - {}", loginRequest.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

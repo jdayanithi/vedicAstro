@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from './service/auth.service';
 import { NetworkStatusService } from './service/network-status.service';
+import { CopyProtectionService } from './service/copy-protection.service';
 import { Observable, map, filter, startWith } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private networkStatus: NetworkStatusService,
     private platform: Platform,
-    private router: Router
+    private router: Router,
+    private copyProtectionService: CopyProtectionService
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     this.isAdmin$ = this.authService.getCurrentUserRole().pipe(
@@ -37,6 +39,8 @@ export class AppComponent implements OnInit {
       map((event: NavigationEnd) => event.urlAfterRedirects === '/login'),
       startWith(this.router.url === '/login')
     );
+    
+    // Copy protection is automatically initialized through the service constructor
     
     // Disable context menu and keyboard shortcuts
     this.disableSecurityFeatures();

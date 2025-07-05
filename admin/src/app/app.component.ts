@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from './services/auth.service';
+import { CopyProtectionService } from './services/copy-protection.service';
 
 @Component({
   selector: 'app-root',
@@ -126,7 +127,12 @@ import { AuthService } from './services/auth.service';
   `]
 })
 export class AppComponent {
-  constructor(public authService: AuthService) {}
+  constructor(
+    public authService: AuthService,
+    private copyProtectionService: CopyProtectionService
+  ) {
+    // Copy protection is automatically initialized through the service constructor
+  }
 
   logout(): void {
     this.authService.logout();

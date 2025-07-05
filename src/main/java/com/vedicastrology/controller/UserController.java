@@ -1,12 +1,15 @@
 package com.vedicastrology.controller;
 
-import com.vedicastrology.dto.request.CommonRequestDTOs.SearchRequest;
+import com.vedicastrology.dto.request.SecureRequestDTOs.SecureSearchRequest;
+import com.vedicastrology.security.InputSanitizationService;
 import com.vedicastrology.service.LoginService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,26 +22,38 @@ public class UserController {
     @Autowired
     private LoginService loginService;
     
+    @Autowired
+    private InputSanitizationService inputSanitizationService;
+    
     @PostMapping("/search")
-    public ResponseEntity<?> searchUsers(@RequestBody SearchRequest request) {
-        String query = request.getQuery();
+    public ResponseEntity<?> searchUsers(@Valid @RequestBody SecureSearchRequest request) {
         try {
-            logger.info("🔍 Searching users with query: '{}'", query);
-            List<UserSearchResponse> users = loginService.searchUsers(query)
+            // Additional sanitization layer (belt and suspenders approach)
+            String sanitizedQuery = inputSanitizationService.sanitizeSearchQuery(
+                request.getQuery(), "userSearchQuery");
+            
+            logger.info("🔍 Searching users with sanitized query: '{}'", sanitizedQuery);
+            
+            List<UserSearchResponse> users = loginService.searchUsers(sanitizedQuery)
                 .stream()
                 .map(login -> new UserSearchResponse(
                     login.getId(),
-                    login.getFirstName(),
-                    login.getLastName(),
-                    login.getUsername(),
+                    inputSanitizationService.sanitizeForDisplay(login.getFirstName(), "firstName"),
+                    inputSanitizationService.sanitizeForDisplay(login.getLastName(), "lastName"),
+                    inputSanitizationService.sanitizeForDisplay(login.getUsername(), "username"),
                     login.getUserType().toString()
                 ))
                 .collect(Collectors.toList());
-            logger.info("✅ Found {} users matching query: '{}'", users.size(), query);
+                
+            logger.info("✅ Found {} users matching query", users.size());
             return ResponseEntity.ok(users);
+            
+        } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION in user search: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Invalid search parameters: " + e.getMessage());
         } catch (Exception e) {
-            logger.error("💥 Error searching users with query '{}': {}", query, e.getMessage(), e);
-            return ResponseEntity.badRequest().body(e.getMessage());
+            logger.error("💥 Error searching users: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().body("Search operation failed");
         }
     }
 }
