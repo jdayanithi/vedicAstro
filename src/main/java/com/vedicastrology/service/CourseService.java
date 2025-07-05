@@ -15,6 +15,9 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private DeletionHistoryService deletionHistoryService;
+
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
@@ -59,6 +62,13 @@ public class CourseService {
     }
 
     public void deleteCourse(Long courseId) {
+        // Get the course data before deletion for history
+        Optional<Course> courseToDelete = courseRepository.findById(courseId);
+        if (courseToDelete.isPresent()) {
+            // Record the deletion in history
+            deletionHistoryService.recordDeletion("courses", courseId, courseToDelete.get(), "Course deleted");
+        }
+        
         courseRepository.deleteById(courseId);
     }
 }

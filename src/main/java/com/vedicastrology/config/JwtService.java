@@ -4,21 +4,45 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtService {
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     private static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60 * 1000; // 24 hours
     
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+    
+    public List<SimpleGrantedAuthority> extractAuthorities(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            @SuppressWarnings("unchecked")
+            List<String> roles = (List<String>) claims.get("roles");
+            log.debug("🔍 Raw roles from JWT token: {}", roles);
+            if (roles != null) {
+                List<SimpleGrantedAuthority> authorities = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .toList();
+                log.debug("🔍 Converted authorities: {}", authorities);
+                return authorities;
+            }
+        } catch (Exception e) {
+            log.error("❌ Error extracting authorities from JWT token: {}", e.getMessage());
+        }
+        log.debug("🔍 No roles found, returning empty list");
+        return List.of();
     }
     
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -31,6 +55,12 @@ public class JwtService {
     }
     
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        // Add roles to the token claims
+        List<String> roles = userDetails.getAuthorities().stream()
+            .map(authority -> authority.getAuthority().replace("ROLE_", ""))
+            .toList();
+        extraClaims.put("roles", roles);
+        
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

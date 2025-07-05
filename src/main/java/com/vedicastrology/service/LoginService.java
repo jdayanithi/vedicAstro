@@ -20,7 +20,10 @@ public class LoginService {
     private LoginRepository loginRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;    public Login createLogin(Login login) {
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DeletionHistoryService deletionHistoryService;    public Login createLogin(Login login) {
         logger.info("📝 Creating new login for username: {}", login.getUsername());
         
         if (loginRepository.existsByUsername(login.getUsername())) {
@@ -95,10 +98,28 @@ public class LoginService {
     }
 
     public void deleteLogin(Long id) {
+        logger.info("🗑️ Attempting to delete login with ID: {}", id);
+        
         if (!loginRepository.existsById(id)) {
+            logger.error("❌ Login not found with ID: {}", id);
             throw new RuntimeException("Login not found");
         }
-        loginRepository.deleteById(id);
+        
+        // Get the login data before deletion for history
+        Login loginToDelete = loginRepository.findById(id).orElse(null);
+        if (loginToDelete != null) {
+            logger.debug("📝 Recording deletion history for login: {}", loginToDelete.getUsername());
+            // Record the deletion in history
+            deletionHistoryService.recordDeletion("users", id, loginToDelete, "User account deleted");
+        }
+        
+        try {
+            loginRepository.deleteById(id);
+            logger.info("✅ Successfully deleted login with ID: {}", id);
+        } catch (Exception e) {
+            logger.error("💥 Failed to delete login with ID: {}", id, e);
+            throw new RuntimeException("Failed to delete login: " + e.getMessage(), e);
+        }
     }    public Login validateLogin(String username, String password) {
         logger.info("🔍 Validating login for username: {}", username);
         

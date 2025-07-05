@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -44,22 +46,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String userIdOrEmail = jwtService.extractUsername(jwt);            if (userIdOrEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // Try to load user by ID first (for JWT tokens created with user ID)
                 try {
-                    Long userId = Long.parseLong(userIdOrEmail);
-                    // For JWT tokens with user ID, validate the token by trying to extract claims
-                    try {
-                        // This will throw an exception if the token is invalid or expired
-                        jwtService.extractUsername(jwt);
-                        
-                        // Create a simple authentication token with the user ID
-                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                                userIdOrEmail, // Use the user ID as the principal
-                                null,
-                                java.util.Collections.emptyList() // Empty authorities for now
-                        );
-                        authToken.setDetails(
-                                new WebAuthenticationDetailsSource().buildDetails(request)
-                        );
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    Long userId = Long.parseLong(userIdOrEmail);                // For JWT tokens with user ID, validate the token by trying to extract claims
+                try {
+                    // This will throw an exception if the token is invalid or expired
+                    jwtService.extractUsername(jwt);
+                    
+                    // Extract authorities from the JWT token
+                    var authorities = jwtService.extractAuthorities(jwt);
+                    log.debug("🔍 Extracted authorities from JWT for user {}: {}", userIdOrEmail, authorities);
+                    
+                    // Create a simple authentication token with the user ID and extracted authorities
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userIdOrEmail, // Use the user ID as the principal
+                            null,
+                            authorities // Use extracted authorities from JWT token
+                    );
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    log.debug("✅ Authentication set for user {} with authorities: {}", userIdOrEmail, authorities);
                     } catch (Exception ex) {
                         // JWT token is invalid or expired, continue as anonymous
                     }

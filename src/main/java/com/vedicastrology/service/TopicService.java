@@ -25,6 +25,9 @@ public class TopicService {
     private LessonRepository lessonRepository;
 
     @Autowired
+    private DeletionHistoryService deletionHistoryService;
+
+    @Autowired
     private LessonKeynoteRepository lessonKeynoteRepository;    @Autowired
     private LessonTagRepository lessonTagRepository;
 
@@ -91,7 +94,11 @@ public class TopicService {
     public void deleteTopic(Long topicId) {
         Topic topic = topicRepository.findById(topicId)
                 .orElseThrow(() -> new EntityNotFoundException("Topic not found with id: " + topicId));
-          // Reorder remaining topics
+        
+        // Record the deletion in history before deleting
+        deletionHistoryService.recordDeletion("topics", topicId, topic, "Topic deleted");
+        
+        // Reorder remaining topics
         List<Topic> laterTopics = topicRepository.findByCourse_CourseIdAndOrderNumberGreaterThanOrderByOrderNumberAsc(
                 topic.getCourse().getCourseId(), topic.getOrderNumber());
         

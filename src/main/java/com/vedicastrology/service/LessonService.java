@@ -27,7 +27,8 @@ public class LessonService {
     private LessonTagRepository lessonTagRepository;
 
     @Autowired
-    private TagRepository tagRepository;
+    private DeletionHistoryService deletionHistoryService;
+
 
     public List<LessonDTO> getAllLessonsByTopicId(Long topicId) {
         List<Lesson> lessons = lessonRepository.findByTopic_TopicIdOrderByOrderNumberAsc(topicId);
@@ -97,6 +98,9 @@ public class LessonService {
         
         Long topicId = lesson.getTopic().getTopicId();
         Integer orderNumber = lesson.getOrderNumber();
+        
+        // Record the deletion in history before deleting
+        deletionHistoryService.recordDeletion("lessons", lessonId, lesson, "Lesson deleted");
         
         lessonRepository.delete(lesson);
         

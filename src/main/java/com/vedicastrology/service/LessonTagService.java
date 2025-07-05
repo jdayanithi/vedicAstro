@@ -22,6 +22,9 @@ public class LessonTagService {
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private DeletionHistoryService deletionHistoryService;
+
     public List<LessonTagDTO> getAllLessonTags() {
         return lessonTagRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -72,11 +75,20 @@ public class LessonTagService {
 
     @Transactional
     public void deleteLessonTag(Long lessonTagId) {
+        // Get the lesson tag data before deletion for history
+        lessonTagRepository.findById(lessonTagId).ifPresent(lessonTag -> {
+            deletionHistoryService.recordDeletion("lesson_tags", lessonTagId, lessonTag, "Lesson tag deleted");
+        });
         lessonTagRepository.deleteById(lessonTagId);
     }
 
     @Transactional
     public void deleteByLessonIdAndTagId(Long lessonId, Long tagId) {
+        // Get the lesson tag data before deletion for history
+        LessonTag lessonTag = lessonTagRepository.findByLesson_LessonIdAndTag_TagId(lessonId, tagId);
+        if (lessonTag != null) {
+            deletionHistoryService.recordDeletion("lesson_tags", lessonTag.getLessonTagId(), lessonTag, "Lesson tag association deleted");
+        }
         lessonTagRepository.deleteByLesson_LessonIdAndTag_TagId(lessonId, tagId);
     }    private LessonTagDTO toDTO(LessonTag lessonTag) {
         LessonTagDTO dto = new LessonTagDTO();

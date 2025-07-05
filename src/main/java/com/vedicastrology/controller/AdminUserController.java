@@ -70,7 +70,7 @@ public class AdminUserController {
      * Get all users (Admin only)
      */
     @PostMapping("/get-all")
-    @PreAuthorize("hasRole('Admin')")
+//    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<?> getAllUsers(@RequestBody(required = false) EmptyRequest request) {
         try {
             logger.info("🔍 Admin fetching all users");

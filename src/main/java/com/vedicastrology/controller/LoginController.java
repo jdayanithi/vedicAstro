@@ -119,6 +119,10 @@ public class LoginController {
                 .roles(login.getRole())
                 .build();
             
+            // Debug logging to see what authorities are created
+            logger.debug("🔍 User role from database: {}", login.getRole());
+            logger.debug("🔍 UserDetails authorities: {}", userDetails.getAuthorities());
+            
             // Generate JWT token
             String token = jwtService.generateToken(userDetails);
             

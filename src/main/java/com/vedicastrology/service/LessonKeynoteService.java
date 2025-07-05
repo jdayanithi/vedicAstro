@@ -27,6 +27,9 @@ public class LessonKeynoteService {
     @Autowired
     private LessonRepository lessonRepository;
     
+    @Autowired
+    private DeletionHistoryService deletionHistoryService;
+    
     // Create a new keynote
     public LessonKeynoteDTO createKeynote(LessonKeynoteDTO keynoteDTO) {
         // Validate lesson exists
@@ -135,6 +138,12 @@ public class LessonKeynoteService {
         if (!lessonKeynoteRepository.existsById(keynoteId)) {
             throw new RuntimeException("Keynote not found with ID: " + keynoteId);
         }
+        
+        // Get the keynote data before deletion for history
+        lessonKeynoteRepository.findById(keynoteId).ifPresent(keynote -> {
+            deletionHistoryService.recordDeletion("lesson_keynotes", keynoteId, keynote, "Lesson keynote deleted");
+        });
+        
         lessonKeynoteRepository.deleteById(keynoteId);
     }
     

@@ -249,7 +249,7 @@ public class MainActivity extends BridgeActivity {
     }
     
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         
         // Re-enable security features when app resumes
@@ -260,7 +260,7 @@ public class MainActivity extends BridgeActivity {
     }
     
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         
         // Clear sensitive data from memory when app goes to background
@@ -268,7 +268,7 @@ public class MainActivity extends BridgeActivity {
     }
     
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         
         // Unregister receivers
