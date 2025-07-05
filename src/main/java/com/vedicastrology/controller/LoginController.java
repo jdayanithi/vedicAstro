@@ -6,11 +6,15 @@ import com.vedicastrology.dto.response.ErrorResponse;
 import com.vedicastrology.entity.Login;
 import com.vedicastrology.entity.UserType;
 import com.vedicastrology.dto.request.SecureRequestDTOs.SecureLoginRequest;
+import com.vedicastrology.security.DosProtectionService;
 import com.vedicastrology.security.InputSanitizationService;
 import com.vedicastrology.service.EmailService;
 import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
+import com.vedicastrology.service.LoginHistoryService;
+import com.vedicastrology.entity.LoginHistory;
 import com.vedicastrology.util.PasswordGenerator;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,21 +55,53 @@ public class LoginController {
     
     @Autowired
     private InputSanitizationService inputSanitizationService;
+    
+    @Autowired
+    private DosProtectionService dosProtectionService;
+    
+    @Autowired
+    private LoginHistoryService loginHistoryService;
 
     /**
      * Login with username and password
      */
     @PostMapping("/validate")
-    public ResponseEntity<?> validateLogin(@Valid @RequestBody SecureLoginRequest loginRequest) {
+    public ResponseEntity<?> validateLogin(@Valid @RequestBody SecureLoginRequest loginRequest, HttpServletRequest request) {
+        String clientIp = getClientIpAddress(request);
+        String userAgent = request.getHeader("User-Agent");
+        
         try {
+            // Check for DoS protection blocks
+            if (dosProtectionService.isIpBlocked(clientIp)) {
+                logger.warn("🚫 BLOCKED_IP_ATTEMPT: IP {} is currently blocked", clientIp);
+                loginHistoryService.recordBlockedIpAttempt(
+                    loginRequest.getUsername(), clientIp, userAgent, LoginHistory.LoginType.STANDARD);
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(new ErrorResponse("Access Denied", "Too many failed login attempts. Please try again later."));
+            }
+            
             // Additional sanitization layer
             String sanitizedUsername = inputSanitizationService.sanitizeString(loginRequest.getUsername(), "username");
             String sanitizedPassword = inputSanitizationService.sanitizeString(loginRequest.getPassword(), "password");
             
-            logger.info("🔐 Login attempt for username: {}", sanitizedUsername);
+            // Check if username is blocked
+            if (dosProtectionService.isUsernameBlocked(sanitizedUsername)) {
+                logger.warn("🚫 BLOCKED_USERNAME_ATTEMPT: Username {} is currently blocked", sanitizedUsername);
+                loginHistoryService.recordBlockedUsernameAttempt(
+                    sanitizedUsername, clientIp, userAgent, LoginHistory.LoginType.STANDARD);
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(new ErrorResponse("Access Denied", "This account is temporarily locked due to suspicious activity."));
+            }
+            
+            logger.info("🔐 Login attempt for username: {} from IP: {}", sanitizedUsername, clientIp);
             
             Login login = loginService.validateLogin(sanitizedUsername, sanitizedPassword);
-            logger.info("✅ Login successful for user: {} (ID: {})", login.getUsername(), login.getId());
+            logger.info("✅ Login successful for user: {} (ID: {}) from IP: {}", login.getUsername(), login.getId(), clientIp);
+            
+            // Record successful login in both DoS protection and login history
+            dosProtectionService.recordSuccessfulLogin(clientIp, sanitizedUsername);
+            loginHistoryService.recordSuccessfulLogin(
+                sanitizedUsername, login.getId(), clientIp, userAgent, LoginHistory.LoginType.STANDARD);
             
             // Create UserDetails for JWT token generation
             UserDetails userDetails = User.builder()
@@ -83,15 +119,27 @@ public class LoginController {
             
             return ResponseEntity.ok(response);
         } catch (SecurityException e) {
-            logger.error("🚨 SECURITY_VIOLATION during login: {}", e.getMessage());
+            logger.error("🚨 SECURITY_VIOLATION during login from IP {}: {}", clientIp, e.getMessage());
+            dosProtectionService.recordFailedAttempt(clientIp, loginRequest.getUsername(), userAgent);
+            loginHistoryService.recordSuspiciousActivity(
+                loginRequest.getUsername(), clientIp, userAgent, 
+                LoginHistory.LoginType.STANDARD, "Security violation: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("Invalid request", "Login data contains invalid characters"));
         } catch (RuntimeException e) {
-            logger.error("❌ Authentication failed for username: {} - {}", loginRequest.getUsername(), e.getMessage());
+            logger.error("❌ Authentication failed for username: {} from IP: {} - {}", loginRequest.getUsername(), clientIp, e.getMessage());
+            dosProtectionService.recordFailedAttempt(clientIp, loginRequest.getUsername(), userAgent);
+            loginHistoryService.recordFailedLogin(
+                loginRequest.getUsername(), clientIp, userAgent, 
+                LoginHistory.LoginType.STANDARD, e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication failed", e.getMessage()));
         } catch (Exception e) {
-            logger.error("💥 Server error during login for username: {} - {}", loginRequest.getUsername(), e.getMessage(), e);
+            logger.error("💥 Server error during login for username: {} from IP: {} - {}", loginRequest.getUsername(), clientIp, e.getMessage(), e);
+            dosProtectionService.recordFailedAttempt(clientIp, loginRequest.getUsername(), userAgent);
+            loginHistoryService.recordFailedLogin(
+                loginRequest.getUsername(), clientIp, userAgent, 
+                LoginHistory.LoginType.STANDARD, "Server error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Server error", "An unexpected error occurred"));
         }
@@ -101,20 +149,36 @@ public class LoginController {
      * Google OAuth login
      */
     @PostMapping("/google")
-    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request) {
-        logger.info("🔍 Google login request received");
+    public ResponseEntity<?> googleLogin(@RequestBody Map<String, String> request, HttpServletRequest httpRequest) {
+        String clientIp = getClientIpAddress(httpRequest);
+        String userAgent = httpRequest.getHeader("User-Agent");
+        
+        logger.info("🔍 Google login request received from IP: {}", clientIp);
         
         try {
+            // Check for DoS protection blocks
+            if (dosProtectionService.isIpBlocked(clientIp)) {
+                logger.warn("🚫 BLOCKED_IP_ATTEMPT: IP {} is currently blocked for Google OAuth", clientIp);
+                loginHistoryService.recordBlockedIpAttempt(
+                    "google-oauth", clientIp, userAgent, LoginHistory.LoginType.GOOGLE_OAUTH);
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(new ErrorResponse("Access Denied", "Too many failed login attempts. Please try again later."));
+            }
+            
             String googleToken = request.get("token");
             logger.debug("📝 Received token: {}", googleToken != null ? "Present (length: " + googleToken.length() + ")" : "NULL");
             
             if (googleToken == null || googleToken.isEmpty()) {
-                logger.error("❌ Google token is missing or empty");
+                logger.error("❌ Google token is missing or empty from IP: {}", clientIp);
+                dosProtectionService.recordFailedAttempt(clientIp, "google-oauth", userAgent);
+                loginHistoryService.recordFailedLogin(
+                    "google-oauth", clientIp, userAgent, 
+                    LoginHistory.LoginType.GOOGLE_OAUTH, "Missing Google token");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse("Bad Request", "Google token is required"));
             }
 
-            logger.info("🔐 Starting Google JWT token verification...");
+            logger.info("🔐 Starting Google JWT token verification from IP: {}...", clientIp);
             
             // Verify Google JWT token
             GoogleIdToken.Payload payload = googleJwtService.verifyGoogleToken(googleToken);
@@ -179,6 +243,11 @@ public class LoginController {
             // Generate JWT token
             String jwtToken = jwtService.generateToken(userDetails);
             
+            // Record successful Google OAuth login
+            dosProtectionService.recordSuccessfulLogin(clientIp, email);
+            loginHistoryService.recordSuccessfulLogin(
+                email, existingLogin.getId(), clientIp, userAgent, LoginHistory.LoginType.GOOGLE_OAUTH);
+            
             // Create response with only token
             Map<String, Object> response = new HashMap<>();
             response.put("token", jwtToken);
@@ -186,9 +255,19 @@ public class LoginController {
             return ResponseEntity.ok(response);
             
         } catch (SecurityException e) {
+            logger.error("🚨 SECURITY_VIOLATION during Google OAuth from IP {}: {}", clientIp, e.getMessage());
+            dosProtectionService.recordFailedAttempt(clientIp, "google-oauth", userAgent);
+            loginHistoryService.recordFailedLogin(
+                "google-oauth", clientIp, userAgent, 
+                LoginHistory.LoginType.GOOGLE_OAUTH, "Invalid Google token: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication failed", "Invalid Google token"));
         } catch (Exception e) {
+            logger.error("💥 Server error during Google OAuth from IP {}: {}", clientIp, e.getMessage(), e);
+            dosProtectionService.recordFailedAttempt(clientIp, "google-oauth", userAgent);
+            loginHistoryService.recordFailedLogin(
+                "google-oauth", clientIp, userAgent, 
+                LoginHistory.LoginType.GOOGLE_OAUTH, "Server error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Server error", "Google authentication failed: " + e.getMessage()));
         }
@@ -245,6 +324,39 @@ public class LoginController {
         response.put("encodedPassword", encodedPassword);
         response.put("isValid", isValid);
         return response;
+    }
+    
+    /**
+     * Extract the real client IP address, considering proxy headers
+     */
+    private String getClientIpAddress(HttpServletRequest request) {
+        String[] headerNames = {
+            "X-Forwarded-For",
+            "X-Real-IP", 
+            "Proxy-Client-IP",
+            "WL-Proxy-Client-IP",
+            "HTTP_X_FORWARDED_FOR",
+            "HTTP_X_FORWARDED",
+            "HTTP_X_CLUSTER_CLIENT_IP",
+            "HTTP_CLIENT_IP",
+            "HTTP_FORWARDED_FOR",
+            "HTTP_FORWARDED",
+            "HTTP_VIA",
+            "REMOTE_ADDR"
+        };
+        
+        for (String header : headerNames) {
+            String ip = request.getHeader(header);
+            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                // X-Forwarded-For can contain multiple IPs, get the first one
+                if (ip.contains(",")) {
+                    ip = ip.split(",")[0].trim();
+                }
+                return ip;
+            }
+        }
+        
+        return request.getRemoteAddr();
     }
 }
 
