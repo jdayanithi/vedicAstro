@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/secure/courses")
-@CrossOrigin(origins = {"http://localhost:8100", "http://localhost:4200"})
 public class CourseAccessController {
 
     @Autowired
