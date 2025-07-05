@@ -12,6 +12,7 @@ import com.vedicastrology.service.EmailService;
 import com.vedicastrology.service.GoogleJwtService;
 import com.vedicastrology.service.LoginService;
 import com.vedicastrology.service.LoginHistoryService;
+import com.vedicastrology.service.StructuredLoggingService;
 import com.vedicastrology.entity.LoginHistory;
 import com.vedicastrology.util.PasswordGenerator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,6 +62,9 @@ public class LoginController {
     
     @Autowired
     private LoginHistoryService loginHistoryService;
+    
+    @Autowired
+    private StructuredLoggingService structuredLoggingService;
 
     /**
      * Login with username and password
@@ -97,6 +101,11 @@ public class LoginController {
             
             Login login = loginService.validateLogin(sanitizedUsername, sanitizedPassword);
             logger.info("✅ Login successful for user: {} (ID: {}) from IP: {}", login.getUsername(), login.getId(), clientIp);
+            
+            // Structured logging for successful authentication
+            structuredLoggingService.logAuthenticationAttempt(sanitizedUsername, clientIp, userAgent, true, "Valid credentials");
+            structuredLoggingService.logLoginHistoryEvent("SUCCESSFUL_LOGIN", sanitizedUsername, login.getId(), 
+                clientIp, "SUCCESS", "STANDARD", "User authenticated successfully");
             
             // Record successful login in both DoS protection and login history
             dosProtectionService.recordSuccessfulLogin(clientIp, sanitizedUsername);

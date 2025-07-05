@@ -2,6 +2,7 @@ package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.security.DosProtectionService;
+import com.vedicastrology.service.StructuredLoggingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,24 @@ public class SecurityMonitoringController {
     
     @Autowired
     private DosProtectionService dosProtectionService;
+    
+    @Autowired
+    private StructuredLoggingService structuredLoggingService;
 
     /**
      * Get DoS protection statistics (Admin only)
      */
     @PostMapping("/dos-stats")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Map<String, Object>> getDosStats(@RequestBody(required = false) EmptyRequest request) {
+    public ResponseEntity<Map<String, Object>> getDosStats(@RequestBody(required = false) EmptyRequest request,
+                                                          HttpServletRequest httpRequest) {
+        String clientIp = getClientIpAddress(httpRequest);
+        String username = "admin"; // Get from security context if available
+        
         logger.info("🔍 Admin requesting DoS protection statistics");
+        
+        // Log admin access event
+        structuredLoggingService.logAdminAccessEvent("VIEW_DOS_STATS", username, clientIp, "DoS Protection Statistics", true);
         
         try {
             DosProtectionService.SecurityStatistics stats = dosProtectionService.getSecurityStatistics();
@@ -49,6 +60,11 @@ public class SecurityMonitoringController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("💥 Error retrieving DoS statistics: {}", e.getMessage(), e);
+            
+            // Log security event for failed admin access
+            structuredLoggingService.logSecurityEvent("ADMIN_ACCESS_ERROR", username, clientIp, 
+                "Failed to retrieve DoS statistics: " + e.getMessage());
+            
             return ResponseEntity.internalServerError()
                 .body(Map.of("error", "Failed to retrieve statistics"));
         }
@@ -64,6 +80,10 @@ public class SecurityMonitoringController {
         
         String clientIp = getClientIpAddress(httpRequest);
         logger.debug("🔍 Checking security status for IP: {}", clientIp);
+        
+        // Log security monitoring access
+        structuredLoggingService.logSecurityEvent("SECURITY_STATUS_CHECK", "anonymous", clientIp, 
+            "Security status check request");
         
         try {
             DosProtectionService.SecurityStatus status = dosProtectionService.getSecurityStatus(clientIp, null);
@@ -97,6 +117,10 @@ public class SecurityMonitoringController {
         String userAgent = httpRequest.getHeader("User-Agent");
         
         logger.warn("🧪 TEST_DOS_PROTECTION: Simulating failed login from IP: {} for username: {}", clientIp, testUsername);
+        
+        // Log DoS protection test event
+        structuredLoggingService.logDosProtectionEvent("TEST_DOS_SIMULATION", clientIp, testUsername, userAgent, 
+            "Manual DoS protection test simulation");
         
         try {
             // Record a failed attempt
