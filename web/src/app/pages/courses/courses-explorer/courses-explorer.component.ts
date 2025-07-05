@@ -6,23 +6,11 @@ import { AuthService } from '../../../service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PurchaseFormComponent } from '../purchase-form/purchase-form.component';
 import { map, of, Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { AngularMaterialModule } from '../../../AngularMaterialModule';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-courses-explorer',
   templateUrl: './courses-explorer.component.html',
-  styleUrls: ['./courses-explorer.component.scss'],
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    AngularMaterialModule,
-    RouterModule,
-    PurchaseFormComponent
-  ]
+  styleUrls: ['./courses-explorer.component.scss']
 })
 export class CoursesExplorerComponent implements OnInit, OnDestroy {
   allCourses: CourseWithAccess[] = [];

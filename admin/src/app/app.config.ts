@@ -5,7 +5,6 @@ import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { authInterceptor } from './interceptors/auth.interceptor';
-import { performanceInterceptor } from './interceptors/performance.interceptor';
 import { provideQuillConfig } from 'ngx-quill';
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor, performanceInterceptor])
+      withInterceptors([authInterceptor])
     ),
     provideQuillConfig({
       modules: {

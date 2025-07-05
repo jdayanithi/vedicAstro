@@ -1,61 +1,39 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreatePostComponent } from './pages/create-post/create-post.component';
+import { ViewAllComponent } from './pages/view-all/view-all.component';
+import { ViewPostComponent } from './pages/view-post/view-post.component';
+import { SearchByNameComponent } from './pages/search-by-name/search-by-name.component';
+import { LoginComponent } from './pages/login/login.component';
 import { LandingComponent } from './pages/landing/landing.component';
+import { CoursesExplorerComponent } from './pages/courses/courses-explorer/courses-explorer.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  { path: 'landing', component: LandingComponent, canActivate: [AuthGuard] },
+  { path: 'courses', component: CoursesExplorerComponent, canActivate: [AuthGuard] },
   { 
-    path: 'landing', 
-    component: LandingComponent, 
+    path: 'customer-course/:id', 
+    loadComponent: () => import('./pages/courses/customer-course-view/customer-course-view.component').then(c => c.CustomerCourseViewComponent),
     canActivate: [AuthGuard] 
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES)
-  },
-  {
-    path: 'courses',
-    loadChildren: () => import('./pages/courses/courses.routes').then(m => m.COURSES_ROUTES)
-  },
-  {
-    path: 'posts',
-    loadChildren: () => import('./pages/posts/posts.routes').then(m => m.POSTS_ROUTES)
-  },
-  // Legacy redirects for backward compatibility
   { 
-    path: 'login', 
-    redirectTo: 'auth/login', 
-    pathMatch: 'full' 
+    path: 'topic/:id', 
+    loadComponent: () => import('./pages/courses/topic-detail/topic-detail.component').then(c => c.TopicDetailComponent),
+    canActivate: [AuthGuard] 
   },
   { 
-    path: 'create-post', 
-    redirectTo: 'posts/create', 
-    pathMatch: 'full' 
+    path: 'lesson/:id', 
+    loadComponent: () => import('./pages/courses/lesson-detail/lesson-detail.component').then(c => c.LessonDetailComponent),
+    canActivate: [AuthGuard] 
   },
-  { 
-    path: 'view-all', 
-    redirectTo: 'posts/view-all', 
-    pathMatch: 'full' 
-  },
-  { 
-    path: 'search-by-name', 
-    redirectTo: 'posts/search', 
-    pathMatch: 'full' 
-  },
-  { 
-    path: 'view-post/:id', 
-    redirectTo: 'posts/view/:id', 
-    pathMatch: 'full' 
-  },
-  { 
-    path: '', 
-    redirectTo: 'landing', 
-    pathMatch: 'full' 
-  },
-  { 
-    path: '**', 
-    redirectTo: 'landing' 
-  }
+  { path: 'login', component: LoginComponent },
+  { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard] },
+  { path: 'view-all', component: ViewAllComponent, canActivate: [AuthGuard] },
+  { path: 'search-by-name', component: SearchByNameComponent, canActivate: [AuthGuard] },
+  { path: 'view-post/:id', component: ViewPostComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '**', redirectTo: 'landing' }
 ];
 
 @NgModule({
