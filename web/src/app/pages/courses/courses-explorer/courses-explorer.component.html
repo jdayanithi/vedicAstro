@@ -79,15 +79,12 @@
     <div class="courses-grid">
       <div class="course-card" *ngFor="let course of filteredCourses; trackBy: trackByFn">        <!-- Course Thumbnail -->
         <div class="course-thumbnail">
-          <app-progressive-image 
-            [src]="course.thumbnailUrl || 'https://via.placeholder.com/400x200/6366f1/ffffff?text=Course+Image'"
-            [alt]="course.title"
-            [width]="400"
-            [height]="200"
-            [quality]="85"
-            aspectRatio="2/1"
-            class="thumbnail-image">
-          </app-progressive-image>          <div class="course-overlay">
+          <img [src]="course.thumbnailUrl || 'https://via.placeholder.com/400x200/6366f1/ffffff?text=Course+Image'"
+               [alt]="course.title"
+               class="thumbnail-image"
+               loading="lazy"
+               (error)="onImageError($event)"
+               (load)="onImageLoad($event)">          <div class="course-overlay">
             <div class="difficulty-badge" 
                  *ngIf="course.difficultyLevel" 
                  [style.background-color]="getDifficultyColor(course.difficultyLevel)">

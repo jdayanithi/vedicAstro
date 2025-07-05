@@ -31,14 +31,48 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     MatDialogModule
   ],
   template: `
-    <div class="modern-customer-view">      <!-- Hero Section -->
+    <div class="modern-customer-view">      <!-- Enhanced Hero Section with Gradient and Animated Elements -->
       <div class="hero-section">
-        <div class="hero-content">
-          <h1 class="hero-title">Discover Vedic Astrology</h1>
-          <p class="hero-subtitle" *ngIf="!selectedCourse">Explore ancient wisdom through our comprehensive courses</p>
-          <p class="hero-subtitle" *ngIf="selectedCourse">Master the ancient wisdom of {{selectedCourse.title}}</p>
+        <div class="hero-overlay"></div>
+        <div class="hero-particles">
+          <div class="particle" *ngFor="let particle of [1,2,3,4,5,6,7,8]"></div>
         </div>
-        <div class="hero-bg-pattern"></div>
+        <div class="hero-content">
+          <div class="hero-icon-container">
+            <mat-icon class="hero-icon">auto_stories</mat-icon>
+          </div>
+          <h1 class="hero-title">
+            <span class="title-line-1">Discover</span>
+            <span class="title-line-2">Vedic Astrology</span>
+          </h1>
+          <p class="hero-subtitle" *ngIf="!selectedCourse">
+            <mat-icon>star</mat-icon>
+            Explore ancient wisdom through our comprehensive courses
+          </p>
+          <p class="hero-subtitle course-specific" *ngIf="selectedCourse">
+            <mat-icon>school</mat-icon>
+            Master the ancient wisdom of <strong>{{selectedCourse.title}}</strong>
+          </p>
+          <div class="hero-stats" *ngIf="selectedCourse">
+            <div class="hero-stat">
+              <mat-icon>menu_book</mat-icon>
+              <span>{{getTotalLessonsCount()}} Lessons</span>
+            </div>
+            <div class="hero-stat">
+              <mat-icon>schedule</mat-icon>
+              <span>{{getTotalDuration()}} min</span>
+            </div>
+            <div class="hero-stat">
+              <mat-icon>star</mat-icon>
+              <span>{{selectedCourse.difficultyLevel | titlecase}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-wave">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+          </svg>
+        </div>
       </div><!-- Filter Section (only show when not viewing specific course) -->
       <div class="filter-section" *ngIf="!isViewingSpecificCourse">
         <div class="filter-container">
@@ -65,47 +99,115 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         <p>Loading course content...</p>
       </div>      <!-- Course Content -->
       <div *ngIf="selectedCourse && !loading" class="content-section">
-        <!-- Course Heading with Integrated Thumbnail -->
+        <!-- Enhanced Course Heading with Decorative Elements -->
         <div class="course-heading-section">
+          <div class="course-heading-bg"></div>
           <div class="course-heading-content">
-            <!-- Course Header with Image and Title -->
+            <!-- Enhanced Course Header with Image and Title -->
             <div class="course-header-with-image">
               <div class="course-image-container" *ngIf="selectedCourse.thumbnailUrl">
-                <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image-integrated">
+                <div class="image-frame">
+                  <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image-integrated">
+                  <div class="image-overlay">
+                    <mat-icon>play_circle_filled</mat-icon>
+                  </div>
+                </div>
+                <div class="image-badges">
+                  <span class="badge difficulty-badge" [class]="selectedCourse.difficultyLevel && selectedCourse.difficultyLevel.toLowerCase()">
+                    <mat-icon>trending_up</mat-icon>
+                    {{selectedCourse.difficultyLevel | titlecase}}
+                  </span>
+                  <span class="badge price-badge" *ngIf="selectedCourse && selectedCourse.price && selectedCourse.price > 0; else freeBadge">
+                    <mat-icon>currency_rupee</mat-icon>
+                    ₹{{selectedCourse.price}}
+                  </span>
+                  <ng-template #freeBadge>
+                    <span class="badge free-badge">
+                      <mat-icon>card_giftcard</mat-icon>
+                      Free
+                    </span>
+                  </ng-template>
+                </div>
               </div>
               <div class="course-title-info">
                 <div class="course-breadcrumb">
+                  <mat-icon class="breadcrumb-icon">folder</mat-icon>
                   <span class="breadcrumb-item">{{getCategoryName(selectedCourse.categoryId)}}</span>
                   <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
                   <span class="breadcrumb-item current">{{selectedCourse.title}}</span>
                 </div>
-                <h1 class="course-main-title">{{selectedCourse.title}}</h1>
+                <h1 class="course-main-title">
+                  {{selectedCourse.title}}
+                  <div class="title-decoration"></div>
+                </h1>
+                
+                <!-- Enhanced Course Stats -->
+                <div class="course-stats-enhanced">
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <mat-icon>menu_book</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <span class="stat-number">{{getTotalLessonsCount()}}</span>
+                      <span class="stat-label">Lessons</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <mat-icon>schedule</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <span class="stat-number">{{getTotalDuration()}}</span>
+                      <span class="stat-label">Minutes</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <mat-icon>people</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <span class="stat-number">{{topics.length}}</span>
+                      <span class="stat-label">Topics</span>
+                    </div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-icon">
+                      <mat-icon>verified</mat-icon>
+                    </div>
+                    <div class="stat-info">
+                      <span class="stat-number">{{selectedCourse.difficultyLevel | titlecase}}</span>
+                      <span class="stat-label">Level</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div class="course-summary">
-              <div class="course-stats">
-                <div class="stat-item">
-                  <mat-icon>menu_book</mat-icon>
-                  <span>{{getTotalLessonsCount()}} Lessons</span>
+            <!-- Enhanced Course Description -->
+            <div class="course-description-section">
+              <div class="description-header">
+                <mat-icon>description</mat-icon>
+                <h3>About This Course</h3>
+              </div>
+              <p class="course-description">{{selectedCourse.description}}</p>
+              <div class="description-features">
+                <div class="feature-item">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Comprehensive curriculum</span>
                 </div>
-                <div class="stat-item">
-                  <mat-icon>schedule</mat-icon>
-                  <span>{{getTotalDuration()}} min</span>
+                <div class="feature-item">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Ancient wisdom insights</span>
                 </div>
-                <div class="stat-item">
-                  <mat-icon>star</mat-icon>
-                  <span class="difficulty">{{selectedCourse.difficultyLevel | titlecase}}</span>
+                <div class="feature-item">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Practical applications</span>
                 </div>
-                <div class="stat-item" *ngIf="selectedCourse.price">
-                  <mat-icon>currency_rupee</mat-icon>
-                  <span>₹{{selectedCourse.price}}</span>
+                <div class="feature-item">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Expert guidance</span>
                 </div>
               </div>
-            </div>
-            <!-- Course Description -->
-            <div class="course-description-section">
-              <p class="course-description">{{selectedCourse.description}}</p>
             </div>
           </div>
         </div><!-- Topics & Lessons -->
@@ -226,48 +328,162 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
 
-    /* Hero Section */
+    /* Enhanced Hero Section */
     .hero-section {
       position: relative;
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 80px 20px 60px;
+      padding: 60px 20px 80px;
       text-align: center;
       overflow: hidden;
+      min-height: 40vh;
     }
     
-    .hero-bg-pattern {
+    .hero-overlay {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 0%, transparent 60%);
       pointer-events: none;
+    }
+    
+    .hero-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .particle:nth-child(1) { left: 10%; animation-delay: -0.5s; }
+    .particle:nth-child(2) { left: 20%; animation-delay: -1s; }
+    .particle:nth-child(3) { left: 30%; animation-delay: -1.5s; }
+    .particle:nth-child(4) { left: 40%; animation-delay: -2s; }
+    .particle:nth-child(5) { left: 60%; animation-delay: -2.5s; }
+    .particle:nth-child(6) { left: 70%; animation-delay: -3s; }
+    .particle:nth-child(7) { left: 80%; animation-delay: -3.5s; }
+    .particle:nth-child(8) { left: 90%; animation-delay: -4s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+      50% { transform: translateY(-20px) scale(1.1); opacity: 1; }
     }
     
     .hero-content {
       position: relative;
       z-index: 2;
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
     
+    .hero-icon-container {
+      margin-bottom: 20px;
+    }
+    
+    .hero-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #ffd700;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
     .hero-title {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      background: linear-gradient(45deg, #fff, #ecf0f1);
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      line-height: 1.1;
+    }
+    
+    .title-line-1 {
+      display: block;
+      background: linear-gradient(45deg, #fff, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .title-line-2 {
+      display: block;
+      background: linear-gradient(45deg, #ffd700, #fff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     
     .hero-subtitle {
-      font-size: 1.2rem;
-      opacity: 0.9;
+      font-size: 1.1rem;
+      opacity: 0.95;
       font-weight: 300;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .hero-subtitle.course-specific {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .hero-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      padding: 10px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .hero-wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      overflow: hidden;
+    }
+    
+    .hero-wave svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 40px;
+    }
+    
+    .hero-wave path {
+      fill: #f5f7fa;
     }
 
     /* Filter Section */
@@ -311,30 +527,134 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px 40px;
-    }    /* Course Header with Integrated Thumbnail */
+    }    /* Enhanced Course Heading */
+    .course-heading-section {
+      position: relative;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 20px;
+      padding: 50px;
+      margin: -60px 20px 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    
+    .course-heading-bg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      border-radius: 50%;
+      transform: translate(100px, -100px);
+      pointer-events: none;
+    }
+    
     .course-header-with-image {
       display: flex;
-      gap: 24px;
+      gap: 40px;
       align-items: flex-start;
-      margin-bottom: 24px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 2;
     }
     
     .course-image-container {
       flex-shrink: 0;
-      width: 200px;
+      width: 280px;
+      position: relative;
+    }
+    
+    .image-frame {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+    
+    .image-frame:hover {
+      transform: translateY(-5px);
     }
     
     .course-image-integrated {
       width: 100%;
-      height: 150px;
+      height: 200px;
       object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
     }
     
-    .course-image-integrated:hover {
-      transform: scale(1.02);
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .image-frame:hover .image-overlay {
+      opacity: 1;
+    }
+    
+    .image-overlay mat-icon {
+      color: white;
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+    
+    .image-badges {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .difficulty-badge.beginner {
+      background: rgba(76, 175, 80, 0.9);
+      color: white;
+    }
+    
+    .difficulty-badge.intermediate {
+      background: rgba(255, 152, 0, 0.9);
+      color: white;
+    }
+    
+    .difficulty-badge.advanced {
+      background: rgba(244, 67, 54, 0.9);
+      color: white;
+    }
+    
+    .price-badge {
+      background: rgba(63, 81, 181, 0.9);
+      color: white;
+    }
+    
+    .free-badge {
+      background: rgba(76, 175, 80, 0.9);
+      color: white;
     }
     
     .course-title-info {
@@ -342,51 +662,158 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       min-width: 0;
     }
     
-    .course-main-title {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin: 8px 0 0 0;
-      line-height: 1.2;
-    }
-
-    /* Course Heading */
-    .course-heading-section {
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      margin: 40px 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    
     .course-breadcrumb {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
       color: #666;
     }
     
-    .breadcrumb-item.current {
-      color: #3f51b5;
-      font-weight: 500;
+    .breadcrumb-icon {
+      font-size: 18px;
+      color: #999;
     }
-      .breadcrumb-separator {
+    
+    .breadcrumb-item.current {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .breadcrumb-separator {
       font-size: 16px;
     }
     
-    .course-summary {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 20px;
+    .course-main-title {
+      position: relative;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0 0 30px 0;
+      line-height: 1.2;
     }
     
-    .course-stats {
+    .title-decoration {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .course-stats-enhanced {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .stat-card {
       display: flex;
-      gap: 16px;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-radius: 15px;
+      border: 1px solid #e9ecef;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-number {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    
+    .stat-label {
+      font-size: 0.85rem;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .course-description-section {
+      position: relative;
+      z-index: 2;
+      margin-top: 40px;
+      padding: 30px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-radius: 15px;
+      border: 1px solid #e9ecef;
+    }
+    
+    .description-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .description-header mat-icon {
+      color: #667eea;
+      font-size: 24px;
+    }
+    
+    .description-header h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    
+    .course-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #4a5568;
+      margin-bottom: 25px;
+    }
+    
+    .description-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+    
+    .feature-item mat-icon {
+      color: #4caf50;
+      font-size: 20px;
+    }
+
+    /* Topic Stats */
+    .topic-stats {
+      display: flex;
+      gap: 20px;
       flex-wrap: wrap;
     }
     
@@ -897,8 +1324,24 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       font-size: 1.1rem !important;
     }    /* Responsive Design */
     @media (max-width: 768px) {
+      .hero-section {
+        padding: 40px 20px 60px;
+        min-height: 30vh;
+      }
+      
       .hero-title {
         font-size: 2rem;
+      }
+      
+      .hero-icon {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+      }
+      
+      .hero-stats {
+        gap: 20px;
+        margin-top: 20px;
       }
       
       .filter-group {

@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CourseService, CourseWithAccess, Course } from '../../../service/course.service';
 import { CategoryService, Category } from '../../../service/category.service';
 import { AuthService } from '../../../service/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PurchaseFormComponent } from '../purchase-form/purchase-form.component';
-import { map, of, Subscription } from 'rxjs';
+import { map, of, Subscription, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-courses-explorer',
@@ -30,7 +30,8 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
     private courseService: CourseService,
     private categoryService: CategoryService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -168,22 +169,30 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
             )
           );
           break;
-        case 'my-courses':
-          // Non-logged-in users have no courses, return empty array
-          courseObservable = of([]);
-          break;
         default:
-          // Get all courses and map to CourseWithAccess format
+          // Get all courses and map them to CourseWithAccess format
           courseObservable = this.courseService.getAllCourses().pipe(
             map((courses: Course[]) => courses.map(course => this.mapCourseToWithAccess(course)))
           );
       }
-    }    courseObservable.subscribe({
+    }
+
+    this.loading = true;
+    courseObservable.pipe(finalize(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })).subscribe({
       next: (courses: CourseWithAccess[]) => {
-        this.allCourses = courses.filter(course => course.isPublished);
+        console.log('Loaded courses:', courses);
         
+        // Debug thumbnail URLs
+        courses.forEach(course => {
+          console.log(`Course: ${course.title}, Thumbnail: ${course.thumbnailUrl}`);
+        });
+        
+        this.allCourses = courses;
         this.filterCourses();
-        this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (error: any) => {
         console.error('Error loading courses:', error);
@@ -463,5 +472,20 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
       paymentProofUrl: undefined,
       expiryDate: undefined
     };
+  }
+
+  // Image debugging methods
+  onImageLoad(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    console.log('Image loaded successfully:', img.src);
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    console.error('Image failed to load:', img.src);
+    console.error('Error event:', event);
+    
+    // Set a fallback image
+    img.src = 'https://via.placeholder.com/400x200/6366f1/ffffff?text=No+Image';
   }
 }
