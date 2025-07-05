@@ -5,10 +5,11 @@
   </button>  <span>{{title}}</span>
   <span class="example-spacer"></span>
   
-  <!-- Network status indicator -->
+  <!-- Enhanced network status indicator -->
   <div class="network-status" *ngIf="!(isOnline$ | async)">
     <mat-icon color="warn">wifi_off</mat-icon>
-    <span class="offline-text">Offline</span>  </div>
+    <span class="offline-text">No Internet</span>
+  </div>
   
   <!-- Show courses button except on login page -->
   <button mat-icon-button routerLink="/landing" matTooltip="Courses" *ngIf="!(isLoginPage$ | async)">

@@ -21,7 +21,17 @@
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:excludeFromRecents="false"
+            android:documentLaunchMode="never"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:noHistory="false"
+            android:taskAffinity=""
+            android:allowTaskReparenting="false"
+            android:clearTaskOnLaunch="false"
+            android:finishOnTaskLaunch="false"
+            android:alwaysRetainTaskState="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +52,24 @@
     </application>
 
     <!-- Permissions -->
-
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Security-related permissions (for monitoring) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+    <!-- Hardware features (optional, for enhanced security) -->
+    <uses-feature 
+        android:name="android.hardware.camera" 
+        android:required="false" />
+    <uses-feature 
+        android:name="android.hardware.microphone" 
+        android:required="false" />
+        
+    <!-- Deny permissions for potential security threats -->
+    <uses-permission 
+        android:name="android.permission.SYSTEM_ALERT_WINDOW"
+        android:maxSdkVersion="22" />
+
 </manifest>

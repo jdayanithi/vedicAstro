@@ -2,10 +2,14 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from './service/auth.service';
 import { NetworkStatusService } from './service/network-status.service';
 import { CopyProtectionService } from './service/copy-protection.service';
+import { SecurityService } from './services/security.service';
 import { Observable, map, filter, startWith } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Router, NavigationEnd } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { OfflineDialogComponent } from './components/offline-dialog/offline-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +24,17 @@ export class AppComponent implements OnInit {
   isSidenavOpen = false;
   isLoginPage$: Observable<boolean>;
   showScrollToTop = false;
+  hasShownInitialOfflineMessage = false;
   
   constructor(
     private authService: AuthService,
     private networkStatus: NetworkStatusService,
     private platform: Platform,
     private router: Router,
-    private copyProtectionService: CopyProtectionService
+    private copyProtectionService: CopyProtectionService,
+    private securityService: SecurityService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn();
     this.isAdmin$ = this.authService.getCurrentUserRole().pipe(
@@ -44,11 +52,23 @@ export class AppComponent implements OnInit {
     
     // Disable context menu and keyboard shortcuts
     this.disableSecurityFeatures();
+    
+    // Setup network connectivity monitoring
+    this.setupNetworkMonitoring();
   }
   async ngOnInit() {
+    // Check initial connectivity status
+    this.checkInitialConnectivity();
+    
     // Initialize status bar when platform is ready
     if (this.platform.is('capacitor')) {
       await this.initializeStatusBar();
+      
+      // Initialize security features for native platforms
+      await this.securityService.initializeSecurity();
+      
+      // Perform comprehensive security audit
+      await this.securityService.performSecurityAudit();
       
       // Add platform-specific CSS classes
       if (this.platform.is('android')) {
@@ -56,6 +76,9 @@ export class AppComponent implements OnInit {
       } else if (this.platform.is('ios')) {
         document.body.classList.add('capacitor-ios');
       }
+    } else {
+      // Show security warning for web platform
+      this.securityService.showWebSecurityWarning();
     }
   }
 
@@ -153,5 +176,81 @@ export class AppComponent implements OnInit {
       top: 0,
       behavior: 'smooth'
     });
+  }
+
+  private setupNetworkMonitoring(): void {
+    // Subscribe to network status changes
+    this.isOnline$.subscribe(isOnline => {
+      if (!isOnline && this.hasShownInitialOfflineMessage) {
+        // Show offline message for subsequent disconnections
+        this.showOfflineSnackbar();
+      } else if (isOnline && this.hasShownInitialOfflineMessage) {
+        // Show reconnection message
+        this.showOnlineSnackbar();
+      }
+    });
+  }
+
+  private async checkInitialConnectivity(): Promise<void> {
+    // Wait a bit longer for the network service to complete its initial check
+    setTimeout(async () => {
+      // Force a connectivity check to ensure we have the latest status
+      await this.networkStatus.forceConnectivityCheck();
+      
+      if (!this.networkStatus.isOnlineValue) {
+        console.log('Initial connectivity check: OFFLINE - showing dialog');
+        this.showInitialOfflineDialog();
+      } else {
+        console.log('Initial connectivity check: ONLINE - no dialog needed');
+      }
+      this.hasShownInitialOfflineMessage = true;
+    }, 2000); // Increased delay to allow the service to complete its check
+  }
+
+  private showInitialOfflineDialog(): void {
+    const dialogRef = this.dialog.open(OfflineDialogComponent, {
+      width: '90%',
+      maxWidth: '400px',
+      disableClose: true,
+      data: {
+        title: 'No Internet Connection',
+        message: 'Please check your internet connection and try again. Some features may not work without an active connection.',
+        isInitial: true
+      }
+    });
+
+    // Auto-close dialog when connection is restored
+    const subscription = this.isOnline$.subscribe(isOnline => {
+      if (isOnline) {
+        dialogRef.close();
+        subscription.unsubscribe();
+      }
+    });
+  }
+
+  private showOfflineSnackbar(): void {
+    this.snackBar.open(
+      '🚫 Connection lost - You are now offline',
+      'Dismiss',
+      {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['offline-snackbar']
+      }
+    );
+  }
+
+  private showOnlineSnackbar(): void {
+    this.snackBar.open(
+      '✅ Connection restored - You are back online',
+      'Dismiss',
+      {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['online-snackbar']
+      }
+    );
   }
 }
