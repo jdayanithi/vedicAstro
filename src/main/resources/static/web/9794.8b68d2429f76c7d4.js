@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblogWeb=self.webpackChunkblogWeb||[]).push([[9794],{9794:(l,t,n)=>{n.r(t),n.d(t,{AUTH_ROUTES:()=>h});const h=[{path:"",loadComponent:()=>n.e(7195).then(n.bind(n,7195)).then(o=>o.LoginComponent)},{path:"login",loadComponent:()=>n.e(7195).then(n.bind(n,7195)).then(o=>o.LoginComponent)}]}}]);

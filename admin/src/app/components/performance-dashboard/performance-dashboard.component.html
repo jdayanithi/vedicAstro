@@ -1,0 +1,126 @@
+<div class="performance-dashboard" [class.visible]="isVisible">
+  <!-- Toggle Button -->
+  <button class="toggle-btn" (click)="toggleVisibility()" 
+          [title]="isVisible ? 'Hide Performance Dashboard' : 'Show Performance Dashboard'">
+    <span class="icon">📊</span>
+    <span class="text">Performance</span>
+  </button>
+
+  <!-- Dashboard Panel -->
+  <div class="dashboard-panel" *ngIf="isVisible">
+    <div class="panel-header">
+      <h3>Performance Dashboard</h3>
+      <div class="header-actions">
+        <button class="btn btn-sm" (click)="exportMetrics()" title="Export Metrics">
+          📁 Export
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="clearMetrics()" title="Clear All Metrics">
+          🗑️ Clear
+        </button>
+        <button class="btn btn-sm" (click)="toggleVisibility()" title="Close Dashboard">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <!-- Performance Stats Overview -->
+      <div class="stats-section">
+        <h4>Performance Overview</h4>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats.totalMeasurements }}</div>
+            <div class="stat-label">Total Measurements</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ stats.averageDuration | number:'1.1-1' }}ms</div>
+            <div class="stat-label">Average Duration</div>
+          </div>
+          <div class="stat-card" *ngIf="stats.slowestOperation">
+            <div class="stat-value">{{ stats.slowestOperation.duration | number:'1.1-1' }}ms</div>
+            <div class="stat-label">Slowest Operation</div>
+            <div class="stat-detail">{{ stats.slowestOperation.name }}</div>
+          </div>
+          <div class="stat-card" *ngIf="stats.fastestOperation">
+            <div class="stat-value">{{ stats.fastestOperation.duration | number:'1.1-1' }}ms</div>
+            <div class="stat-label">Fastest Operation</div>
+            <div class="stat-detail">{{ stats.fastestOperation.name }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Memory Usage -->
+      <div class="memory-section" *ngIf="memoryStats">
+        <h4>Memory Usage</h4>
+        <div class="memory-stats">
+          <div class="memory-bar">
+            <div class="memory-fill" [style.width.%]="getMemoryUsagePercentage()"></div>
+          </div>
+          <div class="memory-details">
+            <span>Used: {{ formatMemorySize(memoryStats.usedJSHeapSize) }}</span>
+            <span>Total: {{ formatMemorySize(memoryStats.totalJSHeapSize) }}</span>
+            <span>Limit: {{ formatMemorySize(memoryStats.jsHeapSizeLimit) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics by Type -->
+      <div class="chart-section">
+        <h4>Metrics by Type</h4>
+        <div class="chart-container">
+          <div class="chart-bar" *ngFor="let item of chartData | keyvalue">
+            <div class="bar-label">{{ item.key }}</div>
+            <div class="bar-container">
+              <div class="bar-fill" 
+                   [style.background-color]="getMetricTypeColor(item.key)"
+                   [style.width.%]="(item.value / stats.totalMeasurements) * 100">
+              </div>
+              <span class="bar-value">{{ item.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Metrics -->
+      <div class="metrics-section">
+        <h4>Recent Performance Metrics</h4>
+        <div class="metrics-table-container">
+          <table class="metrics-table" *ngIf="recentMetrics.length > 0; else noMetrics">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Operation</th>
+                <th>Type</th>
+                <th>Duration</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let metric of recentMetrics; trackBy: trackByMetric" 
+                  [class]="'performance-' + getPerformanceRating(metric.duration)">
+                <td class="status-cell">
+                  <span class="status-icon">{{ getPerformanceIcon(metric.duration) }}</span>
+                </td>
+                <td class="operation-cell" [title]="metric.name">{{ metric.name }}</td>
+                <td class="type-cell">
+                  <span class="type-badge" [style.background-color]="getMetricTypeColor(metric.type)">
+                    {{ metric.type }}
+                  </span>
+                </td>
+                <td class="duration-cell">{{ metric.duration | number:'1.1-1' }}ms</td>
+                <td class="timestamp-cell">{{ metric.timestamp | date:'HH:mm:ss.SSS' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <ng-template #noMetrics>
+            <div class="no-metrics">
+              <p>No performance metrics recorded yet.</p>
+              <p>Metrics will appear here as you use the application.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

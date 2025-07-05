@@ -1,14 +1,22 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from 'src/app/service/comment.service';
 import { PostService } from 'src/app/service/post.service';
+import { CommonModule } from '@angular/common';
+import { AngularMaterialModule } from '../../AngularMaterialModule';
 
 @Component({
   selector: 'app-view-post',
   templateUrl: './view-post.component.html',
-  styleUrls: ['./view-post.component.scss']
+  styleUrls: ['./view-post.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AngularMaterialModule
+  ]
 })
 export class ViewPostComponent {
 

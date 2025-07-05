@@ -8,6 +8,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from './services/auth.service';
 import { CopyProtectionService } from './services/copy-protection.service';
+import { PerformanceDashboardComponent } from './components/performance-dashboard/performance-dashboard.component';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ import { CopyProtectionService } from './services/copy-protection.service';
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    PerformanceDashboardComponent
   ],  template: `
     <ng-container *ngIf="authService.isLoggedIn$ | async; else loginTemplate">
       <mat-toolbar color="primary">
@@ -98,6 +100,9 @@ import { CopyProtectionService } from './services/copy-protection.service';
       </div>
       <router-outlet></router-outlet>
     </ng-template>
+
+    <!-- Performance Dashboard (always visible when authenticated) -->
+    <app-performance-dashboard *ngIf="authService.isLoggedIn$ | async"></app-performance-dashboard>
   `,styles: [`
     :host {
       display: block;

@@ -1,14 +1,22 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PaymentService } from '../../../service/payment.service';
 import { AuthService } from '../../../service/auth.service';
 import { CourseWithAccess } from '../../../service/course.service';
+import { CommonModule } from '@angular/common';
+import { AngularMaterialModule } from '../../../AngularMaterialModule';
 
 @Component({
   selector: 'app-purchase-form',
   templateUrl: './purchase-form.component.html',
-  styleUrls: ['./purchase-form.component.scss']
+  styleUrls: ['./purchase-form.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AngularMaterialModule
+  ]
 })
 export class PurchaseFormComponent implements OnInit {
   purchaseForm: FormGroup;
