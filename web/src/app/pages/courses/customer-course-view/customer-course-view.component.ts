@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +17,6 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
 import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail-modal.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-customer-course-view',
   standalone: true,  imports: [
     CommonModule,
@@ -100,7 +99,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                 </div>
                 <div class="stat-item" *ngIf="selectedCourse.price">
                   <mat-icon>currency_rupee</mat-icon>
-                  <span>â‚¹{{selectedCourse.price}}</span>
+                  <span>₹{{selectedCourse.price}}</span>
                 </div>
               </div>
             </div>
@@ -979,8 +978,7 @@ export class CustomerCourseViewComponent implements OnInit {
     private authService: AuthService,
     private topicService: TopicService,
     private lessonService: LessonService,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}ngOnInit() {
     // Get courseId from route parameter
     const courseId = this.route.snapshot.paramMap.get('id');
@@ -1189,4 +1187,3 @@ export class CustomerCourseViewComponent implements OnInit {
     return topic.lessons.filter((lesson: any) => lesson.isFree).length;
   }
 }
-

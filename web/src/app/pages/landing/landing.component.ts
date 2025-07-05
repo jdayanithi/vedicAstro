@@ -1,10 +1,9 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-landing',
   standalone: true,
   imports: [
@@ -27,36 +26,36 @@ import { MatIconModule } from '@angular/material/icon';
           </div>
           
           <div class="offer-content">
-            <h2>ðŸŒŸ Basic Course - Yearly Subscription</h2>
+            <h2>🌟 Basic Course - Yearly Subscription</h2>
             <div class="price-section">
-              <span class="currency">â‚¹</span>
+              <span class="currency">₹</span>
               <span class="price">465</span>
               <span class="period">/year</span>
             </div>
             <div class="original-price">
-              <span>Regular Price: â‚¹899</span>
+              <span>Regular Price: ₹899</span>
               <span class="savings">Save 48%!</span>
             </div>
             
             <div class="offer-features">
               <div class="feature-item">
-                <span class="feature-icon">âœ¨</span>
+                <span class="feature-icon">✨</span>
                 <span>Complete Basic Astrology Course</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">ðŸ“š</span>
+                <span class="feature-icon">📚</span>
                 <span>27 Nakshatras in-depth study</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">ðŸŽ¯</span>
+                <span class="feature-icon">🎯</span>
                 <span>Interactive lessons & keynotes</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">ðŸ“±</span>
+                <span class="feature-icon">📱</span>
                 <span>Mobile & desktop access</span>
               </div>
               <div class="feature-item">
-                <span class="feature-icon">ðŸ”„</span>
+                <span class="feature-icon">🔄</span>
                 <span>Lifetime course updates</span>
               </div>
             </div>
@@ -67,7 +66,7 @@ import { MatIconModule } from '@angular/material/icon';
             </button>
             
             <div class="offer-guarantee">
-              <small>ðŸ›¡ï¸ 30-day money-back guarantee</small>
+              <small>🛡️ 30-day money-back guarantee</small>
             </div>
           </div>
         </div>
@@ -75,15 +74,15 @@ import { MatIconModule } from '@angular/material/icon';
       
       <div class="features-section">
         <div class="feature-card">
-          <h3>ðŸŒŸ Ancient Wisdom</h3>
+          <h3>🌟 Ancient Wisdom</h3>
           <p>Learn from thousands of years of astrological knowledge</p>
         </div>
         <div class="feature-card">
-          <h3>ðŸ“š Structured Learning</h3>
+          <h3>📚 Structured Learning</h3>
           <p>Progressive courses designed for all skill levels</p>
         </div>
         <div class="feature-card">
-          <h3>ðŸŽ¯ Expert Guidance</h3>
+          <h3>🎯 Expert Guidance</h3>
           <p>Learn from experienced practitioners and teachers</p>
         </div>
       </div>
@@ -478,8 +477,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class LandingComponent implements OnInit {
   showComingSoon = false; // Changed to false since we now have the courses explorer
 
-  constructor(private router: Router,
-    private cdr: ChangeDetectorRef) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Initialize component
@@ -490,4 +488,3 @@ export class LandingComponent implements OnInit {
     this.router.navigate(['/courses']);
   }
 }
-

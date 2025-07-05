@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
@@ -55,7 +55,6 @@ interface LessonDetail {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-lesson-detail-modal',
   standalone: true,
   imports: [
@@ -689,4 +688,3 @@ export class LessonDetailModalComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-

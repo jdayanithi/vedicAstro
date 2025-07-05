@@ -1,10 +1,9 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from '../../../service/course.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-update-course',
   templateUrl: './update-course.component.html',
   styleUrls: ['./update-course.component.scss']
@@ -13,8 +12,7 @@ export class UpdateCourseComponent implements OnInit {
   courseForm: FormGroup;
   courseId: number;
 
-  constructor(private fb: FormBuilder, private courseService: CourseService, private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private courseService: CourseService, private route: ActivatedRoute) {
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -43,4 +41,3 @@ export class UpdateCourseComponent implements OnInit {
     }
   }
 }
-

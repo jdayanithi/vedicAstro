@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../../AngularMaterialModule';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-view-post',
   templateUrl: './view-post.component.html',
   styleUrls: ['./view-post.component.scss'],
@@ -31,8 +30,7 @@ export class ViewPostComponent {
     private activatedRoute: ActivatedRoute,
     private matSnackBar: MatSnackBar,
     private fb: FormBuilder,
-    private commentService: CommentService,
-    private cdr: ChangeDetectorRef){}
+    private commentService: CommentService){}
 
     ngOnInit(){
       console.log(this.postId);
@@ -85,4 +83,3 @@ export class ViewPostComponent {
     }
 
 }
-

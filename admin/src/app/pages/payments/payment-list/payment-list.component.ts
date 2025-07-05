@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 import { PaymentService, Payment } from '../../../services/payment.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-payment-list',
   standalone: true,
   imports: [
@@ -122,7 +121,7 @@ import { PaymentService, Payment } from '../../../services/payment.service';
           <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef>Amount</th>
             <td mat-cell *matCellDef="let payment">
-              <strong>â‚¹{{payment.amount | number:'1.2-2'}}</strong>
+              <strong>₹{{payment.amount | number:'1.2-2'}}</strong>
             </td>
           </ng-container>
 
@@ -353,8 +352,7 @@ export class PaymentListComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -422,4 +420,3 @@ export class PaymentListComponent implements OnInit {
     return `status-${status.toLowerCase()}`;
   }
 }
-

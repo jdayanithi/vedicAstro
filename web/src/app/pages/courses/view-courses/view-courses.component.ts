@@ -1,8 +1,7 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../../../service/course.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-view-courses',
   templateUrl: './view-courses.component.html',
   styleUrls: ['./view-courses.component.scss']
@@ -10,8 +9,7 @@ import { CourseService } from '../../../service/course.service';
 export class ViewCoursesComponent implements OnInit {
   courses: any[] = [];
 
-  constructor(private courseService: CourseService,
-    private cdr: ChangeDetectorRef) {}
+  constructor(private courseService: CourseService) {}
 
   ngOnInit() {
     this.courseService.getAllCourses().subscribe(courses => {
@@ -25,4 +23,3 @@ export class ViewCoursesComponent implements OnInit {
     });
   }
 }
-

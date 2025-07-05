@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +12,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CategoryService, Category } from '../../services/category.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-category-form',
   standalone: true,  imports: [
     CommonModule,
@@ -246,4 +245,3 @@ export class CategoryFormComponent {
     }
   }
 }
-

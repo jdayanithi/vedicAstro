@@ -1,9 +1,8 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LessonService } from '../services/lesson.service';
 import { Lesson } from '../models/lesson.model';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-lessons',
   templateUrl: './lessons.component.html',
   styleUrls: ['./lessons.component.css']
@@ -11,8 +10,7 @@ import { Lesson } from '../models/lesson.model';
 export class LessonsComponent implements OnInit {
   lessons: Lesson[] = [];
 
-  constructor(private lessonService: LessonService,
-    private cdr: ChangeDetectorRef) { }
+  constructor(private lessonService: LessonService) { }
 
   ngOnInit(): void {
     this.loadLessons();

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
@@ -14,7 +14,6 @@ import { AngularMaterialModule } from '../../AngularMaterialModule';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -34,14 +33,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
   isLoading = false;
   errorMessage = '';
   errorType: 'error' | 'warning' | 'info' | '' = '';
-  showError = false;  constructor(
+  showError = false;constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
     private googleAuthService: GoogleAuthService,
     private dialog: MatDialog,
-    private networkStatus: NetworkStatusService,
-    private cdr: ChangeDetectorRef
+    private networkStatus: NetworkStatusService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],

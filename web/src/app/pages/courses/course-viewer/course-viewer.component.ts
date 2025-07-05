@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService, CourseWithAccess } from '../../../service/course.service';
 import { AuthService } from '../../../service/auth.service';
@@ -34,7 +34,6 @@ export interface CourseContent {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-course-viewer',
   templateUrl: './course-viewer.component.html',
   styleUrls: ['./course-viewer.component.scss']
@@ -55,8 +54,7 @@ export class CourseViewerComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     private authService: AuthService,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -401,4 +399,3 @@ export class CourseViewerComponent implements OnInit, OnDestroy {
     this.router.navigate(['/courses']);
   }
 }
-

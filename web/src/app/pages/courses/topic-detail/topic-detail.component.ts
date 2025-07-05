@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +10,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../../../service/topic.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-topic-detail',
   standalone: true,
   imports: [
@@ -673,8 +672,7 @@ export class TopicDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private topicService: TopicService,
-    private cdr: ChangeDetectorRef
+    private topicService: TopicService
   ) {}
 
   ngOnInit(): void {
@@ -734,4 +732,3 @@ export class TopicDetailComponent implements OnInit {
     this.router.navigate(['/customer-course', this.topicDetail?.courseId || '']);
   }
 }
-

@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,6 @@ import { UserService, User } from '../../../services/users.service';
 import { CategoryService, Category } from '../../../services/category.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-update-course',
   templateUrl: './update-course.component.html',
   styleUrls: ['./update-course.component.scss'],
@@ -54,8 +53,7 @@ export class UpdateCourseComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private snackBar = inject(MatSnackBar);
 
-  constructor(
-    private cdr: ChangeDetectorRef) {
+  constructor() {
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -206,4 +204,3 @@ export class UpdateCourseComponent implements OnInit {
     this.router.navigate(['/courses']);
   }
 }
-

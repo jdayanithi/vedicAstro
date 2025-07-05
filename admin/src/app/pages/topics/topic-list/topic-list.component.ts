@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,6 @@ import { CategoryService, Category } from '../../../services/category.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-topic-list',
   standalone: true,  imports: [
     CommonModule,
@@ -242,8 +241,7 @@ export class TopicListComponent implements OnInit {
     private courseService: CourseService,
     private categoryService: CategoryService,
     private snackBar: MatSnackBar,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}  ngOnInit() {
     // Load data first, then restore state
     Promise.all([
@@ -521,4 +519,3 @@ export class TopicListComponent implements OnInit {
     });
   }
 }
-

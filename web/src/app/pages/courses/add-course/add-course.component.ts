@@ -1,9 +1,8 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from '../../../service/course.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.scss']
@@ -11,8 +10,7 @@ import { CourseService } from '../../../service/course.service';
 export class AddCourseComponent {
   courseForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private courseService: CourseService,
-    private cdr: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private courseService: CourseService) {
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -34,4 +32,3 @@ export class AddCourseComponent {
     }
   }
 }
-

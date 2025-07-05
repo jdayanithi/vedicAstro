@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,11 +21,10 @@ import { LessonService, Lesson } from '../../../services/lesson.service';
 import { TopicService, Topic } from '../../../services/topic.service';
 import { CourseService, Course } from '../../../services/course.service';
 import { CategoryService, Category } from '../../../services/category.service';
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef as DialogComponent, Inject } from '@angular/core';
+import { Component as DialogComponent, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-lesson-list',
   standalone: true,  imports: [
     CommonModule,
@@ -310,8 +309,7 @@ export class LessonListComponent implements OnInit {
     private categoryService: CategoryService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}  ngOnInit() {
     // Load data first, then restore state
     Promise.all([
@@ -818,4 +816,3 @@ export class LessonDetailDialogComponent {
     return parseBackendDate(date);
   }
 }
-

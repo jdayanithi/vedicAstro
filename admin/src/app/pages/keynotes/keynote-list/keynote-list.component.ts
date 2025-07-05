@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +18,6 @@ import { LessonKeynoteService, LessonKeynote } from '../../../services/lesson-ke
 import { LessonService } from '../../../services/lesson.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-keynote-list',
   standalone: true,
   imports: [
@@ -427,8 +426,7 @@ export class KeynoteListComponent implements OnInit {
     private keynoteService: LessonKeynoteService,
     private lessonService: LessonService,
     private router: Router,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -540,4 +538,3 @@ export class KeynoteListComponent implements OnInit {
     }
   }
 }
-

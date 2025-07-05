@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-login',
   standalone: true,  imports: [
     CommonModule,
@@ -117,8 +116,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -183,4 +181,3 @@ export class LoginComponent {
     }
   }
 }
-

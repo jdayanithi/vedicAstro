@@ -1,10 +1,9 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PerformanceMonitorService, PerformanceMetric, PerformanceStats } from '../../services/performance-monitor.service';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-performance-dashboard',
   standalone: true,
   imports: [CommonModule],
@@ -35,8 +34,7 @@ export class PerformanceDashboardComponent implements OnInit, OnDestroy {
     custom: 0
   };
 
-  constructor(private performanceService: PerformanceMonitorService,
-    private cdr: ChangeDetectorRef) {}
+  constructor(private performanceService: PerformanceMonitorService) {}
 
   ngOnInit(): void {
     this.subscribeToMetrics();
@@ -107,10 +105,10 @@ export class PerformanceDashboardComponent implements OnInit, OnDestroy {
   }
 
   getPerformanceIcon(duration: number): string {
-    if (duration < 50) return 'ðŸŸ¢';
-    if (duration < 100) return 'ðŸŸ¡';
-    if (duration < 500) return 'ðŸŸ ';
-    return 'ðŸ”´';
+    if (duration < 50) return '🟢';
+    if (duration < 100) return '🟡';
+    if (duration < 500) return '🟠';
+    return '🔴';
   }
 
   formatMemorySize(bytes: number): string {
@@ -147,4 +145,3 @@ export class PerformanceDashboardComponent implements OnInit, OnDestroy {
     return `${metric.name}-${metric.timestamp}`;
   }
 }
-

@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +11,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserService, User } from '../../../services/users.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-user-details',
   standalone: true,
   imports: [
@@ -358,8 +357,7 @@ export class UserDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -397,4 +395,3 @@ export class UserDetailsComponent implements OnInit {
     event.target.style.display = 'none';
   }
 }
-

@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,7 +23,6 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-keynote',
   standalone: true,  imports: [
     CommonModule,
@@ -138,7 +137,7 @@ import { Observable } from 'rxjs';
                 </textarea>
                 <mat-hint>
                   <span *ngIf="keynoteForm.get('contentType')?.value === 'bullet_points'">
-                    Use bullet points format (â€¢ item 1, â€¢ item 2, etc.)
+                    Use bullet points format (• item 1, • item 2, etc.)
                   </span>
                   <span *ngIf="keynoteForm.get('contentType')?.value === 'quote'">
                     Include quotation marks for quotes
@@ -501,8 +500,7 @@ export class AddKeynoteComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {
     this.keynoteForm = this.createForm();
     this.filteredLessons = this.keynoteForm.get('lessonSearch')!.valueChanges.pipe(
@@ -822,4 +820,3 @@ export class AddKeynoteComponent implements OnInit {
     this.router.navigate(['/keynotes']);
   }
 }
-

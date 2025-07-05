@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,6 @@ import { TagService, Tag } from '../../services/tag.service';
 import { TagFormComponent } from './tag-form.component';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-tags-page',
   standalone: true,
   imports: [
@@ -126,8 +125,7 @@ export class TagsPageComponent implements OnInit {
   constructor(
     private tagService: TagService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -190,4 +188,3 @@ export class TagsPageComponent implements OnInit {
     }
   }
 }
-

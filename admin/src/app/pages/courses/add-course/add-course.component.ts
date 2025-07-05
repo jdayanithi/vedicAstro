@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,7 +18,6 @@ import { Observable, debounceTime, distinctUntilChanged, map, startWith, switchM
 import { Router } from '@angular/router';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-course',
   templateUrl: './add-course.component.html',
   styleUrls: ['./add-course.component.scss'],
@@ -51,8 +50,7 @@ export class AddCourseComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
-  constructor(
-    private cdr: ChangeDetectorRef) {
+  constructor() {
     this.courseForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
@@ -189,4 +187,3 @@ export class AddCourseComponent implements OnInit {
     }
   }
 }
-

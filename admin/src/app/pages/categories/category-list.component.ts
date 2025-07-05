@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,7 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-category-list',
   standalone: true,
   imports: [
@@ -210,8 +209,7 @@ export class CategoryListComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -290,4 +288,3 @@ export class CategoryListComponent implements OnInit {
     }
   }
 }
-

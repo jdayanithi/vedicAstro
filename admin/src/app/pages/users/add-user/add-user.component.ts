@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -15,7 +15,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UserService, User } from '../../../services/users.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-add-user',
   standalone: true,
   imports: [
@@ -326,8 +325,7 @@ export class AddUserComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {
     this.userForm = this.createForm();
   }
@@ -430,4 +428,3 @@ export class AddUserComponent implements OnInit {
     this.router.navigate(['/users']);
   }
 }
-
