@@ -1,0 +1,86 @@
+<div class="admin-layout">
+  <!-- Header -->
+  <mat-toolbar class="app-header" color="primary">
+    <button mat-icon-button (click)="toggleSidenav()" class="menu-toggle">
+      <mat-icon>menu</mat-icon>
+    </button>
+    
+    <span class="app-title">
+      <mat-icon>auto_awesome</mat-icon>
+      Vedic Astrology Admin
+    </span>
+    
+    <span class="spacer"></span>
+    
+    <div class="header-actions">
+      <button mat-icon-button matTooltip="Notifications">
+        <mat-icon>notifications</mat-icon>
+      </button>
+      
+      <button mat-icon-button [matMenuTriggerFor]="userMenu" matTooltip="Account">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          Profile
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          Settings
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <!-- Sidenav Container -->
+  <mat-sidenav-container class="sidenav-container">
+    <!-- Side Navigation -->
+    <mat-sidenav 
+      #sidenav
+      mode="side" 
+      [opened]="isSidenavOpen"
+      class="app-sidenav">
+      
+      <div class="sidenav-content">
+        <!-- Navigation Menu -->
+        <mat-nav-list class="navigation-list">
+          <a mat-list-item 
+             *ngFor="let item of navigationItems"
+             [routerLink]="item.route"
+             routerLinkActive="active-link"
+             [routerLinkActiveOptions]="{exact: false}"
+             class="nav-item">
+            <mat-icon matListIcon>{{ item.icon }}</mat-icon>
+            <span matLine>{{ item.label }}</span>
+          </a>
+        </mat-nav-list>
+        
+        <!-- Sidenav Footer -->
+        <div class="sidenav-footer">
+          <div class="version-info">
+            <small>Version 1.0.0</small>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <div class="content-wrapper">
+        <!-- Breadcrumb could go here -->
+        
+        <!-- Page Content -->
+        <div class="page-content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

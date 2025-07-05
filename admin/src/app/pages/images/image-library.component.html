@@ -1,0 +1,477 @@
+<div class="image-library-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>photo_library</mat-icon>
+        Image Library
+      </h1>
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="openUploadDialog()">
+          <mat-icon>cloud_upload</mat-icon>
+          Upload Images
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="viewMenu" matTooltip="View Options">
+          <mat-icon>view_module</mat-icon>
+        </button>
+        <mat-menu #viewMenu="matMenu">
+          <button mat-menu-item (click)="toggleViewMode()">
+            <mat-icon>{{ viewMode === 'table' ? 'grid_view' : 'table_rows' }}</mat-icon>
+            {{ viewMode === 'table' ? 'Grid View' : 'Table View' }}
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-row">
+        <!-- Search -->
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search images...</mat-label>
+          <input matInput [formControl]="searchControl" placeholder="Search by name, title, or tags">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Category Filter -->
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select [(value)]="categoryFilter" (selectionChange)="loadImages()">
+            <mat-option [value]="null">All Categories</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">
+              {{ getCategoryDisplayName(category) }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Clear Filters -->
+        <button mat-stroked-button (click)="clearFilters()" *ngIf="hasFilters()">
+          <mat-icon>clear</mat-icon>
+          Clear Filters
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Bulk Actions -->
+  <div class="bulk-actions" *ngIf="selection.selected.length > 0">
+    <span class="selection-info">{{ selection.selected.length }} images selected</span>
+    <button mat-stroked-button color="warn" (click)="deleteSelectedImages()">
+      <mat-icon>delete</mat-icon>
+      Delete Selected
+    </button>
+    <button mat-stroked-button (click)="selection.clear()">
+      <mat-icon>clear</mat-icon>
+      Clear Selection
+    </button>
+  </div>
+
+  <!-- Content Area -->
+  <mat-card class="content-card">
+    <mat-card-content>
+      <!-- Loading -->
+      <div *ngIf="isLoading" class="loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading images...</p>
+      </div>
+
+      <!-- Table View -->
+      <div *ngIf="!isLoading && viewMode === 'table'" class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- Selection Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                           [checked]="selection.hasValue() && isAllSelected()"
+                           [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let image">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                           (change)="$event ? selection.toggle(image) : null"
+                           [checked]="selection.isSelected(image)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Thumbnail Column -->
+          <ng-container matColumnDef="thumbnail">
+            <th mat-header-cell *matHeaderCellDef>Thumbnail</th>
+            <td mat-cell *matCellDef="let image">
+              <div class="thumbnail-container" (click)="previewImage(image)">
+                <img [src]="getImageUrl(image)" 
+                     [alt]="image.altText || image.fileName"
+                     class="thumbnail-image"
+                     (error)="onImageError($event)">
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- File Name Column -->
+          <ng-container matColumnDef="fileName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>File Name</th>
+            <td mat-cell *matCellDef="let image">
+              <div class="file-info">
+                <span class="file-name" [matTooltip]="image.originalName">{{ image.fileName }}</span>
+                <small class="file-extension">{{ getFileExtension(image.fileName) }}</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <td mat-cell *matCellDef="let image">
+              <div class="title-info">
+                <span class="title">{{ image.title || 'Untitled' }}</span>
+                <small class="description" *ngIf="image.description">{{ image.description }}</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Category Column -->
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+            <td mat-cell *matCellDef="let image">
+              <mat-chip class="category-chip">{{ getCategoryDisplayName(image.category) }}</mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Dimensions Column -->
+          <ng-container matColumnDef="dimensions">
+            <th mat-header-cell *matHeaderCellDef>Dimensions</th>
+            <td mat-cell *matCellDef="let image">{{ getDimensions(image) }}</td>
+          </ng-container>
+
+          <!-- File Size Column -->
+          <ng-container matColumnDef="fileSize">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Size</th>
+            <td mat-cell *matCellDef="let image">{{ formatFileSize(image.fileSize) }}</td>
+          </ng-container>
+
+          <!-- Upload Date Column -->
+          <ng-container matColumnDef="uploadDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Upload Date</th>
+            <td mat-cell *matCellDef="let image">{{ image.uploadDate | date:'medium' }}</td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let image">
+              <div class="action-buttons">
+                <button mat-icon-button [matMenuTriggerFor]="actionMenu" 
+                        [matMenuTriggerData]="{image: image}">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #actionMenu="matMenu">
+                  <ng-template matMenuContent let-image="image">
+                    <button mat-menu-item (click)="previewImage(image)">
+                      <mat-icon>visibility</mat-icon>
+                      Preview
+                    </button>
+                    <button mat-menu-item (click)="viewImageDetails(image)">
+                      <mat-icon>info</mat-icon>
+                      Details
+                    </button>
+                    <button mat-menu-item (click)="editImage(image)">
+                      <mat-icon>edit</mat-icon>
+                      Edit
+                    </button>
+                    <button mat-menu-item (click)="toggleImageFeatured(image)">
+                      <mat-icon>{{ image.isFeatured ? 'star' : 'star_border' }}</mat-icon>
+                      {{ image.isFeatured ? 'Unfeature' : 'Feature' }}
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item (click)="deleteImage(image)" class="delete-action">
+                      <mat-icon>delete</mat-icon>
+                      Delete
+                    </button>
+                  </ng-template>
+                </mat-menu>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- No Data Message -->
+        <div *ngIf="dataSource.data.length === 0" class="no-data">
+          <mat-icon>photo_library</mat-icon>
+          <h3>No images found</h3>
+          <p *ngIf="hasFilters()">Try adjusting your filters or search criteria.</p>
+          <p *ngIf="!hasFilters()">Upload your first image to get started.</p>
+        </div>
+      </div>
+
+      <!-- Grid View -->
+      <div *ngIf="!isLoading && viewMode === 'grid'" class="grid-container">
+        <div class="image-grid">
+          <div *ngFor="let image of dataSource.data" class="image-card">
+            <mat-card>
+              <div class="card-header">
+                <mat-checkbox (change)="$event ? selection.toggle(image) : null"
+                             [checked]="selection.isSelected(image)">
+                </mat-checkbox>
+                <button mat-icon-button [matMenuTriggerFor]="gridActionMenu" 
+                        [matMenuTriggerData]="{image: image}">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </div>
+              
+              <div class="image-container" (click)="previewImage(image)">
+                <img [src]="getImageUrl(image)" 
+                     [alt]="image.altText || image.fileName"
+                     class="grid-image"
+                     (error)="onImageError($event)">
+                <div class="image-overlay">
+                  <mat-icon>visibility</mat-icon>
+                </div>
+              </div>
+              
+              <mat-card-content>
+                <h3 class="image-title" [matTooltip]="image.title || image.fileName">
+                  {{ image.title || image.fileName }}
+                </h3>
+                <div class="image-meta">
+                  <mat-chip class="category-chip">{{ getCategoryDisplayName(image.category) }}</mat-chip>
+                  <span class="file-size">{{ formatFileSize(image.fileSize) }}</span>
+                </div>
+                <div class="image-info">
+                  <span class="dimensions">{{ getDimensions(image) }}</span>
+                  <span class="upload-date">{{ image.uploadDate | date:'short' }}</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+        <mat-menu #gridActionMenu="matMenu">
+          <ng-template matMenuContent let-image="image">
+            <button mat-menu-item (click)="previewImage(image)">
+              <mat-icon>visibility</mat-icon>
+              Preview
+            </button>
+            <button mat-menu-item (click)="viewImageDetails(image)">
+              <mat-icon>info</mat-icon>
+              Details
+            </button>
+            <button mat-menu-item (click)="editImage(image)">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button mat-menu-item (click)="toggleImageFeatured(image)">
+              <mat-icon>{{ image.isFeatured ? 'star' : 'star_border' }}</mat-icon>
+              {{ image.isFeatured ? 'Unfeature' : 'Feature' }}
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="deleteImage(image)" class="delete-action">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </ng-template>
+        </mat-menu>
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator [length]="totalElements"
+                     [pageSize]="pageSize"
+                     [pageSizeOptions]="pageSizeOptions"
+                     [pageIndex]="currentPage"
+                     (page)="onPageChange($event)"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Upload Dialog Template -->
+<ng-template #uploadDialog>
+  <div class="upload-dialog">
+    <h2 mat-dialog-title>
+      <mat-icon>cloud_upload</mat-icon>
+      Upload Images
+    </h2>
+    
+    <mat-dialog-content>
+      <div class="upload-content">
+        <!-- File Selection -->
+        <div class="file-selection">
+          <input type="file" 
+                 #fileInput 
+                 multiple 
+                 accept="image/*"
+                 (change)="onFilesSelected($event)"
+                 style="display: none;">
+          
+          <div class="drop-zone" 
+               (click)="fileInput.click()"
+               (dragover)="$event.preventDefault()"
+               (drop)="$event.preventDefault(); onFilesSelected($event)">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <h3>Drop images here or click to select</h3>
+            <p>Supports JPEG, PNG, GIF, WebP formats</p>
+          </div>
+        </div>
+
+        <!-- Selected Files -->
+        <div *ngIf="selectedFiles.length > 0" class="selected-files">
+          <h4>Selected Files ({{ selectedFiles.length }})</h4>
+          <div class="file-list">
+            <div *ngFor="let file of selectedFiles" class="file-item">
+              <mat-icon>image</mat-icon>
+              <span class="file-name">{{ file.name }}</span>
+              <span class="file-size">{{ formatFileSize(file.size) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Metadata -->
+        <div class="upload-metadata">
+          <h4>Image Details</h4>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Category</mat-label>
+            <mat-select [(value)]="uploadMetadata.category">
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{ getCategoryDisplayName(category) }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Title (optional)</mat-label>
+            <input matInput [(ngModel)]="uploadMetadata.title" placeholder="Image title">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description (optional)</mat-label>
+            <textarea matInput 
+                      [(ngModel)]="uploadMetadata.description" 
+                      rows="3" 
+                      placeholder="Image description">
+            </textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Alt Text (optional)</mat-label>
+            <input matInput [(ngModel)]="uploadMetadata.altText" placeholder="Alternative text for accessibility">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tags (optional)</mat-label>
+            <input matInput [(ngModel)]="uploadMetadata.tags" placeholder="Comma-separated tags">
+          </mat-form-field>
+
+          <div class="checkbox-group">
+            <mat-checkbox [(ngModel)]="uploadMetadata.isPublic">Make images public</mat-checkbox>
+            <mat-checkbox [(ngModel)]="uploadMetadata.isFeatured">Mark as featured</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-raised-button 
+              color="primary" 
+              (click)="uploadImages()"
+              [disabled]="selectedFiles.length === 0 || isUploading">
+        <mat-spinner diameter="20" *ngIf="isUploading"></mat-spinner>
+        <mat-icon *ngIf="!isUploading">cloud_upload</mat-icon>
+        {{ isUploading ? 'Uploading...' : 'Upload Images' }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<!-- Image Details Dialog Template -->
+<ng-template #imageDetailsDialog>
+  <div class="image-details-dialog" *ngIf="selectedImage">
+    <h2 mat-dialog-title>
+      <mat-icon>info</mat-icon>
+      Image Details
+    </h2>
+    
+    <mat-dialog-content>
+      <div class="details-content">
+        <div class="image-preview">
+          <img [src]="getImageUrl(selectedImage)" 
+               [alt]="selectedImage.altText || selectedImage.fileName"
+               class="preview-image">
+        </div>
+        
+        <div class="details-info">
+          <mat-list>
+            <mat-list-item>
+              <mat-icon matListIcon>title</mat-icon>
+              <div matLine>Title: {{ selectedImage.title || 'Untitled' }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>description</mat-icon>
+              <div matLine>Description: {{ selectedImage.description || 'No description' }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>folder</mat-icon>
+              <div matLine>File Name: {{ selectedImage.fileName }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>storage</mat-icon>
+              <div matLine>File Size: {{ formatFileSize(selectedImage.fileSize) }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>aspect_ratio</mat-icon>
+              <div matLine>Dimensions: {{ getDimensions(selectedImage) }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>category</mat-icon>
+              <div matLine>Category: {{ getCategoryDisplayName(selectedImage.category) }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>schedule</mat-icon>
+              <div matLine>Upload Date: {{ selectedImage.uploadDate | date:'full' }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListIcon>person</mat-icon>
+              <div matLine>Uploaded By: {{ selectedImage.uploadedBy }}</div>
+            </mat-list-item>
+            <mat-list-item *ngIf="selectedImage.tags">
+              <mat-icon matListIcon>label</mat-icon>
+              <div matLine>Tags: {{ selectedImage.tags }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Close</button>
+      <button mat-raised-button color="primary" (click)="editImage(selectedImage)">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<!-- Image Preview Dialog Template -->
+<ng-template #imagePreviewDialog>
+  <div class="image-preview-dialog" *ngIf="selectedImage">
+    <div class="preview-header">
+      <h2>{{ selectedImage.title || selectedImage.fileName }}</h2>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <div class="preview-content">
+      <img [src]="getImageUrl(selectedImage)" 
+           [alt]="selectedImage.altText || selectedImage.fileName"
+           class="full-preview-image">
+    </div>
+  </div>
+</ng-template>

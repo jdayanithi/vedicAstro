@@ -1,0 +1,180 @@
+.admin-layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 64px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    
+    .menu-toggle {
+      margin-right: 16px;
+    }
+    
+    .app-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 500;
+      
+      mat-icon {
+        font-size: 28px;
+        height: 28px;
+        width: 28px;
+      }
+    }
+    
+    .spacer {
+      flex: 1;
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+  
+  .sidenav-container {
+    flex: 1;
+    margin-top: 64px;
+    
+    .app-sidenav {
+      width: 280px;
+      background: #fafafa;
+      border-right: 1px solid #e0e0e0;
+      
+      .sidenav-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        
+        .navigation-list {
+          flex: 1;
+          padding-top: 16px;
+          
+          .nav-item {
+            margin: 4px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            
+            &:hover {
+              background-color: rgba(63, 81, 181, 0.08);
+            }
+            
+            &.active-link {
+              background-color: rgba(63, 81, 181, 0.12);
+              color: #3f51b5;
+              
+              mat-icon {
+                color: #3f51b5;
+              }
+            }
+            
+            mat-icon {
+              margin-right: 16px;
+              color: #666;
+            }
+            
+            span {
+              font-weight: 500;
+            }
+          }
+        }
+        
+        .sidenav-footer {
+          padding: 16px;
+          border-top: 1px solid #e0e0e0;
+          
+          .version-info {
+            text-align: center;
+            color: #999;
+            
+            small {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+    
+    .main-content {
+      background: #f5f5f5;
+      
+      .content-wrapper {
+        height: 100%;
+        overflow: auto;
+        
+        .page-content {
+          min-height: calc(100vh - 64px);
+          background: white;
+          margin: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .admin-layout {
+    .sidenav-container {
+      .app-sidenav {
+        width: 100%;
+        position: fixed;
+        z-index: 999;
+        height: calc(100vh - 64px);
+      }
+    }
+  }
+}
+
+// Global styles for active navigation
+::ng-deep {
+  .mat-list-item.active-link {
+    .mat-list-item-content {
+      background-color: rgba(63, 81, 181, 0.12) !important;
+      border-radius: 8px;
+    }
+  }
+}
+
+// Animation for sidenav toggle
+.sidenav-container {
+  .app-sidenav {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  .main-content {
+    transition: margin-left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+}
+
+// Custom scrollbar for sidenav
+.sidenav-content {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #a8a8a8;
+    }
+  }
+}

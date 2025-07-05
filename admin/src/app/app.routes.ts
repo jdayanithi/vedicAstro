@@ -1,10 +1,29 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { loginGuard } from './guards/login.guard';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'register', 
+    component: RegisterComponent,
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES),
+    canActivate: [loginGuard]
+  },
+  {
     path: '',
-    loadChildren: () => import('./pages/auth/auth.routes').then(m => m.AUTH_ROUTES)
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   },
   {
     path: 'dashboard',
@@ -20,15 +39,18 @@ export const routes: Routes = [
     path: 'categories',
     loadChildren: () => import('./pages/categories/categories.routes').then(m => m.CATEGORY_ROUTES),
     canActivate: [authGuard]
-  },  {
+  },
+  {
     path: 'courses',
     loadChildren: () => import('./pages/courses/courses.routes').then(m => m.COURSES_ROUTES),
     canActivate: [authGuard]
-  },  {
+  },
+  {
     path: 'topics',
     loadChildren: () => import('./pages/topics/topics.routes').then(m => m.TOPICS_ROUTES),
     canActivate: [authGuard]
-  },  {
+  },
+  {
     path: 'lessons',
     loadChildren: () => import('./pages/lessons/lessons.routes').then(m => m.LESSONS_ROUTES),
     canActivate: [authGuard]
@@ -59,8 +81,13 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'images',
+    loadChildren: () => import('./pages/images/image-library.module').then(m => m.ImageLibraryModule),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/dashboard',
     pathMatch: 'full'
   }
 ];

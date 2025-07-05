@@ -203,7 +203,7 @@ export class AuthService {
     this.isAuthenticated.next(false);
     this.currentUserRole.next(null);
     this.currentUser.next(null);
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 
   getToken(): string | null {

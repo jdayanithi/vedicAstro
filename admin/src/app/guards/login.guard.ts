@@ -3,7 +3,7 @@ import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { map, take } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const loginGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
 
@@ -11,10 +11,11 @@ export const authGuard: CanActivateFn = (route, state) => {
     take(1),
     map(isLoggedIn => {
       if (isLoggedIn) {
-        return true;
+        // User is already logged in, redirect to dashboard
+        return router.createUrlTree(['/dashboard']);
       }
-      // Store the attempted URL for redirecting after login
-      return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+      // User is not logged in, allow access to login page
+      return true;
     })
   );
 };

@@ -69,27 +69,43 @@
     width: 40px;
     height: 40px;
     line-height: 40px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50%;
   }
 }
 
 .course-card mat-icon[mat-card-avatar] {
   background-color: #1976d2;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .payment-card mat-icon[mat-card-avatar] {
   background-color: #388e3c;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .user-card mat-icon[mat-card-avatar] {
   background-color: #f57c00;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content-card mat-icon[mat-card-avatar] {
   background-color: #7b1fa2;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-number {
