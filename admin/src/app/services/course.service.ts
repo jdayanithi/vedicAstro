@@ -58,19 +58,20 @@ export class CourseService {
   }
 
   createCourse(course: Partial<Course>): Observable<Course> {
-    return this.http.post<Course>(this.apiUrl, course).pipe(
+    return this.http.post<Course>(`${this.apiUrl}/create`, course).pipe(
       map(course => this.sanitizeSingleCourse(course))
     );
   }
 
   updateCourse(id: number, course: Partial<Course>): Observable<Course> {
-    return this.http.put<Course>(`${this.apiUrl}/${id}`, course).pipe(
+    const updateRequest = { id, ...course };
+    return this.http.post<Course>(`${this.apiUrl}/update`, updateRequest).pipe(
       map(course => this.sanitizeSingleCourse(course))
     );
   }
 
   deleteCourse(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.post<void>(`${this.apiUrl}/delete`, { id });
   }
 
   // 🔒 Copy protection methods

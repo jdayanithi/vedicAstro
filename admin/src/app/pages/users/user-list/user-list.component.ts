@@ -266,7 +266,19 @@ export class UserListComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading users:', error);
-        this.snackBar.open('Error loading users', 'Close', { duration: 3000 });
+        
+        let message = 'Error loading users';
+        
+        // Handle specific error cases
+        if (error.status === 403) {
+          message = 'Access denied. Only Admin users can view user list.';
+        } else if (error.status === 401) {
+          message = 'Authentication required. Please log in again.';
+        } else if (error.error?.message) {
+          message = error.error.message;
+        }
+        
+        this.snackBar.open(message, 'Close', { duration: 5000 });
         this.loading = false;
       }
     });
@@ -317,7 +329,19 @@ export class UserListComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error deleting user:', error);
-          this.snackBar.open('Error deleting user', 'Close', { duration: 3000 });
+          
+          let message = 'Error deleting user';
+          
+          // Handle specific error cases
+          if (error.status === 403) {
+            message = 'Access denied. Only Admin users can delete users.';
+          } else if (error.status === 401) {
+            message = 'Authentication required. Please log in again.';
+          } else if (error.error?.message) {
+            message = error.error.message;
+          }
+          
+          this.snackBar.open(message, 'Close', { duration: 5000 });
         }
       });
     }

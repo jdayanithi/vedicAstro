@@ -99,15 +99,15 @@ import { UserService, User } from '../../../services/users.service';
                 </mat-form-field>
               </div>
 
-              <div class="form-row">
-                <mat-form-field appearance="outline">
-                  <mat-label>Phone Number</mat-label>
-                  <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
-                  <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
-                    Phone number is required
-                  </mat-error>
-                </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phoneNumber" placeholder="Enter phone number">
+                <mat-error *ngIf="userForm.get('phoneNumber')?.hasError('required')">
+                  Phone number is required
+                </mat-error>
+              </mat-form-field>
 
+              <div class="form-row">
                 <mat-form-field appearance="outline">
                   <mat-label>User Type</mat-label>
                   <mat-select formControlName="userType">
@@ -119,15 +119,19 @@ import { UserService, User } from '../../../services/users.service';
                     User type is required
                   </mat-error>
                 </mat-form-field>
-              </div>
 
-              <mat-form-field appearance="outline">
-                <mat-label>Role</mat-label>
-                <input matInput formControlName="role" placeholder="Enter role">
-                <mat-error *ngIf="userForm.get('role')?.hasError('required')">
-                  Role is required
-                </mat-error>
-              </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <mat-label>Role</mat-label>
+                  <mat-select formControlName="role">
+                    <mat-option *ngFor="let roleOption of roleOptions" [value]="roleOption.value" class="role-option">
+                      {{roleOption.label}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="userForm.get('role')?.hasError('required')">
+                    Role is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
             </div>
 
             <!-- Birth Information -->
@@ -278,6 +282,17 @@ import { UserService, User } from '../../../services/users.service';
       width: 100%;
     }
 
+    /* Style for role dropdown options */
+    ::ng-deep .role-option {
+      white-space: normal;
+      line-height: 1.3;
+      padding: 8px 16px;
+    }
+
+    ::ng-deep .mat-mdc-option-text {
+      white-space: normal;
+    }
+
     .form-actions {
       display: flex;
       gap: 12px;
@@ -321,11 +336,12 @@ export class AddUserComponent implements OnInit {
   ];
 
   roleOptions = [
-    { value: 'USER', label: 'User' },
-    { value: 'Admin', label: 'Admin' },
-    { value: 'INSTRUCTOR', label: 'Instructor' },
-    { value: 'STUDENT', label: 'Student' },
-    { value: 'MODERATOR', label: 'Moderator' }
+    { value: 'USER', label: 'User - Standard user access' },
+    { value: 'Admin', label: 'Admin - Full system access' },
+    { value: 'ADMIN', label: 'Admin (Legacy) - Full system access' },
+    { value: 'INSTRUCTOR', label: 'Instructor - Can manage courses and lessons' },
+    { value: 'STUDENT', label: 'Student - Can view and participate in courses' },
+    { value: 'MODERATOR', label: 'Moderator - Can moderate content and users' }
   ];
 
   constructor(
@@ -447,7 +463,18 @@ export class AddUserComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error saving user:', error);
-        const message = error.error?.message || 'Error saving user';
+        
+        let message = 'Error saving user';
+        
+        // Handle specific error cases
+        if (error.status === 403) {
+          message = 'Access denied. Only Admin users can update user details.';
+        } else if (error.status === 401) {
+          message = 'Authentication required. Please log in again.';
+        } else if (error.error?.message) {
+          message = error.error.message;
+        }
+        
         this.snackBar.open(message, 'Close', { duration: 5000 });
         this.submitting = false;
       }

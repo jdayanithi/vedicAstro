@@ -380,7 +380,19 @@ export class UserDetailsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading user:', error);
-        this.snackBar.open('Error loading user details', 'Close', { duration: 3000 });
+        
+        let message = 'Error loading user details';
+        
+        // Handle specific error cases
+        if (error.status === 403) {
+          message = 'Access denied. Only Admin users can view user details.';
+        } else if (error.status === 401) {
+          message = 'Authentication required. Please log in again.';
+        } else if (error.error?.message) {
+          message = error.error.message;
+        }
+        
+        this.snackBar.open(message, 'Close', { duration: 5000 });
         this.loading = false;
       }
     });

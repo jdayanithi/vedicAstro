@@ -54,7 +54,7 @@ public class AdminUserController {
      * Get any user by ID (Admin only)
      */
     @PostMapping("/get-by-id")
-//    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<?> getUser(@RequestBody IdRequest request) {
         Long id = request.getId();
         try {
@@ -70,7 +70,7 @@ public class AdminUserController {
      * Get all users (Admin only)
      */
     @PostMapping("/get-all")
-//    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<?> getAllUsers(@RequestBody(required = false) EmptyRequest request) {
         try {
             logger.info("🔍 Admin fetching all users");

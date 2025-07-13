@@ -5,6 +5,7 @@ import { FeatureFlagService } from './feature-flag.service';
   providedIn: 'root'
 })
 export class CopyProtectionService {
+  private eventListeners: Array<{element: any, event: string, handler: any}> = [];
   
   constructor(private featureFlagService: FeatureFlagService) {
     this.initializeProtection();
@@ -20,51 +21,59 @@ export class CopyProtectionService {
     // Check feature flags before applying protections
     const flags = this.featureFlagService.getCurrentFlags();
 
+    // Apply CSS-based protections based on flags
+    this.applyCSSProtections(flags);
+
     // Disable right-click context menu
     if (!flags.enableRightClick) {
-      document.addEventListener('contextmenu', (e) => {
+      const contextmenuHandler = (e: Event) => {
         e.preventDefault();
         e.stopPropagation();
         return false;
-      }, true);
+      };
+      this.addTrackedEventListener(document, 'contextmenu', contextmenuHandler, true);
     }
 
     // Disable text selection
     if (!flags.enableTextSelection) {
-      document.addEventListener('selectstart', (e) => {
+      const selectstartHandler = (e: Event) => {
         e.preventDefault();
         return false;
-      }, true);
+      };
+      this.addTrackedEventListener(document, 'selectstart', selectstartHandler, true);
     }
 
     // Disable drag and drop
-    document.addEventListener('dragstart', (e) => {
+    const dragstartHandler = (e: Event) => {
       e.preventDefault();
       return false;
-    }, true);
+    };
+    this.addTrackedEventListener(document, 'dragstart', dragstartHandler, true);
 
     // Disable keyboard shortcuts (if keyboard shortcuts protection is enabled)
     if (!flags.enableKeyboardShortcuts) {
-      document.addEventListener('keydown', (e) => {
+      const keyboardShortcutsHandler = (e: KeyboardEvent) => {
         this.handleKeyboardShortcuts(e);
-      }, true);
+      };
+      this.addTrackedEventListener(document, 'keydown', keyboardShortcutsHandler, true);
     }
 
     // Disable F12 (Developer Tools)
     if (!flags.enableDevTools) {
-      document.addEventListener('keydown', (e) => {
+      const f12Handler = (e: KeyboardEvent) => {
         if (e.key === 'F12') {
           e.preventDefault();
           e.stopPropagation();
           return false;
         }
         return true;
-      }, true);
+      };
+      this.addTrackedEventListener(document, 'keydown', f12Handler, true);
     }
 
     // Disable copy/paste/cut/save shortcuts
     if (!flags.enableCopyPaste) {
-      document.addEventListener('keydown', (e) => {
+      const keydownHandler = (e: KeyboardEvent) => {
         if (e.ctrlKey || e.metaKey) {
           switch (e.key.toLowerCase()) {
             case 'c': // Copy
@@ -89,15 +98,17 @@ export class CopyProtectionService {
           }
         }
         return true;
-      }, true);
+      };
+      this.addTrackedEventListener(document, 'keydown', keydownHandler, true);
     }
 
     // Disable print
-    window.addEventListener('beforeprint', (e) => {
+    const beforeprintHandler = (e: Event) => {
       e.preventDefault();
       alert('Printing is not allowed');
       return false;
-    });
+    };
+    this.addTrackedEventListener(window, 'beforeprint', beforeprintHandler);
 
     // Monitor for developer tools
     if (!flags.enableDevTools) {
@@ -107,6 +118,38 @@ export class CopyProtectionService {
     // Apply screenshot protection if enabled
     if (flags.enableScreenshotProtection) {
       this.enableScreenshotProtection();
+    }
+  }
+
+  // Apply CSS-based protections based on feature flags
+  private applyCSSProtections(flags: any): void {
+    const body = document.body;
+    
+    // Manage copy protection classes
+    if (flags.enableCopyPaste) {
+      body.classList.remove('copy-protection-enabled');
+      body.classList.add('copy-protection-disabled');
+    } else {
+      body.classList.remove('copy-protection-disabled');
+      body.classList.add('copy-protection-enabled');
+    }
+    
+    // Manage text selection classes
+    if (flags.enableTextSelection) {
+      body.classList.remove('text-selection-disabled');
+      body.classList.add('text-selection-enabled');
+    } else {
+      body.classList.remove('text-selection-enabled');
+      body.classList.add('text-selection-disabled');
+    }
+    
+    // Manage right-click classes
+    if (flags.enableRightClick) {
+      body.classList.remove('right-click-disabled');
+      body.classList.add('right-click-enabled');
+    } else {
+      body.classList.remove('right-click-enabled');
+      body.classList.add('right-click-disabled');
     }
   }
 
@@ -229,9 +272,17 @@ export class CopyProtectionService {
 
   // Remove all protections
   private removeProtections(): void {
-    // Remove all event listeners by cloning and replacing the document
-    // Note: This is a simplified approach; in a real implementation,
-    // you might want to store references to the listeners to remove them properly
+    // Remove all tracked event listeners
+    this.eventListeners.forEach(({element, event, handler}) => {
+      element.removeEventListener(event, handler);
+    });
+    this.eventListeners = [];
+    
+    // Remove CSS protection classes
+    const body = document.body;
+    body.classList.remove('copy-protection-enabled', 'copy-protection-disabled');
+    body.classList.remove('text-selection-disabled', 'text-selection-enabled');
+    body.classList.remove('right-click-disabled', 'right-click-enabled');
     
     // Reset user selection
     document.body.style.userSelect = '';
@@ -256,5 +307,11 @@ export class CopyProtectionService {
   // Public method to check if text selection is currently enabled
   public isTextSelectionEnabled(): boolean {
     return this.featureFlagService.isFeatureEnabled('enableTextSelection');
+  }
+
+  // Helper method to add event listeners and track them for removal
+  private addTrackedEventListener(element: any, event: string, handler: any, options?: any): void {
+    element.addEventListener(event, handler, options);
+    this.eventListeners.push({ element, event, handler });
   }
 }
