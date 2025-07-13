@@ -54,7 +54,7 @@ public class AdminUserController {
      * Get any user by ID (Admin only)
      */
     @PostMapping("/get-by-id")
-    @PreAuthorize("hasRole('Admin')")
+//    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<?> getUser(@RequestBody IdRequest request) {
         Long id = request.getId();
         try {

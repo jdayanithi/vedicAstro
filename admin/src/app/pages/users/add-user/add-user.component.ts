@@ -308,7 +308,7 @@ import { UserService, User } from '../../../services/users.service';
   `]
 })
 export class AddUserComponent implements OnInit {
-  userForm: FormGroup;
+  userForm!: FormGroup;
   isEditMode = false;
   userId: number | null = null;
   loading = false;
@@ -320,6 +320,14 @@ export class AddUserComponent implements OnInit {
     'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
   ];
 
+  roleOptions = [
+    { value: 'USER', label: 'User' },
+    { value: 'Admin', label: 'Admin' },
+    { value: 'INSTRUCTOR', label: 'Instructor' },
+    { value: 'STUDENT', label: 'Student' },
+    { value: 'MODERATOR', label: 'Moderator' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -327,23 +335,10 @@ export class AddUserComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {
-    this.userForm = this.createForm();
-  }
-
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.isEditMode = true;
-        this.userId = +params['id'];
-        this.loadUser();
-      }
-    });
-  }
-
-  createForm(): FormGroup {
-    return this.fb.group({
+    // Initialize with basic form first
+    this.userForm = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', this.isEditMode ? [] : [Validators.required, Validators.minLength(6)]],
+      password: [''],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
@@ -360,15 +355,46 @@ export class AddUserComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.isEditMode = true;
+        this.userId = +params['id'];
+        console.log('🔧 Edit mode detected, userId:', this.userId);
+        
+        // Update password validation for edit mode
+        this.userForm.get('password')?.clearValidators();
+        this.userForm.get('password')?.updateValueAndValidity();
+        
+        this.loadUser();
+      } else {
+        console.log('🔧 Add mode detected');
+        // Set password validation for add mode
+        this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+        this.userForm.get('password')?.updateValueAndValidity();
+      }
+    });
+  }
+
   loadUser(): void {
     if (!this.userId) return;
+
+    console.log('🔧 Loading user with ID:', this.userId);
+    
+    // First check authentication info
+    this.userService.checkAuthInfo().subscribe({
+      next: (authInfo) => {
+        console.log('🔧 Current auth info:', authInfo);
+      },
+      error: (error) => {
+        console.error('🔧 Error checking auth info:', error);
+      }
+    });
 
     this.loading = true;
     this.userService.getUserById(this.userId).subscribe({
       next: (user) => {
-        // Remove password validation for edit mode
-        this.userForm.get('password')?.clearValidators();
-        this.userForm.get('password')?.updateValueAndValidity();
+        console.log('🔧 User data loaded:', user);
         
         // Format date for input
         const formattedUser = {
@@ -376,11 +402,15 @@ export class AddUserComponent implements OnInit {
           birthDate: user.birthDate ? new Date(user.birthDate) : null
         };
         
+        console.log('🔧 Formatted user data:', formattedUser);
         this.userForm.patchValue(formattedUser);
+        console.log('🔧 Form after patch:', this.userForm.value);
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading user:', error);
+        console.error('🔧 Error loading user:', error);
+        console.error('🔧 Error details:', error.error);
+        console.error('🔧 Error status:', error.status);
         this.snackBar.open('Error loading user details', 'Close', { duration: 3000 });
         this.loading = false;
       }

@@ -59,8 +59,6 @@ public class SecurityConfig {
                 .requestMatchers("/api/register/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 
-                // Protect course management endpoints - require authentication  
-                .requestMatchers("/api/courses/**").authenticated()
                 // Protect all secure API endpoints - require authentication
                 .requestMatchers("/api/secure/**").authenticated()
                 

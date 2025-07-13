@@ -39,6 +39,8 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<User> {
+    console.log('🔧 UserService: Getting user by ID:', id);
+    console.log('🔧 UserService: API URL:', `${this.apiUrl}/get-by-id`);
     return this.http.post<User>(`${this.apiUrl}/get-by-id`, { id });
   }
 
@@ -64,5 +66,10 @@ export class UserService {
     }
     console.log('Searching users with query:', query);
     return this.http.post<User[]>(`${this.apiUrl}/search`, { query });
+  }
+
+  // Debug method to check authentication
+  checkAuthInfo(): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/secure/debug/auth-info`, {});
   }
 }
