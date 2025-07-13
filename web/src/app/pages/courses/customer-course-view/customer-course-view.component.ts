@@ -342,7 +342,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     /* Enhanced Hero Section */
     .hero-section {
       position: relative;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
       color: white;
       padding: 60px 20px 80px;
       text-align: center;
@@ -542,7 +542,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
 
     /* Course Header (Similar to topic-detail) */
     .course-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
       color: white;
       padding: 30px;
       border-radius: 16px;
@@ -631,7 +631,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     }
 
     .course-stats .stat-item mat-icon {
-      color: #667eea;
+      color: #1976d2;
       font-size: 20px;
     }
 
@@ -785,7 +785,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     }
     
     .breadcrumb-item.current {
-      color: #667eea;
+      color: #7b1fa2;
       font-weight: 600;
     }
     
@@ -808,7 +808,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       left: 0;
       width: 80px;
       height: 4px;
-      background: linear-gradient(90deg, #667eea, #764ba2);
+      background: linear-gradient(90deg, #1565c0, #1976d2);
       border-radius: 2px;
     }
     
@@ -839,7 +839,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #1565c0, #1976d2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -881,7 +881,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     }
     
     .description-header mat-icon {
-      color: #667eea;
+      color: #1976d2;
       font-size: 24px;
     }
     
@@ -1007,7 +1007,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       justify-content: center;
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+      background: linear-gradient(135deg, #7b1fa2, #9c27b0);
       color: white;
       border-radius: 50%;
       font-size: 1.1rem;
@@ -1067,17 +1067,17 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       height: 36px !important;
       font-weight: 500 !important;
       font-size: 0.9rem !important;
-      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+      background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%) !important;
       color: white !important;
       border: none !important;
       transition: all 0.3s ease !important;
-      box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3) !important;
+      box-shadow: 0 2px 8px rgba(123, 31, 162, 0.3) !important;
     }
     
     .view-all-btn:hover {
-      background: linear-gradient(135deg, #f57c00 0%, #e65100 100%) !important;
+      background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4) !important;
+      box-shadow: 0 4px 12px rgba(123, 31, 162, 0.4) !important;
     }
     
     .view-all-btn mat-icon {
@@ -1117,7 +1117,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       border-radius: 6px;
       overflow: hidden;
       box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-      border-left: 3px solid #667eea;
+      border-left: 3px solid #2e7d32;
     }
     
     .lessons-table {
@@ -1147,7 +1147,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     .lesson-num-cell {
       text-align: center;
       font-weight: 600;
-      color: #667eea;
+      color: #2e7d32;
       font-size: 0.9rem;
     }
     
@@ -1173,7 +1173,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       font-size: 16px;
       width: 16px;
       height: 16px;
-      color: #667eea;
+      color: #2e7d32;
     }
     
     .no-duration {
@@ -1200,8 +1200,8 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
     }
     
     .lesson-status-badge.premium {
-      background: #fff3e0;
-      color: #f57c00;
+      background: #e8f5e8;
+      color: #2e7d32;
     }
     
     .lesson-action-cell {
@@ -1215,17 +1215,17 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       font-weight: 500 !important;
       font-size: 0.9rem !important;
       min-width: 100px !important;
-      border: 2px solid #4caf50 !important;
-      color: #4caf50 !important;
+      border: 2px solid #2e7d32 !important;
+      color: #2e7d32 !important;
       background: white !important;
       transition: all 0.3s ease !important;
     }
     
     .view-lesson-btn-table:hover {
-      background: #4caf50 !important;
+      background: #2e7d32 !important;
       color: white !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
+      box-shadow: 0 3px 10px rgba(46, 125, 50, 0.3) !important;
     }
     
     .view-lesson-btn-table mat-icon {
@@ -1248,7 +1248,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       padding: 12px;
       box-shadow: 0 1px 6px rgba(0,0,0,0.08);
       border: 1px solid #e0e0e0;
-      border-left: 3px solid #667eea;
+      border-left: 3px solid #2e7d32;
       transition: all 0.3s ease;
     }
     
@@ -1270,7 +1270,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       justify-content: center;
       width: 28px;
       height: 28px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: linear-gradient(135deg, #2e7d32, #4caf50);
       color: white;
       border-radius: 50%;
       font-size: 0.8rem;
@@ -1312,7 +1312,7 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       font-size: 16px;
       width: 16px;
       height: 16px;
-      color: #667eea;
+      color: #2e7d32;
     }
     
     .lesson-duration-info .no-duration {
@@ -1331,17 +1331,17 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       font-weight: 500 !important;
       font-size: 0.8rem !important;
       min-width: 100px !important;
-      border: 2px solid #4caf50 !important;
-      color: #4caf50 !important;
+      border: 2px solid #2e7d32 !important;
+      color: #2e7d32 !important;
       background: white !important;
       transition: all 0.3s ease !important;
     }
     
     .view-lesson-btn-mobile:hover {
-      background: #4caf50 !important;
+      background: #2e7d32 !important;
       color: white !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
+      box-shadow: 0 3px 10px rgba(46, 125, 50, 0.3) !important;
     }
     
     .view-lesson-btn-mobile mat-icon {
@@ -1474,16 +1474,16 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
       .view-all-btn {
         flex: 1 !important;
         margin-right: 8px !important;
-        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+        background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%) !important;
         color: white !important;
         border: none !important;
-        box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3) !important;
+        box-shadow: 0 2px 8px rgba(123, 31, 162, 0.3) !important;
       }
       
       .view-all-btn:hover {
-        background: linear-gradient(135deg, #f57c00 0%, #e65100 100%) !important;
+        background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%) !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 3px 10px rgba(255, 152, 0, 0.4) !important;
+        box-shadow: 0 3px 10px rgba(123, 31, 162, 0.4) !important;
       }
       
       .topic-meta {
@@ -1541,17 +1541,17 @@ import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType }
         height: 36px !important;
         font-size: 0.85rem !important;
         justify-content: center !important;
-        border: 2px solid #4caf50 !important;
-        color: #4caf50 !important;
+        border: 2px solid #2e7d32 !important;
+        color: #2e7d32 !important;
         background: white !important;
         transition: all 0.3s ease !important;
       }
       
       .view-lesson-btn-mobile:hover {
-        background: #4caf50 !important;
+        background: #2e7d32 !important;
         color: white !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
+        box-shadow: 0 3px 10px rgba(46, 125, 50, 0.3) !important;
       }
     }
 

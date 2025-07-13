@@ -211,7 +211,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
 
     /* Topic Header */
     .topic-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
       color: white;
       padding: 30px;
       border-radius: 16px;
@@ -299,7 +299,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .stat-item mat-icon {
-      color: #667eea;
+      color: #7b1fa2;
     }
 
     /* Lessons Container */
@@ -339,8 +339,8 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       height: 36px !important;
       font-weight: 500 !important;
       font-size: 0.9rem !important;
-      border: 2px solid #667eea !important;
-      color: #667eea !important;
+      border: 2px solid #7b1fa2 !important;
+      color: #7b1fa2 !important;
       background: white !important;
       transition: all 0.3s ease !important;
       display: flex !important;
@@ -349,10 +349,10 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .control-btn:hover {
-      background: #667eea !important;
+      background: #7b1fa2 !important;
       color: white !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3) !important;
+      box-shadow: 0 3px 10px rgba(123, 31, 162, 0.3) !important;
     }
 
     .control-btn mat-icon {
@@ -382,8 +382,9 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .lesson-header:hover {
-      background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);    }
+      background: linear-gradient(135deg, #f3e5f5 0%, #e8f5e8 100%);
+      box-shadow: 0 2px 8px rgba(123, 31, 162, 0.1);
+    }
 
     .lesson-number {
       width: 40px;
@@ -407,7 +408,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .lesson-header:hover .lesson-title {
-      color: #667eea;
+      color: #2e7d32;
     }    .lesson-actions {
       display: flex;
       align-items: center;
@@ -424,14 +425,14 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
 
     .expand-button:hover {
       opacity: 1;
-      background: rgba(102, 126, 234, 0.2) !important;
-      color: #667eea !important;
+      background: rgba(46, 125, 50, 0.2) !important;
+      color: #2e7d32 !important;
       transform: scale(1.1);
     }
 
     .expand-button.expanded {
-      background: rgba(102, 126, 234, 0.2) !important;
-      color: #667eea !important;
+      background: rgba(46, 125, 50, 0.2) !important;
+      color: #2e7d32 !important;
     }
 
     .lesson-meta {
@@ -468,8 +469,8 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .lesson-status.premium {
-      background: #fff3e0;
-      color: #ef6c00;
+      background: #f3e5f5;
+      color: #7b1fa2;
     }
 
     .expand-button {
@@ -522,7 +523,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       content: '';
       width: 4px;
       height: 20px;
-      background: #667eea;
+      background: #2e7d32;
       border-radius: 2px;
     }
 
@@ -534,7 +535,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       background: white;
       padding: 20px;
       border-radius: 8px;
-      border-left: 4px solid #667eea;
+      border-left: 4px solid #2e7d32;
       line-height: 1.6;
       color: #444;
     }
@@ -645,8 +646,8 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .meta-tag.planet {
-      background: #fff3e0;
-      color: #ef6c00;
+      background: #e8f5e8;
+      color: #2e7d32;
     }
 
     .meta-tag.zodiac {
@@ -669,8 +670,8 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
     }
 
     .lesson-tag {
-      background: #e3f2fd !important;
-      color: #1976d2 !important;
+      background: #e8f5e8 !important;
+      color: #2e7d32 !important;
     }
 
     /* Responsive Design */

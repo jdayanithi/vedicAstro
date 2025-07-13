@@ -224,7 +224,7 @@ interface LessonDetail {
       font-size: 4rem;
       width: 4rem;
       height: 4rem;
-      color: #ff5722;
+      color: #d32f2f;
       margin-bottom: 20px;
     }
 
@@ -233,7 +233,7 @@ interface LessonDetail {
       margin: 0 auto;
     }    /* Lesson Header */
     .lesson-header {
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
       color: white;
       padding: 30px;
       border-radius: 16px;
@@ -259,10 +259,10 @@ interface LessonDetail {
 
     @keyframes headerPulse {
       0%, 100% {
-        box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+        box-shadow: 0 8px 32px rgba(46, 125, 50, 0.3);
       }
       50% {
-        box-shadow: 0 12px 40px rgba(255, 107, 107, 0.5);
+        box-shadow: 0 12px 40px rgba(46, 125, 50, 0.5);
       }
     }.lesson-header::before {
       content: '';
@@ -355,11 +355,11 @@ interface LessonDetail {
     }
 
     .lesson-status.free {
-      background: rgba(76, 175, 80, 0.2);
+      background: rgba(46, 125, 50, 0.2);
     }
 
     .lesson-status.premium {
-      background: rgba(255, 193, 7, 0.2);
+      background: rgba(46, 125, 50, 0.1);
     }
 
     /* Lesson Tabs */
@@ -447,23 +447,26 @@ interface LessonDetail {
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       border: 1px solid #e0e7ff;
+      font-size: 0.9rem;
     }
 
     ::ng-deep .description-content table th, 
     ::ng-deep .content-body table th {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
       color: white;
-      padding: 12px 16px;
+      padding: 10px 12px;
       text-align: left;
       font-weight: 600;
       border-bottom: 2px solid #e0e7ff;
+      font-size: 0.95rem;
     }
 
     ::ng-deep .description-content table td, 
     ::ng-deep .content-body table td {
-      padding: 12px 16px;
+      padding: 8px 12px;
       border-bottom: 1px solid #e0e7ff;
       vertical-align: top;
+      line-height: 1.4;
     }
 
     ::ng-deep .description-content table tr:last-child td, 
@@ -490,7 +493,7 @@ interface LessonDetail {
     @media (max-width: 768px) {
       ::ng-deep .description-content table, 
       ::ng-deep .content-body table {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         display: block;
         width: 100%;
         overflow-x: auto;
@@ -501,8 +504,9 @@ interface LessonDetail {
       ::ng-deep .content-body table th,
       ::ng-deep .description-content table td, 
       ::ng-deep .content-body table td {
-        padding: 8px 12px;
-        min-width: 120px;
+        padding: 6px 8px;
+        min-width: 100px;
+        font-size: 0.8rem;
       }
       
       /* Create a scrollable container for tables on small screens */
@@ -696,11 +700,11 @@ interface LessonDetail {
     }
 
     .media-card.video {
-      border-color: #ff4444;
+      border-color: #2e7d32;
     }
 
     .media-card.video mat-icon {
-      color: #ff4444;
+      color: #2e7d32;
     }
 
     .media-card.audio {
@@ -758,8 +762,8 @@ interface LessonDetail {
     }
 
     .keynote-card.important {
-      border-left-color: #ff6b6b;
-      background: linear-gradient(135deg, #fff8f8 0%, #ffffff 100%);
+      border-left-color: #2e7d32;
+      background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%);
     }
 
     .keynote-header {
@@ -810,13 +814,13 @@ interface LessonDetail {
     }
 
     .important-badge {
-      background: #ffebee;
-      color: #c62828;
+      background: #e8f5e8;
+      color: #2e7d32;
     }
 
     .meta-badge.planet {
-      background: #fff3e0;
-      color: #ef6c00;
+      background: #e8f5e8;
+      color: #2e7d32;
     }
 
     .meta-badge.zodiac {
@@ -846,22 +850,24 @@ interface LessonDetail {
       overflow: hidden;
       box-shadow: 0 1px 6px rgba(0,0,0,0.1);
       border: 1px solid #e9ecef;
+      font-size: 0.85rem;
     }
 
     ::ng-deep .keynote-content table th {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
       color: white;
-      padding: 10px 12px;
+      padding: 8px 10px;
       text-align: left;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     ::ng-deep .keynote-content table td {
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-bottom: 1px solid #e9ecef;
       vertical-align: top;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
     }
 
     ::ng-deep .keynote-content table tr:last-child td {
@@ -910,10 +916,10 @@ interface LessonDetail {
       border-radius: 2px;
     }    /* Tags Section */
     .tags-section {
-      background: linear-gradient(135deg, #fff8f0 0%, #fff 100%);
+      background: linear-gradient(135deg, #f3e5f5 0%, #fff 100%);
       padding: 30px;
       border-radius: 12px;
-      border: 1px solid #f0e7d8;
+      border: 1px solid #e8f5e8;
     }
 
     .tags-grid {
