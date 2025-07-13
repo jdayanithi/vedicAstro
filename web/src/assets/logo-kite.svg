@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <!-- Gradient for main kite body -->
+    <linearGradient id="logoKiteMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7b1fa2;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#9c27b0;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#ba68c8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6a1b9a;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient for kite highlight -->
+    <linearGradient id="logoKiteHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e1bee7;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#f3e5f5;stop-opacity:0.7" />
+    </linearGradient>
+    
+    <!-- Gradient for kite tail -->
+    <linearGradient id="logoKiteTail" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff5722;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#ff9800;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#ffc107;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffeb3b;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="logoShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="3" stdDeviation="5" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    
+    <!-- Glow effect -->
+    <filter id="logoGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Star glow effect -->
+    <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="starBlur"/>
+      <feMerge> 
+        <feMergeNode in="starBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with gradient -->
+  <circle cx="60" cy="60" r="55" fill="url(#logoKiteMain)" opacity="0.1"/>
+  <circle cx="60" cy="60" r="55" fill="none" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Four decorative stars around the circle -->
+  <g class="decorative-stars">
+    <!-- Top star -->
+    <path d="M60 15 L61.5 19 L66 19 L62.5 22 L64 26 L60 24 L56 26 L57.5 22 L54 19 L58.5 19 Z" 
+          fill="#ffc107" opacity="0.9" filter="url(#starGlow)">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Right star -->
+    <path d="M105 60 L106.5 64 L111 64 L107.5 67 L109 71 L105 69 L101 71 L102.5 67 L99 64 L103.5 64 Z" 
+          fill="#ffc107" opacity="0.9" filter="url(#starGlow)">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Bottom star -->
+    <path d="M60 105 L61.5 109 L66 109 L62.5 112 L64 116 L60 114 L56 116 L57.5 112 L54 109 L58.5 109 Z" 
+          fill="#ffc107" opacity="0.9" filter="url(#starGlow)">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Left star -->
+    <path d="M15 60 L16.5 64 L21 64 L17.5 67 L19 71 L15 69 L11 71 L12.5 67 L9 64 L13.5 64 Z" 
+          fill="#ffc107" opacity="0.9" filter="url(#starGlow)">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Kite main body (diamond shape) -->
+  <path d="M60 15 L90 45 L60 60 L30 45 Z" fill="url(#logoKiteMain)" stroke="#4a148c" stroke-width="3" filter="url(#logoShadow)"/>
+  
+  <!-- Kite bottom part -->
+  <path d="M30 45 L60 60 L90 45 L60 75 Z" fill="url(#logoKiteMain)" stroke="#4a148c" stroke-width="3" opacity="0.9"/>
+  
+  <!-- Kite cross structure -->
+  <line x1="60" y1="15" x2="60" y2="75" stroke="#4a148c" stroke-width="4"/>
+  <line x1="30" y1="45" x2="90" y2="45" stroke="#4a148c" stroke-width="4"/>
+  
+  <!-- Kite highlight sections -->
+  <path d="M60 15 L75 30 L60 45 L45 30 Z" fill="url(#logoKiteHighlight)" filter="url(#logoGlow)"/>
+  <path d="M45 45 L60 60 L75 45 L60 60 Z" fill="url(#logoKiteHighlight)" opacity="0.8"/>
+  
+  <!-- Kite tail ribbons -->
+  <path d="M60 75 L55 82 L60 89 L65 82 Z" fill="url(#logoKiteTail)" filter="url(#logoShadow)"/>
+  <path d="M60 89 L52 96 L60 103 L68 96 Z" fill="url(#logoKiteTail)" opacity="0.9"/>
+  <path d="M60 103 L55 108 L60 113 L65 108 Z" fill="url(#logoKiteTail)" opacity="0.8"/>
+  
+  <!-- Kite string -->
+  <path d="M60 75 Q65 78 60 82 Q55 85 60 89 Q65 92 60 96 Q55 99 60 103 Q65 106 60 109 Q55 112 60 115" 
+        stroke="#666666" stroke-width="2.5" fill="none"/>
+  
+  <!-- Decorative elements on kite -->
+  <circle cx="52" cy="37" r="2.5" fill="#4a148c" opacity="0.8"/>
+  <circle cx="68" cy="37" r="2.5" fill="#4a148c" opacity="0.8"/>
+  <circle cx="60" cy="52" r="2.5" fill="#4a148c" opacity="0.8"/>
+  
+  <!-- Stars around kite for mystical effect -->
+  <path d="M20 20 L22 25 L27 25 L23 29 L25 34 L20 31 L15 34 L17 29 L13 25 L18 25 Z" fill="#ffc107" opacity="0.6"/>
+  <path d="M100 25 L102 30 L107 30 L103 34 L105 39 L100 36 L95 39 L97 34 L93 30 L98 30 Z" fill="#ffc107" opacity="0.6"/>
+  <path d="M25 95 L27 100 L32 100 L28 104 L30 109 L25 106 L20 109 L22 104 L18 100 L23 100 Z" fill="#ffc107" opacity="0.6"/>
+  
+  <!-- Wind effect lines -->
+  <path d="M95 30 L105 30" stroke="#cccccc" stroke-width="2" opacity="0.5"/>
+  <path d="M98 37 L108 37" stroke="#cccccc" stroke-width="2" opacity="0.5"/>
+  <path d="M95 44 L105 44" stroke="#cccccc" stroke-width="2" opacity="0.5"/>
+</svg>

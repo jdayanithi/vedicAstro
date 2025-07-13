@@ -2,7 +2,14 @@
 <mat-toolbar color="primary">
   <button mat-icon-button (click)="toggleSidenav()" *ngIf="isLoggedIn$ | async">
     <mat-icon>menu</mat-icon>
-  </button>  <span>{{title}}</span>
+  </button>
+  
+  <!-- App logo and title -->
+  <div class="app-header-brand" (click)="navigateToHome()">
+    <img src="assets/logo-kite.svg" alt="LDML Astro" class="app-logo">
+    <span class="app-title">{{title}}</span>
+  </div>
+  
   <span class="example-spacer"></span>
   
   <!-- Enhanced network status indicator -->

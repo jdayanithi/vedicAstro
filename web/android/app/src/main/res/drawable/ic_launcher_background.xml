@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
-    android:viewportHeight="108"
-    android:viewportWidth="108">
-    <path
-        android:fillColor="#26A69A"
-        android:pathData="M0,0h108v108h-108z" />
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Gradient background -->
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient 
+                android:startX="0"
+                android:startY="0"
+                android:endX="108"
+                android:endY="108"
+                android:type="linear">
+                <item android:offset="0" android:color="#E8EAF6"/>
+                <item android:offset="0.3" android:color="#C5CAE9"/>
+                <item android:offset="0.7" android:color="#9FA8DA"/>
+                <item android:offset="1" android:color="#7986CB"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    
+    <!-- Subtle mystical pattern -->
+    <!-- Constellation dots -->
+    <circle android:cx="20" android:cy="25" android:radius="1.5" android:fillColor="#FFFFFF" android:fillAlpha="0.3"/>
+    <circle android:cx="88" android:cy="30" android:radius="1.5" android:fillColor="#FFFFFF" android:fillAlpha="0.3"/>
+    <circle android:cx="25" android:cy="83" android:radius="1.5" android:fillColor="#FFFFFF" android:fillAlpha="0.3"/>
+    <circle android:cx="85" android:cy="78" android:radius="1.5" android:fillColor="#FFFFFF" android:fillAlpha="0.3"/>
+    
+    <!-- Connecting lines for constellation effect -->
+    <path android:pathData="M20,25 L25,83" android:strokeColor="#FFFFFF" android:strokeWidth="0.5" android:strokeAlpha="0.2"/>
+    <path android:pathData="M88,30 L85,78" android:strokeColor="#FFFFFF" android:strokeWidth="0.5" android:strokeAlpha="0.2"/>
+    
+    <!-- Central mystical circle -->
+    <circle android:cx="54" android:cy="54" android:radius="35" android:fillColor="#FFFFFF" android:fillAlpha="0.05"/>
+    <circle android:cx="54" android:cy="54" android:radius="25" android:fillColor="#FFFFFF" android:fillAlpha="0.03"/>
+</vector>
     <path
         android:fillColor="#00000000"
         android:pathData="M9,0L9,108"

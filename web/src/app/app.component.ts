@@ -166,7 +166,14 @@ export class AppComponent implements OnInit {
 
   toggleSidenav(): void {
     this.isSidenavOpen = !this.isSidenavOpen;
-  }  logout(): void {
+  }
+
+  navigateToHome(): void {
+    this.router.navigate(['/landing']);
+    this.isSidenavOpen = false; // Close sidenav if open
+  }
+
+  logout(): void {
     this.authService.logout();
     this.isSidenavOpen = false;
   }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Large kite logo for splash screen -->
+    <!-- Background circle -->
+    <circle android:cx="100" android:cy="100" android:radius="90" android:fillColor="#FFFFFF" android:fillAlpha="0.9"/>
+    
+    <!-- Four decorative stars -->
+    <path android:pathData="M100,20 L102,28 L110,28 L104,34 L106,42 L100,38 L94,42 L96,34 L90,28 L98,28 Z" 
+          android:fillColor="#FFC107" android:fillAlpha="0.9"/>
+    <path android:pathData="M180,100 L182,108 L190,108 L184,114 L186,122 L180,118 L174,122 L176,114 L170,108 L178,108 Z" 
+          android:fillColor="#FFC107" android:fillAlpha="0.9"/>
+    <path android:pathData="M100,180 L102,188 L110,188 L104,194 L106,202 L100,198 L94,202 L96,194 L90,188 L98,188 Z" 
+          android:fillColor="#FFC107" android:fillAlpha="0.9"/>
+    <path android:pathData="M20,100 L22,108 L30,108 L24,114 L26,122 L20,118 L14,122 L16,114 L10,108 L18,108 Z" 
+          android:fillColor="#FFC107" android:fillAlpha="0.9"/>
+    
+    <!-- Main kite body -->
+    <path android:pathData="M100,40 L150,90 L100,100 L50,90 Z" android:fillColor="#9C27B0" android:strokeColor="#4A148C" android:strokeWidth="4"/>
+    <path android:pathData="M50,90 L100,100 L150,90 L100,140 Z" android:fillColor="#7B1FA2" android:strokeColor="#4A148C" android:strokeWidth="4"/>
+    
+    <!-- Kite cross -->
+    <path android:pathData="M100,40 L100,140" android:strokeColor="#4A148C" android:strokeWidth="5"/>
+    <path android:pathData="M50,90 L150,90" android:strokeColor="#4A148C" android:strokeWidth="5"/>
+    
+    <!-- Kite highlights -->
+    <path android:pathData="M100,40 L125,65 L100,90 L75,65 Z" android:fillColor="#E1BEE7" android:fillAlpha="0.7"/>
+    
+    <!-- Kite tail -->
+    <path android:pathData="M100,140 L94,150 L100,160 L106,150 Z" android:fillColor="#FF9800"/>
+    <path android:pathData="M100,160 L90,170 L100,180 L110,170 Z" android:fillColor="#FFC107"/>
+    
+    <!-- Decorative dots -->
+    <circle android:cx="90" android:cy="80" android:radius="3" android:fillColor="#4A148C" android:fillAlpha="0.8"/>
+    <circle android:cx="110" android:cy="80" android:radius="3" android:fillColor="#4A148C" android:fillAlpha="0.8"/>
+    <circle android:cx="100" android:cy="95" android:radius="3" android:fillColor="#4A148C" android:fillAlpha="0.8"/>
+</vector>

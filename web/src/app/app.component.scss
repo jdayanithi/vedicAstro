@@ -23,6 +23,109 @@ mat-toolbar {
   }
 }
 
+// App header brand styling
+.app-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  .app-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.1);
+    
+    &:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.2);
+    }
+    
+    @media (max-width: 768px) {
+      width: 36px;
+      height: 36px;
+    }
+    
+    @media (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  .app-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+    
+    @media (max-width: 600px) {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 480px) {
+      display: none; // Hide title on very small screens to save space
+    }
+  }
+  
+  // Add a subtle pulse animation
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: logoPulse 3s ease-in-out infinite;
+    pointer-events: none;
+    
+    @media (max-width: 768px) {
+      left: 18px;
+      width: 36px;
+      height: 36px;
+    }
+    
+    @media (max-width: 480px) {
+      left: 16px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
 mat-sidenav-container {
   height: calc(100vh - 64px);
   margin-top: 64px;
