@@ -1,0 +1,149 @@
+<div class="feature-settings-container">
+  <mat-toolbar color="primary">
+    <mat-icon>settings</mat-icon>
+    <span class="toolbar-title">Feature Settings</span>
+  </mat-toolbar>
+
+  <div class="settings-content">
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>Security & Protection Features</mat-card-title>
+        <mat-card-subtitle>
+          Configure security protections for the admin interface
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Copy & Paste Protection</h4>
+            <p>When disabled, prevents users from copying, cutting, or pasting content</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableCopyPaste)">
+              Status: {{ getStatusText(currentFlags.enableCopyPaste) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableCopyPaste"
+            (change)="onToggleFeature('enableCopyPaste', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableCopyPaste)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Right Click Menu</h4>
+            <p>When disabled, prevents access to the browser's context menu</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableRightClick)">
+              Status: {{ getStatusText(currentFlags.enableRightClick) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableRightClick"
+            (change)="onToggleFeature('enableRightClick', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableRightClick)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Text Selection</h4>
+            <p>When disabled, prevents users from selecting text with the mouse</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableTextSelection)">
+              Status: {{ getStatusText(currentFlags.enableTextSelection) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableTextSelection"
+            (change)="onToggleFeature('enableTextSelection', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableTextSelection)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Developer Tools</h4>
+            <p>When disabled, attempts to block access to browser developer tools</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableDevTools)">
+              Status: {{ getStatusText(currentFlags.enableDevTools) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableDevTools"
+            (change)="onToggleFeature('enableDevTools', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableDevTools)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Keyboard Shortcuts</h4>
+            <p>When disabled, blocks common keyboard shortcuts like Ctrl+S, Ctrl+P, etc.</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableKeyboardShortcuts)">
+              Status: {{ getStatusText(currentFlags.enableKeyboardShortcuts) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableKeyboardShortcuts"
+            (change)="onToggleFeature('enableKeyboardShortcuts', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableKeyboardShortcuts)">
+          </mat-slide-toggle>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <div class="feature-row">
+          <div class="feature-info">
+            <h4>Screenshot Protection</h4>
+            <p>When enabled, adds watermarks to make screenshots less useful</p>
+            <span class="status" [ngClass]="'status-' + getStatusColor(currentFlags.enableScreenshotProtection)">
+              Status: {{ getStatusText(currentFlags.enableScreenshotProtection) }}
+            </span>
+          </div>
+          <mat-slide-toggle
+            [checked]="currentFlags.enableScreenshotProtection"
+            (change)="onToggleFeature('enableScreenshotProtection', $event.checked)"
+            [color]="getStatusColor(currentFlags.enableScreenshotProtection)">
+          </mat-slide-toggle>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-raised-button color="warn" (click)="resetToDefaults()">
+          <mat-icon>restore</mat-icon>
+          Reset to Defaults
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>info</mat-icon>
+          Important Information
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul>
+          <li><strong>Changes take effect immediately</strong> - No restart required</li>
+          <li><strong>Input fields are always protected</strong> - Copy/paste works in form fields regardless of settings</li>
+          <li><strong>Settings are saved locally</strong> - They persist between browser sessions</li>
+          <li><strong>Security recommendations:</strong>
+            <ul>
+              <li>Keep copy/paste protection enabled for sensitive content</li>
+              <li>Disable developer tools in production environments</li>
+              <li>Enable screenshot protection for confidential data</li>
+            </ul>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

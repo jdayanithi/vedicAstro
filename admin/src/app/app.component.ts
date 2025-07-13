@@ -426,6 +426,11 @@ export class AppComponent {
       label: 'Customers',
       icon: 'person',
       route: '/customers'
+    },
+    {
+      label: 'Feature Settings',
+      icon: 'tune',
+      route: '/settings/features'
     }
   ];
 

@@ -86,6 +86,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'settings/features',
+    loadComponent: () => import('./pages/settings/feature-settings.component').then(c => c.FeatureSettingsComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: '/dashboard',
     pathMatch: 'full'
