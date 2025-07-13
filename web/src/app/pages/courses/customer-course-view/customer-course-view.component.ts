@@ -9,12 +9,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { CategoryService, Category } from '../../../service/category.service';
 import { CourseService, Course } from '../../../service/course.service';
 import { AuthService } from '../../../service/auth.service';
 import { TopicService, LessonService, Topic as TopicType, Lesson as LessonType } from '../../../service/lesson.service';
-import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail-modal.component';
 
 @Component({
   selector: 'app-customer-course-view',
@@ -27,8 +25,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     MatChipsModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatButtonModule,
-    MatDialogModule
+    MatButtonModule
   ],
   template: `
     <div class="modern-customer-view">      <!-- Enhanced Hero Section with Gradient and Animated Elements (only show when not viewing specific course) -->
@@ -274,9 +271,9 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                 </div>
               </div>
               <div class="topic-actions">
-                <button mat-raised-button color="primary" (click)="viewTopicDetails(i, $event)" class="view-topic-btn">
+                <button mat-raised-button color="accent" (click)="viewAllTopicDetails(i, $event)" class="view-all-btn">
                   <mat-icon>visibility</mat-icon>
-                  View Details
+                  View All
                 </button>
                 <button mat-icon-button (click)="toggleTopic(i)" class="expand-button" [class.expanded]="inlineExpandedTopics.has(i)" title="Toggle content preview">
                   <mat-icon>{{ inlineExpandedTopics.has(i) ? 'expand_less' : 'expand_more' }}</mat-icon>
@@ -289,13 +286,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
               <!-- Desktop Table View -->
               <div class="lessons-table-container desktop-only">
                 <table class="lessons-table">
-                  <thead>
-                    <tr>
-                      <th class="lesson-num-col">#</th>
-                      <th class="lesson-title-col">Title</th>
-                      <th class="lesson-action-col">Action</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     <tr *ngFor="let lesson of topic.lessons; let j = index" class="lesson-row">
                       <td class="lesson-num-cell">{{ j + 1 }}</td>
@@ -303,7 +293,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                         <div class="lesson-title">{{ lesson.title }}</div>
                       </td>
                       <td class="lesson-action-cell">
-                        <button mat-raised-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-table">
+                        <button mat-stroked-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-table">
                           <mat-icon>play_arrow</mat-icon>
                           View
                         </button>
@@ -322,7 +312,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                   </div>
                   <div class="lesson-card-content">
                     <div class="lesson-card-action">
-                      <button mat-raised-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-mobile">
+                      <button mat-stroked-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-mobile">
                         <mat-icon>play_arrow</mat-icon>
                         View
                       </button>
@@ -1071,22 +1061,48 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       align-items: center;
     }
     
-    .view-topic-btn {
+    .view-all-btn {
       border-radius: 6px !important;
       padding: 0 14px !important;
       height: 36px !important;
       font-weight: 500 !important;
       font-size: 0.9rem !important;
+      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+      color: white !important;
+      border: none !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3) !important;
+    }
+    
+    .view-all-btn:hover {
+      background: linear-gradient(135deg, #f57c00 0%, #e65100 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4) !important;
+    }
+    
+    .view-all-btn mat-icon {
+      margin-right: 4px !important;
     }
     
     .expand-button {
       transition: transform 0.3s ease;
       width: 36px !important;
       height: 36px !important;
+      color: #666 !important;
+      background: rgba(158, 158, 158, 0.1) !important;
+      border-radius: 50% !important;
+    }
+    
+    .expand-button:hover {
+      background: rgba(158, 158, 158, 0.2) !important;
+      color: #424242 !important;
+      transform: scale(1.1);
     }
     
     .expand-button.expanded {
       transform: rotate(180deg);
+      background: rgba(158, 158, 158, 0.2) !important;
+      color: #424242 !important;
     }
     
     /* Content List - Compact Version */
@@ -1110,21 +1126,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       margin: 0;
     }
     
-    .lessons-table thead {
-      background: #f8f9fa;
-      border-bottom: 2px solid #e9ecef;
-    }
-    
-    .lessons-table thead th {
-      padding: 12px 10px;
-      text-align: left;
-      font-weight: 600;
-      color: #495057;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
     .lessons-table tbody tr {
       border-bottom: 1px solid #e9ecef;
       transition: background-color 0.2s ease;
@@ -1141,21 +1142,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     .lessons-table tbody td {
       padding: 12px 10px;
       vertical-align: middle;
-    }
-    
-    .lesson-num-col {
-      width: 80px;
-      text-align: center;
-    }
-    
-    .lesson-title-col {
-      width: auto;
-      min-width: 300px;
-    }
-    
-    .lesson-action-col {
-      width: 150px;
-      text-align: center;
     }
     
     .lesson-num-cell {
@@ -1229,6 +1215,17 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       font-weight: 500 !important;
       font-size: 0.9rem !important;
       min-width: 100px !important;
+      border: 2px solid #4caf50 !important;
+      color: #4caf50 !important;
+      background: white !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .view-lesson-btn-table:hover {
+      background: #4caf50 !important;
+      color: white !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
     }
     
     .view-lesson-btn-table mat-icon {
@@ -1334,6 +1331,17 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       font-weight: 500 !important;
       font-size: 0.8rem !important;
       min-width: 100px !important;
+      border: 2px solid #4caf50 !important;
+      color: #4caf50 !important;
+      background: white !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .view-lesson-btn-mobile:hover {
+      background: #4caf50 !important;
+      color: white !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
     }
     
     .view-lesson-btn-mobile mat-icon {
@@ -1463,13 +1471,24 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         justify-content: space-between;
       }
       
+      .view-all-btn {
+        flex: 1 !important;
+        margin-right: 8px !important;
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3) !important;
+      }
+      
+      .view-all-btn:hover {
+        background: linear-gradient(135deg, #f57c00 0%, #e65100 100%) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 3px 10px rgba(255, 152, 0, 0.4) !important;
+      }
+      
       .topic-meta {
         flex-direction: column;
         gap: 6px;
-      }
-      
-      .view-topic-btn {
-        width: 100% !important;
       }
       
       /* Responsive visibility switches */
@@ -1522,6 +1541,17 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         height: 36px !important;
         font-size: 0.85rem !important;
         justify-content: center !important;
+        border: 2px solid #4caf50 !important;
+        color: #4caf50 !important;
+        background: white !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .view-lesson-btn-mobile:hover {
+        background: #4caf50 !important;
+        color: white !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3) !important;
       }
     }
 
@@ -1560,8 +1590,7 @@ export class CustomerCourseViewComponent implements OnInit {
     private courseService: CourseService,
     private authService: AuthService,
     private topicService: TopicService,
-    private lessonService: LessonService,
-    private dialog: MatDialog
+    private lessonService: LessonService
   ) {}ngOnInit() {
     // Get courseId from route parameter
     const courseId = this.route.snapshot.paramMap.get('id');
@@ -1714,7 +1743,8 @@ export class CustomerCourseViewComponent implements OnInit {
       this.inlineExpandedTopics.add(topicIndex);
     }
   }
-  viewTopicDetails(topicIndex: number, event: Event) {
+
+  viewAllTopicDetails(topicIndex: number, event: Event) {
     // Prevent event bubbling to avoid triggering toggleTopic
     event.stopPropagation();
     
@@ -1724,27 +1754,13 @@ export class CustomerCourseViewComponent implements OnInit {
       this.router.navigate(['/topic', topic.topicId]);
     }
   }  viewLessonDetails(lessonId: number, topicId: number) {
-    // Open lesson details in a full-screen modal/overlay
-    const dialogRef = this.dialog.open(LessonDetailModalComponent, {
-      width: '100vw',
-      height: '100vh',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      data: { 
-        lessonId: lessonId, 
-        topicId: topicId, 
-        courseId: this.selectedCourseId 
-      },
-      panelClass: 'lesson-detail-modal-fullscreen',
-      autoFocus: false,
-      restoreFocus: false,
-      hasBackdrop: true,
-      disableClose: false
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // Handle any actions after modal closes if needed
-      console.log('Lesson detail modal closed');
+    // Navigate directly to the lesson detail page
+    this.router.navigate(['/lesson', lessonId], {
+      queryParams: {
+        topicId: topicId,
+        courseId: this.selectedCourseId,
+        source: 'course'
+      }
     });
   }
 

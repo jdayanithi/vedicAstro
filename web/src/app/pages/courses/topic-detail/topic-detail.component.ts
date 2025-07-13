@@ -63,7 +63,19 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
 
         <!-- Lessons List -->
         <div class="lessons-container">
-          <h2 class="lessons-title">Lessons</h2>          <div *ngFor="let lesson of topicDetail.lessons; let i = index" class="lesson-card">
+          <div class="lessons-header">
+            <h2 class="lessons-title">Lessons</h2>
+            <div class="lessons-controls">
+              <button mat-stroked-button color="primary" (click)="expandAll()" class="control-btn">
+                <mat-icon>expand_more</mat-icon>
+                Expand All
+              </button>
+              <button mat-stroked-button color="primary" (click)="collapseAll()" class="control-btn">
+                <mat-icon>expand_less</mat-icon>
+                Collapse All
+              </button>
+            </div>
+          </div>          <div *ngFor="let lesson of topicDetail.lessons; let i = index" class="lesson-card">
             <div class="lesson-header">
               <div class="lesson-number">{{ lesson.orderNumber }}</div>
               <div class="lesson-info">
@@ -79,10 +91,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
                 </div>
               </div>
               <div class="lesson-actions">
-                <button mat-raised-button color="primary" (click)="navigateToLesson(lesson.lessonId, $event)" class="view-lesson-btn">
-                  <mat-icon>visibility</mat-icon>
-                  View
-                </button>                <button mat-icon-button (click)="toggleLesson(i, $event)" class="expand-button" [class.expanded]="expandedLessons.has(i)" title="Toggle lesson preview">
+                <button mat-icon-button (click)="toggleLesson(i, $event)" class="expand-button" [class.expanded]="expandedLessons.has(i)" title="Toggle lesson preview">
                   <mat-icon>{{ expandedLessons.has(i) ? 'expand_less' : 'expand_more' }}</mat-icon>
                 </button>
               </div>
@@ -301,13 +310,55 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
 
+    .lessons-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 30px 30px 20px 30px;
+      border-bottom: 2px solid #f0f4ff;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
     .lessons-title {
       font-size: 1.5rem;
       font-weight: 600;
       margin: 0;
-      padding: 30px 30px 20px 30px;
       color: #333;
-      border-bottom: 2px solid #f0f4ff;
+    }
+
+    .lessons-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .control-btn {
+      border-radius: 8px !important;
+      padding: 0 16px !important;
+      height: 36px !important;
+      font-weight: 500 !important;
+      font-size: 0.9rem !important;
+      border: 2px solid #667eea !important;
+      color: #667eea !important;
+      background: white !important;
+      transition: all 0.3s ease !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    .control-btn:hover {
+      background: #667eea !important;
+      color: white !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3) !important;
+    }
+
+    .control-btn mat-icon {
+      font-size: 18px !important;
+      width: 18px !important;
+      height: 18px !important;
     }
 
     /* Lesson Card */
@@ -363,26 +414,7 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       gap: 12px;
     }
 
-    .view-lesson-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      color: white !important;
-      font-weight: 600 !important;
-      padding: 8px 16px !important;
-      border-radius: 20px !important;
-      font-size: 0.9rem !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
-    }
-
-    .view-lesson-btn:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
-    }
-
-    .view-lesson-btn mat-icon {
-      margin-right: 4px !important;
-      font-size: 1.1rem !important;
-    }    .expand-button {
+    .expand-button {
       color: #666 !important;
       opacity: 0.7;
       transition: all 0.2s ease;
@@ -667,6 +699,24 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
         gap: 16px;
       }
 
+      .lessons-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .lessons-controls {
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .control-btn {
+        flex: 1 !important;
+        min-width: 0 !important;
+        font-size: 0.85rem !important;
+      }
+
       .lesson-content {
         padding: 0 20px 20px 20px;
       }
@@ -705,6 +755,11 @@ export class TopicDetailComponent implements OnInit {
     this.topicService.getTopicDetails(topicId).subscribe({
       next: (topicDetail: TopicDetail) => {
         this.topicDetail = topicDetail;
+        // Expand all lessons by default
+        this.expandedLessons.clear();
+        for (let i = 0; i < topicDetail.lessons.length; i++) {
+          this.expandedLessons.add(i);
+        }
         this.loading = false;
       },
       error: (error: any) => {
@@ -714,7 +769,7 @@ export class TopicDetailComponent implements OnInit {
     });
   }  toggleLesson(lessonIndex: number, event?: Event): void {
     if (event) {
-      event.stopPropagation(); // Prevent triggering navigateToLesson
+      event.stopPropagation(); // Prevent event bubbling
     }
     
     if (this.expandedLessons.has(lessonIndex)) {
@@ -722,20 +777,21 @@ export class TopicDetailComponent implements OnInit {
     } else {
       this.expandedLessons.add(lessonIndex);
     }
-  }  navigateToLesson(lessonId: number, event: Event): void {
-    console.log('Navigating to lesson with ID:', lessonId);
-    event.stopPropagation(); // Prevent triggering toggleLesson
-    this.router.navigate(['/lesson', lessonId], { 
-      queryParams: { 
-        topicId: this.topicDetail?.topicId,
-        source: 'topic-detail'
-      } 
-    }).then((success) => {
-      console.log('Navigation success:', success);
-    }).catch((error) => {
-      console.error('Navigation error:', error);
-    });
   }
+
+  expandAll(): void {
+    this.expandedLessons.clear();
+    if (this.topicDetail) {
+      for (let i = 0; i < this.topicDetail.lessons.length; i++) {
+        this.expandedLessons.add(i);
+      }
+    }
+  }
+
+  collapseAll(): void {
+    this.expandedLessons.clear();
+  }
+
   getTotalDuration(): number {
     if (!this.topicDetail) return 0;
     return this.topicDetail.lessons.reduce((total: number, lesson: LessonDetail) => total + (lesson.durationMinutes || 0), 0);
