@@ -26,6 +26,7 @@ public class LessonService {
     @Autowired
     private LessonTagRepository lessonTagRepository;
 
+
     @Autowired
     private DeletionHistoryService deletionHistoryService;
 
@@ -34,6 +35,14 @@ public class LessonService {
         List<Lesson> lessons = lessonRepository.findByTopic_TopicIdOrderByOrderNumberAsc(topicId);
         return lessons.stream()
                 .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Optimized method for web API - excludes description for better performance
+    public List<LessonSummaryDTO> getLessonSummariesByTopicId(Long topicId) {
+        List<Lesson> lessons = lessonRepository.findByTopic_TopicIdOrderByOrderNumberAsc(topicId);
+        return lessons.stream()
+                .map(this::convertToSummaryDTO)
                 .collect(Collectors.toList());
     }
 
@@ -158,6 +167,21 @@ public class LessonService {
         dto.setIsFree(lesson.getIsFree());
         dto.setCreatedAt(lesson.getCreatedAt());
         dto.setUpdatedAt(lesson.getUpdatedAt());
+        return dto;
+    }
+
+    // Optimized conversion method that excludes description for better performance
+    private LessonSummaryDTO convertToSummaryDTO(Lesson lesson) {
+        LessonSummaryDTO dto = new LessonSummaryDTO();
+        dto.setLessonId(lesson.getLessonId());
+        dto.setTopicId(lesson.getTopic().getTopicId());
+        dto.setTitle(lesson.getTitle());
+        // Note: description is intentionally excluded for performance
+        dto.setContentType(lesson.getContentType() != null ? lesson.getContentType().name() : null);
+        dto.setContentUrl(lesson.getContentUrl());
+        dto.setDurationMinutes(lesson.getDurationMinutes());
+        dto.setOrderNumber(lesson.getOrderNumber());
+        dto.setIsFree(lesson.getIsFree());
         return dto;
     }
 

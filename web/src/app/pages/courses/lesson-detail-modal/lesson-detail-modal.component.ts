@@ -397,6 +397,151 @@ interface LessonDetail {
       font-size: 0.95rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       border: 1px solid #e2e8f0;
+      overflow-x: auto;
+    }
+
+    /* Enhanced HTML Table Styling for Lesson Content */
+    .description-content table,
+    .content-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 14px;
+    }
+
+    .description-content th,
+    .content-body th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      border: none;
+    }
+
+    .description-content td,
+    .content-body td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+      border: none;
+    }
+
+    .description-content tr:nth-child(even) td,
+    .content-body tr:nth-child(even) td {
+      background: #f8f9fa;
+    }
+
+    .description-content tr:hover td,
+    .content-body tr:hover td {
+      background: #e8f0fe;
+    }
+
+    .description-content tbody tr:last-child td,
+    .content-body tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Enhanced HTML Content Styling */
+    .description-content p,
+    .content-body p {
+      margin: 12px 0;
+      line-height: 1.6;
+    }
+
+    .description-content h1,
+    .description-content h2,
+    .description-content h3,
+    .description-content h4,
+    .description-content h5,
+    .description-content h6,
+    .content-body h1,
+    .content-body h2,
+    .content-body h3,
+    .content-body h4,
+    .content-body h5,
+    .content-body h6 {
+      color: #2d3748;
+      margin: 20px 0 12px 0;
+      font-weight: 600;
+    }
+
+    .description-content h1, .content-body h1 { font-size: 1.5rem; }
+    .description-content h2, .content-body h2 { font-size: 1.3rem; }
+    .description-content h3, .content-body h3 { font-size: 1.2rem; }
+    .description-content h4, .content-body h4 { font-size: 1.1rem; }
+    .description-content h5, .content-body h5 { font-size: 1rem; }
+    .description-content h6, .content-body h6 { font-size: 0.9rem; }
+
+    .description-content ul,
+    .description-content ol,
+    .content-body ul,
+    .content-body ol {
+      margin: 12px 0;
+      padding-left: 24px;
+    }
+
+    .description-content li,
+    .content-body li {
+      margin: 6px 0;
+      line-height: 1.5;
+    }
+
+    .description-content strong,
+    .description-content b,
+    .content-body strong,
+    .content-body b {
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .description-content em,
+    .description-content i,
+    .content-body em,
+    .content-body i {
+      color: #4a5568;
+      font-style: italic;
+    }
+
+    .description-content blockquote,
+    .content-body blockquote {
+      margin: 16px 0;
+      padding: 12px 20px;
+      border-left: 4px solid #667eea;
+      background: #f8f9ff;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    .description-content code,
+    .content-body code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #2d3748;
+    }
+
+    .description-content pre,
+    .content-body pre {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+    }
+
+    .description-content pre code,
+    .content-body pre code {
+      background: none;
+      padding: 0;
     }
 
     .keynotes-container {
@@ -461,6 +606,114 @@ interface LessonDetail {
       color: #4a5568;
       margin-bottom: 12px;
       font-size: 0.9rem;
+      overflow-x: auto;
+    }
+
+    /* Table Styling for Keynote Content */
+    .keynote-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      font-size: 13px;
+    }
+
+    .keynote-content th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      border: none;
+    }
+
+    .keynote-content td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+      border: none;
+    }
+
+    .keynote-content tr:nth-child(even) td {
+      background: #f8f9fa;
+    }
+
+    .keynote-content tr:hover td {
+      background: #e8f0fe;
+    }
+
+    .keynote-content tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Enhanced HTML Content Styling for Keynotes */
+    .keynote-content p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .keynote-content h1,
+    .keynote-content h2,
+    .keynote-content h3,
+    .keynote-content h4,
+    .keynote-content h5,
+    .keynote-content h6 {
+      color: #2d3748;
+      margin: 16px 0 8px 0;
+      font-weight: 600;
+    }
+
+    .keynote-content h1 { font-size: 1.2rem; }
+    .keynote-content h2 { font-size: 1.1rem; }
+    .keynote-content h3 { font-size: 1rem; }
+    .keynote-content h4 { font-size: 0.95rem; }
+    .keynote-content h5 { font-size: 0.9rem; }
+    .keynote-content h6 { font-size: 0.85rem; }
+
+    .keynote-content ul,
+    .keynote-content ol {
+      margin: 8px 0;
+      padding-left: 20px;
+    }
+
+    .keynote-content li {
+      margin: 4px 0;
+      line-height: 1.4;
+    }
+
+    .keynote-content strong,
+    .keynote-content b {
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    .keynote-content em,
+    .keynote-content i {
+      color: #4a5568;
+      font-style: italic;
+    }
+
+    .keynote-content blockquote {
+      margin: 12px 0;
+      padding: 8px 16px;
+      border-left: 3px solid #667eea;
+      background: #f8f9ff;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    .keynote-content code {
+      background: #f1f5f9;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      color: #2d3748;
     }
 
     .keynote-badges {

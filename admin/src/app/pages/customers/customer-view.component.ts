@@ -104,7 +104,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
               <span *ngIf="selectedCourse.price" class="price-badge">₹{{selectedCourse.price}}</span>
             </div>
             <h2 class="course-title">{{selectedCourse.title}}</h2>
-            <p class="course-description">{{selectedCourse.description}}</p>
+            <div class="course-description" [innerHTML]="selectedCourse.description"></div>
           </div>
           <div class="course-visual" *ngIf="selectedCourse.thumbnailUrl">
             <img [src]="selectedCourse.thumbnailUrl" [alt]="selectedCourse.title" class="course-image">
@@ -138,7 +138,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
               <div class="topic-number">{{i + 1}}</div>
               <div class="topic-info">
                 <h3 class="topic-title-modern">{{topic.title}}</h3>
-                <p class="topic-desc-modern">{{topic.description}}</p>
+                <div class="topic-desc-modern" [innerHTML]="topic.description"></div>
               </div>
               <button mat-icon-button class="expand-button" [class.expanded]="inlineExpandedTopics.has(i)">
                 <mat-icon>{{inlineExpandedTopics.has(i) ? 'expand_less' : 'expand_more'}}</mat-icon>
@@ -154,7 +154,7 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
                     <div class="topic-number-large">{{i + 1}}</div>
                     <div>
                       <h2 class="expanded-topic-title">{{topic.title}}</h2>
-                      <p class="expanded-topic-desc">{{topic.description}}</p>
+                      <div class="expanded-topic-desc" [innerHTML]="topic.description"></div>
                     </div>
                   </div>
                   <button mat-icon-button class="close-button" (click)="closeTopic(i, $event)">
@@ -502,6 +502,158 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       color: #666;
       line-height: 1.6;
       margin: 0;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      white-space: pre-wrap;
+      display: block;
+    }
+
+    /* Enhanced HTML content styles for course descriptions */
+    .course-description h1,
+    .course-description h2,
+    .course-description h3,
+    .course-description h4,
+    .course-description h5,
+    .course-description h6 {
+      font-size: 1.3rem !important;
+      font-weight: 700 !important;
+      color: #333 !important;
+      margin: 16px 0 12px 0 !important;
+      line-height: 1.4 !important;
+      display: block !important;
+    }
+
+    .course-description p {
+      font-size: 1.1rem !important;
+      color: #666 !important;
+      line-height: 1.6 !important;
+      margin: 12px 0 16px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      display: block !important;
+    }
+
+    .course-description div {
+      display: block !important;
+      margin: 12px 0 !important;
+    }
+
+    .course-description br {
+      display: block !important;
+      margin: 6px 0 !important;
+      content: " " !important;
+    }
+
+    .course-description ul,
+    .course-description ol {
+      font-size: 1.1rem !important;
+      color: #666 !important;
+      line-height: 1.6 !important;
+      margin: 12px 0 16px 0 !important;
+      padding-left: 24px !important;
+      display: block !important;
+    }
+
+    .course-description li {
+      margin: 6px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+
+    .course-description strong,
+    .course-description b {
+      font-weight: 700 !important;
+      color: #333 !important;
+    }
+
+    .course-description em,
+    .course-description i {
+      font-style: italic !important;
+    }
+
+    /* Table styles for course descriptions */
+    .course-description table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 16px 0 !important;
+      background: white !important;
+      border: 1px solid #ddd !important;
+      border-radius: 8px !important;
+      overflow: hidden !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    }
+
+    .course-description table th {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      font-weight: 700 !important;
+      padding: 16px 12px !important;
+      border: 1px solid #ddd !important;
+      text-align: left !important;
+      font-size: 1rem !important;
+    }
+
+    .course-description table td {
+      padding: 14px 12px !important;
+      border: 1px solid #ddd !important;
+      color: #666 !important;
+      font-size: 1rem !important;
+      line-height: 1.5 !important;
+      vertical-align: top !important;
+    }
+
+    .course-description table tr:nth-child(even) {
+      background: #f9f9f9 !important;
+    }
+
+    .course-description table tr:hover {
+      background: #f0f4ff !important;
+    }
+
+    .course-description table tbody tr:first-child td {
+      border-top: 3px solid #667eea !important;
+    }
+
+    /* Additional rich text styles for course descriptions */
+    .course-description blockquote {
+      border-left: 4px solid #667eea !important;
+      background: #f8f9ff !important;
+      margin: 16px 0 !important;
+      padding: 16px 20px !important;
+      font-style: italic !important;
+      color: #555 !important;
+      border-radius: 0 8px 8px 0 !important;
+    }
+
+    .course-description code {
+      background: #f4f4f4 !important;
+      color: #d63384 !important;
+      padding: 3px 8px !important;
+      border-radius: 4px !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+    }
+
+    .course-description pre {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 8px !important;
+      padding: 16px !important;
+      overflow-x: auto !important;
+      margin: 16px 0 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .course-description a {
+      color: #667eea !important;
+      text-decoration: underline !important;
+    }
+
+    .course-description a:hover {
+      color: #5a6fd8 !important;
     }
     
     .course-visual {
@@ -615,6 +767,154 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       color: #666;
       margin: 0;
       line-height: 1.5;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      white-space: pre-wrap;
+      display: block;
+    }
+
+    /* Enhanced HTML content styles for topic descriptions */
+    .topic-desc-modern h1,
+    .topic-desc-modern h2,
+    .topic-desc-modern h3,
+    .topic-desc-modern h4,
+    .topic-desc-modern h5,
+    .topic-desc-modern h6 {
+      font-size: 1.2rem !important;
+      font-weight: 600 !important;
+      color: #333 !important;
+      margin: 12px 0 8px 0 !important;
+      line-height: 1.4 !important;
+      display: block !important;
+    }
+
+    .topic-desc-modern p {
+      font-size: 1rem !important;
+      color: #666 !important;
+      line-height: 1.5 !important;
+      margin: 8px 0 12px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      display: block !important;
+    }
+
+    .topic-desc-modern div {
+      display: block !important;
+      margin: 8px 0 !important;
+    }
+
+    .topic-desc-modern br {
+      display: block !important;
+      margin: 4px 0 !important;
+      content: " " !important;
+    }
+
+    .topic-desc-modern ul,
+    .topic-desc-modern ol {
+      font-size: 1rem !important;
+      color: #666 !important;
+      line-height: 1.5 !important;
+      margin: 8px 0 12px 0 !important;
+      padding-left: 20px !important;
+      display: block !important;
+    }
+
+    .topic-desc-modern li {
+      margin: 4px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+
+    .topic-desc-modern strong,
+    .topic-desc-modern b {
+      font-weight: 600 !important;
+      color: #333 !important;
+    }
+
+    .topic-desc-modern em,
+    .topic-desc-modern i {
+      font-style: italic !important;
+    }
+
+    /* Table styles for topic descriptions */
+    .topic-desc-modern table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 12px 0 !important;
+      background: white !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    }
+
+    .topic-desc-modern table th {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      font-weight: 600 !important;
+      padding: 12px 10px !important;
+      border: 1px solid #ddd !important;
+      text-align: left !important;
+      font-size: 0.95rem !important;
+    }
+
+    .topic-desc-modern table td {
+      padding: 10px !important;
+      border: 1px solid #ddd !important;
+      color: #666 !important;
+      font-size: 0.95rem !important;
+      line-height: 1.4 !important;
+      vertical-align: top !important;
+    }
+
+    .topic-desc-modern table tr:nth-child(even) {
+      background: #f9f9f9 !important;
+    }
+
+    .topic-desc-modern table tr:hover {
+      background: #f0f4ff !important;
+    }
+
+    /* Additional rich text styles for topic descriptions */
+    .topic-desc-modern blockquote {
+      border-left: 3px solid #667eea !important;
+      background: #f8f9ff !important;
+      margin: 12px 0 !important;
+      padding: 12px 16px !important;
+      font-style: italic !important;
+      color: #555 !important;
+      border-radius: 0 6px 6px 0 !important;
+    }
+
+    .topic-desc-modern code {
+      background: #f4f4f4 !important;
+      color: #d63384 !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+    }
+
+    .topic-desc-modern pre {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important;
+      padding: 12px !important;
+      overflow-x: auto !important;
+      margin: 12px 0 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .topic-desc-modern a {
+      color: #667eea !important;
+      text-decoration: underline !important;
+    }
+
+    .topic-desc-modern a:hover {
+      color: #5a6fd8 !important;
     }    /* Lessons Grid */
     .lessons-grid {
       padding: 20px;
@@ -800,6 +1100,90 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
     .lesson-desc-modern em,
     .lesson-desc-modern i {
       font-style: italic !important;
+    }
+    
+    /* Table styles for lesson descriptions */
+    .lesson-desc-modern table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 12px 0 !important;
+      background: white !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    
+    .lesson-desc-modern table th {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      font-weight: 600 !important;
+      padding: 12px 8px !important;
+      border: 1px solid #ddd !important;
+      text-align: left !important;
+      font-size: 0.9rem !important;
+    }
+    
+    .lesson-desc-modern table td {
+      padding: 10px 8px !important;
+      border: 1px solid #ddd !important;
+      color: #666 !important;
+      font-size: 0.9rem !important;
+      line-height: 1.4 !important;
+      vertical-align: top !important;
+    }
+    
+    .lesson-desc-modern table tr:nth-child(even) {
+      background: #f9f9f9 !important;
+    }
+    
+    .lesson-desc-modern table tr:hover {
+      background: #f0f4ff !important;
+    }
+    
+    .lesson-desc-modern table tbody tr:first-child td {
+      border-top: 2px solid #667eea !important;
+    }
+    
+    /* Additional rich text styles */
+    .lesson-desc-modern blockquote {
+      border-left: 4px solid #667eea !important;
+      background: #f8f9ff !important;
+      margin: 12px 0 !important;
+      padding: 12px 16px !important;
+      font-style: italic !important;
+      color: #555 !important;
+      border-radius: 0 6px 6px 0 !important;
+    }
+    
+    .lesson-desc-modern code {
+      background: #f4f4f4 !important;
+      color: #d63384 !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.85rem !important;
+    }
+    
+    .lesson-desc-modern pre {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 6px !important;
+      padding: 12px !important;
+      overflow-x: auto !important;
+      margin: 12px 0 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.85rem !important;
+      line-height: 1.4 !important;
+    }
+    
+    .lesson-desc-modern a {
+      color: #667eea !important;
+      text-decoration: underline !important;
+    }
+    
+    .lesson-desc-modern a:hover {
+      color: #5a6fd8 !important;
     }    /* Keynotes Modern */
     .keynotes-modern {
       margin-top: 16px;
@@ -944,6 +1328,86 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
     .keynote-content-modern i {
       font-style: italic !important;
     }
+    
+    /* Table styles for keynote content */
+    .keynote-content-modern table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 10px 0 !important;
+      background: white !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px !important;
+      overflow: hidden !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    }
+    
+    .keynote-content-modern table th {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      font-weight: 600 !important;
+      padding: 8px 6px !important;
+      border: 1px solid #ddd !important;
+      text-align: left !important;
+      font-size: 0.85rem !important;
+    }
+    
+    .keynote-content-modern table td {
+      padding: 6px !important;
+      border: 1px solid #ddd !important;
+      color: #666 !important;
+      font-size: 0.85rem !important;
+      line-height: 1.4 !important;
+      vertical-align: top !important;
+    }
+    
+    .keynote-content-modern table tr:nth-child(even) {
+      background: #f9f9f9 !important;
+    }
+    
+    .keynote-content-modern table tr:hover {
+      background: #f0f4ff !important;
+    }
+    
+    /* Additional rich text styles for keynotes */
+    .keynote-content-modern blockquote {
+      border-left: 3px solid #667eea !important;
+      background: #f8f9ff !important;
+      margin: 8px 0 !important;
+      padding: 8px 12px !important;
+      font-style: italic !important;
+      color: #555 !important;
+      border-radius: 0 4px 4px 0 !important;
+    }
+    
+    .keynote-content-modern code {
+      background: #f4f4f4 !important;
+      color: #d63384 !important;
+      padding: 1px 4px !important;
+      border-radius: 3px !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.8rem !important;
+    }
+    
+    .keynote-content-modern pre {
+      background: #f8f8f8 !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px !important;
+      padding: 8px !important;
+      overflow-x: auto !important;
+      margin: 8px 0 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.8rem !important;
+      line-height: 1.3 !important;
+    }
+    
+    .keynote-content-modern a {
+      color: #667eea !important;
+      text-decoration: underline !important;
+    }
+    
+    .keynote-content-modern a:hover {
+      color: #5a6fd8 !important;
+    }
 
     /* Tags Modern */
     .tags-modern {
@@ -1077,6 +1541,162 @@ import { LessonTagService, LessonTag } from '../../services/lesson-tag.service';
       margin: 0;
       opacity: 0.9;
       line-height: 1.4;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      white-space: pre-wrap;
+      display: block;
+    }
+
+    /* Enhanced HTML content styles for expanded topic descriptions */
+    .expanded-topic-desc h1,
+    .expanded-topic-desc h2,
+    .expanded-topic-desc h3,
+    .expanded-topic-desc h4,
+    .expanded-topic-desc h5,
+    .expanded-topic-desc h6 {
+      font-size: 1.2rem !important;
+      font-weight: 600 !important;
+      color: white !important;
+      margin: 12px 0 8px 0 !important;
+      line-height: 1.4 !important;
+      display: block !important;
+      opacity: 1 !important;
+    }
+
+    .expanded-topic-desc p {
+      font-size: 1rem !important;
+      color: white !important;
+      line-height: 1.4 !important;
+      margin: 8px 0 12px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      display: block !important;
+      opacity: 0.9 !important;
+    }
+
+    .expanded-topic-desc div {
+      display: block !important;
+      margin: 8px 0 !important;
+      opacity: 0.9 !important;
+    }
+
+    .expanded-topic-desc br {
+      display: block !important;
+      margin: 4px 0 !important;
+      content: " " !important;
+    }
+
+    .expanded-topic-desc ul,
+    .expanded-topic-desc ol {
+      font-size: 1rem !important;
+      color: white !important;
+      line-height: 1.4 !important;
+      margin: 8px 0 12px 0 !important;
+      padding-left: 20px !important;
+      display: block !important;
+      opacity: 0.9 !important;
+    }
+
+    .expanded-topic-desc li {
+      margin: 4px 0 !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+
+    .expanded-topic-desc strong,
+    .expanded-topic-desc b {
+      font-weight: 600 !important;
+      color: white !important;
+      opacity: 1 !important;
+    }
+
+    .expanded-topic-desc em,
+    .expanded-topic-desc i {
+      font-style: italic !important;
+    }
+
+    /* Table styles for expanded topic descriptions */
+    .expanded-topic-desc table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin: 12px 0 !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
+    .expanded-topic-desc table th {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: white !important;
+      font-weight: 600 !important;
+      padding: 12px 10px !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      text-align: left !important;
+      font-size: 0.95rem !important;
+    }
+
+    .expanded-topic-desc table td {
+      padding: 10px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      color: white !important;
+      font-size: 0.95rem !important;
+      line-height: 1.4 !important;
+      vertical-align: top !important;
+      opacity: 0.9 !important;
+    }
+
+    .expanded-topic-desc table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .expanded-topic-desc table tr:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* Additional rich text styles for expanded topic descriptions */
+    .expanded-topic-desc blockquote {
+      border-left: 3px solid rgba(255, 255, 255, 0.7) !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      margin: 12px 0 !important;
+      padding: 12px 16px !important;
+      font-style: italic !important;
+      color: white !important;
+      border-radius: 0 6px 6px 0 !important;
+      opacity: 0.9 !important;
+    }
+
+    .expanded-topic-desc code {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: #ffd700 !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+    }
+
+    .expanded-topic-desc pre {
+      background: rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 6px !important;
+      padding: 12px !important;
+      overflow-x: auto !important;
+      margin: 12px 0 !important;
+      font-family: 'Courier New', monospace !important;
+      font-size: 0.9rem !important;
+      line-height: 1.4 !important;
+      color: white !important;
+    }
+
+    .expanded-topic-desc a {
+      color: #ffd700 !important;
+      text-decoration: underline !important;
+    }
+
+    .expanded-topic-desc a:hover {
+      color: #ffed4e !important;
     }
     
     .close-button {

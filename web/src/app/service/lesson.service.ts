@@ -16,7 +16,7 @@ export interface Topic {
 export interface Lesson {
   lessonId: number;
   title: string;
-  description: string;
+  description?: string; // Made optional for performance optimization in list views
   topicId: number;
   orderIndex: number;
   videoUrl?: string;

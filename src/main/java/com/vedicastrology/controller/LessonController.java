@@ -2,6 +2,7 @@ package com.vedicastrology.controller;
 
 import com.vedicastrology.dto.LessonDTO;
 import com.vedicastrology.dto.LessonDetailDTO;
+import com.vedicastrology.dto.LessonSummaryDTO;
 import com.vedicastrology.dto.request.CommonRequestDTOs.EmptyRequest;
 import com.vedicastrology.dto.request.SecureRequestDTOs.SecureIdRequest;
 import com.vedicastrology.dto.request.SecureRequestDTOs.SecureLessonUpdateRequest;
@@ -40,7 +41,7 @@ public class LessonController {
     @PostMapping("/get-by-topic")
     public ResponseEntity<?> getAllLessonsByTopic(@Valid @RequestBody SecureIdRequest request) {
         Long topicId = request.getId();
-        logger.info("🔍 Fetching lessons for topic ID: {}", topicId);
+        logger.info("🔍 Fetching lesson summaries for topic ID: {}", topicId);
         try {
             // Additional validation for ID
             if (topicId == null || topicId <= 0) {
@@ -48,8 +49,9 @@ public class LessonController {
                 return ResponseEntity.badRequest().body("Invalid topic ID");
             }
             
-            List<LessonDTO> lessons = lessonService.getAllLessonsByTopicId(topicId);
-            logger.info("✅ Fetched {} lessons for topic ID: {}", lessons.size(), topicId);
+            // Use optimized method that excludes description for better performance
+            List<LessonSummaryDTO> lessons = lessonService.getLessonSummariesByTopicId(topicId);
+            logger.info("✅ Fetched {} lesson summaries for topic ID: {}", lessons.size(), topicId);
             return ResponseEntity.ok(lessons);
         } catch (SecurityException e) {
             logger.error("🚨 SECURITY_VIOLATION in get lessons by topic: {}", e.getMessage());

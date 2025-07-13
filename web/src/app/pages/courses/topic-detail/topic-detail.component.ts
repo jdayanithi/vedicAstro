@@ -90,8 +90,11 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
 
             <!-- Expanded Lesson Content -->
             <div *ngIf="expandedLessons.has(i)" class="lesson-content">
-              <!-- Lesson Description -->
-              <div class="lesson-description" [innerHTML]="lesson.description"></div>
+              <!-- Lesson Description (if available) -->
+              <div *ngIf="lesson.description" class="lesson-description" [innerHTML]="lesson.description"></div>
+              <div *ngIf="!lesson.description" class="lesson-description-placeholder">
+                <p><em>Lesson description not available in summary view. Open full lesson details for complete content.</em></p>
+              </div>
               
               <!-- Lesson Content -->
               <div *ngIf="lesson.content" class="lesson-main-content">
@@ -456,6 +459,21 @@ import { TopicService, TopicDetail, LessonDetail, LessonKeynote, Tag } from '../
       margin-bottom: 20px;
       line-height: 1.6;
       color: #666;
+    }
+
+    .lesson-description-placeholder {
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #dee2e6;
+    }
+
+    .lesson-description-placeholder p {
+      margin: 0;
+      color: #6c757d;
+      font-style: italic;
+      font-size: 0.9rem;
     }
 
     .content-section-title {
