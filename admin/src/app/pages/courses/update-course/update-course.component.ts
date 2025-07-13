@@ -69,20 +69,50 @@ export class UpdateCourseComponent implements OnInit {
     });
 
     this.courseId = +this.route.snapshot.params['id'];
+    console.log('🔍 Course ID from route:', this.courseId);
+    
+    if (!this.courseId || isNaN(this.courseId)) {
+      console.error('❌ Invalid course ID:', this.courseId);
+      this.snackBar.open('Invalid course ID', 'Close', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+      this.router.navigate(['/courses']);
+      return;
+    }
   }
 
   ngOnInit() {
     this.loadCourse();
     this.setupAutocomplete();
+    
+    // Debug checkbox changes
+    this.courseForm.get('isPublished')?.valueChanges.subscribe(value => {
+      console.log('📝 isPublished checkbox changed to:', value);
+    });
   }
 
   private loadCourse() {
     this.loading = true;
     this.courseService.getCourseById(this.courseId).subscribe({
       next: (course) => {
+        console.log('🔍 Loaded course data:', course);
+        
+        if (!course) {
+          console.error('❌ No course data received');
+          this.snackBar.open('Course not found', 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
+          this.loading = false;
+          return;
+        }
+        
+        console.log('📝 Setting form values - isPublished from backend:', course.isPublished);
+        
         this.courseForm.patchValue({
-          title: course.title,
-          description: course.description,
+          title: course.title || '',
+          description: course.description || '',
           loginId: course.loginId,
           categoryId: course.categoryId,
           difficultyLevel: course.difficultyLevel,
@@ -91,6 +121,9 @@ export class UpdateCourseComponent implements OnInit {
           thumbnailUrl: course.thumbnailUrl,
           isPublished: course.isPublished
         });
+        
+        console.log('📝 Form value after patch:', this.courseForm.value);
+        console.log('📝 isPublished form control value:', this.courseForm.get('isPublished')?.value);
         this.loading = false;
       },
       error: (error) => {

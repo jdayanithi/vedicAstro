@@ -298,6 +298,22 @@ public class InputSanitizationService {
     }
     
     /**
+     * Sanitize and validate course content (title/description) with special handling for international text
+     */
+    public String sanitizeCourseContent(String input, String fieldName) throws SecurityException {
+        if (input == null) {
+            return null;
+        }
+        
+        ValidationResult result = sqlInjectionValidator.validateCourseContent(input, fieldName);
+        if (!result.isValid()) {
+            throw new SecurityException("Course content validation failed for " + fieldName + ": " + result.getErrorMessage());
+        }
+        
+        return result.getSanitizedValue();
+    }
+
+    /**
      * General sanitize input method (alias for sanitizeString for backward compatibility)
      */
     public String sanitizeInput(String input, String fieldName) throws SecurityException {

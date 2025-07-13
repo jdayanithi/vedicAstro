@@ -179,6 +179,10 @@ public class SecureRequestDTOs {
         @SqlSafe(fieldName = "description", maxLength = 2000, allowEmpty = true)
         private String description;
         
+        @NotNull(message = "Login ID is required")
+        @Min(value = 1, message = "Login ID must be positive")
+        private Long loginId;
+        
         @NotNull(message = "Category ID is required")
         @Min(value = 1, message = "Category ID must be positive")
         private Long categoryId;
@@ -194,6 +198,11 @@ public class SecureRequestDTOs {
         @Max(value = 1000, message = "Duration cannot exceed 1000 hours")
         private Integer durationHours;
         
+        @SqlSafe(fieldName = "thumbnailUrl", maxLength = 500, allowEmpty = true)
+        private String thumbnailUrl;
+        
+        private Boolean isPublished;
+        
         public SecureCourseUpdateRequest() {}
         
         // Getters and setters
@@ -206,6 +215,9 @@ public class SecureRequestDTOs {
         public String getDescription() { return description; }
         public void setDescription(String description) { this.description = description; }
         
+        public Long getLoginId() { return loginId; }
+        public void setLoginId(Long loginId) { this.loginId = loginId; }
+        
         public Long getCategoryId() { return categoryId; }
         public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
         
@@ -217,6 +229,12 @@ public class SecureRequestDTOs {
         
         public Integer getDurationHours() { return durationHours; }
         public void setDurationHours(Integer durationHours) { this.durationHours = durationHours; }
+        
+        public String getThumbnailUrl() { return thumbnailUrl; }
+        public void setThumbnailUrl(String thumbnailUrl) { this.thumbnailUrl = thumbnailUrl; }
+        
+        public Boolean getIsPublished() { return isPublished; }
+        public void setIsPublished(Boolean isPublished) { this.isPublished = isPublished; }
     }
     
     /**

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -24,6 +24,14 @@ export interface Lesson {
 })
 export class LessonService {
   private apiUrl = `${environment.apiUrl}/secure/lessons`;
+  
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Accept': 'application/json;charset=UTF-8'
+    })
+  };
+  
   constructor(private http: HttpClient) {}
 
   getAllLessons(): Observable<Lesson[]> {
@@ -43,14 +51,15 @@ export class LessonService {
   }
 
   createLesson(lesson: Partial<Lesson>): Observable<Lesson> {
-    return this.http.post<Lesson>(this.apiUrl, lesson);
+    return this.http.post<Lesson>(`${this.apiUrl}/create`, lesson, this.httpOptions);
   }
 
   updateLesson(id: number, lesson: Partial<Lesson>): Observable<Lesson> {
-    return this.http.put<Lesson>(`${this.apiUrl}/${id}`, lesson);
+    const updateRequest = { id, ...lesson };
+    return this.http.post<Lesson>(`${this.apiUrl}/update`, updateRequest, this.httpOptions);
   }
 
   deleteLesson(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.post<void>(`${this.apiUrl}/delete`, { id }, this.httpOptions);
   }
 }

@@ -68,10 +68,10 @@ public class SqlInjectionValidator {
         "script", "javascript", "vbscript", "onload", "onerror"
     ));
     
-    // Characters that are often used in SQL injection
+    // Characters that are often used in SQL injection (reduced for Tamil text support)
     private static final Set<Character> DANGEROUS_CHARS = new HashSet<>(Arrays.asList(
-        '\'', '"', ';', '|', '*', '%', '_', '\\', '<', '>', '=', '!', '@', '#', '$',
-        '(', ')', '[', ']', '{', '}', '+', '-', '&', '^', '~', '`'
+        '\'', '"', ';', '|', '*', '\\', '<', '>', '!', '@', '#', '$',
+        '{', '}', '^', '~', '`'
     ));
     
     /**
@@ -111,7 +111,7 @@ public class SqlInjectionValidator {
             }
         }
         
-        // Check for excessive dangerous characters
+        // Check for excessive dangerous characters (more lenient for international text)
         int dangerousCharCount = 0;
         for (char c : trimmedInput.toCharArray()) {
             if (DANGEROUS_CHARS.contains(c)) {
@@ -119,8 +119,9 @@ public class SqlInjectionValidator {
             }
         }
         
-        // Allow up to 2 dangerous characters (for legitimate use cases like O'Connor)
-        if (dangerousCharCount > 2) {
+        // Allow up to 5 dangerous characters for international content (like Tamil)
+        // that might contain various Unicode punctuation
+        if (dangerousCharCount > 5) {
             logger.warn("🚨 Too many dangerous characters in field '{}': {} dangerous chars found", 
                        fieldName, dangerousCharCount);
             logSecurityViolation(fieldName, originalInput, "EXCESSIVE_DANGEROUS_CHARS", 
@@ -164,6 +165,58 @@ public class SqlInjectionValidator {
         }
     }
     
+    /**
+     * Validates course content (title/description) with special handling for international text
+     */
+    public ValidationResult validateCourseContent(String input, String fieldName) {
+        if (input == null || input.trim().isEmpty()) {
+            return ValidationResult.valid(input);
+        }
+        
+        String originalInput = input;
+        String trimmedInput = input.trim();
+        
+        logger.debug("🔍 Validating course content for field '{}': '{}'", fieldName, 
+                     trimmedInput.length() > 50 ? trimmedInput.substring(0, 50) + "..." : trimmedInput);
+        
+        // For course content, only check for obvious SQL injection patterns
+        // Skip character-by-character validation to allow Tamil and other international text
+        String lowerInput = trimmedInput.toLowerCase();
+        
+        // Only block obvious SQL injection attempts
+        if (lowerInput.contains("' or '") ||
+            lowerInput.contains("\" or \"") ||
+            lowerInput.contains("1=1") ||
+            lowerInput.contains("' union ") ||
+            lowerInput.contains("drop table") ||
+            lowerInput.contains("delete from") ||
+            lowerInput.contains("insert into")) {
+            
+            logger.warn("🚨 SQL Injection attempt detected in course content field '{}': Pattern matched", fieldName);
+            logSecurityViolation(fieldName, originalInput, "COURSE_CONTENT_SQL_INJECTION", "SQL injection pattern");
+            return ValidationResult.invalid("Invalid content detected in " + fieldName);
+        }
+        
+        // For course content, perform minimal sanitization to preserve Tamil text
+        String sanitizedInput = sanitizeCourseContent(trimmedInput);
+        
+        logger.debug("✅ Course content validation passed for field '{}'", fieldName);
+        return ValidationResult.valid(sanitizedInput);
+    }
+    
+    /**
+     * Minimal sanitization for course content to preserve international text
+     */
+    private String sanitizeCourseContent(String input) {
+        if (input == null) return null;
+        
+        return input
+            .replaceAll("--", "") // Remove SQL comments
+            .replaceAll("/\\*", "") // Remove block comments start
+            .replaceAll("\\*/", "") // Remove block comments end
+            .trim();
+    }
+
     /**
      * Validates search queries with special handling for search functionality
      */

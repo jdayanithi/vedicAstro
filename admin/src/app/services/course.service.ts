@@ -72,6 +72,7 @@ export class CourseService {
 
   updateCourse(id: number, course: Partial<Course>): Observable<Course> {
     const updateRequest = { id, ...course };
+    console.log('🔄 CourseService.updateCourse - sending request:', updateRequest);
     return this.http.post<Course>(`${this.apiUrl}/update`, updateRequest, this.httpOptions).pipe(
       map(course => this.sanitizeSingleCourse(course))
     );
@@ -84,55 +85,28 @@ export class CourseService {
   // 🔒 Copy protection methods
 
   /**
-   * Sanitize course data to prevent content extraction
+   * Sanitize course data - Remove copy protection to ensure proper Tamil text storage
    */
   private sanitizeCourseData(courses: Course[]): Course[] {
-    return courses.map(course => this.sanitizeSingleCourse(course));
+    return courses;  // No protection applied to stored data
   }
 
   /**
-   * Sanitize individual course data
+   * Sanitize individual course data - Remove copy protection to ensure proper Tamil text storage
    */
   private sanitizeSingleCourse(course: Course): Course {
-    // Add protection markers to sensitive content
-    if (course.description) {
-      course.description = this.addProtectionMarkers(course.description);
-    }
-    
-    if (course.title) {
-      course.title = this.addProtectionMarkers(course.title);
-    }
-
+    // No protection applied to stored data
     return course;
   }
 
   /**
-   * Add invisible protection markers to content
-   */
-  private addProtectionMarkers(content: string): string {
-    // Add zero-width characters to make copying less useful
-    const protectedContent = content
-      .split('')
-      .map((char, index) => {
-        // Add zero-width space every few characters
-        if (index % 10 === 0 && index > 0) {
-          return '\u200B' + char; // Zero-width space
-        }
-        return char;
-      })
-      .join('');
-
-    return protectedContent;
-  }
-
-  /**
-   * Get course content for display (removes protection markers)
+   * Get course content for display (now returns content as-is since no protection markers are added)
    */
   public getDisplayContent(content: string): string {
     if (!content) return '';
     
-    // Remove zero-width characters for proper display
-    return content.replace(/[\u200B\u200C\u200D\uFEFF]/g, '');
+    // Return content as-is since we're no longer adding protection markers
+    return content;
   }
 
   /**
@@ -144,12 +118,12 @@ export class CourseService {
   }
 
   /**
-   * Get protected course content with additional obfuscation
+   * Get protected course content (now returns content as-is since we're not using protection markers)
    */
   public getProtectedContent(content: string): string {
     if (!content) return '';
     
-    // Add protection and return
-    return this.addProtectionMarkers(content);
+    // Return content as-is since we're no longer adding protection markers
+    return content;
   }
 }

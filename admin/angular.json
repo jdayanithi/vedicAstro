@@ -35,7 +35,8 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
-      "architect": {        "build": {
+      "architect": {
+        "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
@@ -64,13 +65,15 @@
             ],
             "scripts": []
           },
-          "configurations": {            "production": {
+          "configurations": {
+            "production": {
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
                   "maximumError": "1MB"
-                },                {
+                },
+                {
                   "type": "anyComponentStyle",
                   "maximumWarning": "10kB",
                   "maximumError": "20kB"
@@ -96,12 +99,14 @@
             }
           },
           "defaultConfiguration": "production"
-        },        "serve": {
+        },
+        "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "admin:build:production"
-            },            "development": {
+            },
+            "development": {
               "buildTarget": "admin:build:development",
               "proxyConfig": "proxy.conf.js"
             }
@@ -131,11 +136,23 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

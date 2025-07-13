@@ -114,7 +114,7 @@ import { CourseService, Course } from '../../../services/course.service';
                   <img 
                     *ngIf="course.thumbnailUrl; else noThumbnail"
                     [src]="course.thumbnailUrl" 
-                    [alt]="course.title + ' thumbnail'"
+                    [alt]="getDisplayTitle(course) + ' thumbnail'"
                     class="course-thumbnail"
                     (error)="onImageError($event)"
                   />
@@ -131,7 +131,7 @@ import { CourseService, Course } from '../../../services/course.service';
               <th mat-header-cell *matHeaderCellDef>Title</th>
               <td mat-cell *matCellDef="let course">
                 <div class="course-title">
-                  <strong>{{ course.title }}</strong>
+                  <strong>{{ getDisplayTitle(course) }}</strong>
                   <div class="course-meta">
                     <span class="course-id">ID: {{ course.courseId }}</span>
                   </div>
@@ -142,8 +142,8 @@ import { CourseService, Course } from '../../../services/course.service';
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef>Description</th>
               <td mat-cell *matCellDef="let course">
-                <div class="description-cell" [matTooltip]="course.description">
-                  {{ course.description | slice:0:100 }}{{ course.description?.length > 100 ? '...' : '' }}
+                <div class="description-cell" [matTooltip]="getDisplayDescription(course)">
+                  {{ getDisplayDescription(course) | slice:0:100 }}{{ (getDisplayDescription(course)?.length || 0) > 100 ? '...' : '' }}
                 </div>
               </td>
             </ng-container>
@@ -195,7 +195,7 @@ import { CourseService, Course } from '../../../services/course.service';
                   </button>
                   <button mat-icon-button 
                           color="warn" 
-                          (click)="deleteCourse(course.courseId, course.title)"
+                          (click)="deleteCourse(course.courseId, getDisplayTitle(course))"
                           matTooltip="Delete course">
                     <mat-icon>delete</mat-icon>
                   </button>
@@ -492,9 +492,12 @@ export class CourseListComponent implements OnInit {
   }  applyFilters() {
     this.pageIndex = 0;
     this.filteredCourses = this.courses.filter(course => {
+      const displayTitle = course.title || '';
+      const displayDescription = course.description || '';
+      
       const matchesSearch = !this.searchQuery || 
-        course.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        (course.description && course.description.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        displayTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        displayDescription.toLowerCase().includes(this.searchQuery.toLowerCase());
       const matchesDifficulty = !this.selectedDifficulty || 
         course.difficultyLevel === this.selectedDifficulty;
       const matchesStatus = !this.selectedStatus || 
@@ -546,5 +549,29 @@ export class CourseListComponent implements OnInit {
   onPageChange(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
+  }
+
+  /**
+   * Get display-friendly title (no longer needs cleaning since we don't add protection markers)
+   */
+  getDisplayTitle(course: Course): string {
+    return course.title || '';
+  }
+
+  /**
+   * Get display-friendly description (no longer needs cleaning since we don't add protection markers)  
+   */
+  getDisplayDescription(course: Course): string {
+    return course.description || '';
+  }
+
+  /**
+   * Get display-friendly content (no longer needs cleaning since we don't add protection markers)
+   */
+  private getDisplayContent(content: string): string {
+    if (!content) return '';
+    
+    // Return content as-is since we no longer add protection markers
+    return content;
   }
 }

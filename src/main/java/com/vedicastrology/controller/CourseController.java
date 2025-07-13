@@ -98,9 +98,9 @@ public class CourseController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user authentication");
             }
             
-            // Additional sanitization
-            String sanitizedTitle = inputSanitizationService.sanitizeInput(request.getTitle(), "courseTitle");
-            String sanitizedDescription = inputSanitizationService.sanitizeInput(request.getDescription(), "courseDescription");
+            // Additional sanitization - Use course content sanitization for Tamil text support
+            String sanitizedTitle = inputSanitizationService.sanitizeCourseContent(request.getTitle(), "courseTitle");
+            String sanitizedDescription = inputSanitizationService.sanitizeCourseContent(request.getDescription(), "courseDescription");
             
             // Debug Tamil text encoding
             try {
@@ -140,7 +140,7 @@ public class CourseController {
 
     @PostMapping("/update")
     public ResponseEntity<?> updateCourse(@Valid @RequestBody SecureCourseUpdateRequest request) {
-        logger.info("📝 Updating course with ID: {}", request.getId());
+        logger.info("📝 Updating course with ID: {} - isPublished: {}", request.getId(), request.getIsPublished());
         try {
             // Additional validation for ID
             if (request.getId() == null || request.getId() <= 0) {
@@ -148,18 +148,23 @@ public class CourseController {
                 return ResponseEntity.badRequest().body("Invalid course ID");
             }
 
-            // Additional sanitization
-            String sanitizedTitle = inputSanitizationService.sanitizeInput(request.getTitle(), "courseTitle");
-            String sanitizedDescription = inputSanitizationService.sanitizeInput(request.getDescription(), "courseDescription");
+            // Additional sanitization - Use course content sanitization for Tamil text support
+            String sanitizedTitle = inputSanitizationService.sanitizeCourseContent(request.getTitle(), "courseTitle");
+            String sanitizedDescription = inputSanitizationService.sanitizeCourseContent(request.getDescription(), "courseDescription");
             
             // Create course entity from secure request
             Course updatedCourse = new Course();
             updatedCourse.setTitle(sanitizedTitle);
             updatedCourse.setDescription(sanitizedDescription);
+            updatedCourse.setLoginId(request.getLoginId());
             updatedCourse.setCategoryId(request.getCategoryId());
             updatedCourse.setDifficultyLevel(DifficultyLevel.fromString(request.getDifficultyLevel()));
             updatedCourse.setPrice(request.getPrice() != null ? BigDecimal.valueOf(request.getPrice()) : null);
             updatedCourse.setDurationHours(request.getDurationHours());
+            updatedCourse.setThumbnailUrl(request.getThumbnailUrl());
+            updatedCourse.setIsPublished(request.getIsPublished() != null ? request.getIsPublished() : false);
+            
+            logger.info("📝 About to update course with isPublished: {}", updatedCourse.getIsPublished());
             
             Course course = courseService.updateCourse(request.getId(), updatedCourse);
             logger.info("✅ Successfully updated course: {}", course.getTitle());
