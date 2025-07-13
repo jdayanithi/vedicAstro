@@ -79,7 +79,8 @@ public class LessonService {
     }
 
     @Transactional
-    public LessonDTO updateLesson(Long lessonId, LessonDTO lessonDTO) {
+    public LessonDTO updateLesson(Long lessonId, LessonDTO
+            lessonDTO) {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new EntityNotFoundException("Lesson not found with id: " + lessonId));
 

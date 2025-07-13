@@ -747,6 +747,6 @@ export class TopicDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/customer-course', this.topicDetail?.courseId || '']);
+    this.router.navigate(['/course', this.topicDetail?.courseId || '']);
   }
 }

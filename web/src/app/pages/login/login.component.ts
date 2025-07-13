@@ -44,12 +44,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
       lastName: ['', Validators.required],
       bio: [''],
       userType: ['student', Validators.required]
-    });    // Redirect to landing if already logged in
+    });    // Redirect to courses if already logged in
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
       if (isLoggedIn) {
         // Add a small delay to ensure navigation happens after component initialization
         setTimeout(() => {
-          this.router.navigate(['/landing']);
+          this.router.navigate(['/courses']);
         }, 100);
       }
     });

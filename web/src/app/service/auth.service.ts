@@ -256,8 +256,8 @@ export class AuthService {
             console.log(`[JWT-DEBUG] Login success complete. Redirecting...`);
           }
 
-          // Redirect to the originally intended URL or default to landing page
-          const redirectTo = this.redirectUrl || '/landing';
+          // Redirect to the originally intended URL or default to courses page
+          const redirectTo = this.redirectUrl || '/courses';
           this.redirectUrl = null; // Clear the redirect URL
           this.router.navigate([redirectTo]);
         },

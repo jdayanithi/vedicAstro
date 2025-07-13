@@ -11,7 +11,6 @@ import { ViewAllComponent } from './pages/view-all/view-all.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { SearchByNameComponent } from './pages/search-by-name/search-by-name.component';
 import { LoginComponent } from './pages/login/login.component';
-import { LandingComponent } from './pages/landing/landing.component';
 import { CoursesExplorerComponent } from './pages/courses/courses-explorer/courses-explorer.component';
 import { PurchaseFormComponent } from './pages/courses/purchase-form/purchase-form.component';
 import { ErrorDialogComponent } from './shared/components/error-dialog/error-dialog.component';
@@ -38,8 +37,7 @@ import { SharedModule } from './shared/shared.module';
         ReactiveFormsModule,
         FormsModule,
         IonicModule.forRoot({}),
-        SharedModule,
-        LandingComponent],providers: [
+        SharedModule],providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

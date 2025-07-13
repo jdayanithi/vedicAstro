@@ -830,9 +830,9 @@ export class LessonDetailComponent implements OnInit {
   }
   goBack(): void {
     // Navigate back based on the source
-    if (this.source === 'customer-course' && this.courseId) {
-      // Navigate back to the customer course view
-      this.router.navigate(['/customer-course', this.courseId]);
+    if (this.source === 'course' && this.courseId) {
+      // Navigate back to the course view
+      this.router.navigate(['/course', this.courseId]);
     } else if (this.source === 'topic-detail' && this.topicId) {
       // Navigate back to the topic detail view
       this.router.navigate(['/topic', this.topicId]);

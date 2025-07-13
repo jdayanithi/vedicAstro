@@ -5,15 +5,13 @@ import { ViewAllComponent } from './pages/view-all/view-all.component';
 import { ViewPostComponent } from './pages/view-post/view-post.component';
 import { SearchByNameComponent } from './pages/search-by-name/search-by-name.component';
 import { LoginComponent } from './pages/login/login.component';
-import { LandingComponent } from './pages/landing/landing.component';
 import { CoursesExplorerComponent } from './pages/courses/courses-explorer/courses-explorer.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: 'landing', component: LandingComponent, canActivate: [AuthGuard] },
   { path: 'courses', component: CoursesExplorerComponent, canActivate: [AuthGuard] },
   { 
-    path: 'customer-course/:id', 
+    path: 'course/:id', 
     loadComponent: () => import('./pages/courses/customer-course-view/customer-course-view.component').then(c => c.CustomerCourseViewComponent),
     canActivate: [AuthGuard] 
   },
@@ -32,8 +30,8 @@ const routes: Routes = [
   { path: 'view-all', component: ViewAllComponent, canActivate: [AuthGuard] },
   { path: 'search-by-name', component: SearchByNameComponent, canActivate: [AuthGuard] },
   { path: 'view-post/:id', component: ViewPostComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: 'landing', pathMatch: 'full' },
-  { path: '**', redirectTo: 'landing' }
+  { path: '', redirectTo: 'courses', pathMatch: 'full' },
+  { path: '**', redirectTo: 'courses' }
 ];
 
 @NgModule({

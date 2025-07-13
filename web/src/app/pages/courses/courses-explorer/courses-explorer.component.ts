@@ -434,8 +434,8 @@ export class CoursesExplorerComponent implements OnInit, OnDestroy {
       }
     });
   }  private startCourse(course: CourseWithAccess): void {
-    // Navigate to the customer course view to show topics and lessons
-    this.router.navigate(['/customer-course', course.courseId]);
+    // Navigate directly to the course content with topics and lessons
+    this.router.navigate(['/course', course.courseId]);
   }
 
   private mapCourseToWithAccess(course: Course): CourseWithAccess {

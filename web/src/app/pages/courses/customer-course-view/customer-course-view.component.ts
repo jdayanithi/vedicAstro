@@ -31,8 +31,8 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     MatDialogModule
   ],
   template: `
-    <div class="modern-customer-view">      <!-- Enhanced Hero Section with Gradient and Animated Elements -->
-      <div class="hero-section">
+    <div class="modern-customer-view">      <!-- Enhanced Hero Section with Gradient and Animated Elements (only show when not viewing specific course) -->
+      <div class="hero-section" *ngIf="!isViewingSpecificCourse">
         <div class="hero-overlay"></div>
         <div class="hero-particles">
           <div class="particle" *ngFor="let particle of [1,2,3,4,5,6,7,8]"></div>
@@ -56,7 +56,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
           <div class="hero-stats" *ngIf="selectedCourse">
             <div class="hero-stat">
               <mat-icon>menu_book</mat-icon>
-              <span>{{getTotalLessonsCount()}} Lessons</span>
+              <span>{{getTotalLessonsCount()}} Contents</span>
             </div>
             <div class="hero-stat">
               <mat-icon>schedule</mat-icon>
@@ -99,16 +99,41 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         <p>Loading course content...</p>
       </div>      <!-- Course Content -->
       <div *ngIf="selectedCourse && !loading" class="content-section">
-        <!-- Back Button -->
-        <div class="back-button-section" *ngIf="isViewingSpecificCourse">
-          <button mat-raised-button color="primary" (click)="goBackToCourses()" class="back-button">
+        <!-- Course Header (Similar to topic-detail) -->
+        <div class="course-header" *ngIf="isViewingSpecificCourse">
+          <button mat-icon-button (click)="goBackToCourses()" class="back-button">
             <mat-icon>arrow_back</mat-icon>
-            Back to Courses
           </button>
+          <div class="course-info">
+            <div class="course-text">
+              <h1 class="course-title">{{ selectedCourse.title }}</h1>
+              <p class="course-description">{{ selectedCourse.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Stats -->
+        <div class="course-stats" *ngIf="isViewingSpecificCourse">
+          <div class="stat-item">
+            <mat-icon>menu_book</mat-icon>
+            <span>{{ getTotalLessonsCount() }} Contents</span>
+          </div>
+          <div class="stat-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ getTotalDuration() }} min</span>
+          </div>
+          <div class="stat-item">
+            <mat-icon>people</mat-icon>
+            <span>{{ topics.length }} Modules</span>
+          </div>
+          <div class="stat-item">
+            <mat-icon>star</mat-icon>
+            <span>{{ selectedCourse.difficultyLevel | titlecase }}</span>
+          </div>
         </div>
         
-        <!-- Enhanced Course Heading with Decorative Elements -->
-        <div class="course-heading-section">
+        <!-- Enhanced Course Heading with Decorative Elements (for non-specific course view) -->
+        <div class="course-heading-section" *ngIf="!isViewingSpecificCourse">
           <div class="course-heading-bg"></div>
           <div class="course-heading-content">
             <!-- Enhanced Course Header with Image and Title -->
@@ -157,7 +182,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                     </div>
                     <div class="stat-info">
                       <span class="stat-number">{{getTotalLessonsCount()}}</span>
-                      <span class="stat-label">Lessons</span>
+                      <span class="stat-label">Contents</span>
                     </div>
                   </div>
                   <div class="stat-card">
@@ -175,7 +200,7 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
                     </div>
                     <div class="stat-info">
                       <span class="stat-number">{{topics.length}}</span>
-                      <span class="stat-label">Topics</span>
+                      <span class="stat-label">Modules</span>
                     </div>
                   </div>
                   <div class="stat-card">
@@ -218,86 +243,89 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
               </div>
             </div>
           </div>
-        </div>        <!-- Topics & Lessons -->
+        </div>
+
+        <!-- Content & Modules -->
         <div class="topics-container">
-          <!-- Topics Header -->
+          <!-- Content Header -->
           <div class="topics-header" *ngIf="topics.length > 0">
-            <h3 class="topics-title">Course Topics</h3>
-          </div><div *ngFor="let topic of topics; let i = index" class="topic-block">
-            <div class="topic-header-modern" (click)="toggleTopic(i)">
-              <div class="topic-number">{{i + 1}}</div>
+            <h3 class="topics-title">Course Content</h3>
+          </div>
+
+          <!-- Content List -->
+          <div *ngFor="let topic of topics; let i = index" class="topic-card">
+            <div class="topic-header">
+              <div class="topic-number">{{ i + 1 }}</div>
               <div class="topic-info">
-                <h3 class="topic-title-modern">{{topic.title}}</h3>
-                <p class="topic-desc-modern">{{topic.description}} <span class="click-hint">Click to expand</span></p>
+                <h3 class="topic-title">{{ topic.title }}</h3>
+                <div class="topic-meta">
+                  <span class="topic-lessons">
+                    <mat-icon>menu_book</mat-icon>
+                    {{ topic.lessons.length }} items
+                  </span>
+                  <span class="topic-duration" *ngIf="getTopicDuration(topic) > 0">
+                    <mat-icon>schedule</mat-icon>
+                    {{ getTopicDuration(topic) }} min
+                  </span>
+                  <span class="topic-free">
+                    <mat-icon>card_giftcard</mat-icon>
+                    {{ getTopicFreeCount(topic) }} Free
+                  </span>
+                </div>
               </div>
               <div class="topic-actions">
-                <button mat-icon-button class="expand-button" [class.expanded]="inlineExpandedTopics.has(i)">
-                  <mat-icon>{{inlineExpandedTopics.has(i) ? 'expand_less' : 'expand_more'}}</mat-icon>
+                <button mat-raised-button color="primary" (click)="viewTopicDetails(i, $event)" class="view-topic-btn">
+                  <mat-icon>visibility</mat-icon>
+                  View Details
                 </button>
-                <button mat-icon-button class="detail-button" (click)="viewTopicDetails(i, $event)" title="View detailed lessons with keynotes and tags">
-                  <mat-icon>open_in_new</mat-icon>
+                <button mat-icon-button (click)="toggleTopic(i)" class="expand-button" [class.expanded]="inlineExpandedTopics.has(i)" title="Toggle content preview">
+                  <mat-icon>{{ inlineExpandedTopics.has(i) ? 'expand_less' : 'expand_more' }}</mat-icon>
                 </button>
               </div>
-            </div>
-            
-            <!-- Topic Preview (when collapsed) -->
-            <div class="topic-preview" *ngIf="!inlineExpandedTopics.has(i)">
-              <div class="topic-stats">
-                <span class="stat-item">
-                  <mat-icon>menu_book</mat-icon>
-                  {{topic.lessons.length}} Lessons
-                </span>
-                <span class="stat-item" *ngIf="getTopicDuration(topic) > 0">
-                  <mat-icon>schedule</mat-icon>
-                  {{getTopicDuration(topic)}} min
-                </span>
-                <span class="stat-item">
-                  <mat-icon>play_circle_filled</mat-icon>
-                  {{getTopicFreeCount(topic)}} Free
-                </span>
-              </div>
-              <p class="view-hint">Click topic header to expand lessons or <mat-icon>open_in_new</mat-icon> for detailed view</p>
             </div>
 
-            <!-- Expanded Topic Content (Inline) -->
-            <div class="lessons-grid" 
-                 [class.inline-expanded]="inlineExpandedTopics.has(i)"
-                 *ngIf="inlineExpandedTopics.has(i)">
-              
-              <!-- Enhanced Lesson Cards Grid -->
-              <div class="lessons-cards-grid">
-                <div *ngFor="let lesson of topic.lessons; let j = index" class="lesson-card-enhanced">
-                  <div class="lesson-card-inner">
-                    <!-- Lesson Number Badge -->
-                    <div class="lesson-number-badge">
-                      <span class="lesson-number">{{j + 1}}</span>
-                    </div>
-                    
-                    <!-- Lesson Content -->
-                    <div class="lesson-content">
-                      <div class="lesson-header">
-                        <mat-icon class="lesson-type-icon">play_circle_filled</mat-icon>
-                        <h5 class="lesson-title">{{lesson.title}}</h5>
-                      </div>
-                      
-                      
-                    </div>
-                    
-                    <!-- Action Button -->
-                    <div class="lesson-action">
-                      <button 
-                        mat-raised-button 
-                        color="primary" 
-                        class="lesson-view-btn"
-                        (click)="viewLessonDetails(lesson.lessonId, topic.topicId)">
+            <!-- Expanded Content -->
+            <div class="lessons-list" *ngIf="inlineExpandedTopics.has(i)">
+              <!-- Desktop Table View -->
+              <div class="lessons-table-container desktop-only">
+                <table class="lessons-table">
+                  <thead>
+                    <tr>
+                      <th class="lesson-num-col">#</th>
+                      <th class="lesson-title-col">Title</th>
+                      <th class="lesson-action-col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let lesson of topic.lessons; let j = index" class="lesson-row">
+                      <td class="lesson-num-cell">{{ j + 1 }}</td>
+                      <td class="lesson-title-cell">
+                        <div class="lesson-title">{{ lesson.title }}</div>
+                      </td>
+                      <td class="lesson-action-cell">
+                        <button mat-raised-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-table">
+                          <mat-icon>play_arrow</mat-icon>
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Mobile Card View -->
+              <div class="lessons-cards-container mobile-only">
+                <div *ngFor="let lesson of topic.lessons; let j = index" class="lesson-card">
+                  <div class="lesson-card-header">
+                    <div class="lesson-number-badge">{{ j + 1 }}</div>
+                    <div class="lesson-card-title">{{ lesson.title }}</div>
+                  </div>
+                  <div class="lesson-card-content">
+                    <div class="lesson-card-action">
+                      <button mat-raised-button color="primary" (click)="viewLessonDetails(lesson.lessonId, topic.topicId)" class="view-lesson-btn-mobile">
                         <mat-icon>play_arrow</mat-icon>
-                        Start Lesson
+                        View
                       </button>
-                    </div>
-                    
-                    <!-- Progress Indicator (decorative) -->
-                    <div class="lesson-progress-bar">
-                      <div class="progress-fill" [style.width.%]="(j + 1) * 10"></div>
                     </div>
                   </div>
                 </div>
@@ -519,40 +547,105 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     .content-section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px 40px;
+      padding: 20px 20px 40px;
     }
 
-    /* Back Button Section */
-    .back-button-section {
-      margin-bottom: 20px;
-      padding: 0 20px;
+    /* Course Header (Similar to topic-detail) */
+    .course-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 16px;
+      margin: 20px 0 30px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .back-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    .course-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .course-header .back-button {
       color: white !important;
-      font-weight: 600 !important;
-      padding: 12px 24px !important;
-      border-radius: 25px !important;
-      font-size: 0.95rem !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
-      border: none !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
+      background: rgba(255, 255, 255, 0.2) !important;
+      z-index: 2;
+      border-radius: 50% !important;
+      padding: 8px !important;
+      min-width: 40px !important;
+      height: 40px !important;
+      box-shadow: none !important;
     }
 
-    .back-button:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
-      background: linear-gradient(135deg, #5a6fd8 0%, #6a4c93 100%) !important;
+    .course-header .back-button:hover {
+      background: rgba(255, 255, 255, 0.3) !important;
+      transform: none !important;
     }
 
-    .back-button mat-icon {
-      font-size: 1.2rem !important;
-      margin-right: 4px !important;
-    }    /* Enhanced Course Heading */
+    .course-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      z-index: 2;
+    }
+
+    .course-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .course-header .course-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      color: white;
+    }
+
+    .course-header .course-description {
+      font-size: 1.1rem;
+      margin: 0;
+      opacity: 0.9;
+      line-height: 1.5;
+      color: white;
+    }
+
+    /* Course Stats (Similar to topic-detail) */
+    .course-stats {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .course-stats .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .course-stats .stat-item mat-icon {
+      color: #667eea;
+      font-size: 20px;
+    }
+
+    /* Enhanced Course Heading */
     .course-heading-section {
       position: relative;
       background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
@@ -871,11 +964,11 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       margin: 0;
     }
 
-    /* Topics Container */
+    /* Topics Container - Compact Version */
     .topics-container {
       background: white;
       border-radius: 12px;
-      padding: 40px;
+      padding: 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
     
@@ -883,545 +976,381 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       gap: 16px;
     }
     
     .topics-title {
-      font-size: 2rem;
+      font-size: 1.6rem;
       font-weight: 600;
       color: #2c3e50;
       margin: 0;
     }
 
-    /* Topic Blocks */
-    .topic-block {
-      margin-bottom: 24px;
+    /* Content Cards (similar to topic-detail structure) - Compact Version */
+    .topic-card {
+      margin-bottom: 16px;
       border: 1px solid #e0e0e0;
-      border-radius: 12px;
+      border-radius: 8px;
       overflow: hidden;
       transition: all 0.3s ease;
+      background: white;
     }
     
-    .topic-block:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    .topic-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     }
-      .topic-header-modern {
+      
+    .topic-header {
       display: flex;
       align-items: center;
-      gap: 20px;
-      padding: 24px;
-      background: #f8f9fa;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    
-    .topic-header-modern:hover {
-      background: #e9ecef;
-    }
-
-    .topic-info {
-      flex: 1;
-      min-width: 0;
+      gap: 16px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-bottom: 1px solid #e0e0e0;
     }
     
     .topic-number {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, #3f51b5, #5c6bc0);
       color: white;
       border-radius: 50%;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
       flex-shrink: 0;
     }
     
     .topic-info {
       flex: 1;
+      min-width: 0;
     }
     
-    .topic-title-modern {
-      font-size: 1.3rem;
+    .topic-title {
+      font-size: 1.1rem;
       font-weight: 600;
       color: #2c3e50;
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     
-    .topic-desc-modern {
-      font-size: 1rem;
+    .topic-title::before {
+      content: "📚";
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    .topic-meta {
+      display: flex;
+      gap: 16px;
       color: #666;
-      margin: 0;
-      line-height: 1.5;
+      font-size: 0.85rem;
+    }
+    
+    .topic-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .topic-meta mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+    
+    .topic-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .view-topic-btn {
+      border-radius: 6px !important;
+      padding: 0 14px !important;
+      height: 36px !important;
+      font-weight: 500 !important;
+      font-size: 0.9rem !important;
     }
     
     .expand-button {
       transition: transform 0.3s ease;
+      width: 36px !important;
+      height: 36px !important;
     }
     
     .expand-button.expanded {
       transform: rotate(180deg);
     }
-
-    /* Topic Preview */
-    .topic-preview {
-      padding: 20px 30px;
-      background: #f8f9ff;
-      border-top: 1px solid #e0e7ff;
+    
+    /* Content List - Compact Version */
+    .lessons-list {
+      padding: 8px 20px;
+      background: #fafbfc;
     }
-
-    .topic-stats {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .topic-stats .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: #666;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    .topic-stats .stat-item mat-icon {
-      font-size: 1rem;
-      width: 1rem;
-      height: 1rem;
-      color: #667eea;
-    }
-
-    .view-hint {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #888;
-      font-style: italic;
-    }
-
-    /* Lessons Grid */
-    .lessons-grid {
-      padding: 0;
+    
+    /* Content Table - Compact Version */
+    .lessons-table-container {
       background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      border-left: 3px solid #667eea;
     }
     
-    .lessons-grid.inline-expanded {
-      padding: 24px;
-      border-top: 1px solid #e0e0e0;
-    }
-    
-    .lesson-item {
-      border-bottom: 1px solid #f0f0f0;
-      transition: all 0.3s ease;
-    }
-    
-    .lesson-item:last-child {
-      border-bottom: none;
-    }
-    
-    .lesson-item:hover {
-      background: #f8f9fa;
-    }
-    
-    .lesson-content {
-      padding: 20px 24px;
-    }
-    
-    .lesson-header-modern {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      gap: 16px;
-    }
-    
-    .lesson-title-modern {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #2c3e50;
+    .lessons-table {
+      width: 100%;
+      border-collapse: collapse;
       margin: 0;
-      flex: 1;
     }
     
-    .lesson-status {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
+    .lessons-table thead {
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
     }
     
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 0.8rem;
+    .lessons-table thead th {
+      padding: 12px 10px;
+      text-align: left;
       font-weight: 600;
-      text-transform: uppercase;
-    }
-    
-    .status-badge.free {
-      background: #e8f5e8;
-      color: #2e7d32;
-    }
-    
-    .status-badge.premium {
-      background: #fff3e0;
-      color: #f57c00;
-    }
-    
-    .duration-badge {
-      padding: 2px 8px;
-      background: #f0f4ff;
-      color: #667eea;
-      border-radius: 8px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-left: 8px;
-    }
-    
-    .lesson-preview {
-      opacity: 0.8;
-      transition: opacity 0.3s ease;
-    }
-    
-    .lesson-preview:hover {
-      opacity: 1;
-    }
-
-    /* Keynotes */
-    .keynotes-modern {
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid #f0f0f0;
-    }
-    
-    .section-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #3f51b5;
-      margin: 0 0 12px 0;
+      color: #495057;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
-    .keynotes-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .lessons-table tbody tr {
+      border-bottom: 1px solid #e9ecef;
+      transition: background-color 0.2s ease;
     }
     
-    .keynote-item {
+    .lessons-table tbody tr:hover {
       background: #f8f9fa;
-      border-radius: 8px;
-      padding: 12px;
-      border-left: 3px solid #3f51b5;
     }
     
-    .keynote-item.important {
-      border-left-color: #ff5722;
-      background: #fff3e0;
+    .lessons-table tbody tr:last-child {
+      border-bottom: none;
     }
     
-    .keynote-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      gap: 12px;
+    .lessons-table tbody td {
+      padding: 12px 10px;
+      vertical-align: middle;
     }
     
-    .keynote-title-modern {
+    .lesson-num-col {
+      width: 80px;
+      text-align: center;
+    }
+    
+    .lesson-title-col {
+      width: auto;
+      min-width: 300px;
+    }
+    
+    .lesson-action-col {
+      width: 150px;
+      text-align: center;
+    }
+    
+    .lesson-num-cell {
+      text-align: center;
       font-weight: 600;
-      color: #2c3e50;
+      color: #667eea;
       font-size: 0.9rem;
     }
     
-    .keynote-meta {
-      display: flex;
-      gap: 6px;
+    .lesson-title-cell .lesson-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin: 0;
     }
     
-    .meta-tag {
-      padding: 2px 8px;
+    .lesson-duration-cell {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .lesson-duration-cell span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .lesson-duration-cell mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #667eea;
+    }
+    
+    .no-duration {
+      color: #999;
+      font-style: italic;
+    }
+    
+    .lesson-status-cell {
+      text-align: center;
+    }
+    
+    .lesson-status-badge {
+      padding: 4px 12px;
       border-radius: 12px;
       font-size: 0.75rem;
       font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
-    .meta-tag.planet {
+    .lesson-status-badge.free {
       background: #e8f5e8;
       color: #2e7d32;
     }
     
-    .meta-tag.zodiac {
-      background: #e3f2fd;
-      color: #1976d2;
+    .lesson-status-badge.premium {
+      background: #fff3e0;
+      color: #f57c00;
     }
     
-    .keynote-content-modern {
-      font-size: 0.85rem;
-      color: #666;
-      line-height: 1.5;
+    .lesson-action-cell {
+      text-align: center;
+    }
+    
+    .view-lesson-btn-table {
+      border-radius: 6px !important;
+      padding: 0 16px !important;
+      height: 36px !important;
+      font-weight: 500 !important;
+      font-size: 0.9rem !important;
+      min-width: 100px !important;
+    }
+    
+    .view-lesson-btn-table mat-icon {
+      font-size: 16px !important;
+      width: 16px !important;
+      height: 16px !important;
+      margin-right: 6px !important;
     }
 
-    /* Tags */
-    .tags-modern {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid #f0f0f0;
+    /* Mobile Card View */
+    .lessons-cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
     
-    .tag-list {
+    .lesson-card {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+      border: 1px solid #e0e0e0;
+      border-left: 3px solid #667eea;
+      transition: all 0.3s ease;
+    }
+    
+    .lesson-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+    }
+    
+    .lesson-card-header {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-number-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .lesson-card-title {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2c3e50;
+      line-height: 1.3;
+    }
+    
+    .lesson-card-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    
+    .lesson-card-info {
+      display: flex;
+      flex-direction: column;
       gap: 6px;
     }
     
-    .tag-modern {
-      padding: 4px 10px;
-      background: #e9ecef;
-      color: #495057;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    /* More Lessons Indicator */
-    .more-lessons-indicator {
-      text-align: center;
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      margin: 12px 24px;
-      color: #666;
-      font-style: italic;
-    }
-    
-    .click-hint {
-      color: #ff6b6b;
-      font-weight: 500;
-    }
-
-    /* No Data */
-    .no-data-modern {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      color: #666;
-      text-align: center;
-    }
-    
-    .no-data-modern mat-icon {
-      font-size: 64px;
-      width: 64px;
-      height: 64px;
-      margin-bottom: 20px;
-      color: #ccc;
-    }
-    
-    .no-data-modern h3 {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-    }
-
-    /* Topic Actions */
-    .topic-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .detail-button {
-      color: #667eea !important;
-      background: rgba(102, 126, 234, 0.1);
-    }
-
-    .detail-button:hover {
-      background: rgba(102, 126, 234, 0.2);
-    }
-
-    /* Lessons Header */
-    .lessons-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 2px solid #e0e7ff;
-      margin-bottom: 16px;
-    }
-
-    .lessons-section-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #333;
-      margin: 0;
-    }
-
-    .view-details-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-    }    /* Lesson Meta Info */
-    .lesson-meta-info {
-      display: flex;
-      gap: 16px;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid #f0f4ff;
-    }
-
-    .meta-item {
+    .lesson-duration-info {
       display: flex;
       align-items: center;
       gap: 4px;
       color: #666;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
-
-    .meta-item mat-icon {
-      font-size: 1rem;
-      width: 1rem;
-      height: 1rem;
+    
+    .lesson-duration-info mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
       color: #667eea;
     }
-
-    /* Lesson Actions */
-    .lesson-actions {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid #f0f4ff;
+    
+    .lesson-duration-info .no-duration {
+      color: #999;
+      font-style: italic;
     }
-
-    .view-lesson-details-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-      color: white !important;
-      font-weight: 600 !important;
-      padding: 8px 16px !important;
-      border-radius: 20px !important;
-      font-size: 0.9rem !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+    
+    .lesson-card-action {
+      flex-shrink: 0;
     }
-
-    .view-lesson-details-btn:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
+    
+    .view-lesson-btn-mobile {
+      border-radius: 6px !important;
+      padding: 0 12px !important;
+      height: 32px !important;
+      font-weight: 500 !important;
+      font-size: 0.8rem !important;
+      min-width: 100px !important;
     }
-
-    .view-lesson-details-btn mat-icon {
+    
+    .view-lesson-btn-mobile mat-icon {
+      font-size: 16px !important;
+      width: 16px !important;
+      height: 16px !important;
       margin-right: 4px !important;
-      font-size: 1.1rem !important;
     }
 
-  /* Enhanced Lessons Section Styles */
-  /* Clean Lesson Cards Grid */
-  .lessons-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-    margin: 20px 0;
-  }
-
-  .lesson-card-enhanced {
-    background: white;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    transition: border-color 0.2s;
-    position: relative;
-  }
-
-  .lesson-card-enhanced:hover {
-    border-color: #667eea;
-  }
-
-  .lesson-card-inner {
-    padding: 16px;
-    position: relative;
-  }
-
-  .lesson-number-badge {
-    position: absolute;
-    top: -8px;
-    right: 16px;
-    width: 24px;
-    height: 24px;
-    background: #667eea;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .lesson-number {
-    color: white;
-    font-weight: 600;
-    font-size: 11px;
-  }
-
-  .lesson-content {
-    margin-bottom: 12px;
-  }
-
-  .lesson-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .lesson-type-icon {
-    color: #667eea;
-    font-size: 18px !important;
-  }
-
-  .lesson-title {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.3;
-  }
-
-  
-  .lesson-action {
-    margin-top: 12px;
-  }
-
-  .lesson-view-btn {
-    width: 100%;
-    height: 32px;
-    border-radius: 6px !important;
-    font-weight: 500 !important;
-    font-size: 12px !important;
-    background: #667eea !important;
-    border: none !important;
-    transition: background 0.2s !important;
-  }
-
-  .lesson-view-btn:hover {
-    background: #5a6fd8 !important;
-  }
-
-  .lesson-view-btn mat-icon {
-    margin-right: 4px;
-    font-size: 14px;
-  }
-
-  /* Responsive Design for Enhanced Lessons */
-  @media (max-width: 768px) {
-    .lessons-cards-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
+    /* Responsive Visibility Classes */
+    .desktop-only {
+      display: block;
     }
-  }
+    
+    .mobile-only {
+      display: none;
+    }
 
     /* Responsive Design */
     @media (max-width: 768px) {
@@ -1454,16 +1383,26 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
         min-width: auto;
       }
       
-      .back-button-section {
-        margin-bottom: 16px;
-        padding: 0 16px;
+      .content-section {
+        padding: 20px 16px 40px;
       }
       
-      .back-button {
-        font-size: 0.9rem !important;
-        padding: 10px 20px !important;
-        width: 100% !important;
-        justify-content: center !important;
+      .course-header {
+        padding: 20px;
+        margin: 16px 0 20px 0;
+      }
+      
+      .course-header .course-title {
+        font-size: 1.8rem;
+      }
+      
+      .course-info {
+        gap: 16px;
+      }
+      
+      .course-stats {
+        gap: 20px;
+        padding: 16px;
       }
       
       .course-header-with-image {
@@ -1482,7 +1421,8 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       .course-main-title {
         font-size: 1.5rem;
       }
-        .course-heading-section,
+      
+      .course-heading-section,
       .topics-container {
         padding: 24px;
         margin: 24px 0;
@@ -1508,6 +1448,97 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       
       .lesson-content {
         padding: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topic-header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+      }
+      
+      .topic-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .topic-meta {
+        flex-direction: column;
+        gap: 6px;
+      }
+      
+      .view-topic-btn {
+        width: 100% !important;
+      }
+      
+      /* Responsive visibility switches */
+      .desktop-only {
+        display: none !important;
+      }
+      
+      .mobile-only {
+        display: block !important;
+      }
+      
+      /* Mobile card adjustments */
+      .lessons-cards-container {
+        gap: 8px;
+      }
+      
+      .lesson-card {
+        padding: 10px;
+      }
+      
+      .lesson-card-header {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+      
+      .lesson-number-badge {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+      }
+      
+      .lesson-card-title {
+        font-size: 0.85rem;
+        min-width: 0;
+      }
+      
+      .lesson-card-content {
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      .lesson-card-action {
+        width: 100%;
+      }
+      
+      .view-lesson-btn-mobile {
+        width: 100% !important;
+        height: 36px !important;
+        font-size: 0.85rem !important;
+        justify-content: center !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .lesson-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .lesson-number-badge {
+        align-self: flex-start;
+      }
+      
+      .lesson-card-title {
+        font-size: 0.85rem;
+        line-height: 1.4;
       }
     }
   `]
@@ -1585,6 +1616,15 @@ export class CustomerCourseViewComponent implements OnInit {
 
     Promise.all(topicRequests).then(topicsWithLessons => {
       this.topics = topicsWithLessons;
+      
+      // Expand all topics by default when viewing a specific course
+      if (this.isViewingSpecificCourse) {
+        this.inlineExpandedTopics.clear();
+        for (let i = 0; i < this.topics.length; i++) {
+          this.inlineExpandedTopics.add(i);
+        }
+      }
+      
       this.loading = false;
     }).catch(error => {
       console.error('Error loading lessons:', error);
@@ -1650,6 +1690,15 @@ export class CustomerCourseViewComponent implements OnInit {
         );
         
         this.topics = topics;
+        
+        // Expand all topics by default when viewing a specific course
+        if (this.isViewingSpecificCourse) {
+          this.inlineExpandedTopics.clear();
+          for (let i = 0; i < this.topics.length; i++) {
+            this.inlineExpandedTopics.add(i);
+          }
+        }
+        
         this.loading = false;
       },
       error: (error) => {
