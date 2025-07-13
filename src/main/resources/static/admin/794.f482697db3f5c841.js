@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkadmin=self.webpackChunkadmin||[]).push([[794],{9794:(s,t,n)=>{n.r(t),n.d(t,{AUTH_ROUTES:()=>l});var o=n(6290),e=n(726);const l=[{path:"",redirectTo:"login",pathMatch:"full"},{path:"login",component:o.X},{path:"register",component:e.d}]}}]);
