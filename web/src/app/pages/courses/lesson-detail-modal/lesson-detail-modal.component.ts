@@ -401,8 +401,8 @@ interface LessonDetail {
     }
 
     /* Enhanced HTML Table Styling for Lesson Content */
-    .description-content table,
-    .content-body table {
+    ::ng-deep .description-content table,
+    ::ng-deep .content-body table {
       width: 100%;
       border-collapse: collapse;
       margin: 16px 0;
@@ -411,10 +411,11 @@ interface LessonDetail {
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       font-size: 14px;
+      border: 1px solid #e2e8f0;
     }
 
-    .description-content th,
-    .content-body th {
+    ::ng-deep .description-content th,
+    ::ng-deep .content-body th {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       padding: 12px 16px;
@@ -424,92 +425,92 @@ interface LessonDetail {
       border: none;
     }
 
-    .description-content td,
-    .content-body td {
+    ::ng-deep .description-content td,
+    ::ng-deep .content-body td {
       padding: 12px 16px;
       border-bottom: 1px solid #e2e8f0;
       vertical-align: top;
       border: none;
     }
 
-    .description-content tr:nth-child(even) td,
-    .content-body tr:nth-child(even) td {
+    ::ng-deep .description-content tr:nth-child(even) td,
+    ::ng-deep .content-body tr:nth-child(even) td {
       background: #f8f9fa;
     }
 
-    .description-content tr:hover td,
-    .content-body tr:hover td {
+    ::ng-deep .description-content tr:hover td,
+    ::ng-deep .content-body tr:hover td {
       background: #e8f0fe;
     }
 
-    .description-content tbody tr:last-child td,
-    .content-body tbody tr:last-child td {
+    ::ng-deep .description-content tbody tr:last-child td,
+    ::ng-deep .content-body tbody tr:last-child td {
       border-bottom: none;
     }
 
     /* Enhanced HTML Content Styling */
-    .description-content p,
-    .content-body p {
+    ::ng-deep .description-content p,
+    ::ng-deep .content-body p {
       margin: 12px 0;
       line-height: 1.6;
     }
 
-    .description-content h1,
-    .description-content h2,
-    .description-content h3,
-    .description-content h4,
-    .description-content h5,
-    .description-content h6,
-    .content-body h1,
-    .content-body h2,
-    .content-body h3,
-    .content-body h4,
-    .content-body h5,
-    .content-body h6 {
+    ::ng-deep .description-content h1,
+    ::ng-deep .description-content h2,
+    ::ng-deep .description-content h3,
+    ::ng-deep .description-content h4,
+    ::ng-deep .description-content h5,
+    ::ng-deep .description-content h6,
+    ::ng-deep .content-body h1,
+    ::ng-deep .content-body h2,
+    ::ng-deep .content-body h3,
+    ::ng-deep .content-body h4,
+    ::ng-deep .content-body h5,
+    ::ng-deep .content-body h6 {
       color: #2d3748;
       margin: 20px 0 12px 0;
       font-weight: 600;
     }
 
-    .description-content h1, .content-body h1 { font-size: 1.5rem; }
-    .description-content h2, .content-body h2 { font-size: 1.3rem; }
-    .description-content h3, .content-body h3 { font-size: 1.2rem; }
-    .description-content h4, .content-body h4 { font-size: 1.1rem; }
-    .description-content h5, .content-body h5 { font-size: 1rem; }
-    .description-content h6, .content-body h6 { font-size: 0.9rem; }
+    ::ng-deep .description-content h1, ::ng-deep .content-body h1 { font-size: 1.5rem; }
+    ::ng-deep .description-content h2, ::ng-deep .content-body h2 { font-size: 1.3rem; }
+    ::ng-deep .description-content h3, ::ng-deep .content-body h3 { font-size: 1.2rem; }
+    ::ng-deep .description-content h4, ::ng-deep .content-body h4 { font-size: 1.1rem; }
+    ::ng-deep .description-content h5, ::ng-deep .content-body h5 { font-size: 1rem; }
+    ::ng-deep .description-content h6, ::ng-deep .content-body h6 { font-size: 0.9rem; }
 
-    .description-content ul,
-    .description-content ol,
-    .content-body ul,
-    .content-body ol {
+    ::ng-deep .description-content ul,
+    ::ng-deep .description-content ol,
+    ::ng-deep .content-body ul,
+    ::ng-deep .content-body ol {
       margin: 12px 0;
       padding-left: 24px;
     }
 
-    .description-content li,
-    .content-body li {
+    ::ng-deep .description-content li,
+    ::ng-deep .content-body li {
       margin: 6px 0;
       line-height: 1.5;
     }
 
-    .description-content strong,
-    .description-content b,
-    .content-body strong,
-    .content-body b {
+    ::ng-deep .description-content strong,
+    ::ng-deep .description-content b,
+    ::ng-deep .content-body strong,
+    ::ng-deep .content-body b {
       color: #2d3748;
       font-weight: 600;
     }
 
-    .description-content em,
-    .description-content i,
-    .content-body em,
-    .content-body i {
+    ::ng-deep .description-content em,
+    ::ng-deep .description-content i,
+    ::ng-deep .content-body em,
+    ::ng-deep .content-body i {
       color: #4a5568;
       font-style: italic;
     }
 
-    .description-content blockquote,
-    .content-body blockquote {
+    ::ng-deep .description-content blockquote,
+    ::ng-deep .content-body blockquote {
       margin: 16px 0;
       padding: 12px 20px;
       border-left: 4px solid #667eea;
@@ -519,8 +520,8 @@ interface LessonDetail {
       color: #4a5568;
     }
 
-    .description-content code,
-    .content-body code {
+    ::ng-deep .description-content code,
+    ::ng-deep .content-body code {
       background: #f1f5f9;
       padding: 2px 6px;
       border-radius: 4px;
@@ -529,19 +530,44 @@ interface LessonDetail {
       color: #2d3748;
     }
 
-    .description-content pre,
-    .content-body pre {
+    ::ng-deep .description-content pre,
+    ::ng-deep .content-body pre {
       background: #f8f9fa;
       padding: 16px;
       border-radius: 8px;
       overflow-x: auto;
       border: 1px solid #e2e8f0;
+      margin: 16px 0;
     }
 
-    .description-content pre code,
-    .content-body pre code {
+    ::ng-deep .description-content pre code,
+    ::ng-deep .content-body pre code {
       background: none;
       padding: 0;
+    }
+
+    ::ng-deep .description-content img,
+    ::ng-deep .content-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    ::ng-deep .description-content a,
+    ::ng-deep .content-body a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    ::ng-deep .description-content a:hover,
+    ::ng-deep .content-body a:hover {
+      color: #5a67d8;
+      border-bottom-color: #5a67d8;
     }
 
     .keynotes-container {
@@ -610,7 +636,7 @@ interface LessonDetail {
     }
 
     /* Table Styling for Keynote Content */
-    .keynote-content table {
+    ::ng-deep .keynote-content table {
       width: 100%;
       border-collapse: collapse;
       margin: 12px 0;
@@ -619,9 +645,10 @@ interface LessonDetail {
       overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.1);
       font-size: 13px;
+      border: 1px solid #e2e8f0;
     }
 
-    .keynote-content th {
+    ::ng-deep .keynote-content th {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       padding: 10px 12px;
@@ -631,73 +658,73 @@ interface LessonDetail {
       border: none;
     }
 
-    .keynote-content td {
+    ::ng-deep .keynote-content td {
       padding: 10px 12px;
       border-bottom: 1px solid #e2e8f0;
       vertical-align: top;
       border: none;
     }
 
-    .keynote-content tr:nth-child(even) td {
+    ::ng-deep .keynote-content tr:nth-child(even) td {
       background: #f8f9fa;
     }
 
-    .keynote-content tr:hover td {
+    ::ng-deep .keynote-content tr:hover td {
       background: #e8f0fe;
     }
 
-    .keynote-content tbody tr:last-child td {
+    ::ng-deep .keynote-content tbody tr:last-child td {
       border-bottom: none;
     }
 
     /* Enhanced HTML Content Styling for Keynotes */
-    .keynote-content p {
+    ::ng-deep .keynote-content p {
       margin: 8px 0;
       line-height: 1.5;
     }
 
-    .keynote-content h1,
-    .keynote-content h2,
-    .keynote-content h3,
-    .keynote-content h4,
-    .keynote-content h5,
-    .keynote-content h6 {
+    ::ng-deep .keynote-content h1,
+    ::ng-deep .keynote-content h2,
+    ::ng-deep .keynote-content h3,
+    ::ng-deep .keynote-content h4,
+    ::ng-deep .keynote-content h5,
+    ::ng-deep .keynote-content h6 {
       color: #2d3748;
       margin: 16px 0 8px 0;
       font-weight: 600;
     }
 
-    .keynote-content h1 { font-size: 1.2rem; }
-    .keynote-content h2 { font-size: 1.1rem; }
-    .keynote-content h3 { font-size: 1rem; }
-    .keynote-content h4 { font-size: 0.95rem; }
-    .keynote-content h5 { font-size: 0.9rem; }
-    .keynote-content h6 { font-size: 0.85rem; }
+    ::ng-deep .keynote-content h1 { font-size: 1.2rem; }
+    ::ng-deep .keynote-content h2 { font-size: 1.1rem; }
+    ::ng-deep .keynote-content h3 { font-size: 1rem; }
+    ::ng-deep .keynote-content h4 { font-size: 0.95rem; }
+    ::ng-deep .keynote-content h5 { font-size: 0.9rem; }
+    ::ng-deep .keynote-content h6 { font-size: 0.85rem; }
 
-    .keynote-content ul,
-    .keynote-content ol {
+    ::ng-deep .keynote-content ul,
+    ::ng-deep .keynote-content ol {
       margin: 8px 0;
       padding-left: 20px;
     }
 
-    .keynote-content li {
+    ::ng-deep .keynote-content li {
       margin: 4px 0;
       line-height: 1.4;
     }
 
-    .keynote-content strong,
-    .keynote-content b {
+    ::ng-deep .keynote-content strong,
+    ::ng-deep .keynote-content b {
       color: #2d3748;
       font-weight: 600;
     }
 
-    .keynote-content em,
-    .keynote-content i {
+    ::ng-deep .keynote-content em,
+    ::ng-deep .keynote-content i {
       color: #4a5568;
       font-style: italic;
     }
 
-    .keynote-content blockquote {
+    ::ng-deep .keynote-content blockquote {
       margin: 12px 0;
       padding: 8px 16px;
       border-left: 3px solid #667eea;
@@ -707,13 +734,48 @@ interface LessonDetail {
       color: #4a5568;
     }
 
-    .keynote-content code {
+    ::ng-deep .keynote-content code {
       background: #f1f5f9;
       padding: 2px 4px;
       border-radius: 3px;
       font-family: 'Courier New', monospace;
       font-size: 0.85em;
       color: #2d3748;
+    }
+
+    ::ng-deep .keynote-content pre {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      margin: 12px 0;
+    }
+
+    ::ng-deep .keynote-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    ::ng-deep .keynote-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin: 12px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    ::ng-deep .keynote-content a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    ::ng-deep .keynote-content a:hover {
+      color: #5a67d8;
+      border-bottom-color: #5a67d8;
     }
 
     .keynote-badges {

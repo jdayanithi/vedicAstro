@@ -436,6 +436,210 @@ interface LessonDetail {
       color: #444;
     }
 
+    /* Table styles for innerHTML content */
+    ::ng-deep .description-content table, 
+    ::ng-deep .content-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e0e7ff;
+    }
+
+    ::ng-deep .description-content table th, 
+    ::ng-deep .content-body table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid #e0e7ff;
+    }
+
+    ::ng-deep .description-content table td, 
+    ::ng-deep .content-body table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #e0e7ff;
+      vertical-align: top;
+    }
+
+    ::ng-deep .description-content table tr:last-child td, 
+    ::ng-deep .content-body table tr:last-child td {
+      border-bottom: none;
+    }
+
+    ::ng-deep .description-content table tr:hover, 
+    ::ng-deep .content-body table tr:hover {
+      background: #f8f9ff;
+    }
+
+    ::ng-deep .description-content table tr:nth-child(even), 
+    ::ng-deep .content-body table tr:nth-child(even) {
+      background: #fafbff;
+    }
+
+    ::ng-deep .description-content table tr:nth-child(even):hover, 
+    ::ng-deep .content-body table tr:nth-child(even):hover {
+      background: #f0f2ff;
+    }
+
+    /* Responsive table styles */
+    @media (max-width: 768px) {
+      ::ng-deep .description-content table, 
+      ::ng-deep .content-body table {
+        font-size: 0.9rem;
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      ::ng-deep .description-content table th, 
+      ::ng-deep .content-body table th,
+      ::ng-deep .description-content table td, 
+      ::ng-deep .content-body table td {
+        padding: 8px 12px;
+        min-width: 120px;
+      }
+      
+      /* Create a scrollable container for tables on small screens */
+      .description-content, .content-body {
+        overflow-x: auto;
+      }
+    }
+
+    /* Additional HTML elements styling for innerHTML content */
+    ::ng-deep .description-content ul, 
+    ::ng-deep .content-body ul,
+    ::ng-deep .description-content ol, 
+    ::ng-deep .content-body ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+
+    ::ng-deep .description-content li, 
+    ::ng-deep .content-body li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    ::ng-deep .description-content blockquote, 
+    ::ng-deep .content-body blockquote {
+      background: #f0f2ff;
+      border-left: 4px solid #667eea;
+      margin: 16px 0;
+      padding: 16px 20px;
+      font-style: italic;
+      color: #555;
+      border-radius: 4px;
+    }
+
+    ::ng-deep .description-content code, 
+    ::ng-deep .content-body code {
+      background: #f1f3f4;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      color: #d63384;
+    }
+
+    ::ng-deep .description-content pre, 
+    ::ng-deep .content-body pre {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 16px 0;
+      border: 1px solid #e9ecef;
+    }
+
+    ::ng-deep .description-content pre code, 
+    ::ng-deep .content-body pre code {
+      background: none;
+      padding: 0;
+      color: #333;
+    }
+
+    ::ng-deep .description-content strong, 
+    ::ng-deep .content-body strong,
+    ::ng-deep .description-content b, 
+    ::ng-deep .content-body b {
+      font-weight: 600;
+      color: #333;
+    }
+
+    ::ng-deep .description-content em, 
+    ::ng-deep .content-body em,
+    ::ng-deep .description-content i, 
+    ::ng-deep .content-body i {
+      font-style: italic;
+      color: #555;
+    }
+
+    ::ng-deep .description-content h1, 
+    ::ng-deep .content-body h1,
+    ::ng-deep .description-content h2, 
+    ::ng-deep .content-body h2,
+    ::ng-deep .description-content h3, 
+    ::ng-deep .content-body h3,
+    ::ng-deep .description-content h4, 
+    ::ng-deep .content-body h4,
+    ::ng-deep .description-content h5, 
+    ::ng-deep .content-body h5,
+    ::ng-deep .description-content h6, 
+    ::ng-deep .content-body h6 {
+      margin: 20px 0 12px 0;
+      color: #333;
+      font-weight: 600;
+    }
+
+    ::ng-deep .description-content h1, 
+    ::ng-deep .content-body h1 { font-size: 1.8rem; }
+    ::ng-deep .description-content h2, 
+    ::ng-deep .content-body h2 { font-size: 1.5rem; }
+    ::ng-deep .description-content h3, 
+    ::ng-deep .content-body h3 { font-size: 1.3rem; }
+    ::ng-deep .description-content h4, 
+    ::ng-deep .content-body h4 { font-size: 1.1rem; }
+    ::ng-deep .description-content h5, 
+    ::ng-deep .content-body h5 { font-size: 1rem; }
+    ::ng-deep .description-content h6, 
+    ::ng-deep .content-body h6 { font-size: 0.9rem; }
+
+    ::ng-deep .description-content p, 
+    ::ng-deep .content-body p {
+      margin: 12px 0;
+      line-height: 1.6;
+    }
+
+    ::ng-deep .description-content img, 
+    ::ng-deep .content-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 16px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    ::ng-deep .description-content a, 
+    ::ng-deep .content-body a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    ::ng-deep .description-content a:hover, 
+    ::ng-deep .content-body a:hover {
+      color: #5a67d8;
+      border-bottom-color: #5a67d8;
+    }
+
     /* Media Section */
     .media-section {
       margin-bottom: 30px;
@@ -630,6 +834,50 @@ interface LessonDetail {
       line-height: 1.6;
       color: #555;
       margin-bottom: 16px;
+    }
+
+    /* Table styles for keynote content */
+    ::ng-deep .keynote-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+    }
+
+    ::ng-deep .keynote-content table th {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    ::ng-deep .keynote-content table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e9ecef;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+
+    ::ng-deep .keynote-content table tr:last-child td {
+      border-bottom: none;
+    }
+
+    ::ng-deep .keynote-content table tr:hover {
+      background: #f8f9ff;
+    }
+
+    ::ng-deep .keynote-content table tr:nth-child(even) {
+      background: #fafbff;
+    }
+
+    ::ng-deep .keynote-content table tr:nth-child(even):hover {
+      background: #f0f2ff;
     }
 
     .keynote-visual {
