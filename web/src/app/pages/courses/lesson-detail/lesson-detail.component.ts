@@ -467,6 +467,8 @@ interface LessonDetail {
       border-bottom: 1px solid #e0e7ff;
       vertical-align: top;
       line-height: 1.4;
+      word-wrap: break-word;
+      max-width: 300px;
     }
 
     ::ng-deep .description-content table tr:last-child td, 
@@ -497,7 +499,6 @@ interface LessonDetail {
         display: block;
         width: 100%;
         overflow-x: auto;
-        white-space: nowrap;
       }
       
       ::ng-deep .description-content table th, 
@@ -507,6 +508,8 @@ interface LessonDetail {
         padding: 6px 8px;
         min-width: 100px;
         font-size: 0.8rem;
+        white-space: normal;
+        word-wrap: break-word;
       }
       
       /* Create a scrollable container for tables on small screens */
@@ -868,6 +871,8 @@ interface LessonDetail {
       vertical-align: top;
       font-size: 0.85rem;
       line-height: 1.4;
+      word-wrap: break-word;
+      max-width: 250px;
     }
 
     ::ng-deep .keynote-content table tr:last-child td {

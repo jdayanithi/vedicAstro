@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Gradient for main kite body -->
+    <linearGradient id="kiteMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7b1fa2;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9c27b0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6a1b9a;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gradient for kite highlight -->
+    <linearGradient id="kiteHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ba68c8;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#e1bee7;stop-opacity:0.6" />
+    </linearGradient>
+    
+    <!-- Gradient for kite tail -->
+    <linearGradient id="kiteTail" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff5722;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff9800;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffc107;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+  
+  <!-- Kite main body (diamond shape) -->
+  <path d="M32 8 L48 24 L32 32 L16 24 Z" fill="url(#kiteMain)" stroke="#4a148c" stroke-width="2" filter="url(#shadow)"/>
+  
+  <!-- Kite bottom part -->
+  <path d="M16 24 L32 32 L48 24 L32 40 Z" fill="url(#kiteMain)" stroke="#4a148c" stroke-width="2" opacity="0.9"/>
+  
+  <!-- Kite cross structure -->
+  <line x1="32" y1="8" x2="32" y2="40" stroke="#4a148c" stroke-width="2.5"/>
+  <line x1="16" y1="24" x2="48" y2="24" stroke="#4a148c" stroke-width="2.5"/>
+  
+  <!-- Kite highlight sections -->
+  <path d="M32 8 L40 16 L32 24 L24 16 Z" fill="url(#kiteHighlight)"/>
+  <path d="M24 24 L32 32 L40 24 L32 32 Z" fill="url(#kiteHighlight)" opacity="0.7"/>
+  
+  <!-- Kite tail ribbons -->
+  <path d="M32 40 L30 44 L32 48 L34 44 Z" fill="url(#kiteTail)"/>
+  <path d="M32 48 L29 52 L32 56 L35 52 Z" fill="url(#kiteTail)" opacity="0.8"/>
+  
+  <!-- Kite string -->
+  <path d="M32 40 Q34 42 32 44 Q30 46 32 48 Q34 50 32 52 Q30 54 32 56" 
+        stroke="#666666" stroke-width="1.5" fill="none"/>
+  
+  <!-- Small decorative dots on kite -->
+  <circle cx="28" cy="20" r="1.5" fill="#4a148c" opacity="0.8"/>
+  <circle cx="36" cy="20" r="1.5" fill="#4a148c" opacity="0.8"/>
+  <circle cx="32" cy="28" r="1.5" fill="#4a148c" opacity="0.8"/>
+  
+  <!-- Wind effect lines -->
+  <path d="M50 16 L54 16" stroke="#cccccc" stroke-width="1" opacity="0.6"/>
+  <path d="M52 20 L56 20" stroke="#cccccc" stroke-width="1" opacity="0.6"/>
+  <path d="M50 24 L54 24" stroke="#cccccc" stroke-width="1" opacity="0.6"/>
+</svg>
