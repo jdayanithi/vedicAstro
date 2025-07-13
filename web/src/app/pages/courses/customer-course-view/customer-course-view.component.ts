@@ -218,32 +218,12 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
               </div>
             </div>
           </div>
-        </div><!-- Topics & Lessons -->
+        </div>        <!-- Topics & Lessons -->
         <div class="topics-container">
           <!-- Topics Header -->
           <div class="topics-header" *ngIf="topics.length > 0">
             <h3 class="topics-title">Course Topics</h3>
-            <div class="topics-actions">
-              <button 
-                mat-raised-button 
-                color="primary" 
-                class="expand-all-btn"
-                (click)="expandAll()"
-                *ngIf="inlineExpandedTopics.size < topics.length">
-                <mat-icon>unfold_more</mat-icon>
-                Expand All
-              </button>
-              <button 
-                mat-raised-button 
-                color="accent" 
-                class="collapse-all-btn"
-                (click)="collapseAll()"
-                *ngIf="inlineExpandedTopics.size > 0">
-                <mat-icon>unfold_less</mat-icon>
-                Collapse All
-              </button>
-            </div>
-          </div>          <div *ngFor="let topic of topics; let i = index" class="topic-block">
+          </div><div *ngFor="let topic of topics; let i = index" class="topic-block">
             <div class="topic-header-modern" (click)="toggleTopic(i)">
               <div class="topic-number">{{i + 1}}</div>
               <div class="topic-info">
@@ -283,11 +263,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
             <div class="lessons-grid" 
                  [class.inline-expanded]="inlineExpandedTopics.has(i)"
                  *ngIf="inlineExpandedTopics.has(i)">
-              <!-- Simplified Lessons Header -->
-              <div class="lessons-header-simple">
-                <h4 class="lessons-section-title">Lessons in this Topic</h4>
-                <span class="lessons-count">({{topic.lessons.length}} lessons)</span>
-              </div>
               
               <!-- Enhanced Lesson Cards Grid -->
               <div class="lessons-cards-grid">
@@ -919,11 +894,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       color: #2c3e50;
       margin: 0;
     }
-    
-    .topics-actions {
-      display: flex;
-      gap: 12px;
-    }
 
     /* Topic Blocks */
     .topic-block {
@@ -1352,29 +1322,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
     }
 
   /* Enhanced Lessons Section Styles */
-  /* Simplified Lessons Header */
-  .lessons-header-simple {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0;
-    margin: 20px 0;
-    border-bottom: 1px solid #e0e0e0;
-  }
-
-  .lessons-section-title {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .lessons-count {
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 500;
-  }
-
   /* Clean Lesson Cards Grid */
   .lessons-cards-grid {
     display: grid;
@@ -1470,21 +1417,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
 
   /* Responsive Design for Enhanced Lessons */
   @media (max-width: 768px) {
-    .lessons-header-simple {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 12px 0;
-    }
-
-    .lessons-section-title {
-      font-size: 1.2rem;
-    }
-
-    .lessons-count {
-      font-size: 0.85rem;
-    }
-
     .lessons-cards-grid {
       grid-template-columns: 1fr;
       gap: 12px;
@@ -1568,10 +1500,6 @@ import { LessonDetailModalComponent } from '../lesson-detail-modal/lesson-detail
       .topics-header {
         flex-direction: column;
         align-items: stretch;
-      }
-      
-      .topics-actions {
-        justify-content: center;
       }
       
       .topic-header-modern {
@@ -1771,15 +1699,6 @@ export class CustomerCourseViewComponent implements OnInit {
     });
   }
 
-  expandAll() {
-    this.topics.forEach((_, index) => {
-      this.inlineExpandedTopics.add(index);
-    });
-  }
-
-  collapseAll() {
-    this.inlineExpandedTopics.clear();
-  }
   getDisplayLessons(topic: TopicType, topicIndex: number) {
     return this.inlineExpandedTopics.has(topicIndex) ? topic.lessons : topic.lessons.slice(0, 2);
   }
