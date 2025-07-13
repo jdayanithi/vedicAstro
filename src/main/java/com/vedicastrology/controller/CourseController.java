@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -77,9 +79,38 @@ public class CourseController {
     public ResponseEntity<?> createCourse(@Valid @RequestBody SecureCourseRequest request) {
         logger.info("📝 Creating new course: {}", request.getTitle());
         try {
+            // Get authenticated user ID
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                logger.error("❌ No authenticated user found");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not authenticated");
+            }
+            
+            logger.info("🔍 Authentication details - Name: {}, Principal: {}, Authenticated: {}", 
+                authentication.getName(), authentication.getPrincipal(), authentication.isAuthenticated());
+            
+            Long authenticatedUserId;
+            try {
+                authenticatedUserId = Long.parseLong(authentication.getName());
+                logger.info("✅ Extracted user ID: {}", authenticatedUserId);
+            } catch (NumberFormatException e) {
+                logger.error("❌ Invalid user ID format: {}", authentication.getName());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user authentication");
+            }
+            
             // Additional sanitization
             String sanitizedTitle = inputSanitizationService.sanitizeInput(request.getTitle(), "courseTitle");
             String sanitizedDescription = inputSanitizationService.sanitizeInput(request.getDescription(), "courseDescription");
+            
+            // Debug Tamil text encoding
+            try {
+                logger.info("🔍 Raw input title: [{}]", request.getTitle());
+                logger.info("🔍 Raw input title bytes: {}", java.util.Arrays.toString(request.getTitle().getBytes("UTF-8")));
+                logger.info("🔍 Sanitized title: [{}]", sanitizedTitle);
+                logger.info("🔍 Sanitized title bytes: {}", java.util.Arrays.toString(sanitizedTitle.getBytes("UTF-8")));
+            } catch (Exception e) {
+                logger.error("Error debugging encoding: {}", e.getMessage());
+            }
             
             // Create course entity from secure request
             Course course = new Course();
@@ -89,10 +120,15 @@ public class CourseController {
             course.setDifficultyLevel(DifficultyLevel.fromString(request.getDifficultyLevel()));
             course.setPrice(request.getPrice() != null ? BigDecimal.valueOf(request.getPrice()) : null);
             course.setDurationHours(request.getDurationHours());
+            course.setLoginId(authenticatedUserId); // Set the authenticated user as the creator
             
             Course createdCourse = courseService.createCourse(course);
-            logger.info("✅ Successfully created course with ID: {}", createdCourse.getCourseId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
+            logger.info("✅ Successfully created course with ID: {} by user: {}", createdCourse.getCourseId(), authenticatedUserId);
+            
+            // Set UTF-8 content type to ensure proper Tamil character encoding
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Content-Type", "application/json;charset=UTF-8")
+                .body(createdCourse);
         } catch (SecurityException e) {
             logger.error("🚨 SECURITY_VIOLATION in create course: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Invalid course data: " + e.getMessage());

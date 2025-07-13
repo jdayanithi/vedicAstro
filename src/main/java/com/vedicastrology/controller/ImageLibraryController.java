@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -86,12 +88,20 @@ public class ImageLibraryController {
             @RequestParam(required = false) ImageCategory category,
             @RequestParam(required = false) Long lessonId,
             @RequestParam(required = false) Long topicId,
-            @RequestParam(required = false) Long courseId,
-            @RequestParam(defaultValue = "admin") String uploadedBy) {
+            @RequestParam(required = false) Long courseId) {
         
         try {
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body("File is empty");
+            }
+            
+            // Get authenticated user
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String uploadedBy = "admin"; // Default fallback
+            if (authentication != null && authentication.isAuthenticated() && 
+                !authentication.getName().equals("anonymousUser")) {
+                uploadedBy = authentication.getName(); // Use authenticated user ID
+                log.info("🔍 Image upload by authenticated user: {}", uploadedBy);
             }
             
             ImageLibrary uploadedImage = imageLibraryService.uploadImage(
@@ -116,10 +126,18 @@ public class ImageLibraryController {
             @RequestParam(required = false) ImageCategory category,
             @RequestParam(required = false) Long lessonId,
             @RequestParam(required = false) Long topicId,
-            @RequestParam(required = false) Long courseId,
-            @RequestParam(defaultValue = "admin") String uploadedBy) {
+            @RequestParam(required = false) Long courseId) {
         
         try {
+            // Get authenticated user
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String uploadedBy = "admin"; // Default fallback
+            if (authentication != null && authentication.isAuthenticated() && 
+                !authentication.getName().equals("anonymousUser")) {
+                uploadedBy = authentication.getName(); // Use authenticated user ID
+                log.info("🔍 Multiple images upload by authenticated user: {}", uploadedBy);
+            }
+            
             List<ImageLibrary> uploadedImages = imageLibraryService.uploadMultipleImages(
                 files, category, lessonId, topicId, courseId, uploadedBy
             );

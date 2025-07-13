@@ -19,7 +19,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   if (token && (!isPublicEndpoint || isSecureEndpoint)) {
     const cloned = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
+      headers: req.headers
+        .set('Authorization', `Bearer ${token}`)
+        .set('Content-Type', 'application/json;charset=UTF-8')
+        .set('Accept', 'application/json;charset=UTF-8')
     });
     
     return next(cloned).pipe(
@@ -35,7 +38,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     );
   }
   
-  return next(req).pipe(
+  // Add UTF-8 headers even for public endpoints
+  const clonedWithUtf8 = req.clone({
+    headers: req.headers
+      .set('Content-Type', 'application/json;charset=UTF-8')
+      .set('Accept', 'application/json;charset=UTF-8')
+  });
+  
+  return next(clonedWithUtf8).pipe(
     catchError((error: HttpErrorResponse) => {
       // Handle 401 errors even when no token is present for API calls
       if (error.status === 401 && req.url.includes('/api')) {

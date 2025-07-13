@@ -138,6 +138,18 @@ export class AddCourseComponent implements OnInit {
       delete formData.userSearch;
       delete formData.categorySearch;
       
+      // Debug Tamil text encoding
+      console.log('🔍 Form data before sending:', formData);
+      console.log('🔍 Title value:', formData.title);
+      console.log('🔍 Title type:', typeof formData.title);
+      console.log('🔍 Title length:', formData.title?.length);
+      
+      // Check if title contains Tamil characters
+      if (formData.title && /[\u0B80-\u0BFF]/.test(formData.title)) {
+        console.log('🔍 Tamil characters detected in title');
+        console.log('🔍 Title character codes:', [...formData.title].map(char => char.charCodeAt(0)));
+      }
+      
       console.log('Creating course with data:', formData);
       
       this.courseService.createCourse(formData).subscribe({

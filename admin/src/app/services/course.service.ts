@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -24,6 +24,13 @@ export interface Course {
 })
 export class CourseService {
   private apiUrl = `${environment.apiUrl}/secure/courses`;
+  
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Accept': 'application/json;charset=UTF-8'
+    })
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -58,14 +65,14 @@ export class CourseService {
   }
 
   createCourse(course: Partial<Course>): Observable<Course> {
-    return this.http.post<Course>(`${this.apiUrl}/create`, course).pipe(
+    return this.http.post<Course>(`${this.apiUrl}/create`, course, this.httpOptions).pipe(
       map(course => this.sanitizeSingleCourse(course))
     );
   }
 
   updateCourse(id: number, course: Partial<Course>): Observable<Course> {
     const updateRequest = { id, ...course };
-    return this.http.post<Course>(`${this.apiUrl}/update`, updateRequest).pipe(
+    return this.http.post<Course>(`${this.apiUrl}/update`, updateRequest, this.httpOptions).pipe(
       map(course => this.sanitizeSingleCourse(course))
     );
   }

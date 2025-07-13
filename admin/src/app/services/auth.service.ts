@@ -1,6 +1,6 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, catchError, of } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, of, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
@@ -48,10 +48,12 @@ export class AuthService {
   private currentUser = new BehaviorSubject<UserProfile | null>(null);
   private platformId = inject(PLATFORM_ID);
   private tokenExpirationTimer: any;
+  private isInitialized = new BehaviorSubject<boolean>(false);
 
   isLoggedIn$ = this.isAuthenticated.asObservable();
   userRole$ = this.currentUserRole.asObservable();
   currentUser$ = this.currentUser.asObservable();
+  isInitialized$ = this.isInitialized.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -65,14 +67,19 @@ export class AuthService {
       const token = localStorage.getItem('token');
       const session = this.getSession();
 
+      console.log('🔍 Checking session - Token exists:', !!token, 'Session exists:', !!session);
+
       if (token && session) {
+        console.log('🔍 Validating token with backend...');
         // Validate token with backend instead of just local parsing
         this.validateToken().subscribe({
           next: (isValid: boolean) => {
+            console.log('🔍 Token validation result:', isValid);
             if (isValid) {
               this.isAuthenticated.next(true);
               this.currentUserRole.next(session.role);
               this.currentUser.next(session);
+              console.log('✅ User authenticated with role:', session.role);
 
               // Set auto logout timer based on JWT expiration
               try {
@@ -86,14 +93,21 @@ export class AuthService {
                   this.logout();
                 }
               } catch (e) {
+                console.log('❌ Error parsing token - logging out');
                 this.logout();
               }
             } else {
+              console.log('❌ Token validation failed - logging out');
               this.logout();
             }
+            // Mark as initialized after validation completes
+            this.isInitialized.next(true);
           },
-          error: () => {
+          error: (error) => {
+            console.error('❌ Token validation error:', error);
             this.logout();
+            // Mark as initialized even after error
+            this.isInitialized.next(true);
           }
         });
       } else if (token) {
@@ -124,12 +138,23 @@ export class AuthService {
             } else {
               this.logout();
             }
+            // Mark as initialized after validation completes
+            this.isInitialized.next(true);
           },
           error: () => {
             this.logout();
+            // Mark as initialized even after error
+            this.isInitialized.next(true);
           }
         });
+      } else {
+        console.log('🔍 No token or session found');
+        // Mark as initialized when no token/session
+        this.isInitialized.next(true);
       }
+    } else {
+      // Mark as initialized when not in browser
+      this.isInitialized.next(true);
     }
   }
 
@@ -220,8 +245,21 @@ export class AuthService {
 
   private validateToken(): Observable<boolean> {
     return this.http.post<any>(`${environment.apiUrl}/secure/validate-token`, {}).pipe(
-      tap(() => true),
-      catchError(() => of(false))
+      map(() => true), // Return true if the request succeeds
+      catchError((error) => {
+        console.error('Token validation failed:', error);
+        return of(false);
+      })
     );
+  }
+
+  // Public method to check current authentication state
+  isCurrentlyAuthenticated(): boolean {
+    return this.isAuthenticated.value;
+  }
+
+  // Public method to check if initialization is complete
+  isAuthInitialized(): boolean {
+    return this.isInitialized.value;
   }
 }
