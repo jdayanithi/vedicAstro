@@ -43,8 +43,27 @@ public class SqlSafeValidator implements ConstraintValidator<SqlSafe, String> {
         }
         
         // Validate for SQL injection
-        SqlInjectionValidator.ValidationResult result = 
-            sqlInjectionValidator.validateInput(value, fieldName);
+        SqlInjectionValidator.ValidationResult result;
+        
+        // Skip SQL injection validation for description fields to allow rich content
+        if (isDescriptionField(fieldName)) {
+            System.out.println("🔍 Skipping SQL injection validation for field: " + fieldName);
+            // Only check for extremely dangerous patterns in descriptions
+            if (containsExtremelyDangerousPatterns(value)) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("Content contains potentially dangerous script patterns")
+                       .addConstraintViolation();
+                return false;
+            }
+            return true; // Allow description content to pass through
+        }
+        
+        // Use more lenient validation for other content fields
+        if (isContentField(fieldName)) {
+            result = sqlInjectionValidator.validateCourseContent(value, fieldName);
+        } else {
+            result = sqlInjectionValidator.validateInput(value, fieldName);
+        }
         
         if (!result.isValid()) {
             context.disableDefaultConstraintViolation();
@@ -54,5 +73,46 @@ public class SqlSafeValidator implements ConstraintValidator<SqlSafe, String> {
         }
         
         return true;
+    }
+    
+    /**
+     * Check if this field should use lenient content validation
+     */
+    private boolean isContentField(String fieldName) {
+        return fieldName != null && (
+            fieldName.toLowerCase().contains("content") ||
+            fieldName.toLowerCase().contains("coursecontent") ||
+            fieldName.toLowerCase().contains("lessoncontent")
+        );
+    }
+    
+    /**
+     * Check if this is a description field that should skip SQL injection validation
+     */
+    private boolean isDescriptionField(String fieldName) {
+        return fieldName != null && (
+            fieldName.toLowerCase().contains("description") ||
+            fieldName.toLowerCase().equals("description") ||
+            fieldName.toLowerCase().contains("richdescription") ||
+            fieldName.toLowerCase().contains("richcontent")
+        );
+    }
+    
+    /**
+     * Check for extremely dangerous patterns (only script injection)
+     */
+    private boolean containsExtremelyDangerousPatterns(String value) {
+        if (value == null) return false;
+        
+        String lowerValue = value.toLowerCase();
+        
+        // Only check for script injection attempts - allow all other content
+        return lowerValue.contains("<script") ||
+               lowerValue.contains("javascript:") ||
+               lowerValue.contains("vbscript:") ||
+               lowerValue.contains("onload=") ||
+               lowerValue.contains("onerror=") ||
+               lowerValue.contains("onclick=") ||
+               lowerValue.contains("onmouseover=");
     }
 }

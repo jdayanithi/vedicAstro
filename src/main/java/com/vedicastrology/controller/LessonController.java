@@ -86,13 +86,13 @@ public class LessonController {
     @PostMapping("/create")
     public ResponseEntity<?> createLesson(@Valid @RequestBody LessonDTO lessonDTO) {
         try {
-            // Sanitize lesson input fields
+            // Sanitize lesson input fields - use course content sanitization for Tamil text support
             if (lessonDTO.getTitle() != null) {
-                String sanitizedTitle = inputSanitizationService.sanitizeString(lessonDTO.getTitle(), "lessonTitle");
+                String sanitizedTitle = inputSanitizationService.sanitizeCourseContent(lessonDTO.getTitle(), "lessonTitle");
                 lessonDTO.setTitle(sanitizedTitle);
             }
             if (lessonDTO.getDescription() != null) {
-                String sanitizedDescription = inputSanitizationService.sanitizeString(lessonDTO.getDescription(), "lessonDescription");
+                String sanitizedDescription = inputSanitizationService.sanitizeCourseContent(lessonDTO.getDescription(), "lessonDescription");
                 lessonDTO.setDescription(sanitizedDescription);
             }
             
@@ -118,15 +118,48 @@ public class LessonController {
                 return ResponseEntity.badRequest().body("Invalid lesson ID");
             }
             
-            // Sanitize lesson input fields
-            LessonDTO lessonDTO = new LessonDTO();
-            if (request.getTitle() != null) {
-                String sanitizedTitle = inputSanitizationService.sanitizeString(request.getTitle(), "lessonTitle");
-                lessonDTO.setTitle(sanitizedTitle);
+            // Get existing lesson first to preserve fields not being updated
+            LessonDTO existingLesson = lessonService.getLessonById(lessonId);
+            if (existingLesson == null) {
+                logger.warn("🚨 Lesson not found with ID: {}", lessonId);
+                return ResponseEntity.notFound().build();
             }
+            
+            // Sanitize lesson input fields - use course content sanitization for Tamil text support
+            LessonDTO lessonDTO = new LessonDTO();
+            
+            // Copy all existing fields first
+            lessonDTO.setLessonId(existingLesson.getLessonId());
+            lessonDTO.setTopicId(existingLesson.getTopicId());
+            lessonDTO.setContentType(existingLesson.getContentType());
+            lessonDTO.setContentUrl(existingLesson.getContentUrl());
+            lessonDTO.setDurationMinutes(existingLesson.getDurationMinutes());
+            lessonDTO.setOrderNumber(existingLesson.getOrderNumber());
+            lessonDTO.setIsFree(existingLesson.getIsFree());
+            
+            // Update only the fields that are provided
+            if (request.getTitle() != null) {
+                String sanitizedTitle = inputSanitizationService.sanitizeCourseContent(request.getTitle(), "lessonTitle");
+                lessonDTO.setTitle(sanitizedTitle);
+            } else {
+                lessonDTO.setTitle(existingLesson.getTitle());
+            }
+            
             if (request.getDescription() != null) {
-                String sanitizedDescription = inputSanitizationService.sanitizeString(request.getDescription(), "lessonDescription");
+                String sanitizedDescription = inputSanitizationService.sanitizeCourseContent(request.getDescription(), "lessonDescription");
                 lessonDTO.setDescription(sanitizedDescription);
+            } else {
+                lessonDTO.setDescription(existingLesson.getDescription());
+            }
+            
+            // Update topic ID if provided
+            if (request.getTopicId() != null) {
+                lessonDTO.setTopicId(request.getTopicId());
+            }
+            
+            // Update order index if provided
+            if (request.getOrderIndex() != null) {
+                lessonDTO.setOrderNumber(request.getOrderIndex());
             }
             
             LessonDTO updatedLesson = lessonService.updateLesson(lessonId, lessonDTO);

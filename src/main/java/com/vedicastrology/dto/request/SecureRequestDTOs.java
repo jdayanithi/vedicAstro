@@ -313,10 +313,10 @@ public class SecureRequestDTOs {
         @SqlSafe(fieldName = "title", maxLength = 200, allowEmpty = false)
         private String title;
         
-        @SqlSafe(fieldName = "description", maxLength = 2000, allowEmpty = true)
+        @SqlSafe(fieldName = "richDescription", maxLength = 50000, allowEmpty = true)
         private String description;
         
-        @SqlSafe(fieldName = "content", maxLength = 10000, allowEmpty = true)
+        @SqlSafe(fieldName = "richContent", maxLength = 100000, allowEmpty = true)
         private String content;
         
         @NotNull(message = "Topic ID is required")
