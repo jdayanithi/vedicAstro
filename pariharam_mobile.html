@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>தாந்திரிகம் பரிகாரங்கள்</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .category-card.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .category-count {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .content-area {
+            display: none;
+        }
+
+        .content-area.active {
+            display: block;
+        }
+
+        .pariharam-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pariharam-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '▼';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+
+        .card-header.expanded::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            padding-right: 30px;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .card-content {
+            display: none;
+            padding: 25px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .card-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .method-section {
+            margin-bottom: 25px;
+        }
+
+        .method-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .method-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .method-list li {
+            background: #f8f9ff;
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #2d3436;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+            border-left: 4px solid #e17055;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .benefits {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            color: #2d3436;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .back-btn.show {
+            display: block;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: left 0.3s ease;
+            z-index: 1001;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255,255,255,0.1);
+            padding-left: 30px;
+        }
+
+        .sidebar-item .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1002;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .category-card {
+                padding: 15px;
+            }
+            
+            .category-icon {
+                font-size: 2rem;
+            }
+            
+            .card-header {
+                padding: 15px;
+            }
+            
+            .card-content {
+                padding: 20px;
+            }
+        }
+
+        /* Copy Protection Styles */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Watermark Styles */
+        .watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .watermark-text {
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.1);
+            transform: rotate(-45deg);
+            white-space: nowrap;
+            font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .watermark-text.manjula {
+            color: rgba(255, 182, 193, 0.15);
+            font-size: 28px;
+        }
+
+        .watermark-text.confidential {
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 20px;
+        }
+
+        /* No Print Styles */
+        @media print {
+            * {
+                display: none !important;
+            }
+        }
+
+        /* Disable image dragging */
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+
+        /* Disable text highlighting */
+        ::selection {
+            background: transparent;
+        }
+
+        ::-moz-selection {
+            background: transparent;
+        }
+
+        /* Blur content when dev tools are detected */
+        .dev-tools-detected {
+            filter: blur(5px);
+            pointer-events: none;
+        }
+
+        .protection-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 10000;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Toggle Button -->
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>🕉️ தாந்திரிகம்</h2>
+            <p>வழிபாடு மெனு</p>
+        </div>
+        <div class="sidebar-menu">
+            <div class="sidebar-item" onclick="showMainCategories()">
+                <span class="icon">🏠</span>
+                முதன்மை பிரிவுகள்
+            </div>
+        </div>
+    </div>
+
+    <!-- Watermark Layer -->
+    <div class="watermark" id="watermarkLayer"></div>
+    
+    <!-- Protection Warning -->
+    <div class="protection-warning" id="protectionWarning">
+        🚫 இந்த உள்ளடக்கம் பாதுகாக்கப்பட்டது!<br>
+        This content is protected!
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🕉️ தாந்திரிகம்</h1>
+            <p>அனைவரும் செய்யக்கூடிய White Magic பரிகாரங்கள்</p>
+        </div>
+
+        <div id="categoryView">
+            <div class="category-grid">
+                <div class="category-card" onclick="showCategory('debt')">
+                    <span class="category-icon">💰</span>
+                    <div class="category-title">கடன் தீர்வு</div>
+                    <div class="category-count">6 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('family')">
+                    <span class="category-icon">👨‍👩‍👧‍👦</span>
+                    <div class="category-title">குடும்ப ஒற்றுமை</div>
+                    <div class="category-count">6 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('children')">
+                    <span class="category-icon">👶</span>
+                    <div class="category-title">குழந்தைப் பேறு</div>
+                    <div class="category-count">3 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('protection')">
+                    <span class="category-icon">🛡️</span>
+                    <div class="category-title">பாதுகாப்பு</div>
+                    <div class="category-count">4 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('business')">
+                    <span class="category-icon">🏢</span>
+                    <div class="category-title">தொழில் வளர்ச்சி</div>
+                    <div class="category-count">11 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('legal')">
+                    <span class="category-icon">⚖️</span>
+                    <div class="category-title">சட்ட விஷயங்கள்</div>
+                    <div class="category-count">2 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('astrology')">
+                    <span class="category-icon">🔮</span>
+                    <div class="category-title">வாகு பலிதம்</div>
+                    <div class="category-count">1 பரிகாரம்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('moneyReturn')">
+                    <span class="category-icon">💸</span>
+                    <div class="category-title">பணம் திரும்ப வர</div>
+                    <div class="category-count">2 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('doshaRemoval')">
+                    <span class="category-icon">🧿</span>
+                    <div class="category-title">தோஷங்கள் விலக</div>
+                    <div class="category-count">1 பரிகாரம்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('financialImprovement')">
+                    <span class="category-icon">📈</span>
+                    <div class="category-title">பொருளாதார மேம்பாடு</div>
+                    <div class="category-count">3 பரிகாரங்கள்</div>
+                </div>
+                
+                <div class="category-card" onclick="showCategory('diseaseRemedy')">
+                    <span class="category-icon">🏥</span>
+                    <div class="category-title">நோய் தீர்வு</div>
+                    <div class="category-count">4 பரிகாரங்கள்</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Debt Relief Category -->
+        <div id="debt" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. உச்சரிக்கும் பரிகாரம்</div>
+                    <div class="card-subtitle">மன நிலையை மாற்றி பண வரவை ஈர்க்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>'கடன் தீர வேண்டும்' என்று சொல்லக் கூடாது</li>
+                            <li>'எனக்குப் பணம் தேவை, பணம் சேர வேண்டும்' என்று சொல்ல வேண்டும்</li>
+                            <li>'எனக்கு 10 லட்சம் வேண்டும்' என்று குறிப்பிட்ட தொகையைச் சொல்ல வேண்டும்</li>
+                            <li>இதை பத்து முறை சொல்ல வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="highlight">
+                        ⚠️ 'கடன்' என்ற வார்த்தையைப் பயன்படுத்தக் கூடாது
+                    </div>
+                    <div class="benefits">
+                        💫 நேர்மறையாகச் சிந்தித்தால், நேர்மறையே நடக்கும். நல்லதே நினைத்தால், நல்லதே நடக்கும்.
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. 108 ரூபாய் நாணயங்கள் பரிகாரம்</div>
+                    <div class="card-subtitle">நீர்நிலையில் செய்யும் சக்திவாய்ந்த பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🛍️ தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>108 ஒரு ரூபாய் நாணயங்கள்</li>
+                            <li>மஞ்சள் (Turmeric)</li>
+                            <li>உப்பு (Salt)</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">⏰ நேரம் மற்றும் இடம்</div>
+                        <ul class="method-list">
+                            <li>முதல் ஞாயிற்றுக்கிழமை அல்லது பிறந்தநாள்</li>
+                            <li>சூரிய உதயத்திற்கு முன்</li>
+                            <li>கடல், ஆறு அல்லது நதி அருகில்</li>
+                            <li>வடக்கு அல்லது கிழக்கு திசையை நோக்கி</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>முதலில் குளித்து சுத்தமாக இருக்க வேண்டும்</li>
+                            <li>108 நாணயங்களை மஞ்சள், உப்பு கலந்த நீரில் முன்னிரவு சுத்தம் செய்ய வேண்டும்</li>
+                            <li>ஒவ்வொரு நாணயத்தையும் தலைக்கு மேல் 3 முறை சுற்றி கீழே போட வேண்டும்</li>
+                            <li>விநாயகரை வழிபட்டு வர வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🎯 200% பலன் கிடைக்கும். நம்பிக்கையுடன் செய்தால் பிரச்சனைக்குத் தீர்வு வரும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">3. நவ தானியப் பரிகாரம்</div>
+                    <div class="card-subtitle">கிரக தோஷம் நீக்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🌾 நவ தானியங்கள்</div>
+                        <ul class="method-list">
+                            <li>கோதுமை, நெல், துவரை, பாசிப்பயறு</li>
+                            <li>கொண்டைக்கடலை, மொச்சை, எள்</li>
+                            <li>உளுந்து, கொள்ளு</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>வலது கையில் ஒரு கைப்பிடி நவ தானியங்களை எடுக்க வேண்டும்</li>
+                            <li>வடக்கு திசையை நோக்கி நிற்க வேண்டும்</li>
+                            <li>தலைக்கு மேல் இடமிருந்து வலமாக 9 முறை சுற்ற வேண்டும்</li>
+                            <li>ஒரு பாத்திரத்தில் போட வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌱 முளைப்பாரி</div>
+                        <ul class="method-list">
+                            <li>ஒரு சட்டியில் மணல் இட்டு தானியங்களைப் போட வேண்டும்</li>
+                            <li>3 நாட்களில் முளைக்க வேண்டும்</li>
+                            <li>முளைத்த பிறகு சுத்தமான இடத்தில் போட வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        ✨ நவகிரக தோஷம் விலகும், கடன் தீரும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">4. பச்சரிசி மாவு மற்றும் சர்க்கரை பரிகாரம்</div>
+                    <div class="card-subtitle">எறும்புகளுக்கு உணவிட்டு கடன் தீர்க்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🛍️ தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>பச்சரிசி மாவு</li>
+                            <li>வெள்ளை சர்க்கரை அல்லது நாட்டுச் சர்க்கரை</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>திங்கட்கிழமை அன்று தொடங்க வேண்டும்</li>
+                            <li>கோவில் வளாகம் அல்லது அரச மரத்தடியில் செய்ய வேண்டும்</li>
+                            <li>3 முறை சுற்றி வரும்போது கலவையைத் தூவ வேண்டும்</li>
+                            <li>விளக்கேற்றி வணங்கி வர வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">⏰ தொடர்ச்சி</div>
+                        <ul class="method-list">
+                            <li>குறைந்தது 48 நாட்கள் செய்ய வேண்டும்</li>
+                            <li>தொடர்ந்து செய்ய முடியவில்லை என்றாலும் பிரச்சனையில்லை</li>
+                            <li>நேர்மறை எண்ணங்களுடன் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏔️ மலை அளவு கடன் இருந்தாலும் கடுகு அளவு ஆகும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">5. குளிக்கும் முறை பரிகாரம்</div>
+                    <div class="card-subtitle">ஆரோக்கியம் மற்றும் செல்வத்திற்கான வழி</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🧭 குளிக்கும் திசை</div>
+                        <ul class="method-list">
+                            <li>வடக்கு திசையை நோக்கி குளிக்க வேண்டும்</li>
+                            <li>அல்லது கிழக்கு திசையை நோக்கியும் குளிக்கலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">💧 நீர் ஊற்றும் முறை</div>
+                        <ul class="method-list">
+                            <li>முதலில் கால்களில் நீர் ஊற்ற வேண்டும்</li>
+                            <li>பிறகு வயிறு, தோள்பட்டை</li>
+                            <li>கடைசியாக தலையில் நீர் ஊற்ற வேண்டும்</li>
+                            <li>முதலில் தலையில் தண்ணீர் ஊற்றக் கூடாது</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌕 தொடங்கும் நாள்</div>
+                        <ul class="method-list">
+                            <li>பௌர்ணமி அன்று தொடங்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🌟 நோய்களைத் தவிர்க்கலாம், அதிக பணம் சம்பாதிக்கலாம்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">6. கடன் பிரச்சனை தீர - கோவில் அன்னதானம்</div>
+                    <div class="card-subtitle">கடன் தொல்லையில் இருந்து விடுபட உதவும் பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>எந்தக் கோவிலிலும், கோவிலில் வழங்கப்படும் அன்னதான உணவை உண்டு வர வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏛️ கோவில் அன்னதானத்தை உண்பதன் மூலம், நம் கடன் பிரச்சனைகள் தீரும் என்றும், செல்வ வளம் பெருகும் என்றும் நம்பப்படுகிறது. கடன் பிரச்சனை தீர்ந்த பிறகு, இவர்களும் அன்னதானம் வழங்க வேண்டும்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Family Harmony Category -->
+        <div id="family" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. ஜாதிப்பூ சேர்த்த தேங்காய் எண்ணெய் விளக்கு</div>
+                    <div class="card-subtitle">குடும்ப ஒற்றுமைக்கு நறுமணமான எண்ணெய்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🛍️ தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>தேங்காய் எண்ணெய்</li>
+                            <li>ஜாதிப்பூ அல்லது மல்லிகைப்பூ</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>தேங்காய் எண்ணெயை லேசாகச் சூடாக்க வேண்டும்</li>
+                            <li>ஜாதிப்பூக்களைச் சேர்க்க வேண்டும்</li>
+                            <li>அடுப்பை அணைத்து நன்றாக ஆறவிட வேண்டும்</li>
+                            <li>இந்த எண்ணெயை விளக்கு ஏற்றப் பயன்படுத்த வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        👨‍👩‍👧‍👦 குடும்ப ஒற்றுமை அதிகரிக்கும், வீட்டில் அமைதி நிலவும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. விளக்கில் கற்கண்டு சேர்த்தல்</div>
+                    <div class="card-subtitle">இனிமையை வீட்டில் கொண்டு வரும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>விளக்கு ஏற்றும்போது கற்கண்டுகளை விளக்கில் போட வேண்டும்</li>
+                            <li>எந்த வகையான விளக்கு எண்ணெயையும் பயன்படுத்தலாம்</li>
+                            <li>3 நாட்களுக்குப் பிறகு கற்கண்டுகளை அகற்ற வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        💕 குடும்ப உறவுகளில் இனிமை அதிகரிக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">3. அசைவம் உண்ணும்போது நெய் விளக்கு தவிர்த்தல்</div>
+                    <div class="card-subtitle">வழிபாட்டின் தூய்மை பேணுதல்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">⚠️ விதி</div>
+                        <ul class="method-list">
+                            <li>அசைவ உணவு உண்ணும் நாட்களில் நெய் விளக்கு ஏற்றக் கூடாது</li>
+                            <li>அசைவம் சாப்பிட்ட பிறகு குளித்துவிட்டு அடுத்த நாள் விளக்கு ஏற்றலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🙏 விளக்கு வழிபாட்டின் புனிதத் தன்மை பேணப்படும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">4. மெஹந்தி/மருதாணி பரிகாரம்</div>
+                    <div class="card-subtitle">கணவன் மனைவி நல்லுறவுக்கு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>அமாவாசை அன்று செய்ய வேண்டும்</li>
+                            <li>கணவன் மனைவி இருவரும் கையில் மருதாணி/மெஹந்தி வைக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        💑 கணவன் மனைவி இடையே அன்பு பெருகும், குடும்ப ஒற்றுமை அதிகரிக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">5. துளசி மற்றும் தொட்டாச்சிணுங்கி செடி</div>
+                    <div class="card-subtitle">ஒரே தொட்டியில் வளர்க்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>துளசி செடியையும் தொட்டாச்சிணுங்கி செடியையும் ஒரே தொட்டியில் வைக்க வேண்டும்</li>
+                            <li>கவனமாகப் பராமரித்து வளர்க்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🌱 கணவன் மனைவி உறவில் நெருக்கம் மற்றும் புரிதல் அதிகரிக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">6. வீட்டில் கருங்காலி/செங்காலி கட்டை மற்றும் கருமஞ்சள் வைத்தல் - தவிர்க்க வேண்டியவை</div>
+                    <div class="card-subtitle">குடும்ப நிம்மதிக்கு தவிர்க்க வேண்டியவை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🚫 தவிர்க்க வேண்டியவை</div>
+                        <ul class="method-list">
+                            <li>கருங்காலி மரம் கட்டை</li>
+                            <li>செங்காலி கட்டை</li>
+                            <li>கருமஞ்சள்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 விளக்கம்</div>
+                        <ul class="method-list">
+                            <li>இவை உக்கிரமான தெய்வங்களுடன் தொடர்புடையவை</li>
+                            <li>வீட்டில் வைத்தால், குடும்ப நிம்மதி பாதிக்கப்படும், நிலையற்ற வாழ்க்கை ஏற்படும்</li>
+                            <li>தவறுதலாக வைத்திருந்தால், அவற்றை ஓடும் தண்ணீரில் விட்டுவிடுங்கள்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        ⚠️ இந்தக் கட்டைகள் மற்றும் கருமஞ்சள், குடும்ப வாழ்க்கை மற்றும் நிம்மதிக்கு பாதிப்பை ஏற்படுத்தும் என்று நம்பப்படுகிறது. பெரும்பாலும் காடுகளில் தனியாகவே இருக்கும் தெய்வங்கள். வீட்டில் வைக்க வேண்டாம்.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Children Category -->
+        <div id="children" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. குலதெய்வ வழிபாடு</div>
+                    <div class="card-subtitle">குழந்தைப் பேறு தடை நீங்க ஞாயிறு வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>ஞாயிற்றுக்கிழமை அன்று குலதெய்வ வழிபாடு செய்ய வேண்டும்</li>
+                            <li>வீட்டிலிருந்து பூ கொண்டு செல்ல வேண்டும்</li>
+                            <li>பிளாஸ்டிக் கவரில் பூவை வைக்கக் கூடாது</li>
+                            <li>பூவை கையில் எடுத்து வேண்டுதல் சொல்ல வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🙏 வழிபாட்டு முறை</div>
+                        <ul class="method-list">
+                            <li>பொங்கல் வைத்து வழிபட வேண்டும்</li>
+                            <li>வஸ்திரம் சாற்ற வேண்டும்</li>
+                            <li>அபிஷேகம் முழுமையாகப் பார்க்க வேண்டும்</li>
+                            <li>அன்னதானம் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="warning">
+                        ⚠️ வழிபாட்டிற்குப் பின் புளியோதரை, பாட்டில் ஜூஸ், பாக்கெட் ஸ்நாக்ஸ் தவிர்க்க வேண்டும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. அரச மரம் / ஆல மரம் பரிகாரம்</div>
+                    <div class="card-subtitle">48 நாட்கள் தொடர்ச்சியான வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>அரச மரம் அல்லது ஆல மரத்தின் இலையை தலையணை அடியில் வைத்துத் தூங்க வேண்டும்</li>
+                            <li>தினமும் காலை 6 முறை அரச மரத்தை சுற்ற வேண்டும்</li>
+                            <li>48 நாட்கள் தொடர்ந்து செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        👶 நிச்சயமாக குழந்தைப் பேறு கிட்டும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">3. இஞ்சி மற்றும் மஞ்சள் பரிகாரம்</div>
+                    <div class="card-subtitle">தினசரி மாற்றும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>பெரிய அளவிலான இஞ்சி மற்றும் மஞ்சள் கிழங்குகளை எடுக்க வேண்டும்</li>
+                            <li>தலையணை அடியில் வைத்துத் தூங்க வேண்டும்</li>
+                            <li>48 நாட்கள் தொடர்ந்து செய்ய வேண்டும்</li>
+                            <li>3 நாட்களுக்கு ஒருமுறை புதியதாக மாற்ற வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🌟 குழந்தைப் பேறுக்கான தடைகள் நீங்கும்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Protection Category -->
+        <div id="protection" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. தடை மற்றும் திருஷ்டி நீக்க இஞ்சி பரிகாரம்</div>
+                    <div class="card-subtitle">எந்த நேரத்திலும் செய்யக்கூடிய பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>இஞ்சி வாங்கும்போது பேரம் பேசக் கூடாது</li>
+                            <li>வடக்கு திசையை நோக்கி நிற்க வேண்டும்</li>
+                            <li>இஞ்சியை கையில் வைத்து 9 முறை தலையைச் சுற்ற வேண்டும்</li>
+                            <li>மோசாதியில் போட்டு உடைத்து விட வேண்டும்</li>
+                            <li>வீட்டிற்கு வந்து குளிக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🛡️ தடை, திருஷ்டி, மனக்கஷ்டங்கள் நீங்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. கெட்ட கனவுகள் தடுக்க வேப்ப எண்ணெய் பரிகாரம்</div>
+                    <div class="card-subtitle">தலையணை அடியில் வைக்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🛍️ தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>வேப்ப எண்ணெய்</li>
+                            <li>முருங்கை இலைகள்</li>
+                            <li>புளியமரம் இலைகள்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>மூன்று பொருட்களையும் தலையணை அடியில் வைத்துத் தூங்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        😴 கெட்ட கனவுகள் வராது
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">3. முருங்கைக்காய் பரிகாரம்</div>
+                    <div class="card-subtitle">பேய் பிசாசு பயம், அமுக்குவது போன்ற உணர்வு நீங்க</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>முருங்கைக்காயை 4 துண்டுகளாக வெட்ட வேண்டும்</li>
+                            <li>படுக்கையின் நான்கு பக்கங்களிலும் ஒவ்வொன்றாக வைக்க வேண்டும்</li>
+                            <li>3 நாட்கள் அல்லது 1 வாரம் செய்யலாம்</li>
+                            <li>தினமும் புதிய துண்டுகளைப் பயன்படுத்த வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="warning">
+                        ⚠️ குழந்தைகள் இந்த முருங்கைக்காய் துண்டுகளைத் தொடக் கூடாது
+                    </div>
+                    <div class="benefits">
+                        👻 கெட்ட கனவுகள், பேய் பிசாசு பயம் நீங்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">4. கௌரவப் பிரச்சனை தீர - ஹோட்டலில் மினி டிபன் சாப்பிடுதல்</div>
+                    <div class="card-subtitle">சமூக மதிப்பு உயர உதவும் பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>ஒரு ஹோட்டலுக்குச் சென்று மினி டிபன் சாப்பிட வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏨 ஹோட்டலில் மினி டிபன் சாப்பிடுவது, பல வீடுகளில் இருந்து உணவு வாங்கி உண்பதற்கு சமமானது என்று கருதப்படுகிறது. இந்தச் செயல், சமூகத்தில் உள்ள பலரின் ஆசிகளைப் பெறுவதற்கு ஒப்பாகும் என்றும், அதன் மூலம் கௌரவப் பிரச்சனைகள் தீர்ந்து, சமூக மதிப்பு உயரும் என்றும் நம்பப்படுகிறது
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Business Category -->
+        <div id="business" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. அரசு காரியங்களில் வெற்றி பெற வெள்ளெருக்கு பரிகாரம்</div>
+                    <div class="card-subtitle">அரசு வேலை, தேர்வுகளில் வெற்றிக்கு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை 1: வெள்ளெருக்கு விநாயகர் வழிபாடு</div>
+                        <ul class="method-list">
+                            <li>வெள்ளெருக்கு விநாயகர் இருக்கும் இடத்தைச் சுத்தம் செய்ய வேண்டும்</li>
+                            <li>மனமுருகி பிரார்த்தனை செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை 2: வெள்ளெருக்கு பூ பயன்பாடு</div>
+                        <ul class="method-list">
+                            <li>வெள்ளெருக்கு பூவை எடுத்துக்கொள்ள வேண்டும்</li>
+                            <li>நெஞ்சருகே வைத்து நன்றாகப் பிரார்த்திக்க வேண்டும்</li>
+                            <li>பையில் வைத்துக்கொண்டு அரசு காரியத்திற்குச் செல்ல வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏛️ அரசு தொடர்பான காரியங்கள் கைகூடும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. பணப்பையை நிர்வகித்து செல்வத்தை ஈர்க்கும் பரிகாரம்</div>
+                    <div class="card-subtitle">பண நோட்டுகள் வைக்கும் சரியான முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">💵 பண நோட்டுகள் வைக்கும் முறை</div>
+                        <ul class="method-list">
+                            <li>பண நோட்டுகளை சரியான வரிசையில் அடுக்கி வைக்க வேண்டும்</li>
+                            <li>பண நோட்டுகளை மடிக்கக் கூடாது</li>
+                            <li>மூலைகளை மடக்காமல் பார்த்துக் கொள்ள வேண்டும்</li>
+                            <li>சுருட்டி வைக்கலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌿 சேர்க்க வேண்டிய பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>பச்சை கற்பூரம் வைக்க வேண்டும்</li>
+                            <li>வாசனை திரவியம், மரிக்கொழுந்து, ஜவ்வாது, ஏலக்காய் தடவலாம்</li>
+                            <li>ஃபெஹு சின்னம் வரையலாம்</li>
+                            <li>புதிய நோட்டுகள் வைக்க முயற்சி செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🧹 சுத்தப்படுத்தும் முறை</div>
+                        <ul class="method-list">
+                            <li>இரண்டு வாரங்களுக்கு ஒருமுறை பணப்பையை சுத்தம் செய்ய வேண்டும்</li>
+                            <li>மஞ்சள், உப்பு கலந்த நீரில் தூய்மைப்படுத்தலாம்</li>
+                            <li>தேவையற்ற காகிதங்களை நீக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        💰 பண வரவு அதிகரிக்கும், செல்வம் பெருகும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">3. பொருளாதாரம் மேம்பட - வேலூர் விநாயகர் வழிபாடு</div>
+                    <div class="card-subtitle">தொழில் இடத்தில் வைக்கும் விநாயகர் சிலை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>உங்கள் தொழில் செய்யும் இடத்தில் வேலூரில் உள்ள விநாயகர் சிலையை வைக்க வேண்டும்</li>
+                            <li>சிலையை சுத்தமான இடத்தில் மரியாதையுடன் வைக்க வேண்டும்</li>
+                            <li>தினமும் வழிபாடு செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏛️ விநாயகர் தடைகளை நீக்கி, காரிய சித்தி அருள்பவர். தொழிலில் உள்ள தடைகளை நீக்கி, வருமானத்தை அதிகரிக்கவும், பொருளாதார நிலை மேம்படவும் உதவும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">4. பொருளாதாரம் மேம்பட - திருப்பதி பாலாஜி கோவில் வழிபாடு</div>
+                    <div class="card-subtitle">திங்கட்கிழமை அல்லது திருவாதிரை நட்சத்திர வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📅 வழிபாட்டு நாள்</div>
+                        <ul class="method-list">
+                            <li>திங்கட்கிழமை அன்று திருப்பதி பாலாஜி கோவிலுக்கு செல்ல வேண்டும்</li>
+                            <li>அல்லது திருவாதிரை நட்சத்திரம் அன்று வழிபட வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>திருப்பதி பாலாஜி கோவிலுக்கு சென்று வழிபட வேண்டும்</li>
+                            <li>மனமுருகி பிரார்த்தனை செய்ய வேண்டும்</li>
+                            <li>பொருளாதார மேம்பாட்டிற்கு வேண்டுதல் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏛️ திருப்பதி பாலாஜி, செல்வத்தின் அதிபதியான லட்சுமி தேவியின் அம்சமாக கருதப்படுவதால், பொருளாதாரத்தை மேம்படுத்தும். திங்கட்கிழமை மற்றும் திருவாதிரை நட்சத்திரம் சிறப்பு பலன்களைத் தரும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">5. படித்த படிப்புக்கு வேலை கிடைக்க - சங்கு பூ வழிபாடு</div>
+                    <div class="card-subtitle">சனிக்கிழமை காலை சனி பகவான் வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📅 நாள் மற்றும் நேரம்</div>
+                        <ul class="method-list">
+                            <li>சனிக்கிழமை அன்று காலை 6 முதல் 7 மணிக்குள் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌺 தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>சங்கு பூக்கள்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>சங்கு பூக்களைப் பயன்படுத்தி சனி பகவானை வழிபட வேண்டும்</li>
+                            <li>படித்த படிப்புக்கு ஏற்ற வேலை கிடைக்க வேண்டுதல் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        ⭐ சனி பகவான் கர்ம காரகராகவும், வேலைவாய்ப்புக்கு அதிபதியாகவும் கருதப்படுகிறார். சங்கு பூக்கள் சனி பகவானுக்கு மிகவும் உகந்தவை. வேலை வாய்ப்பில் உள்ள தடைகளை நீக்கி, படித்த படிப்புக்கு ஏற்ற வேலை கிடைக்க உதவும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">6. நிரந்தர வேலை கிடைக்க - ஒற்றைச் செம்பருத்தி வழிபாடு</div>
+                    <div class="card-subtitle">ஜென்ம நட்சத்திர நாளில் அரச மர விநாயகர் வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🌺 தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>ஒற்றை இதழ் கொண்ட சிவப்பு நிற செம்பருத்திப் பூ</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📅 நாள்</div>
+                        <ul class="method-list">
+                            <li>உங்கள் பிறந்த ஜென்ம நட்சத்திரம் அன்று செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>அரச மரத்தின் அடியில் இருக்கும் விநாயகருக்கு செம்பருத்திப் பூவைச் சாற்ற வேண்டும்</li>
+                            <li>மனமுருகி வழிபாடு செய்ய வேண்டும்</li>
+                            <li>நிரந்தர வேலை அல்லது தொழில் வளம் கிடைக்க வேண்டுதல் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🙏 விநாயகப் பெருமான் தடைகளை நீக்கி, காரிய சித்தி அருள்பவர். செம்பருத்திப் பூ வெற்றியையும், நேர்மறை ஆற்றலையும் ஈர்க்கும். ஜென்ம நட்சத்திர நாளில் இந்த வழிபாட்டைச் செய்வது தனிப்பட்ட அதிர்ஷ்டத்தையும், பிரபஞ்ச சக்தியையும் சாதகமாக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">7. வியாபார வளர்ச்சிக்கு - அதிமதுரம், பன்னீர் நீர் பரிகாரம்</div>
+                    <div class="card-subtitle">வியாபார ஸ்தாபனத்தில் தெளிக்கும் நேர்மறை கலவை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🛍️ தேவையான பொருட்கள்</div>
+                        <ul class="method-list">
+                            <li>அதிமதுரப் பொடி</li>
+                            <li>பன்னீர் நீர் (ரோஸ் வாட்டர்)</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>அதிமதுரப் பொடியை எடுத்துக் கொள்ள வேண்டும்</li>
+                            <li>அதனுடன் பன்னீர் நீரைச் சேர்த்து நன்கு கலக்க வேண்டும்</li>
+                            <li>இந்த கலவையை உங்கள் வியாபார ஸ்தாபனத்தில் தெளித்து விட வேண்டும்</li>
+                            <li>சிறிதளவு கலவையை உங்கள் நெற்றியில் வைத்துக் கொள்ளலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🌸 அதிமதுரம் மற்றும் பன்னீர் இரண்டும் நேர்மறை ஆற்றலையும், இனிமையையும் ஈர்க்கும் தன்மை கொண்டவை. வியாபாரத்தில் உள்ள தடைகளை நீக்கி, சுமுகமான சூழ்நிலையை உருவாக்கி, வியாபார வளர்ச்சியை ஊக்குவிக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">8. வியாபார வளர்ச்சிக்கு - ஸ்பைடர் செடி வளர்த்தல்</div>
+                    <div class="card-subtitle">நுழைவாயிலுக்கு முன் நேர்மறை ஆற்றல் செடி</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🌱 செடி வகை</div>
+                        <ul class="method-list">
+                            <li>ஸ்பைடர் செடி (Spider Plant)</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📍 வைக்கும் இடம்</div>
+                        <ul class="method-list">
+                            <li>உங்கள் வியாபார ஸ்தாபனத்தின் நுழைவாயிலுக்கு முன் வைக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>ஸ்பைடர் செடியை நுழைவாயிலுக்கு முன் வைத்து வளர்க்க வேண்டும்</li>
+                            <li>செடியை கவனமாகப் பராமரித்து வளர்க்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🕷️ ஸ்பைடர் செடி, நேர்மறை ஆற்றலையும், நல்ல அதிர்வுகளையும் ஈர்க்கும் தன்மை கொண்டது என வாஸ்து மற்றும் ஃபெங் சுய் நம்பிக்கைகளில் கூறப்படுகிறது. வியாபாரத்தில் உள்ள தடைகளை நீக்கி, வளர்ச்சியை ஊக்குவிக்கும், வாடிக்கையாளர்கள் மற்றும் செல்வ வளத்தை ஈர்க்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">9. வீட்டில் பணம் சேர - மருதாணி பரிகாரம்</div>
+                    <div class="card-subtitle">வெள்ளிக்கிழமை லட்சுமி தேவி வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📅 நாள்</div>
+                        <ul class="method-list">
+                            <li>வெள்ளிக்கிழமை அன்று இந்தப் பரிகாரத்தைச் செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌿 மருதாணி பயன்பாடு</div>
+                        <ul class="method-list">
+                            <li>மருதாணியை அரைத்து பசையாக்க வேண்டும்</li>
+                            <li>அந்தப் பசையை வீட்டில் தெளிக்கலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌳 மருதாணி மரம் வளர்த்தல்</div>
+                        <ul class="method-list">
+                            <li>வீட்டில் மருதாணி மரத்தை வளர்க்கக் கூடாது</li>
+                            <li>வீட்டின் பின்புறத்தில் மருதாணி மரத்தை வளர்க்கலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        💰 மருதாணி நேர்மறை ஆற்றலை ஈர்த்து, செல்வ வளத்தைப் பெருக்கும் தன்மை கொண்டது என நம்பப்படுகிறது. வெள்ளிக்கிழமை லட்சுமி தேவிக்கு உகந்த நாள் என்பதால், அன்று இந்த பரிகாரத்தைச் செய்வது சிறப்பு பலன்களைத் தரும். வீட்டில் பணம் சேர உதவும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">10. தொழில் வளர்ச்சிக்கு - தேங்காய் உடைக்கும் பரிகாரம்</div>
+                    <div class="card-subtitle">சனிக்கிழமை மாலை நேர தடை நீக்கும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📅 நாள் மற்றும் நேரம்</div>
+                        <ul class="method-list">
+                            <li>சனிக்கிழமை அன்று மட்டுமே செய்ய வேண்டும்</li>
+                            <li>மாலை நேரத்தில் செய்வது சிறந்தது</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🥥 தேங்காய் தயாரிப்பு</div>
+                        <ul class="method-list">
+                            <li>ஒரு முழுத் தேங்காயை எடுக்க வேண்டும்</li>
+                            <li>தேங்காயின் குடுமியை நீக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>தொழிலுக்கு உள்ள தடைகள் நீங்க வேண்டும் என்று நினைத்து 9 முறை சுற்ற வேண்டும்</li>
+                            <li>உங்களுக்கு நீங்களே சுற்றிக் கொள்ளலாம்</li>
+                            <li>பெரியவர்கள் சுத்திப் போடலாம்</li>
+                            <li>சுற்றிய பிறகு, தேங்காயை சூலம் ஏற்றி உடைக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🥥 தேங்காய், தடைகளை நீக்கும் சக்தி கொண்டது என்றும், எதிர்மறை ஆற்றல்களை உறிஞ்சும் என்றும் ஐதீகம். அனைத்துத் தடைகளும் நீங்கி, தொழில் வளர்ச்சி ஏற்படும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">11. தொழில் வளர்ச்சிக்கு - வன்னி மர வழிபாடு</div>
+                    <div class="card-subtitle">தினமும் காலை நேர வலம் வரும் முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🌳 வன்னி மர வழிபாடு</div>
+                        <ul class="method-list">
+                            <li>வீட்டருகே அல்லது கோவிலில் உள்ள வன்னி மரத்தை தேர்ந்தெடுக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">⏰ நேரம்</div>
+                        <ul class="method-list">
+                            <li>தினமும் காலையில் செய்வது நல்லது</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>வன்னி மரத்தை தினமும் வலம் வந்து வழிபாடு செய்ய வேண்டும்</li>
+                            <li>மரத்தை சுற்றி வந்து வணங்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🌿 வன்னி மரம் தெய்வீக சக்தி கொண்டதாகவும், சனி பகவானுக்கு உகந்ததாகவும் கருதப்படுகிறது. தொழிலில் உள்ள தடைகளை நீக்கி, தொழில் வளர்ச்சிக்கு உதவும். தினமும் வலம் வருவது நேர்மறை ஆற்றலை ஈர்த்து, காரிய சித்தி அளிக்கும்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Category -->
+        <div id="legal" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. கோர்ட் வழக்கு பிரச்சனை தீர - தராசு தானம்</div>
+                    <div class="card-subtitle">நீதி மற்றும் சமநிலைக்கான பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>ஒரு தராசு வாங்கி தானமாகக் கொடுக்க வேண்டும்</li>
+                            <li>பேரம் பேசாமல் வாங்க வேண்டும்</li>
+                            <li>டிஜிட்டல் தராசு விரும்பத்தக்கது அல்ல</li>
+                            <li>தராசைப் பெற்றவர் தினமும் பயன்படுத்த வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        ⚖️ கோர்ட் வழக்குகளில் சாதகமான தீர்ப்பு கிடைக்கும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. வீடு ஜப்தியாவதைத் தடுக்கும் பரிகாரம்</div>
+                    <div class="card-subtitle">சொத்துப் பாதுகாப்பிற்கான முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>வீட்டின் புகைப்படங்களை எடுக்க வேண்டும்</li>
+                            <li>சின்னச் சின்னத் துண்டுகளாக வெட்ட வேண்டும்</li>
+                            <li>தினமும் அப்புறப்படுத்த வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🏠 வீடு ஜப்தியாவதைத் தடுக்கலாம், மீட்டெடுக்கலாம்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Astrology Category -->
+        <div id="astrology" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. குழந்தைகள் நன்றாகப் பேச - ஜீவ சமாதி வழிபாடு</div>
+                    <div class="card-subtitle">பேச்சுத் திறன் மேம்பாட்டிற்கு சித்தர் சமாதி வழிபாடு</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📅 நாள் மற்றும் நேரம்</div>
+                        <ul class="method-list">
+                            <li>புதன்கிழமை அன்று செய்ய வேண்டும்</li>
+                            <li>அமிர்தயோகம் வரும் நாளில் செய்வது சிறந்தது</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🏛️ கோவில்/இடம்</div>
+                        <ul class="method-list">
+                            <li>அருகிலுள்ள ஏதேனும் ஒரு ஜீவ சமாதிக்கு செல்ல வேண்டும்</li>
+                            <li>அல்லது சித்தர் சமாதிக்கு செல்லலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🍇 படைப்பு</div>
+                        <ul class="method-list">
+                            <li>உலர்ந்த திராட்சை (உள்ளித்தக்காளி) கொண்டு வழிபாடு செய்ய வேண்டும்</li>
+                            <li>மனமுருகி பிரார்த்தனை செய்ய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">👶 குழந்தைக்குக் கொடுத்தல்</div>
+                        <ul class="method-list">
+                            <li>வழிபாடு செய்த பிறகு, அந்தப் பிரசாதத்தை தொடர்ந்து குழந்தைக்குக் கொடுக்க வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🙏 சித்தர் சக்தி</div>
+                        <ul class="method-list">
+                            <li>சித்தர் பீடங்கள் மற்றும் ஜீவ சமாதிகள் மிகுந்த சக்தி வாய்ந்த இடங்கள்</li>
+                            <li>அங்கு செய்யப்படும் வழிபாடுகள் விரைவான பலன்களைத் தரும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🗣️ குழந்தைகள் நன்றாகப் பேசும் திறன் மேம்படும், தெளிவான உச்சரிப்பு கிடைக்கும்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Money Return Category -->
+        <div id="moneyReturn" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. பணம் திரும்பப் பெற - அம்புக்குறி மற்றும் வட்டப் பரிகாரம்</div>
+                    <div class="card-subtitle">கொடுத்த பணம் திரும்ப வரவும், நியாயமான கோரிக்கைகள் நிறைவேறவும்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">✏️ வரைதல்</div>
+                        <ul class="method-list">
+                            <li>ஒரு பேப்பரில் ஒரு வட்டத்தை வரைய வேண்டும்</li>
+                            <li>அந்த வட்டத்திற்குள் மூன்று மேல் நோக்கிய அம்புக்குறிகளை வரைய வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📝 பெயர்/கோரிக்கை எழுதுதல்</div>
+                        <ul class="method-list">
+                            <li>உங்களுக்குப் பணம் தர வேண்டியவரின் பெயரை அந்தப் பேப்பரில் எழுதலாம்</li>
+                            <li>அல்லது, அந்த நபரின் புகைப்படத்தின் பின்புறத்தில் இந்தச் சின்னத்தை வரையலாம்</li>
+                            <li>'எனக்குக் கொடுக்க வேண்டிய பணம் திரும்ப வர வேண்டும்' என்று எழுதி உறுதிமொழி எடுக்க வேண்டும்</li>
+                            <li>நியாயமான கோரிக்கைகளையும் இதில் எழுதலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🎯 சின்னத்தின் அர்த்தம்</div>
+                        <ul class="method-list">
+                            <li>மேல் நோக்கிய அம்புக்குறிகள் முன்னேற்றத்தைக் குறிக்கும்</li>
+                            <li>வட்டத்தின் முழுமை கோரிக்கை நிறைவேற்றத்தைக் குறிக்கும்</li>
+                            <li>இந்தச் சின்னம் மற்றும் வேண்டுதல், உங்கள் கோரிக்கைகளை பிரபஞ்சத்திற்கு எடுத்துச் செல்லும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        💰 கொடுத்த பணம் திரும்பக் கிடைக்கும், நியாயமான கோரிக்கைகள் நிறைவேறும்
+                    </div>
+                </div>
+            </div>
+
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">2. கடன் திரும்ப வர, நோய் தீர, வம்ச விருத்திக்கு - வாழைத்தண்டு திரி விளக்கு பரிகாரம்</div>
+                    <div class="card-subtitle">மல்டி பலன் தரும் விசேஷ பரிகாரம்</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>வாழைத்தண்டுத் திரியைப் பயன்படுத்தி இரண்டு விளக்குகளை ஏற்ற வேண்டும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        🍌 வாழைத்தண்டுத் திரி கொண்டு விளக்கேற்றுவது மிகவும் விசேஷமானதாகக் கருதப்படுகிறது. இது நேர்மறை ஆற்றலை ஈர்த்து, நல்ல அதிர்வுகளை உருவாக்கும். இந்தப் பரிகாரத்தைச் செய்வதன் மூலம், கொடுத்த கடன் படிப்படியாகத் திரும்பக் கிடைக்கும் என்றும், நோய் நீங்கும் என்றும், வம்ச விருத்தி உண்டாகும் என்றும் நம்பப்படுகிறது. மேலும், வாங்கிய கடனும் படிப்படியாகக் குறையும் என்று ஐதீகம்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dosha Removal Category -->
+        <div id="doshaRemoval" class="content-area">
+            <div class="pariharam-card">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="card-title">1. நவ தானியப் பரிகாரம்</div>
+                    <div class="card-subtitle">நவகிரக தோஷம் நீக்கும் சக்திவாய்ந்த முறை</div>
+                </div>
+                <div class="card-content">
+                    <div class="method-section">
+                        <div class="method-title">🌾 நவ தானியங்கள் (9 வகையான தானியங்கள்)</div>
+                        <ul class="method-list">
+                            <li>கோதுமை, நெல், துவரை, பாசிப்பயறு</li>
+                            <li>கொண்டைக்கடலை, மொச்சை, எள்</li>
+                            <li>உளுந்து, கொள்ளு</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">📋 செய்முறை</div>
+                        <ul class="method-list">
+                            <li>வலது கையில் ஒரு கைப்பிடி நவ தானியங்களை எடுக்க வேண்டும்</li>
+                            <li>வடக்கு திசையை நோக்கி நிற்க வேண்டும்</li>
+                            <li>தலைக்கு மேல் இடமிருந்து வலமாக 9 முறை சுற்ற வேண்டும்</li>
+                            <li>9 முறை சுற்றிய பிறகு, ஒரு பாத்திரத்தில் போட வேண்டும்</li>
+                            <li>செய்யும்போது எண்ணம் எதை சார்ந்து இருக்கிறதோ அதுவே நடக்கும்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🌱 முளைப்பாரி செய்தல்</div>
+                        <ul class="method-list">
+                            <li>சுற்றிப் போட்ட தானியங்களை ஒரு சட்டியில் மணல் இட்டு போட வேண்டும்</li>
+                            <li>3 நாட்களுக்குள் தானியங்கள் முளைத்துவர வேண்டும்</li>
+                            <li>இது பரிகாரத்தின் முக்கிய அங்கமாகக் கருதப்படுகிறது</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">🍃 முளைப்பாரியை அகற்றுதல்</div>
+                        <ul class="method-list">
+                            <li>3 நாட்கள் முளைத்த பிறகு, சட்டி மற்றும் முளைத்த தானியங்களை அகற்ற வேண்டும்</li>
+                            <li>கால்கள் படாத சுத்தமான இடத்தில் போட வேண்டும்</li>
+                            <li>செடிகள் நிறைந்த பகுதி, நீர் ஓடும் இடம் அல்லது அரச மரத்தடியில் போடலாம்</li>
+                        </ul>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">⚠️ முக்கிய குறிப்புகள்</div>
+                        <ul class="method-list">
+                            <li>சரியான திசை, நேரம், மற்றும் மன ஒருமைப்பாட்டுடன் செய்ய வேண்டும்</li>
+                            <li>நம்பிக்கையுடன் செய்தால் பிரச்சனைக்குத் தீர்வு வரும்</li>
+                        </ul>
+                    </div>
+                    <div class="benefits">
+                        ✨ நவகிரக தோஷம் விலகும், கடன் தீரும், பணப்புழக்கம் சீராகும்
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Improvement Category -->
+        <div id="financialImprovement" class="content-area">
+        </div>
+
+        <!-- Disease Remedy Category -->
+        <div id="diseaseRemedy" class="content-area">
+        </div>
+    </div>
+
+    <button class="back-btn" id="backBtn" onclick="goBack()">←</button>
+
+    <script>
+        let currentCategory = null;
+
+        // Sidebar Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        function openSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        function showMainCategories() {
+            goBack(); // Show the main category view
+            closeSidebar();
+        }
+
+        function showCategory(category) {
+            // Hide category view
+            document.getElementById('categoryView').style.display = 'none';
+            
+            // Hide all content areas
+            const contentAreas = document.querySelectorAll('.content-area');
+            contentAreas.forEach(area => {
+                area.classList.remove('active');
+            });
+            
+            // Show selected category
+            document.getElementById(category).classList.add('active');
+            currentCategory = category;
+            
+            // Show back button
+            document.getElementById('backBtn').classList.add('show');
+            
+            // Close sidebar if open
+            closeSidebar();
+        }
+
+        function goBack() {
+            // Show category view
+            document.getElementById('categoryView').style.display = 'block';
+            
+            // Hide all content areas
+            const contentAreas = document.querySelectorAll('.content-area');
+            contentAreas.forEach(area => {
+                area.classList.remove('active');
+            });
+            
+            // Hide back button
+            document.getElementById('backBtn').classList.remove('show');
+            currentCategory = null;
+        }
+
+        function toggleCard(element) {
+            const content = element.nextElementSibling;
+            const isExpanded = content.classList.contains('show');
+            
+            // Close all other cards in the current category
+            if (currentCategory) {
+                const categoryElement = document.getElementById(currentCategory);
+                const allContents = categoryElement.querySelectorAll('.card-content');
+                const allHeaders = categoryElement.querySelectorAll('.card-header');
+                
+                allContents.forEach(c => c.classList.remove('show'));
+                allHeaders.forEach(h => h.classList.remove('expanded'));
+            }
+            
+            // Toggle current card
+            if (!isExpanded) {
+                content.classList.add('show');
+                element.classList.add('expanded');
+            }
+        }
+
+        // Close cards when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.pariharam-card')) {
+                const allContents = document.querySelectorAll('.card-content');
+                const allHeaders = document.querySelectorAll('.card-header');
+                
+                allContents.forEach(c => c.classList.remove('show'));
+                allHeaders.forEach(h => h.classList.remove('expanded'));
+            }
+        });
+
+        // Copy Protection and Watermark Implementation
+        (function() {
+            'use strict';
+            
+            // Create watermark pattern
+            function createWatermark() {
+                const watermarkLayer = document.getElementById('watermarkLayer');
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // Clear existing watermarks
+                watermarkLayer.innerHTML = '';
+                
+                const patterns = [
+                    { text: 'AISHWARYAM MANJULA DEVI', className: 'manjula' },
+                    { text: 'CONFIDENTIAL', className: 'confidential' }
+                ];
+                
+                for (let y = -100; y < viewportHeight + 200; y += 150) {
+                    for (let x = -200; x < viewportWidth + 300; x += 250) {
+                        patterns.forEach((pattern, index) => {
+                            const watermarkText = document.createElement('div');
+                            watermarkText.className = `watermark-text ${pattern.className}`;
+                            watermarkText.textContent = pattern.text;
+                            watermarkText.style.left = (x + (index * 125)) + 'px';
+                            watermarkText.style.top = (y + (index * 75)) + 'px';
+                            watermarkLayer.appendChild(watermarkText);
+                        });
+                    }
+                }
+            }
+            
+            // Initialize watermark
+            createWatermark();
+            window.addEventListener('resize', createWatermark);
+            
+            // Show protection warning
+            function showProtectionWarning() {
+                const warning = document.getElementById('protectionWarning');
+                warning.style.display = 'block';
+                setTimeout(() => {
+                    warning.style.display = 'none';
+                }, 2000);
+            }
+            
+            // Disable right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showProtectionWarning();
+                return false;
+            });
+            
+            // Disable text selection
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Disable drag and drop
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Disable keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S, Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                if (e.keyCode === 123 || // F12
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I/J
+                    (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 65 || 
+                                   e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 88)) || // Ctrl+U/S/A/C/V/X
+                    e.keyCode === 116) { // F5
+                    e.preventDefault();
+                    showProtectionWarning();
+                    return false;
+                }
+            });
+            
+            // Disable printing
+            window.addEventListener('beforeprint', function(e) {
+                e.preventDefault();
+                showProtectionWarning();
+                return false;
+            });
+            
+            // Detect developer tools
+            let devtools = {
+                open: false,
+                orientation: null,
+                originalCards: null
+            };
+            
+            function removeAllCards() {
+                if (!devtools.originalCards) {
+                    // Store original cards before removing them
+                    devtools.originalCards = [];
+                    const allCards = document.querySelectorAll('.pariharam-card');
+                    allCards.forEach(card => {
+                        devtools.originalCards.push({
+                            element: card.cloneNode(true),
+                            parent: card.parentNode
+                        });
+                        card.remove();
+                    });
+                }
+            }
+            
+            function restoreAllCards() {
+                if (devtools.originalCards && devtools.originalCards.length > 0) {
+                    devtools.originalCards.forEach(cardData => {
+                        cardData.parent.appendChild(cardData.element);
+                    });
+                    devtools.originalCards = null;
+                }
+            }
+            
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > 200 || 
+                    window.outerWidth - window.innerWidth > 200) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        removeAllCards();
+                        document.body.classList.add('dev-tools-detected');
+                        showProtectionWarning();
+                    }
+                } else {
+                    if (devtools.open) {
+                        devtools.open = false;
+                        restoreAllCards();
+                        document.body.classList.remove('dev-tools-detected');
+                    }
+                }
+            }, 500);
+            
+            // Disable zoom
+            document.addEventListener('wheel', function(e) {
+                if (e.ctrlKey) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Disable touch zoom on mobile
+            document.addEventListener('touchstart', function(e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Disable double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(e) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            });
+            
+            // Console warning
+            console.clear();
+            console.log('%c⚠️ WARNING ⚠️', 'color: red; font-size: 30px; font-weight: bold;');
+            console.log('%cThis content is protected by copyright.', 'color: red; font-size: 16px;');
+            console.log('%cUnauthorized access or copying is prohibited.', 'color: red; font-size: 16px;');
+            console.log('%c© Manjula - All Rights Reserved', 'color: red; font-size: 16px; font-weight: bold;');
+            
+            // Disable console
+            Object.defineProperty(window, 'console', {
+                value: console,
+                writable: false,
+                configurable: false
+            });
+            
+            // Clear console periodically
+            setInterval(function() {
+                console.clear();
+            }, 3000);
+            
+            // Detect copy attempts
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                showProtectionWarning();
+                return false;
+            });
+            
+            // Prevent image saving
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Add no-cache headers simulation
+            if (window.location.protocol === 'file:') {
+                // For local files, add cache busting
+                const currentUrl = window.location.href;
+                if (!currentUrl.includes('?nocache=')) {
+                    window.location.href = currentUrl + '?nocache=' + Date.now();
+                }
+            }
+            
+        })();
+    </script>
+</body>
+</html>
