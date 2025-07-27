@@ -15,6 +15,22 @@
       "content": "தந்திர பரிகாரம் பற்றிய விரிவான தகவல்கள்...",
       "tags": ["தந்திரம்", "பரிகாரம்", "பலன்"],
       "imageUrl": "/assets/images/tantrik-pariharam.jpg"
+    },
+    {
+      "id": "dna_astrology_001",
+      "title": "DNA ஜோதிஷம்",
+      "titleEnglish": "DNA Astrology",
+      "description": "மரபணு அறிவியலுடன் இணைந்த நவீன ஜோதிட ஆராய்ச்சி மற்றும் கணிப்புகள்",
+      "descriptionEnglish": "Modern astrological research and predictions integrated with genetic science",
+      "category": "நவீன ஜோதிஷம்",
+      "categoryEnglish": "Modern Astrology",
+      "price": 299,
+      "isPaid": true,
+      "duration": "45 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "உங்கள் மரபணு வரிசையின் அடிப்படையில் ஜோதிஷ் கணிப்புகள், பூர்வ ஜென்ม கர்ம தோஷங்கள், மற்றும் அறிவியல் பூர்வமான பரிகாரங்கள்...",
+      "tags": ["DNA", "மரபணு", "ஜோதிஷம்", "அறிவியல்", "நவீனம்", "கணிப்பு"],
+      "imageUrl": "/assets/images/dna-astrology.jpg"
     }
   ],
   "categories": [
@@ -24,6 +40,13 @@
       "nameEnglish": "Tantrik Pariharam",
       "icon": "shield-outline",
       "color": "#7c3aed"
+    },
+    {
+      "id": "dna_astrology",
+      "name": "நவீன ஜோதிஷம்",
+      "nameEnglish": "DNA Astrology",
+      "icon": "dna",
+      "color": "#8b5cf6"
     },
     {
       "id": "panchangam",
