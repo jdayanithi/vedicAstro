@@ -18,6 +18,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'dna-astrology',
+    loadChildren: () => import('./concept-modules/dna-astrology/dna-astrology.module').then( m => m.DnaAstrologyPageModule)
+  },
+  {
     path: 'tantrik-pariharam',
     loadChildren: () => import('./concept-modules/tantrik-pariharam/tantrik-pariharam.module').then( m => m.TantrikPariharamPageModule)
   },

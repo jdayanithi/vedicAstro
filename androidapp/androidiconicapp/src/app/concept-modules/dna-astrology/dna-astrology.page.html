@@ -1,0 +1,135 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="tamil-text">DNA ஜோதிஷம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon slot="icon-only" [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-image">
+      <ion-icon name="dna" size="large" color="light"></ion-icon>
+    </div>
+    <div class="hero-content">
+      <h1 class="tamil-text">DNA ஜோதிஷம்</h1>
+      <p class="subtitle">Modern Astrological Research with Genetic Science</p>
+      <div class="meta-info">
+        <ion-chip color="success" size="small">
+          <ion-icon name="time" slot="start"></ion-icon>
+          <ion-label>45 நிமிடங்கள்</ion-label>
+        </ion-chip>
+        <ion-chip color="primary" size="small">
+          <ion-icon name="school" slot="start"></ion-icon>
+          <ion-label>மேம்பட்ட</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" size="small">
+          <ion-icon name="card" slot="start"></ion-icon>
+          <ion-label>₹299</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Content -->
+  <div class="content-section">
+    <ion-card class="welcome-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">
+          <ion-icon name="sparkles" color="primary"></ion-icon>
+          வரவேற்கிறோம்!
+        </ion-card-title>
+        <ion-card-subtitle>Welcome to DNA Astrology</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="welcome-content">
+          <h3 class="tamil-text">மரபணு ஜோதிட அறிவியல்</h3>
+          <p class="tamil-text">
+            நவீன அறிவியலும் பாரம்பரிய ஜோதிடமும் இணைந்த ஒரு புதிய அணுகுமுறை! 
+            உங்கள் மரபணு (DNA) வரிசையின் அடிப்படையில் துல்லியமான ஜோதிட கணிப்புகளை அறிந்து கொள்ளுங்கள்.
+          </p>
+          
+          <div class="features-grid">
+            <div class="feature-item">
+              <ion-icon name="analytics" color="primary"></ion-icon>
+              <h4>மரபணு பகுப்பாய்வு</h4>
+              <p>உங்கள் DNA வரிசையின் ஜோதிட தாக்கம்</p>
+            </div>
+            
+            <div class="feature-item">
+              <ion-icon name="planet" color="secondary"></ion-icon>
+              <h4>கோள் தாக்கம்</h4>
+              <p>மரபணு அடிப்படையிலான கிரக பலன்கள்</p>
+            </div>
+            
+            <div class="feature-item">
+              <ion-icon name="library" color="tertiary"></ion-icon>
+              <h4>பூர்வ ஜென்ம கர்மா</h4>
+              <p>மரபு வழியாக வரும் கர்ம தோஷங்கள்</p>
+            </div>
+            
+            <div class="feature-item">
+              <ion-icon name="medical" color="success"></ion-icon>
+              <h4>அறிவியல் பரிகாரம்</h4>
+              <p>ஆதார பூர்வமான நவீன பரிகாரங்கள்</p>
+            </div>
+          </div>
+
+          <div class="course-highlights">
+            <h4 class="tamil-text">இந்த பாடத்தில் நீங்கள் கற்றுக்கொள்வது:</h4>
+            <ul>
+              <li class="tamil-text">மரபணு வரிசை மற்றும் ஜோதிட இணைப்பு</li>
+              <li class="tamil-text">குலதெய்வம் கண்டறிதல் - DNA முறையில்</li>
+              <li class="tamil-text">எப்பிஜெனெடிக் கர்ம சுத்திகரிப்பு</li>
+              <li class="tamil-text">ஜீன் அடிப்படையிலான கிரக பரிகாரங்கள்</li>
+              <li class="tamil-text">நவீன மந்திர ஜபம் மற்றும் யந்திர பிரயோகம்</li>
+            </ul>
+          </div>
+
+          <div class="instructor-info">
+            <ion-card class="instructor-card">
+              <ion-card-header>
+                <ion-card-title>
+                  <ion-icon name="person-circle" color="primary"></ion-icon>
+                  வழிகாட்டி
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p class="tamil-text">
+                  அறிவியல் முறையில் பயிற்சி பெற்ற ஜோதிட நிபுணர்களால் 
+                  தயாரிக்கப்பட்ட சிறப்பு பாடத்திட்டம்.
+                </p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+          <div class="cta-section">
+            <h4 class="tamil-text">தொடங்க தயாரா?</h4>
+            <p class="tamil-text">
+              இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, 
+              முதலில் பாடத்தை வாங்கவும்.
+            </p>
+            <ion-button expand="block" color="primary" size="large">
+              <ion-icon name="card" slot="start"></ion-icon>
+              ₹299 க்கு வாங்கவும்
+            </ion-button>
+            <ion-button expand="block" fill="outline" color="secondary" (click)="shareContent()">
+              <ion-icon name="share" slot="start"></ion-icon>
+              நண்பர்களுடன் பகிரவும்
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
