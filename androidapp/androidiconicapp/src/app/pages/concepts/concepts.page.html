@@ -1,0 +1,237 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="tamil-text">வேதிக ஜோதிடம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentUserMenu()">
+        <ion-icon name="person-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <h2 class="tamil-text">வணக்கம், {{ currentUser?.name }}!</h2>
+    <p>Explore the ancient wisdom of Vedic Astrology</p>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionChange)="onSearchChange()"
+      placeholder="தேடுங்கள் (Search concepts)..."
+      class="tamil-text">
+    </ion-searchbar>
+    
+    <!-- Category Dropdown -->
+    <ion-item>
+      <ion-label>பிரிவு (Category)</ion-label>
+      <ion-select 
+        [(ngModel)]="selectedCategory" 
+        (ionChange)="onCategoryChange()"
+        placeholder="வகை தேர்ந்தெடுக்கவும்">
+        <ion-select-option value="all">எல்லாம் (All)</ion-select-option>
+        <ion-select-option 
+          *ngFor="let category of categories.slice(1)" 
+          [value]="category.name">
+          {{category.name}} ({{category.nameEnglish}})
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Subcategory Dropdown (only for Panchangam) -->
+    <ion-item *ngIf="selectedCategory === 'பஞ்சாங்கம்' && subcategories.length > 0">
+      <ion-label>துணை பிரிவு (Subcategory)</ion-label>
+      <ion-select 
+        [(ngModel)]="selectedSubcategory" 
+        (ionChange)="onSubcategoryChange()"
+        placeholder="துணை வகை தேர்ந்தெடுக்கவும்">
+        <ion-select-option value="all">எல்லாம் (All)</ion-select-option>
+        <ion-select-option 
+          *ngFor="let subcategory of subcategories" 
+          [value]="subcategory.name">
+          {{subcategory.name}} ({{subcategory.nameEnglish}})
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Course Type Filter Dropdown -->
+    <ion-item>
+      <ion-label>பாடம் வகை (Course Type)</ion-label>
+      <ion-select 
+        [(ngModel)]="selectedCourseType" 
+        (ionChange)="onCourseTypeChange()"
+        placeholder="பாடம் வகை தேர்ந்தெடுக்கவும்">
+        <ion-select-option 
+          *ngFor="let courseType of courseTypes" 
+          [value]="courseType.value">
+          {{courseType.label}}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Results Count -->
+  <div class="results-info">
+    <ion-chip color="primary" outline="true">
+      <ion-label class="tamil-text">
+        மொத்தம் {{filteredConcepts.length}} கருத்துக்கள்
+      </ion-label>
+    </ion-chip>
+    
+    <!-- Active Filters Display -->
+    <div class="active-filters" *ngIf="selectedCategory !== 'all' || selectedCourseType !== 'all'">
+      <ion-chip 
+        *ngIf="selectedCategory !== 'all'" 
+        color="secondary" 
+        size="small"
+        outline="true"
+        class="tamil-text">
+        <ion-icon name="funnel-outline" slot="start"></ion-icon>
+        {{selectedCategory}}
+      </ion-chip>
+      <ion-chip 
+        *ngIf="selectedCourseType !== 'all'" 
+        color="tertiary" 
+        size="small"
+        outline="true"
+        class="tamil-text">
+        <ion-icon name="school-outline" slot="start"></ion-icon>
+        {{getSelectedCourseTypeLabel()}}
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- Concepts Grid -->
+  <div class="concepts-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="4" 
+          *ngFor="let concept of filteredConcepts">
+          
+          <ion-card 
+            class="concept-card" 
+            [class.free-concept]="!concept.isPaid"
+            [class.purchased-concept]="hasAccess(concept)"
+            button="true"
+            (click)="onConceptClick(concept)">
+            
+            <!-- Card Header with Status -->
+            <div class="card-header">
+              <div class="status-badge">
+                <ion-icon 
+                  [name]="getConceptStatusIcon(concept)" 
+                  [color]="getConceptStatusColor(concept)">
+                </ion-icon>
+              </div>
+              <div class="category-badge">
+                <ion-chip [color]="concept.category === 'basic' ? 'success' : concept.category === 'intermediate' ? 'warning' : 'danger'" 
+                  size="small">
+                  {{concept.category}}
+                </ion-chip>
+              </div>
+            </div>
+
+            <!-- Thumbnail -->
+            <div class="concept-thumbnail">
+              <ion-icon name="star" size="large" color="primary"></ion-icon>
+            </div>
+
+            <ion-card-header>
+              <ion-card-subtitle>
+                <div class="concept-meta">
+                  <span class="course-id">
+                    <ion-icon name="barcode-outline" size="small"></ion-icon>
+                    {{concept.id}}
+                  </span>
+                  <span class="read-time">
+                    <ion-icon name="time" size="small"></ion-icon>
+                    {{concept.duration}}
+                  </span>
+                  <span class="price" *ngIf="concept.isPaid && !hasAccess(concept)">
+                    ₹{{concept.price}}
+                  </span>
+                  <span class="free-badge" *ngIf="!concept.isPaid">
+                    FREE
+                  </span>
+                  <span class="purchased-badge" *ngIf="hasAccess(concept) && concept.isPaid">
+                    PURCHASED
+                  </span>
+                </div>
+              </ion-card-subtitle>
+              <ion-card-title class="tamil-text concept-title">
+                {{concept.title}}
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+              <p class="concept-description">{{concept.description}}</p>
+              
+              <!-- Tags -->
+              <div class="tags-container">
+                <ion-chip 
+                  *ngFor="let tag of concept.tags.slice(0, 3)" 
+                  size="small" 
+                  outline="true"
+                  color="primary"
+                  class="tamil-text">
+                  {{tag}}
+                </ion-chip>
+                <span *ngIf="concept.tags.length > 3" class="more-tags">
+                  +{{concept.tags.length - 3}} more
+                </span>
+              </div>
+
+              <!-- Action Button -->
+              <div class="action-section">
+                <ion-button 
+                  *ngIf="!concept.isPaid || hasAccess(concept)"
+                  fill="solid" 
+                  size="small" 
+                  expand="block"
+                  color="primary">
+                  <ion-icon name="play" slot="start"></ion-icon>
+                  Start Learning
+                </ion-button>
+                
+                <ion-button 
+                  *ngIf="concept.isPaid && !hasAccess(concept)"
+                  fill="outline" 
+                  size="small" 
+                  expand="block"
+                  color="primary">
+                  <ion-icon name="card" slot="start"></ion-icon>
+                  Purchase ₹{{concept.price}}
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- No Results -->
+  <div class="no-results" *ngIf="filteredConcepts.length === 0">
+    <ion-icon name="search" size="large" color="medium"></ion-icon>
+    <h3 class="tamil-text">கருத்துக்கள் கிடைக்கவில்லை</h3>
+    <p>Try adjusting your search or filter criteria</p>
+  </div>
+
+  <!-- Floating Action Button for Quick Access -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="navigateToProfile()" color="light">
+        <ion-icon name="person"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="navigateToPurchases()" color="light">
+        <ion-icon name="bag"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

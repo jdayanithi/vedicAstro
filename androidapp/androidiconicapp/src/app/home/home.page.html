@@ -1,0 +1,106 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="tamil-text">
+      தமிழ் பரிகாரம்
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" class="tamil-text">தமிழ் பரிகாரம்</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Search Section -->
+  <div class="search-container">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionChange)="onSearchChange()"
+      placeholder="தேடுங்கள் (Search)..."
+      class="tamil-text">
+    </ion-searchbar>
+    
+    <ion-segment 
+      [(ngModel)]="selectedCategory" 
+      (ionChange)="onCategoryChange()" 
+      scrollable="true"
+      class="tamil-text">
+      <ion-segment-button value="all">
+        <ion-label>எல்லாம்</ion-label>
+      </ion-segment-button>
+      <ion-segment-button *ngFor="let category of categories" [value]="category">
+        <ion-label>{{category}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-button fill="clear" (click)="clearSearch()" class="tamil-text">
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      Clear
+    </ion-button>
+  </div>
+
+  <!-- Results Count -->
+  <ion-item>
+    <ion-label class="tamil-text">
+      மொத்தம் {{filteredRemedies.length}} பரிகாரங்கள் கிடைத்தன
+    </ion-label>
+  </ion-item>
+
+  <!-- Remedies List -->
+  <ion-list>
+    <ion-card *ngFor="let remedy of filteredRemedies" class="remedy-card">
+      <ion-card-header>
+        <ion-card-subtitle class="tamil-text">{{remedy.category}}</ion-card-subtitle>
+        <ion-card-title class="tamil-text">{{remedy.title}}</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <p class="tamil-text">{{remedy.description}}</p>
+        
+        <!-- Tamil Tags -->
+        <div style="margin-top: 12px;">
+          <ion-label color="primary">
+            <strong>தமிழ் குறிச்சொற்கள்:</strong>
+          </ion-label>
+          <div style="margin-top: 4px;">
+            <ion-chip 
+              *ngFor="let tag of remedy.tamilTags" 
+              class="tag-chip tamil-text"
+              color="primary"
+              outline="true">
+              {{tag}}
+            </ion-chip>
+          </div>
+        </div>
+        
+        <!-- English Tags -->
+        <div style="margin-top: 8px;">
+          <ion-label color="secondary">
+            <strong>English Tags:</strong>
+          </ion-label>
+          <div style="margin-top: 4px;">
+            <ion-chip 
+              *ngFor="let tag of remedy.englishTags" 
+              class="tag-chip"
+              color="secondary"
+              outline="true">
+              {{tag}}
+            </ion-chip>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- No Results -->
+  <ion-card *ngIf="filteredRemedies.length === 0">
+    <ion-card-content class="ion-text-center">
+      <ion-icon name="search" size="large" color="medium"></ion-icon>
+      <h2 class="tamil-text">பரிகாரம் கிடைக்கவில்லை</h2>
+      <p>தேடல் வார்த்தைகளை மாற்றி முயற்சிக்கவும்</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

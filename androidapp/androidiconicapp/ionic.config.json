@@ -1,0 +1,7 @@
+{
+  "name": "androidiconicapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

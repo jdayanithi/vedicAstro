@@ -1,0 +1,87 @@
+{
+  "concepts": [
+    {
+      "id": "tantrik_001",
+      "title": "Tantrik Pariharam",
+      "titleEnglish": "Tantrik Pariharam",
+      "description": "தந்திர பரிகாரங்களுக்கான முழுமையான பலன்கள் மற்றும் பரிகாரங்கள்",
+      "descriptionEnglish": "Complete predictions and remedies for Tantrik Pariharam",
+      "category": "தந்திர பரிகாரம்",
+      "categoryEnglish": "Tantrik Pariharam",
+      "price": 0,
+      "isPaid": false,
+      "duration": "30 நிமிடங்கள்",
+      "level": "ஆரம்பம்",
+      "content": "தந்திர பரிகாரம் பற்றிய விரிவான தகவல்கள்...",
+      "tags": ["தந்திரம்", "பரிகாரம்", "பலன்"],
+      "imageUrl": "/assets/images/tantrik-pariharam.jpg"
+    }
+  ],
+  "categories": [
+    {
+      "id": "tantrik",
+      "name": "தந்திர பரிகாரம்",
+      "nameEnglish": "Tantrik Pariharam",
+      "icon": "shield-outline",
+      "color": "#7c3aed"
+    },
+    {
+      "id": "panchangam",
+      "name": "பஞ்சாங்கம்",
+      "nameEnglish": "Panchangam",
+      "icon": "calendar-outline",
+      "color": "#dc2626",
+      "subcategories": [
+        {
+          "id": "tithi",
+          "name": "திதி",
+          "nameEnglish": "Tithi",
+          "icon": "moon-outline",
+          "color": "#dc2626"
+        },
+        {
+          "id": "nakshatra",
+          "name": "நக்ஷத்திரம்",
+          "nameEnglish": "Nakshatra",
+          "icon": "star-outline",
+          "color": "#ea580c"
+        },
+        {
+          "id": "yoga",
+          "name": "யோகம்",
+          "nameEnglish": "Yoga",
+          "icon": "fitness-outline",
+          "color": "#d97706"
+        },
+        {
+          "id": "karana",
+          "name": "கரணம்",
+          "nameEnglish": "Karana",
+          "icon": "time-outline",
+          "color": "#ca8a04"
+        },
+        {
+          "id": "weekday",
+          "name": "வாரம்",
+          "nameEnglish": "Weekday",
+          "icon": "calendar-number-outline",
+          "color": "#16a34a"
+        },
+        {
+          "id": "muhurta",
+          "name": "முகூர்த்தம்",
+          "nameEnglish": "Muhurta",
+          "icon": "alarm-outline",
+          "color": "#0891b2"
+        },
+        {
+          "id": "inauspicious",
+          "name": "தடை காலம்",
+          "nameEnglish": "Inauspicious Time",
+          "icon": "warning-outline",
+          "color": "#dc2626"
+        }
+      ]
+    }
+  ]
+}

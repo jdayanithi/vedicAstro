@@ -1,0 +1,178 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="tamil-text">
+      {{ loginMode ? 'உள்நுழைவு' : 'பதிவு செய்யுங்கள்' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-content">
+  <!-- Logo Section -->
+  <div class="logo-section">
+    <ion-icon name="star-outline" size="large" color="primary"></ion-icon>
+    <h1 class="app-title tamil-text">வேதிக ஜோதிடம்</h1>
+    <p class="app-subtitle">Learn Astrology with Expert Guidance</p>
+  </div>
+
+  <!-- Login Form -->
+  <div class="form-container" *ngIf="loginMode">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">உள்நுழைவு</ion-card-title>
+        <ion-card-subtitle>Welcome back to Vedic Astrology</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input 
+            type="email" 
+            [(ngModel)]="email" 
+            placeholder="Enter your email"
+            clearOnEdit="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Password</ion-label>
+          <ion-input 
+            [type]="showPassword ? 'text' : 'password'" 
+            [(ngModel)]="password" 
+            placeholder="Enter your password"
+            clearOnEdit="true">
+          </ion-input>
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            (click)="togglePasswordVisibility()">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-button 
+          expand="block" 
+          (click)="onLogin()" 
+          [disabled]="isLoading"
+          class="login-button">
+          <ion-icon name="log-in" slot="start"></ion-icon>
+          உள்நுழையுங்கள்
+        </ion-button>
+
+        <div class="form-footer">
+          <ion-button fill="clear" (click)="toggleMode()">
+            Don't have an account? <strong>Register here</strong>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Registration Form -->
+  <div class="form-container" *ngIf="!loginMode">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">பதிவு செய்யுங்கள்</ion-card-title>
+        <ion-card-subtitle>Join our Astrology Learning Community</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Name *</ion-label>
+          <ion-input 
+            type="text" 
+            [(ngModel)]="name" 
+            placeholder="Enter your full name"
+            clearOnEdit="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Email *</ion-label>
+          <ion-input 
+            type="email" 
+            [(ngModel)]="email" 
+            placeholder="Enter your email"
+            clearOnEdit="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Phone Number</ion-label>
+          <ion-input 
+            type="tel" 
+            [(ngModel)]="phoneNumber" 
+            placeholder="Enter your phone number"
+            clearOnEdit="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Password *</ion-label>
+          <ion-input 
+            [type]="showPassword ? 'text' : 'password'" 
+            [(ngModel)]="password" 
+            placeholder="Enter your password (min 6 characters)"
+            clearOnEdit="true">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Confirm Password *</ion-label>
+          <ion-input 
+            type="password" 
+            [(ngModel)]="confirmPassword" 
+            placeholder="Confirm your password"
+            clearOnEdit="true">
+          </ion-input>
+          <ion-button 
+            fill="clear" 
+            slot="end" 
+            (click)="togglePasswordVisibility()">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-button 
+          expand="block" 
+          (click)="onRegister()" 
+          [disabled]="isLoading"
+          class="login-button">
+          <ion-icon name="person-add" slot="start"></ion-icon>
+          பதிவு செய்யுங்கள்
+        </ion-button>
+
+        <div class="form-footer">
+          <ion-button fill="clear" (click)="toggleMode()">
+            Already have an account? <strong>Login here</strong>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Features Section -->
+  <div class="features-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <div class="feature-item">
+            <ion-icon name="book-outline" color="primary"></ion-icon>
+            <p class="tamil-text">சிறந்த உள்ளடக்கம்</p>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="feature-item">
+            <ion-icon name="star-outline" color="primary"></ion-icon>
+            <p class="tamil-text">நிபுணர் வழிகாட்டுதல்</p>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="feature-item">
+            <ion-icon name="shield-checkmark-outline" color="primary"></ion-icon>
+            <p class="tamil-text">நம்பகமான தகவல்</p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

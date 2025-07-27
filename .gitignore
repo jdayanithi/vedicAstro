@@ -57,3 +57,6 @@ database-backup/
 # Log files that might contain sensitive info
 logs/
 *.log
+/androidapp/androidiconicapp/.angular
+/androidapp/androidiconicapp/dist
+/androidapp/androidiconicapp/node_modules
