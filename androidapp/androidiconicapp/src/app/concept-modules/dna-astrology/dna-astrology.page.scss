@@ -1,3 +1,309 @@
+// Suriyan section karma card styles
+.suriyan-karma-card {
+  margin-bottom: 1.5rem;
+}
+.suriyan-karma-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #b45309;
+}
+.suriyan-karma-list {
+  padding-left: 1.2rem;
+}
+.suriyan-header-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #222;
+  letter-spacing: 1px;
+}
+.suriyan-header-desc {
+  font-size: 1rem;
+  color: #222;
+  opacity: 0.9;
+}
+// Overview section card and header styles
+.section-header-overview {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  position: relative;
+  background: none;
+  border: 2px solid #3b82f6;
+}
+.section-header-content-overview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+.section-header-icon-overview {
+  font-size: 2.2rem;
+}
+.section-header-toggle-icon-overview {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.section-toggle-icon-overview {
+  font-size: 2.2rem;
+  color: #3b82f6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.3s;
+}
+.overview-gradient {
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.12);
+}
+// Suriyan (Sun) section card and header styles
+.section-card-sun {
+  margin-bottom: 1.5rem;
+}
+.section-header-sun {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(251,191,36,0.10);
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  position: relative;
+  background: none;
+  border: 2px solid #b45309;
+}
+.section-header-content-sun {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+.section-header-icon-sun {
+  font-size: 2.5rem;
+  color: #ff9800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.section-header-toggle-icon-sun {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.section-toggle-icon-sun {
+  font-size: 2.2rem;
+  color: #b45309;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.3s;
+}
+// Remedy gradient for nakshatra details card
+.remedy-gradient {
+  background: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.12);
+}
+
+// Yellow detail block
+.bg-yellow-detail {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fffbe6;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(251,191,36,0.10);
+}
+.bg-yellow-detail-heading {
+  background: #fbbf24;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1rem;
+}
+
+// Blue detail block
+.bg-blue-detail {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #e0e7ff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(59,130,246,0.10);
+}
+.bg-blue-detail-heading {
+  background: #3b82f6;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1rem;
+}
+// Dosham card list spacing
+.dosham-list {
+  margin-bottom: 1.5rem;
+}
+
+// Remedy block yellow
+.bg-yellow-remedy {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fffbe6;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(251,191,36,0.10);
+}
+
+// Remedy block blue
+.bg-blue-remedy {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #e6f7ff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(59,130,246,0.10);
+}
+// Final CTA Section styles
+.cta-section {
+  background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+  padding: 2rem 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+.cta-section.hidden {
+  display: none;
+}
+.cta-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.7rem;
+}
+.cta-title-icon {
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
+.cta-desc {
+  color: #e0e7ff;
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+}
+.cta-buy-btn {
+  margin-bottom: 1rem;
+}
+// Sevai section karma card styles
+.sevai-karma-card {
+  margin-bottom: 1.5rem;
+}
+.sevai-karma-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ef4444;
+}
+.sevai-karma-list {
+  padding-left: 1.2rem;
+}
+// Pink remedy block
+.bg-pink-remedy {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff0f6;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(236,72,153,0.10);
+}
+
+// Sevai section card and header
+.section-card-red {
+  margin-bottom: 1.5rem;
+}
+.section-header-red {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.10);
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  position: relative;
+  background: none;
+  border: 2px solid #ef4444;
+}
+.section-header-content-red {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+.section-header-icon-red {
+  font-size: 2.5rem;
+  color: #ef4444;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.section-header-toggle-icon-red {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.section-toggle-icon-red {
+  font-size: 2.2rem;
+  color: #ef4444;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.3s;
+}
+// Purple block for Anusham
+.bg-purple {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f3e8ff;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(168,85,247,0.10);
+}
+.bg-purple-heading {
+  background: #a855f7;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1rem;
+}
+
+// Pink block for Poorattadhi
+.bg-pink {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff0f6;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(236,72,153,0.10);
+}
+.bg-pink-heading {
+  background: #ec4899;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: 1rem;
+}
+
+// Dosham card gradient
+.dosham-gradient {
+  background: linear-gradient(90deg, #ef4444 0%, #fbbf24 100%);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.12);
+}
 .nakshatram-title {
   font-size: 1.25rem;
   font-weight: 700;

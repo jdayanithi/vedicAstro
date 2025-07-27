@@ -96,17 +96,17 @@
     </ion-card>
 
     <!-- Overview Section - Natchathira Samantham -->
-    <ion-card style="margin-bottom: 1.5rem;">
-      <ion-card-header (click)="toggleOverview()" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(59,130,246,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #3b82f6;">
-        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
-          <ion-icon name="planet" color="primary" style="font-size: 2.2rem;"></ion-icon>
+<ion-card class="section-card-sun">
+      <ion-card-header (click)="toggleOverview()" class="section-header-overview">
+        <div class="section-header-content-overview">
+          <ion-icon name="planet" color="primary" class="section-header-icon-overview"></ion-icon>
           <div>
             <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு</div>
             <div style="font-size: 1rem; color: #222; opacity: 0.9;">நட்சத்திர பொருத்த கண்ணோட்டம்</div>
           </div>
         </div>
-        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
-          <ion-icon [name]="showOverview ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #3b82f6; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+        <div class="section-header-toggle-icon-overview">
+          <ion-icon [name]="showOverview ? 'chevron-up-circle' : 'chevron-down-circle'" class="section-toggle-icon-overview"></ion-icon>
         </div>
       </ion-card-header>
       <ion-card-content *ngIf="showOverview">
@@ -160,7 +160,7 @@
         </div>
         
         <div class="compatibility-notes">
-          <h5 class="remedy-heading" style="background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%); color: #fff; font-size: 1.2rem; font-weight: 800; border-radius: 8px; padding: 0.5rem 1rem; box-shadow: 0 2px 8px rgba(59,130,246,0.12);">
+          <h5 class="remedy-heading overview-gradient">
             <ion-icon name="information-circle" color="primary"></ion-icon>
             முக்கிய குறிப்புகள்:
           </h5>
@@ -175,16 +175,16 @@
 
     <!-- Suriyan (Sun) Section - Natchathira Thodarpu -->
     <ion-card style="margin-bottom: 1.5rem;">
-      <ion-card-header (click)="toggleSection('suriyan')" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(251,191,36,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #b45309;">
-        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
-          <ion-icon name="sunny" style="font-size: 2.5rem; color: #ff9800; text-shadow: 0 2px 8px rgba(0,0,0,0.18);"></ion-icon>
+      <ion-card-header (click)="toggleSection('suriyan')" class="section-header-sun">
+        <div class="section-header-content-sun">
+          <ion-icon name="sunny" class="section-header-icon-sun"></ion-icon>
           <div>
             <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு - சூரியன்</div>
             <div style="font-size: 1rem; color: #222; opacity: 0.9;">சூரிய கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</div>
           </div>
         </div>
-        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
-          <ion-icon [name]="sectionOpen['suriyan'] ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #b45309; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+        <div class="section-header-toggle-icon-sun">
+          <ion-icon [name]="sectionOpen['suriyan'] ? 'chevron-up-circle' : 'chevron-down-circle'" class="section-toggle-icon-sun"></ion-icon>
         </div>
       </ion-card-header>
       <ion-card-content *ngIf="sectionOpen['suriyan']">
@@ -209,14 +209,14 @@
           <!-- நட்சத்திர தோஷம் - தனிப்பட்ட நட்சத்திர விவரங்கள் -->
           <ion-card class="nakshatra-details-card">
             <ion-card-header>
-              <ion-card-title class="remedy-heading" style="background: linear-gradient(90deg, #3b82f6 0%, #a855f7 100%); color: #fff; font-size: 1.3rem; font-weight: 800; border-radius: 8px; padding: 0.5rem 1rem; box-shadow: 0 2px 8px rgba(59,130,246,0.12);">
+              <ion-card-title class="remedy-heading remedy-gradient">
                 <ion-icon name="library" color="primary"></ion-icon>
                 நட்சத்திர தோஷம் - தனிப்பட்ட தன்மைகள்
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <div class="nakshatra-detail-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #fffbe6; border-radius: 12px; box-shadow: 0 1px 4px rgba(251,191,36,0.10);">
-                <h5 class="remedy-heading" style="background: #fbbf24; color: #fff; font-size: 1.1rem; font-weight: 700; border-radius: 6px; padding: 0.3rem 0.8rem; margin-bottom: 1rem;"><ion-icon name="flash" color="tertiary"></ion-icon> அஸ்வினி (குறிய ஜோஷியம்) (கேது)</h5>
+              <div class="nakshatra-detail-block bg-yellow-detail">
+                <h5 class="remedy-heading bg-yellow-detail-heading"><ion-icon name="flash" color="tertiary"></ion-icon> அஸ்வினி (குறிய ஜோஷியம்) (கேது)</h5>
                 <ul>
                   <li><strong>முக்கிய குணங்கள்:</strong> வேகம்(செ) + ஆன்ம(க) + Healing(கேது)</li>
                   <li>அரசாங்க தோஷம் கொண்ட</li>
@@ -230,8 +230,8 @@
                   <li>Medicine/Abortion, Medical field, pharmacy, மாற்று மருத்துவம்</li>
                 </ul>
               </div>
-              <div class="nakshatra-detail-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #e0e7ff; border-radius: 12px; box-shadow: 0 1px 4px rgba(59,130,246,0.10);">
-                <h5 class="remedy-heading" style="background: #3b82f6; color: #fff; font-size: 1.1rem; font-weight: 700; border-radius: 6px; padding: 0.3rem 0.8rem; margin-bottom: 1rem;"><ion-icon name="water" color="medium"></ion-icon> ஆயில்யம் (துரிய தோஷம்) (புதன் – கேது)</h5>
+              <div class="nakshatra-detail-block bg-blue-detail">
+                <h5 class="remedy-heading bg-blue-detail-heading"><ion-icon name="water" color="medium"></ion-icon> ஆயில்யம் (துரிய தோஷம்) (புதன் – கேது)</h5>
                 <ul>
                   <li>தன்னலம்(தற்+तलैமை), கடகம் தன்னலம் கொண்டது</li>
                   <li>தாய்மை உள்ளம் கொண்டது, கேது - detachment</li>
@@ -243,11 +243,11 @@
                   <li>நினைத்த வேலை கிடைக்காது. கிடைத்ததை விடக்கூடாது</li>
                 </ul>
               </div>
-              <div class="nakshatra-detail-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #f3e8ff; border-radius: 12px; box-shadow: 0 1px 4px rgba(168,85,247,0.10);">
-                <h5 class="remedy-heading" style="background: #a855f7; color: #fff; font-size: 1.1rem; font-weight: 700; border-radius: 6px; padding: 0.3rem 0.8rem; margin-bottom: 1rem;"><ion-icon name="people" color="secondary"></ion-icon> அனுஷம் (சூரிய தோஷம்) (சனி- வாயு பகவான்)</h5>
+              <div class="nakshatra-detail-block bg-purple">
+                <h5 class="remedy-heading bg-purple-heading"><ion-icon name="people" color="secondary"></ion-icon> அனுஷம் (சூரிய தோஷம்) (சனி- வாயு பகவான்)</h5>
                 <ul>
                   <li>மாமியார் தோஷம் பெற்ற</li>
-                  <li>ஆணுக்கு அனுஷம் – வீட்டோடு மாப்பிள்ளை அல்லது மனைவி குடும்பத்திற்கு அருகில் இருப்பார்</li>
+                  <li>ஆணுக்கு அனுஷம் - வீட்டோடு மாப்பிள்ளை அல்லது மனைவி குடும்பத்திற்கு அருகில் இருப்பார்</li>
                   <li>மாமியார் மூலமாக சுகம் அனுபவிக்க முடியாது</li>
                   <li>பெண்கள் கணவனின் தேவைகளை முழுமையாக பூர்த்தி செய்ய வேண்டும்</li>
                   <li>மருத்துவம் குறைவு (medical field)</li>
@@ -255,8 +255,8 @@
                   <li>நிர்வாகம், தந்தையின் ஆதரவு குறையும்</li>
                 </ul>
               </div>
-              <div class="nakshatra-detail-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #fff0f6; border-radius: 12px; box-shadow: 0 1px 4px rgba(236,72,153,0.10);">
-                <h5 class="remedy-heading" style="background: #ec4899; color: #fff; font-size: 1.1rem; font-weight: 700; border-radius: 6px; padding: 0.3rem 0.8rem; margin-bottom: 1rem;"><ion-icon name="card" color="success"></ion-icon> பூரட்டாதி (துரிய தோஷம்) (குரு - குபேரன், கர்ணன்)</h5>
+              <div class="nakshatra-detail-block bg-pink">
+                <h5 class="remedy-heading bg-pink-heading"><ion-icon name="card" color="success"></ion-icon> பூரட்டாதி (துரிய தோஷம்) (குரு - குபேரன், கர்ணன்)</h5>
                 <ul>
                   <li>வட்டத்தொழில்: Finance / Banking சம்பந்தம்</li>
                   <li>அரசு அரசாங்கம்/அரசு கருவிகள்/மருத்துவம் சம்பந்தப்பட்ட தொழில்</li>
@@ -274,13 +274,13 @@
            <!-- சூரிய தோஷம் - பொதுவான தன்மைகள் -->
           <ion-card class="dosham-card">
             <ion-card-header>
-              <ion-card-title class="remedy-heading" style="background: linear-gradient(90deg, #ef4444 0%, #fbbf24 100%); color: #fff; font-size: 1.3rem; font-weight: 800; border-radius: 8px; padding: 0.5rem 1rem; box-shadow: 0 2px 8px rgba(239,68,68,0.12);">
+              <ion-card-title class="remedy-heading dosham-gradient">
                 <ion-icon name="warning" color="danger"></ion-icon>
                 சூரிய தோஷம் - பொதுவான தன்மைகள்
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ul style="margin-bottom: 1.5rem;">
+              <ul class="dosham-list">
                 <li><strong>ஆனவம், அகங்காரம், ஆளுமை குணங்கள் கொண்டவர்கள்</strong></li>
                 <li>அரசு/அரசாங்கம்/அரசியல்/சட்டம் / தொழில்கள் சம்பந்தப்படும்</li>
                 <li>மருத்துவம் / மற்றும் மருத்துவம் சம்பந்தப்படும்</li>
@@ -304,7 +304,7 @@
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <div class="remedy-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #fffbe6; border-radius: 16px; box-shadow: 0 2px 12px rgba(251,191,36,0.10);">
+              <div class="remedy-block bg-yellow-remedy">
                 <h5 class="remedy-heading"><ion-icon name="heart" color="danger"></ion-icon> தர்மப் பரிகாரம்</h5>
                 <ul>
                   <li>பிள்ளைகளால் கைவிடப்பட்ட தந்தைகளுக்கு முடிந்த வகையில் ஆதரவு கொடுப்பது (physically, financially, etc.)</li>
@@ -312,7 +312,7 @@
                   <li>வயது முதிர்ந்த ஆண்களின் ஆசிர்வாதம் பெறுவது</li>
                 </ul>
               </div>
-              <div class="remedy-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #e6f7ff; border-radius: 16px; box-shadow: 0 2px 12px rgba(59,130,246,0.10);">
+              <div class="remedy-block bg-blue-remedy">
                 <h5 class="remedy-heading"><ion-icon name="briefcase" color="primary"></ion-icon> தொழில் பரிகாரம்</h5>
                 <ul>
                   <li>MBA administration, HR, Head Master, Managerial skills</li>
@@ -321,7 +321,7 @@
                   <li>தனக்குக் கீழ் பணி செய்பவரை தாழ்வாக நடத்தக்கூடாது</li>
                 </ul>
               </div>
-              <div class="remedy-block" style="margin-bottom: 1.5rem; padding: 1rem; background: #fff0f6; border-radius: 16px; box-shadow: 0 2px 12px rgba(236,72,153,0.10);">
+              <div class="remedy-block bg-pink-remedy">
                 <h5 class="remedy-heading"><ion-icon name="flower" color="tertiary"></ion-icon> ஆன்மீகப் பரிகாரம்</h5>
                 <ul>
                   <li>சூரிய நமஸ்காரம் வழிபாடு செய்வது</li>
@@ -337,38 +337,7 @@
           </ion-card>
       </ion-card-content>
     </ion-card>
-    <!-- Sevai (Mars) Section - Natchathira Thodarpu -->
-    <ion-card style="margin-bottom: 1.5rem;">
-      <ion-card-header (click)="toggleSection('sevai')" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(239,68,68,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #ef4444;">
-        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
-          <ion-icon name="flame" style="font-size: 2.5rem; color: #ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.18);"></ion-icon>
-          <div>
-            <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு - செவ்வாய்</div>
-            <div style="font-size: 1rem; color: #222; opacity: 0.9;">செவ்வாய் கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</div>
-          </div>
-        </div>
-        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
-          <ion-icon [name]="sectionOpen['sevai'] ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
-        </div>
-      </ion-card-header>
-      <ion-card-content *ngIf="sectionOpen['sevai']">
-        <!-- Sevai Content -->
-        <ion-card style="margin-bottom: 1.5rem;">
-          <ion-card-header>
-            <ion-card-title style="font-size: 1.1rem; font-weight: 700; color: #ef4444;">கர்மப்பதிவு கொண்ட நட்சத்திரங்கள்</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ul style="padding-left: 1.2rem;">
-              <li>பரணி</li>
-              <li>மூலம்</li>
-              <li>அவிட்டம்</li>
-              <li>சதயம்</li>
-            </ul>
-          </ion-card-content>
-        </ion-card>
-        <!-- Add more Sevai-specific blocks here as needed -->
-      </ion-card-content>
-    </ion-card>
+  
 
     <!-- Instructor Information -->
     <ion-card class="instructor-card" style="display: none;">
@@ -386,15 +355,15 @@
     </ion-card>
 
     <!-- Final CTA Section -->
-    <div class="cta-section" style="display: none; background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 100%); border-radius: 14px; box-shadow: 0 2px 8px rgba(59,130,246,0.10); padding: 2rem 1.5rem; margin-top: 2rem; text-align: center;">
-      <h4 class="tamil-text" style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 0.7rem;">
-        <ion-icon name="school" color="light" style="font-size: 1.5rem; vertical-align: middle;"></ion-icon>
+    <div class="cta-section hidden">
+      <h4 class="tamil-text cta-title">
+        <ion-icon name="school" color="light" class="cta-title-icon"></ion-icon>
         தொடங்க தயாரா?
       </h4>
-      <p class="tamil-text" style="color: #e0e7ff; font-size: 1.05rem; margin-bottom: 1.2rem;">
+      <p class="tamil-text cta-desc">
         இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, முதலில் பாடத்தை வாங்கவும்.
       </p>
-      <ion-button expand="block" color="primary" size="large" style="margin-bottom: 1rem;">
+      <ion-button expand="block" color="primary" size="large" class="cta-buy-btn">
         <ion-icon name="card" slot="start"></ion-icon>
         ₹299 க்கு வாங்கவும்
       </ion-button>
