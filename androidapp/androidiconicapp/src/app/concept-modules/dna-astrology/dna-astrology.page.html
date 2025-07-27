@@ -175,7 +175,7 @@
 
     <!-- Suriyan (Sun) Section - Natchathira Thodarpu -->
     <ion-card style="margin-bottom: 1.5rem;">
-      <ion-card-header (click)="toggleSuriyan()" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(251,191,36,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #b45309;">
+      <ion-card-header (click)="toggleSection('suriyan')" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(251,191,36,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #b45309;">
         <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
           <ion-icon name="sunny" style="font-size: 2.5rem; color: #ff9800; text-shadow: 0 2px 8px rgba(0,0,0,0.18);"></ion-icon>
           <div>
@@ -184,10 +184,10 @@
           </div>
         </div>
         <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
-          <ion-icon [name]="showSuriyan ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #b45309; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+          <ion-icon [name]="sectionOpen['suriyan'] ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #b45309; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
         </div>
       </ion-card-header>
-      <ion-card-content *ngIf="showSuriyan">
+      <ion-card-content *ngIf="sectionOpen['suriyan']">
         <!-- Suriyan Content -->
           <!-- கர்மப்பதிவு கொண்ட நட்சத்திரங்கள் -->
           <ion-card style="margin-bottom: 1.5rem;">
@@ -337,6 +337,39 @@
           </ion-card>
       </ion-card-content>
     </ion-card>
+    <!-- Sevai (Mars) Section - Natchathira Thodarpu -->
+    <ion-card style="margin-bottom: 1.5rem;">
+      <ion-card-header (click)="toggleSection('sevai')" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(239,68,68,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #ef4444;">
+        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+          <ion-icon name="flame" style="font-size: 2.5rem; color: #ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.18);"></ion-icon>
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு - செவ்வாய்</div>
+            <div style="font-size: 1rem; color: #222; opacity: 0.9;">செவ்வாய் கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</div>
+          </div>
+        </div>
+        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
+          <ion-icon [name]="sectionOpen['sevai'] ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #ef4444; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+        </div>
+      </ion-card-header>
+      <ion-card-content *ngIf="sectionOpen['sevai']">
+        <!-- Sevai Content -->
+        <ion-card style="margin-bottom: 1.5rem;">
+          <ion-card-header>
+            <ion-card-title style="font-size: 1.1rem; font-weight: 700; color: #ef4444;">கர்மப்பதிவு கொண்ட நட்சத்திரங்கள்</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ul style="padding-left: 1.2rem;">
+              <li>பரணி</li>
+              <li>மூலம்</li>
+              <li>அவிட்டம்</li>
+              <li>சதயம்</li>
+            </ul>
+          </ion-card-content>
+        </ion-card>
+        <!-- Add more Sevai-specific blocks here as needed -->
+      </ion-card-content>
+    </ion-card>
+
     <!-- Instructor Information -->
     <ion-card class="instructor-card" style="display: none;">
       <ion-card-header>

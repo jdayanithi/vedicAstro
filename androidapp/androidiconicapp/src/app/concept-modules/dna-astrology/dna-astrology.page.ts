@@ -184,6 +184,15 @@ export class DnaAstrologyPage implements OnInit {
   planets: Planet[] = [];
 
   constructor(private toastController: ToastController) { }
+  sectionOpen: { [key: string]: boolean } = {
+    suriyan: false,
+    sevai: false,
+    // Add more keys for additional collapsible sections as needed
+  };
+
+  toggleSection(section: string): void {
+    this.sectionOpen[section] = !this.sectionOpen[section];
+  }
 
   ngOnInit() {
     // Check if this concept is bookmarked
