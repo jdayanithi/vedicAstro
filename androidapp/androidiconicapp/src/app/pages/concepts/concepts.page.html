@@ -28,7 +28,7 @@
           <ion-icon [name]="slide.icon" size="large" [color]="slide.color"></ion-icon>
         </div>
         <div class="promo-text">
-          <div class="promo-badge" [style.background]="slide.color === 'danger' ? '#e53e3e' : slide.color === 'success' ? '#38a169' : '#805ad5'">
+          <div class="promo-badge" [style.background]="slide.color === 'danger' ? '#e53e3e' : slide.color === 'success' ? '#38a169' : '#fbbf24'">
             {{slide.badge}}
           </div>
           <h3 class="promo-title tamil-text">{{slide.title}}</h3>
@@ -60,12 +60,14 @@
     </ion-searchbar>
     
     <!-- Category Dropdown -->
-    <ion-item>
-      <ion-label>பிரிவு (Category)</ion-label>
+    <ion-item style="background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%); border-radius: 8px; box-shadow: 0 2px 8px rgba(251,191,36,0.10); margin-bottom: 0.7rem;">
+      <ion-label style="color: #222; font-weight: 700; letter-spacing: 1px;">பிரிவு (Category)</ion-label>
       <ion-select 
         [(ngModel)]="selectedCategory" 
         (ionChange)="onCategoryChange()"
-        placeholder="வகை தேர்ந்தெடுக்கவும்">
+        placeholder="வகை தேர்ந்தெடுக்கவும்"
+        interface="popover"
+        style="color: #b45309; font-weight: 700; background: #fffbe6; border-radius: 6px;">
         <ion-select-option value="all">எல்லாம் (All)</ion-select-option>
         <ion-select-option 
           *ngFor="let category of categories.slice(1)" 

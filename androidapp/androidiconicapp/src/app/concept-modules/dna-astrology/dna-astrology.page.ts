@@ -52,7 +52,7 @@ export class DnaAstrologyPage implements OnInit {
       notes: 'சூரின் தோஷம் - கொடுவான ஜன்மகள்',
       rows: [
         { dosham: ['1. ஆஸ்வினி'], adhikam: ['3 கார்த்திகை'], birth: '', note: '' },
-        { dosham: ['9. ஆயில்யம்'], adhikam: ['9 ஆயில்யம்'], birth: '13 ஹஸ்தம்', note: '(சூரு)' },
+        { dosham: ['9. ஆயில்யம்'], adhikam: ['12 உத்திரம்'], birth: '13 ஹஸ்தம்', note: '(சூரு)' },
         { dosham: ['17. அனுராதா'], adhikam: ['21 உத்திராடம்'], birth: '', note: '' },
         { dosham: ['25. பூர்வட்டாதி'], adhikam: [''], birth: '', note: '' }
       ]
@@ -68,8 +68,8 @@ export class DnaAstrologyPage implements OnInit {
       notes: '',
       rows: [
         { dosham: ['2 பரணி'], adhikam: ['4 ரோகிணி'], birth: '', note: '' },
-        { dosham: ['10 மகம்'], adhikam: ['12 பூரம்'], birth: '5 மிருகசீரிஷம்', note: '(குரு)' },
-        { dosham: ['19 மூலம்'], adhikam: ['21 உத்திராடம்'], birth: '', note: '' },
+        { dosham: ['10 மகம்'], adhikam: ['13 ஹஸ்தம்'], birth: '5 மிருகசீரிஷம்', note: '(குரு)' },
+        { dosham: ['18 கேட்டை'], adhikam: ['22 திருவோணம்'], birth: '', note: '' },
         { dosham: ['26 உத்திரட்டாதி'], adhikam: [''], birth: '', note: '' }
       ]
     },
@@ -83,9 +83,9 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['3 கார்த்திகை'], adhikam: ['5 மிருகசீரிஷம்'], birth: '6 திருவாதிரை', note: '' },
+        { dosham: ['3 கார்த்திகை'], adhikam: ['5 மிருகசீரிஷம்'], birth: '', note: '' },
         { dosham: ['11 பூரம்'], adhikam: ['14 சித்திரை'], birth: '21 உத்திராடம்', note: '(குரு)' },
-        { dosham: ['18 கேட்டை'], adhikam: ['22 திருவோணம்'], birth: '', note: '' },
+        { dosham: ['19 மூலம்'], adhikam: ['23 அவிட்டம்'], birth: '', note: '' },
         { dosham: ['27 ரேவதி'], adhikam: [''], birth: '', note: '' }
       ]
     },
@@ -100,8 +100,8 @@ export class DnaAstrologyPage implements OnInit {
       notes: '',
       rows: [
         { dosham: ['4 ரோகிணி'], adhikam: ['9 ஆயில்யம்'], birth: '', note: '' },
-        { dosham: ['12 பூரம்'], adhikam: ['18 கேட்டை'], birth: '23 அவிட்டம்', note: '(சனி)' },
-        { dosham: ['20 பூராடம்'], adhikam: ['24 சதயம்'], birth: '', note: '' }
+        { dosham: ['12 உத்திரம்'], adhikam: ['18 கேட்டை'], birth: '23 அவிட்டம்', note: '(சனி)' },
+        { dosham: ['20 பூராடம்'], adhikam: ['27 ரேவதி'], birth: '', note: '' }
       ]
     },
     {
@@ -114,9 +114,9 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['5 மிருகசீரிஷம்'], adhikam: ['7 பூசம்'], birth: '', note: '' },
-        { dosham: ['8 பூராடம்'], adhikam: ['16 விசாகம்'], birth: '', note: '' },
-        { dosham: ['22 திருவோணம்'], adhikam: ['26 உத்திரட்டாதி'], birth: '', note: '' }
+        { dosham: ['5 மிருகசீரிஷம்'], adhikam: ['7 புனர்பூசம்'], birth: '', note: '' },
+        { dosham: ['13 ஹஸ்தம்'], adhikam: ['16 விசாகம்'], birth: '8 பூசம்', note: 'Ragu' },
+        { dosham: ['21 உத்திராடம்'], adhikam: ['25 பூரட்டாதி '], birth: '', note: '' }
       ]
     },
     {
@@ -129,8 +129,8 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['6 திருவாதிரை'], adhikam: ['11 பூரம்'], birth: '', note: '' },
-        { dosham: ['14 சித்திரை'], adhikam: ['19 மூலம்'], birth: '10 மகம்', note: '(சந்திரன்)' },
+        { dosham: ['6 திருவாதிரை'], adhikam: ['2 பரணி'], birth: '', note: '' },
+        { dosham: ['14 சித்திரை'], adhikam: ['11 பூரம்'], birth: '10 மகம்', note: '(சந்திரன்)' },
         { dosham: ['22 திருவோணம்'], adhikam: ['20 பூராடம்'], birth: '', note: '' }
       ]
     },
@@ -144,9 +144,9 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['7 பூசம்'], adhikam: ['17 அனுஷம்'], birth: '27 ரேவதி', note: 'செவ்வாய்' },
-        { dosham: ['16 விசாகம்'], adhikam: ['26 உத்திரட்டாதி'], birth: '', note: '' },
-        { dosham: ['23 அவிட்டம்'], adhikam: ['27 ரேவதி'], birth: '', note: '' }
+        { dosham: ['7 புனர்பூசம்'], adhikam: ['8 பூசம்'], birth: '27 ரேவதி', note: 'செவ்வாய்' },
+        { dosham: ['15 சுவாதி'], adhikam: ['17 அனுஷம்'], birth: '', note: '' },
+        { dosham: ['23 அவிட்டம்'], adhikam: ['26 உத்திரட்டாதி'], birth: '', note: '' }
       ]
     },
     {
@@ -159,9 +159,9 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['8 பூரம்'], adhikam: ['16 விசாகம்'], birth: '', note: '' },
-        { dosham: ['16 விசாகம்'], adhikam: ['24 சதயம்'], birth: '', note: '' },
-        { dosham: ['19 மூலம்'], adhikam: [''], birth: '', note: '' }
+        { dosham: ['8 பூசம்'], adhikam: ['6 திருவாதிரை'], birth: '', note: 'Chandiran' },
+        { dosham: ['16 விசாகம்'], adhikam: ['15 சுவாதி'], birth: '2 பரணி', note: '' },
+        { dosham: ['24 சதயம்'], adhikam: ['24 சதயம்'], birth: '', note: '' }
       ]
     },
     {
@@ -174,9 +174,9 @@ export class DnaAstrologyPage implements OnInit {
       birthNakshathram: '',
       notes: '',
       rows: [
-        { dosham: ['1 அஸ்வினி'], adhikam: ['1 அஸ்வினி'], birth: '', note: '' },
-        { dosham: ['10 மகம்'], adhikam: ['10 மகம்'], birth: '', note: '' },
-        { dosham: ['19 மூலம்'], adhikam: ['19 மூலம்'], birth: '(சூரியன்)', note: '' }
+        { dosham: [''], adhikam: ['1 அஸ்வினி'], birth: '', note: 'Suriyan' },
+        { dosham: [''], adhikam: ['10 மகம்'], birth: '9 ஆயில்யம்', note: '' },
+        { dosham: [''], adhikam: ['19 மூலம்'], birth: '', note: '' }
       ]
     }
   ];
