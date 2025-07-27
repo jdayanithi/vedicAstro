@@ -53,7 +53,7 @@
               <h3 class="tamil-text category-title">{{category.title}}</h3>
               <p class="category-count">
                 <ion-icon name="documents" color="medium"></ion-icon>
-                {{category.remedies?.length || 0}} பரிகாரங்கள்
+                {{category.remedies.length || 0}} பரிகாரங்கள்
               </p>
               <div class="category-arrow">
                 <ion-icon name="arrow-forward-circle" color="primary"></ion-icon>
@@ -120,7 +120,7 @@
         </h2>
       </div>
       <div class="progress-indicator">
-        <ion-badge color="primary">{{selectedCategory.remedies?.length || 0}} பரிகாரங்கள்</ion-badge>
+        <ion-badge color="primary">{{selectedCategory.remedies.length || 0}} பரிகாரங்கள்</ion-badge>
       </div>
     </div>
 
