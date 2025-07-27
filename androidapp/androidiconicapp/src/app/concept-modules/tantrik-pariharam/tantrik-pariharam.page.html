@@ -1,0 +1,249 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="tamil-text">🕉️ தாந்திரிகம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Header - Show only when in category view -->
+  <div class="hero-header" *ngIf="showCategoryView">
+    <div class="hero-content">
+      <div class="hero-icon-wrapper">
+        <ion-icon name="sparkles" class="floating-icon"></ion-icon>
+      </div>
+      <h1 class="tamil-text">🕉️ தாந்திரிகம்</h1>
+      <p class="subtitle">அனைவரும் செய்யக்கூடிய White Magic பரிகாரங்கள்</p>
+      <div class="meta-chips">
+        <ion-chip color="success" size="small">
+          <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+          <ion-label>FREE</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" size="small">
+          <ion-icon name="star" slot="start"></ion-icon>
+          <ion-label>8 வகை பரிகாரங்கள்</ion-label>
+        </ion-chip>
+        <ion-chip color="tertiary" size="small">
+          <ion-icon name="shield-checkmark" slot="start"></ion-icon>
+          <ion-label>வேத அடிப்படை</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Grid -->
+  <div class="category-section" *ngIf="showCategoryView">
+    <div class="section-header">
+      <ion-icon name="grid" color="primary"></ion-icon>
+      <h2 class="tamil-text section-title">பரிகார வகைகள்</h2>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let category of categories; let i = index">
+          <ion-card class="category-card" (click)="selectCategory(category.key)" [style.animation-delay]="i * 100 + 'ms'">
+            <ion-card-content>
+              <div class="category-icon">{{category.icon}}</div>
+              <h3 class="tamil-text category-title">{{category.title}}</h3>
+              <p class="category-count">
+                <ion-icon name="documents" color="medium"></ion-icon>
+                {{category.remedies?.length || 0}} பரிகாரங்கள்
+              </p>
+              <div class="category-arrow">
+                <ion-icon name="arrow-forward-circle" color="primary"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section" *ngIf="showCategoryView">
+    <ion-card>
+      <ion-card-content>
+        <div class="search-header">
+          <ion-icon name="search" class="search-icon"></ion-icon>
+          <h3 class="tamil-text search-title">பரிகாரம் தேடுங்கள்</h3>
+        </div>
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          placeholder="உதாரணம்: கடன், நோய், தோஷம், பணம், debt, health, money..."
+          (ionInput)="searchRemedies($event)"
+          show-clear-button="focus">
+        </ion-searchbar>
+        
+        <!-- Search Results -->
+        <div *ngIf="searchResults.length > 0" class="search-results">
+          <div class="results-header">
+            <ion-icon name="list" color="primary"></ion-icon>
+            <h4 class="tamil-text results-title">தேடல் முடிவுகள்:</h4>
+          </div>
+          <ion-list>
+            <ion-item
+              *ngFor="let result of searchResults"
+              button
+              (click)="selectSearchResult(result)">
+              <ion-label>
+                <div class="result-header">
+                  <ion-badge [color]="result.categoryColor">{{result.categoryTitle}}</ion-badge>
+                </div>
+                <h3 class="tamil-text result-title">{{result.title}}</h3>
+                <p class="result-subtitle">{{result.subtitle}}</p>
+                <p class="matching-tags">பொருத்தமான குறிச்சொற்கள்: {{result.matchingTags.join(', ')}}</p>
+                <p class="result-benefits">{{result.benefits}}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Dynamic Content Area -->
+  <div class="content-area" *ngIf="!showCategoryView && selectedCategory">
+    <div class="content-header">
+      <div class="header-content">
+        <ion-button fill="clear" (click)="goBack()" class="back-button">
+          <ion-icon name="arrow-back-circle" slot="start"></ion-icon>
+          திரும்பு
+        </ion-button>
+        <h2 class="tamil-text content-title">
+          {{selectedCategory.icon}} {{selectedCategory.title}}
+        </h2>
+      </div>
+      <div class="progress-indicator">
+        <ion-badge color="primary">{{selectedCategory.remedies?.length || 0}} பரிகாரங்கள்</ion-badge>
+      </div>
+    </div>
+
+    <!-- Remedies List -->
+    <div *ngFor="let remedy of selectedCategory.remedies; let i = index" class="remedy-card" [style.animation-delay]="i * 150 + 'ms'">
+      <ion-card>
+        <ion-card-header (click)="toggleRemedy(remedy)">
+          <div class="remedy-header-content">
+            <div class="remedy-info">
+              <ion-card-title class="tamil-text">{{remedy.title}}</ion-card-title>
+              <ion-card-subtitle>{{remedy.subtitle}}</ion-card-subtitle>
+            </div>
+            <div class="remedy-status">
+              <ion-icon
+                [name]="remedy.expanded ? 'chevron-up-circle' : 'chevron-down-circle'"
+                class="expand-icon"
+                [color]="remedy.expanded ? 'success' : 'primary'">
+              </ion-icon>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="remedy.expanded" class="remedy-content">
+          <!-- Remedy Sections -->
+          <div *ngFor="let section of remedy.sections" class="method-section">
+            <h4 class="tamil-text method-title">{{section.title}}</h4>
+            <ul class="method-list">
+              <li *ngFor="let item of section.content" class="tamil-text">{{item}}</li>
+            </ul>
+          </div>
+
+          <!-- Benefits -->
+          <div class="benefits-section">
+            <ion-card color="success">
+              <ion-card-content>
+                <div class="benefit-header">
+                  <ion-icon name="checkmark-done-circle" color="success"></ion-icon>
+                  <h4 class="tamil-text">பலன்கள்</h4>
+                </div>
+                <p class="tamil-text benefit-text">{{remedy.benefits}}</p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+          <!-- Warning if exists -->
+          <div *ngIf="remedy.warning" class="warning-section">
+            <ion-card color="warning">
+              <ion-card-content>
+                <div class="warning-content-header">
+                  <ion-icon name="warning-outline" color="warning"></ion-icon>
+                  <h4 class="tamil-text">கவனம்</h4>
+                </div>
+                <p class="tamil-text">{{remedy.warning}}</p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+
+          <!-- Important Notes if exists -->
+          <div *ngIf="remedy.important" class="important-section">
+            <ion-card color="danger">
+              <ion-card-content>
+                <div class="important-content-header">
+                  <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+                  <h4 class="tamil-text">முக்கியமான குறிப்பு</h4>
+                </div>
+                <p class="tamil-text">{{remedy.important}}</p>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-section" *ngIf="!showCategoryView">
+    <div class="action-buttons-wrapper">
+      <ion-button expand="block" color="tertiary" (click)="bookConsultation()" class="action-button">
+        <ion-icon name="person-circle" slot="start"></ion-icon>
+        நிபுணர் ஆலோசனை
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-button>
+      
+      <ion-button expand="block" fill="outline" color="primary" (click)="shareContent()" class="action-button">
+        <ion-icon name="share-social" slot="start"></ion-icon>
+        பகிர்வு
+        <ion-icon name="external-link" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- General Important Note -->
+  <div class="general-warning" *ngIf="showCategoryView">
+    <ion-card color="medium">
+      <ion-card-content>
+        <div class="warning-header">
+          <div class="warning-icon-wrapper">
+            <ion-icon name="information-circle" size="large"></ion-icon>
+          </div>
+          <h3 class="tamil-text">முக்கிய அறிவிப்பு</h3>
+        </div>
+        <div class="warning-content">
+          <p class="tamil-text">
+            இந்த பரிகாரங்கள் வேத சாஸ்திரங்களின் அடிப்படையில் தயாரிக்கப்பட்டவை. 
+            முழு பலனுக்கு நம்பிக்கையுடன் செய்ய வேண்டும். தீவிர பிரச்சனைகளுக்கு அனுபவமிக்க குருவின் வழிகாட்டுதலில் செய்வது சிறந்தது.
+          </p>
+          <div class="disclaimer-badges">
+            <ion-badge color="warning">
+              <ion-icon name="shield-checkmark" slot="start"></ion-icon>
+              வேத அடிப்படை
+            </ion-badge>
+            <ion-badge color="success">
+              <ion-icon name="leaf" slot="start"></ion-icon>
+              இயற்கை முறை
+            </ion-badge>
+            <ion-badge color="tertiary">
+              <ion-icon name="heart" slot="start"></ion-icon>
+              நம்பிக்கை வேண்டும்
+            </ion-badge>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

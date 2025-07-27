@@ -1,477 +1,902 @@
-// Hero Section
-.hero-section {
-  background: linear-gradient(135deg, #7c3aed, #a855f7, #c084fc);
+// Import Google Fonts for better typography
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+// Tamil font styles with fallbacks
+.tamil-text {
+  font-family: 'Noto Sans Tamil', 'Tamil Sangam MN', 'Latha', 'Roboto', sans-serif;
+  font-weight: 500;
+}
+
+// Enhanced Hero Header with animated gradient
+.hero-header {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #f5576c 75%,
+    #4facfe 100%
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
   color: white;
-  padding: 24px 20px;
   text-align: center;
+  padding: 25px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
 }
 
-.hero-section::before {
+// Hero icon wrapper
+.hero-icon-wrapper {
+  margin-bottom: 20px;
+}
+
+.floating-icon {
+  font-size: 2rem;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+// Search header enhancements
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-icon {
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+// Section headers
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 0 20px;
+}
+
+.section-title {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Enhanced category cards
+.category-card {
+  animation: slideUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.category-arrow {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-arrow {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+// Enhanced content header
+.content-header {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back-button {
+  --color: #667eea;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+// Enhanced remedy cards with animations
+.remedy-card {
+  animation: slideUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.remedy-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.remedy-info {
+  flex: 1;
+}
+
+.remedy-status {
+  display: flex;
+  align-items: center;
+}
+
+.expand-icon {
+  font-size: 1.8rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.remedy-card ion-card-header:hover .expand-icon {
+  transform: scale(1.1);
+}
+
+// Enhanced benefit sections
+.benefit-header,
+.warning-content-header,
+.important-content-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.benefit-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+// Enhanced action section
+.action-buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-button {
+  height: 55px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.action-button:hover::before {
+  left: 100%;
+}
+
+.action-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+// Enhanced warning section
+.warning-icon-wrapper {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.warning-icon-wrapper ion-icon {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.warning-content {
+  margin-top: 15px;
+}
+
+.disclaimer-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.disclaimer-badges ion-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+// Animated background gradient
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// Add mystical pattern overlay
+.hero-header::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('/assets/images/mystical-pattern.png') repeat;
-  opacity: 0.1;
-  z-index: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 2px, transparent 2px),
+    radial-gradient(circle at 40% 60%, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px, 80px 80px, 30px 30px;
+  animation: float 6s ease-in-out infinite;
 }
 
-.hero-image {
-  margin-bottom: 16px;
-  z-index: 2;
-  position: relative;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .hero-content {
-  z-index: 2;
   position: relative;
+  z-index: 2;
 }
 
 .hero-content h1 {
-  margin: 0 0 8px;
-  font-size: 28px;
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from { text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4); }
+  to { text-shadow: 3px 3px 20px rgba(255, 255, 255, 0.3), 3px 3px 6px rgba(0, 0, 0, 0.4); }
 }
 
 .subtitle {
-  margin: 0 0 16px;
-  opacity: 0.9;
-  font-size: 16px;
+  font-size: 1.2rem;
+  opacity: 0.95;
+  margin-bottom: 20px;
   font-style: italic;
+  font-weight: 300;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.meta-info {
+.meta-chips {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 15px;
   flex-wrap: wrap;
 }
 
-// Content Sections
-.content-container {
-  padding: 20px 16px;
-}
-
-.content-section {
-  margin-bottom: 32px;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
+.meta-chips ion-chip {
+  --background: rgba(255, 255, 255, 0.2);
+  --color: white;
   font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--ion-color-dark);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.section-title ion-icon {
-  font-size: 24px;
-}
-
-// Warning Card
-.warning-card {
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  border: 1px solid #f59e0b;
-  border-radius: 12px;
-  padding: 16px;
-  margin: 16px 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.warning-card ion-icon {
-  font-size: 24px;
-  margin-top: 2px;
-}
-
-.warning-card p {
-  margin: 0;
-  flex: 1;
-  line-height: 1.5;
-}
-
-// Remedy Types
-.remedy-types {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.remedy-card {
-  background: var(--ion-color-light);
-  border-radius: 16px;
-  padding: 20px;
-  border-left: 4px solid;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.remedy-card:hover {
+.meta-chips ion-chip:hover {
+  --background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.yantra-card {
-  border-left-color: #7c3aed;
-  background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+// Enhanced Search Section
+.search-section {
+  margin: 15px 15px;
+  position: relative;
 }
 
-.mantra-card {
-  border-left-color: #0891b2;
-  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+.search-section ion-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,248,255,0.9) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.homa-card {
-  border-left-color: #ea580c;
-  background: linear-gradient(135deg, #fffbeb, #fed7aa);
+.search-title {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.card-header {
+// Beautiful search bar
+ion-searchbar {
+  --background: rgba(255, 255, 255, 0.8);
+  --color: #2c3e50;
+  --placeholder-color: #64748b;
+  --icon-color: #667eea;
+  --clear-button-color: #667eea;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 15px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+ion-searchbar:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+// Enhanced search results
+.search-results {
+  margin-top: 25px;
+}
+
+.results-title {
+  margin: 20px 0 15px 0;
+  color: #374151;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+ion-item {
+  --background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+  --border-color: rgba(102, 126, 234, 0.1);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  --inner-padding-end: 20px;
+  --inner-padding-start: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+ion-item:hover {
+  --background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+// Enhanced Category Section
+.category-section {
+  padding: 15px 15px;
+}
+
+// Reduce grid spacing
+.category-section ion-grid {
+  padding: 0;
+}
+
+.category-section ion-row {
+  margin: 0;
+}
+
+.category-section ion-col {
+  padding: 8px;
+}
+
+.category-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.1) 0%, 
+    rgba(118, 75, 162, 0.1) 50%, 
+    rgba(245, 87, 108, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.category-card:hover::before {
+  opacity: 1;
+}
+
+.category-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+}
+
+.category-card ion-card-content {
+  text-align: center;
+  padding: 20px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.category-icon {
+  font-size: 3.2rem;
+  margin-bottom: 15px;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.3));
+}
+
+.category-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #1e293b;
+  transition: color 0.3s ease;
+}
+
+.category-card:hover .category-title {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.category-count {
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+// Enhanced Content Area
+.content-area {
+  padding: 25px 20px;
+  background: linear-gradient(135deg, rgba(248,250,252,0.5) 0%, rgba(241,245,249,0.5) 100%);
+}
+
+.content-header {
+  margin-bottom: 25px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.card-header h3 {
-  margin: 0;
-  color: var(--ion-color-dark);
-  font-weight: 600;
-  font-size: 18px;
-}
-
-.card-header ion-icon {
-  font-size: 24px;
-}
-
-.remedy-card p {
-  margin: 0 0 16px;
-  line-height: 1.6;
-  color: var(--ion-color-medium-dark);
-}
-
-.benefits {
-  display: flex;
-  gap: 8px;
+  justify-content: space-between;
   flex-wrap: wrap;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,250,252,0.9) 100%);
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-// Mantra Section
-.mantra-list {
-  margin: 16px 0;
-}
-
-.mantra-text {
-  background: var(--ion-color-dark);
-  color: white;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.sanskrit {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 8px;
-  color: #fbbf24;
-}
-
-.mantra-text .tamil-text {
-  font-size: 16px;
+.content-title {
+  color: #1e293b;
+  font-size: 1.6rem;
   margin: 0;
-  color: #e5e7eb;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.benefits-text {
-  margin: 0;
-  line-height: 1.5;
-  background: var(--ion-color-light);
-  padding: 12px;
-  border-radius: 8px;
+// Beautiful Remedy Cards
+.remedy-card {
+  margin-bottom: 25px;
 }
 
-// Yantra Guide
-.yantra-guide {
-  margin: 16px 0;
-}
-
-.yantra-card-detail {
-  border-radius: 16px;
+.remedy-card ion-card {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.yantra-info {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+.remedy-card ion-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  transition: width 0.3s ease;
 }
 
-.yantra-visual {
-  flex-shrink: 0;
+.remedy-card ion-card:hover::before {
+  width: 6px;
 }
 
-.yantra-details {
-  flex: 1;
+.remedy-card ion-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
-.yantra-details h4 {
-  margin: 0 0 12px;
-  color: var(--ion-color-primary);
-  font-weight: 600;
+.remedy-card ion-card-header {
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.03) 0%, 
+    rgba(118, 75, 162, 0.03) 50%, 
+    rgba(245, 87, 108, 0.03) 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 25px 20px;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
 }
 
-.yantra-details ul {
-  margin: 0;
-  padding-left: 20px;
+.remedy-card ion-card-header:hover {
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.08) 0%, 
+    rgba(118, 75, 162, 0.08) 50%, 
+    rgba(245, 87, 108, 0.08) 100%);
 }
 
-.yantra-details li {
-  margin-bottom: 8px;
+.expand-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  color: #667eea;
+  transition: all 0.3s ease;
+}
+
+.remedy-card ion-card-header:hover .expand-icon {
+  color: #764ba2;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.remedy-card ion-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+  padding-right: 40px;
   line-height: 1.4;
 }
 
-// Precautions
-.precautions-list {
-  margin: 16px 0;
+.remedy-card ion-card-subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
-.precaution-item {
-  --padding-start: 0;
-  --padding-end: 0;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  --background: var(--ion-color-light);
+// Enhanced Remedy Content
+.remedy-content {
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(248,250,252,0.8) 0%, rgba(241,245,249,0.8) 100%);
+}
+
+.method-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 15px;
+  border-left: 4px solid #667eea;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.method-title {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.method-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.method-list li {
+  padding: 12px 0;
+  padding-left: 25px;
+  position: relative;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.method-list li:hover {
+  color: #1e293b;
+  padding-left: 30px;
+}
+
+.method-list li:before {
+  content: "✨";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.method-list li:hover:before {
+  transform: scale(1.2);
+}
+
+// Enhanced Benefits Section
+.benefits-section {
+  margin-top: 25px;
+}
+
+.benefits-section ion-card {
+  margin-bottom: 0;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 1px solid #86efac;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+}
+
+.benefits-section h4 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #166534;
+  font-weight: 700;
+}
+
+// Enhanced Warning Section
+.warning-section {
+  margin-top: 20px;
+}
+
+.warning-section ion-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #fbbf24;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+}
+
+.warning-section h4 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #92400e;
+  font-weight: 700;
+}
+
+// Enhanced Important Section
+.important-section {
+  margin-top: 20px;
+}
+
+.important-section ion-card {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  border: 1px solid #f87171;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
+}
+
+.important-section h4 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+// Enhanced Action Section
+.action-section {
+  padding: 25px 20px;
+  margin-top: 30px;
+}
+
+.action-section ion-button {
+  margin-bottom: 15px;
+  height: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.action-section ion-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+// Enhanced General Warning
+.general-warning {
+  margin: 25px 20px;
+}
+
+.general-warning ion-card {
+  background: linear-gradient(135deg, rgba(241,245,249,0.9) 0%, rgba(226,232,240,0.9) 100%);
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+  border-radius: 20px;
+}
+
+.warning-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.warning-header ion-icon {
+  color: #667eea;
+  font-size: 2rem;
+}
+
+.warning-header h3 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);  
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Enhanced Badge styling
+ion-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.precaution-item h3 {
-  color: var(--ion-color-dark);
-  font-weight: 600;
-  margin: 0 0 4px;
-}
-
-.precaution-item p {
-  color: var(--ion-color-medium);
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-// Benefits Grid
-.benefit-item {
-  text-align: center;
-  padding: 16px 8px;
-  background: var(--ion-color-light);
-  border-radius: 12px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.benefit-item ion-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.benefit-item h4 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ion-color-dark);
-  line-height: 1.3;
-}
-
-// Action Buttons
-.action-buttons {
-  padding: 20px 16px;
-  background: var(--ion-color-light);
-  border-top: 1px solid var(--ion-color-light-shade);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-// Tamil Font
-.tamil-text {
-  font-family: 'Noto Sans Tamil', 'Tamil Sangam MN', 'InaiMathi', Arial, sans-serif;
-}
-
-// Dark Mode Support
-@media (prefers-color-scheme: dark) {
-  .remedy-card {
-    background: var(--ion-color-dark);
+// Responsive Design Enhancements
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.2rem;
   }
   
-  .yantra-card {
-    background: linear-gradient(135deg, #1f1b29, #2d1b69);
+  .subtitle {
+    font-size: 1.1rem;
   }
   
-  .mantra-card {
-    background: linear-gradient(135deg, #0f2027, #203a43);
+  .content-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    text-align: center;
   }
   
-  .homa-card {
-    background: linear-gradient(135deg, #2c1810, #4a2c17);
+  .category-icon {
+    font-size: 3rem;
   }
   
-  .warning-card {
-    background: linear-gradient(135deg, #451a03, #78350f);
-    border-color: #f59e0b;
+  .method-list li {
+    font-size: 0.95rem;
   }
   
-  .benefit-item,
-  .precaution-item {
-    --background: var(--ion-color-dark);
+  .category-card ion-card-content {
+    padding: 25px 20px;
   }
   
-  .mantra-text {
-    background: var(--ion-color-dark-shade);
+  .remedy-card ion-card-header {
+    padding: 20px 16px;
   }
   
-  .benefits-text {
-    background: var(--ion-color-dark);
+  .remedy-content {
+    padding: 20px;
   }
 }
 
-// Responsive Design
-@media (min-width: 768px) {
-  .content-container {
-    padding: 32px 24px;
+@media (max-width: 480px) {
+  .hero-header {
+    padding: 30px 15px;
   }
   
   .hero-content h1 {
-    font-size: 36px;
+    font-size: 1.9rem;
   }
   
-  .section-title {
-    font-size: 24px;
+  .search-section {
+    margin: 20px 15px;
   }
   
-  .remedy-types {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+  .category-section {
+    padding: 20px 15px;
   }
   
-  .yantra-info {
-    gap: 24px;
+  .content-area {
+    padding: 20px 15px;
+  }
+  
+  .action-section {
+    padding: 20px 15px;
+  }
+  
+  .general-warning {
+    margin: 20px 15px;
   }
 }
 
-/* Pariharam Homepage Specific Styles */
-.intro-section {
-  padding: 16px;
+// Smooth scrolling animation
+html {
+  scroll-behavior: smooth;
 }
 
-.intro-text {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 12px;
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.english-text {
-  font-size: 14px;
-  color: var(--ion-color-medium);
-  line-height: 1.5;
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
 }
 
-.pariharam-container {
-  padding: 0 16px 80px;
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px;
 }
 
-.pariharam-card {
-  margin-bottom: 16px;
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-left: 4px solid var(--ion-color-primary);
-}
-
-.pariharam-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.card-title-section {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-}
-
-.pariharam-card ion-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-}
-
-.pariharam-card ion-card-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 4px;
-}
-
-.pariharam-card ion-card-subtitle {
-  font-size: 14px;
-  color: var(--ion-color-medium);
-  margin: 0;
-}
-
-.pariharam-card ion-card-content {
-  padding: 0 16px 16px;
-}
-
-.pariharam-card p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--ion-color-medium);
-  line-height: 1.4;
-}
-
-/* Alert Styling for Pariharam Details */
-:global(.pariharam-detail-alert) {
-  --max-width: 90vw;
-  --max-height: 80vh;
-}
-
-:global(.pariharam-detail-alert .alert-message) {
-  max-height: 60vh;
-  overflow-y: auto;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-:global(.pariharam-detail-alert h3) {
-  color: var(--ion-color-primary);
-  font-size: 16px;
-  font-weight: 600;
-  margin: 16px 0 8px;
-}
-
-:global(.pariharam-detail-alert h4) {
-  color: var(--ion-color-secondary);
-  font-size: 14px;
-  font-weight: 600;
-  margin: 12px 0 6px;
-}
-
-:global(.pariharam-detail-alert p) {
-  margin: 4px 0;
-  padding-left: 8px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pariharam-card:hover {
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
 }
