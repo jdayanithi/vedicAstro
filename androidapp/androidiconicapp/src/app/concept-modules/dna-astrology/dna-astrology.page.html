@@ -96,11 +96,18 @@
     </ion-card>
 
     <!-- Overview Section - Natchathira Samantham -->
-    <ion-card (click)="toggleOverview()">
-      <ion-card-header>
-        <ion-card-title>நட்சத்திர தொடர்பு</ion-card-title>
-        <ion-card-subtitle>நட்சத்திர தொடர்பு - நட்சத்திர பொருத்த கண்ணோட்டம்</ion-card-subtitle>
-        <ion-icon [name]="showOverview ? 'chevron-up' : 'chevron-down'"></ion-icon>
+    <ion-card style="margin-bottom: 1.5rem;">
+      <ion-card-header (click)="toggleOverview()" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(59,130,246,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #3b82f6;">
+        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+          <ion-icon name="planet" color="primary" style="font-size: 2.2rem;"></ion-icon>
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு</div>
+            <div style="font-size: 1rem; color: #222; opacity: 0.9;">நட்சத்திர பொருத்த கண்ணோட்டம்</div>
+          </div>
+        </div>
+        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
+          <ion-icon [name]="showOverview ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #3b82f6; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+        </div>
       </ion-card-header>
       <ion-card-content *ngIf="showOverview">
         <p>
@@ -167,11 +174,18 @@
     </ion-card>
 
     <!-- Suriyan (Sun) Section - Natchathira Thodarpu -->
-    <ion-card (click)="toggleSuriyan()">
-      <ion-card-header>
-        <ion-card-title>நட்சத்திர தொடர்பு - சூரியன்</ion-card-title>
-        <ion-card-subtitle>சூரிய கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</ion-card-subtitle>
-        <ion-icon [name]="showSuriyan ? 'chevron-up' : 'chevron-down'"></ion-icon>
+    <ion-card style="margin-bottom: 1.5rem;">
+      <ion-card-header (click)="toggleSuriyan()" style="border-radius: 12px; box-shadow: 0 2px 8px rgba(251,191,36,0.10); display: flex; align-items: center; padding: 1.2rem 1.5rem; cursor: pointer; position: relative; background: none; border: 2px solid #b45309;">
+        <div style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+          <ion-icon name="sunny" style="font-size: 2.5rem; color: #ff9800; text-shadow: 0 2px 8px rgba(0,0,0,0.18);"></ion-icon>
+          <div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு - சூரியன்</div>
+            <div style="font-size: 1rem; color: #222; opacity: 0.9;">சூரிய கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</div>
+          </div>
+        </div>
+        <div style="position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%);">
+          <ion-icon [name]="showSuriyan ? 'chevron-up-circle' : 'chevron-down-circle'" style="font-size: 2.2rem; color: #b45309; text-shadow: 0 2px 8px rgba(0,0,0,0.18); transition: transform 0.3s;"></ion-icon>
+        </div>
       </ion-card-header>
       <ion-card-content *ngIf="showSuriyan">
         <!-- Suriyan Content -->
@@ -339,13 +353,15 @@
     </ion-card>
 
     <!-- Final CTA Section -->
-    <div class="cta-section">
-      <h4 class="tamil-text">தொடங்க தயாரா?</h4>
-      <p class="tamil-text">
-        இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, 
-        முதலில் பாடத்தை வாங்கவும்.
+    <div class="cta-section" style="background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 100%); border-radius: 14px; box-shadow: 0 2px 8px rgba(59,130,246,0.10); padding: 2rem 1.5rem; margin-top: 2rem; text-align: center;">
+      <h4 class="tamil-text" style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 0.7rem;">
+        <ion-icon name="school" color="light" style="font-size: 1.5rem; vertical-align: middle;"></ion-icon>
+        தொடங்க தயாரா?
+      </h4>
+      <p class="tamil-text" style="color: #e0e7ff; font-size: 1.05rem; margin-bottom: 1.2rem;">
+        இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, முதலில் பாடத்தை வாங்கவும்.
       </p>
-      <ion-button expand="block" color="primary" size="large">
+      <ion-button expand="block" color="primary" size="large" style="margin-bottom: 1rem;">
         <ion-icon name="card" slot="start"></ion-icon>
         ₹299 க்கு வாங்கவும்
       </ion-button>
