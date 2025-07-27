@@ -283,3 +283,215 @@
   animation: fadeInUp 0.6s ease-out;
   animation-delay: calc(var(--index, 0) * 0.1s);
 }
+
+// Planets Section Styles
+.planets-section {
+  margin: 24px 16px;
+  
+  .section-title {
+    font-size: 1.8rem;
+    color: #4c1d95;
+    text-align: center;
+    margin-bottom: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    
+    ion-icon {
+      font-size: 2rem;
+    }
+  }
+  
+  .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+}
+
+.planet-card {
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+  
+  .planet-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
+    ion-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+    }
+    
+    .planet-info {
+      flex: 1;
+      
+      ion-card-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      
+      ion-card-subtitle {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  
+  .planet-content {
+    h5 {
+      color: #4c1d95;
+      font-size: 1.1rem;
+      margin: 16px 0 8px 0;
+      font-weight: 600;
+    }
+    
+    p {
+      color: #64748b;
+      line-height: 1.7;
+      margin-bottom: 12px;
+      font-style: italic;
+      background: rgba(139, 92, 246, 0.05);
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 4px solid #8b5cf6;
+    }
+  }
+}
+
+// Individual Planet Card Styles
+.planet-card.suriyan {
+  ion-card-header {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #1f2937;
+  }
+}
+
+.planet-card.chandiran {
+  ion-card-header {
+    background: linear-gradient(135deg, #6b7280, #9ca3af);
+    color: white;
+  }
+}
+
+.planet-card.sevai {
+  ion-card-header {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+  }
+}
+
+.planet-card.puthan {
+  ion-card-header {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+  }
+}
+
+.planet-card.guru {
+  ion-card-header {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+  }
+}
+
+.planet-card.sukiran {
+  ion-card-header {
+    background: linear-gradient(135deg, #db2777, #ec4899);
+    color: white;
+  }
+}
+
+.planet-card.sani {
+  ion-card-header {
+    background: linear-gradient(135deg, #374151, #4b5563);
+    color: white;
+  }
+}
+
+.planet-card.raghu {
+  ion-card-header {
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+    color: white;
+  }
+}
+
+// Instructor Card Enhancement
+.instructor-card {
+  margin: 24px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  
+  ion-card-header {
+    background: transparent;
+    
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.3rem;
+      
+      ion-icon {
+        font-size: 1.8rem;
+      }
+    }
+  }
+  
+  p {
+    color: #e2e8f0;
+    line-height: 1.7;
+  }
+}
+
+// CTA Section Enhancement
+.cta-section {
+  margin: 24px 16px;
+  padding: 24px;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  border-radius: 16px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+  
+  h4 {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  
+  p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  
+  ion-button {
+    margin: 8px 0;
+    font-weight: 600;
+    
+    &[color="primary"] {
+      --background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      --color: #1f2937;
+      
+      &:hover {
+        --background: linear-gradient(135deg, #f59e0b, #d97706);
+      }
+    }
+  }
+}

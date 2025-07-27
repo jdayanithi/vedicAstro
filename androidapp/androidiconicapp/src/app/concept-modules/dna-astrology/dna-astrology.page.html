@@ -94,42 +94,300 @@
               <li class="tamil-text">நவீன மந்திர ஜபம் மற்றும் யந்திர பிரயோகம்</li>
             </ul>
           </div>
-
-          <div class="instructor-info">
-            <ion-card class="instructor-card">
-              <ion-card-header>
-                <ion-card-title>
-                  <ion-icon name="person-circle" color="primary"></ion-icon>
-                  வழிகாட்டி
-                </ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <p class="tamil-text">
-                  அறிவியல் முறையில் பயிற்சி பெற்ற ஜோதிட நிபுணர்களால் 
-                  தயாரிக்கப்பட்ட சிறப்பு பாடத்திட்டம்.
-                </p>
-              </ion-card-content>
-            </ion-card>
-          </div>
-
-          <div class="cta-section">
-            <h4 class="tamil-text">தொடங்க தயாரா?</h4>
-            <p class="tamil-text">
-              இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, 
-              முதலில் பாடத்தை வாங்கவும்.
-            </p>
-            <ion-button expand="block" color="primary" size="large">
-              <ion-icon name="card" slot="start"></ion-icon>
-              ₹299 க்கு வாங்கவும்
-            </ion-button>
-            <ion-button expand="block" fill="outline" color="secondary" (click)="shareContent()">
-              <ion-icon name="share" slot="start"></ion-icon>
-              நண்பர்களுடன் பகிரவும்
-            </ion-button>
-          </div>
         </div>
       </ion-card-content>
     </ion-card>
+
+    <!-- Planetary Categories Section -->
+    <div class="planets-section">
+      <h3 class="section-title tamil-text">
+        <ion-icon name="planet" color="primary"></ion-icon>
+        எட்டு கிரகங்களின் DNA தாக்கம்
+      </h3>
+      <p class="section-subtitle tamil-text">
+        ஒவ்வொரு கிரகமும் உங்கள் மரபணுவில் எவ்வாறு தாக்கம் செலுத்துகிறது என்பதை அறிந்து கொள்ளுங்கள்
+      </p>
+
+      <!-- 1. Suriyan (Sun) -->
+      <ion-card class="planet-card suriyan">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="sunny" color="warning"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">1. சூரியன் (Suriyan)</ion-card-title>
+              <ion-card-subtitle>Sun - The Soul Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே சூரியன் கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சூரியன் தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சூரியன் கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 2. Chandiran (Moon) -->
+      <ion-card class="planet-card chandiran">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="moon" color="medium"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">2. சந்திரன் (Chandiran)</ion-card-title>
+              <ion-card-subtitle>Moon - The Mind Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே சந்திரன் கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சந்திரன் தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சந்திரன் கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 3. Sevai (Mars) -->
+      <ion-card class="planet-card sevai">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="flash" color="danger"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">3. செவ்வாய் (Sevai)</ion-card-title>
+              <ion-card-subtitle>Mars - The Energy Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே செவ்வாய் கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே செவ்வாய் தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே செவ்வாய் கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 4. Puthan (Mercury) -->
+      <ion-card class="planet-card puthan">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="chatbubbles" color="success"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">4. புதன் (Puthan)</ion-card-title>
+              <ion-card-subtitle>Mercury - The Communication Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே புதன் கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே புதன் தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே புதன் கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 5. Guru (Jupiter) -->
+      <ion-card class="planet-card guru">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="school" color="primary"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">5. குரு (Guru)</ion-card-title>
+              <ion-card-subtitle>Jupiter - The Wisdom Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே குரு கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே குரு தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே குரு கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 6. Sukiran (Venus) -->
+      <ion-card class="planet-card sukiran">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="heart" color="danger"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">6. சுக்கிரன் (Sukiran)</ion-card-title>
+              <ion-card-subtitle>Venus - The Love Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே சுக்கிரன் கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சுக்கிரன் தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சுக்கிரன் கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 7. Sani (Saturn) -->
+      <ion-card class="planet-card sani">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="time" color="dark"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">7. சனி (Sani)</ion-card-title>
+              <ion-card-subtitle>Saturn - The Karma Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே சனி கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சனி தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே சனி கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- 8. Raghu (Rahu) -->
+      <ion-card class="planet-card raghu">
+        <ion-card-header>
+          <div class="planet-header">
+            <ion-icon name="eye" color="tertiary"></ion-icon>
+            <div class="planet-info">
+              <ion-card-title class="tamil-text">8. ராகு (Raghu)</ion-card-title>
+              <ion-card-subtitle>Rahu - The Shadow Planet</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="planet-content">
+            <h5 class="tamil-text">மரபணு தாக்கம்:</h5>
+            <p class="tamil-text">
+              [இங்கே ராகு கிரகத்தின் மரபணு தாக்கம் பற்றிய தகவல்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">DNA குறிப்பான்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே ராகு தொடர்பான DNA குறிப்பான்களை சேர்க்கவும்]
+            </p>
+            
+            <h5 class="tamil-text">பரிகாரங்கள்:</h5>
+            <p class="tamil-text">
+              [இங்கே ராகு கிரகத்திற்கான பரிகாரங்களை சேர்க்கவும்]
+            </p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Instructor Information -->
+    <ion-card class="instructor-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="person-circle" color="primary"></ion-icon>
+          வழிகாட்டி</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="tamil-text">
+          அறிவியல் முறையில் பயிற்சி பெற்ற ஜோதிட நிபுணர்களால் 
+          தயாரிக்கப்பட்ட சிறப்பு பாடத்திட்டம்.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Final CTA Section -->
+    <div class="cta-section">
+      <h4 class="tamil-text">தொடங்க தயாரா?</h4>
+      <p class="tamil-text">
+        இந்த புதுமையான ஜோதிட அறிவியல் பயணத்தைத் தொடங்க, 
+        முதலில் பாடத்தை வாங்கவும்.
+      </p>
+      <ion-button expand="block" color="primary" size="large">
+        <ion-icon name="card" slot="start"></ion-icon>
+        ₹299 க்கு வாங்கவும்
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="secondary" (click)="shareContent()">
+        <ion-icon name="share" slot="start"></ion-icon>
+        நண்பர்களுடன் பகிரவும்
+      </ion-button>
+    </div>
   </div>
 
 </ion-content>
