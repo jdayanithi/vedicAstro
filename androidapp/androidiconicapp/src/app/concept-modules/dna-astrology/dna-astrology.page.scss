@@ -543,12 +543,12 @@
   }
   
   .section-subtitle {
-    text-align: center;
-    color: #64748b;
-    margin-bottom: 24px;
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
 }
 
 .planet-card {
