@@ -76,14 +76,12 @@
               <h4>பூர்வ ஜென்ம கர்மா</h4>
               <p>மரபு வழியாக வரும் கர்ம தோஷங்கள்</p>
             </div>
-            
             <div class="feature-item">
               <ion-icon name="medical" color="success"></ion-icon>
               <h4>அறிவியல் பரிகாரம்</h4>
               <p>ஆதார பூர்வமான நவீன பரிகாரங்கள்</p>
             </div>
-          </div>
-
+            </div>
           <div class="course-highlights">
             <h4 class="tamil-text">இந்த பாடத்தில் நீங்கள் கற்றுக்கொள்வது:</h4>
             <ul>
@@ -95,8 +93,7 @@
             </ul>
           </div>
         </div>
-      </ion-card-content>
-    </ion-card>
+      
 
     <!-- Overview Section - Natchathira Samantham -->
     <ion-card class="overview-card" (click)="toggleOverview()">
@@ -184,63 +181,202 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Planetary Categories Section -->
-    <div class="planets-section">
-      <h3 class="section-title tamil-text">
-        <ion-icon name="planet" color="primary"></ion-icon>
-        எட்டு கிரகங்களின் DNA தாக்கம்
-      </h3>
-      <p class="section-subtitle tamil-text">
-        ஒவ்வொரு கிரகமும் உங்கள் மரபணுவில் எவ்வாறு தாக்கம் செலுத்துகிறது என்பதை அறிந்து கொள்ளுங்கள்
-      </p>
+    <!-- Suriyan (Sun) Section - Natchathira Thodarpu -->
+    <ion-card class="overview-card" (click)="toggleSuriyan()">
+      <ion-card-header>
+        <div class="overview-header">
+          <ion-icon name="sunny" color="warning"></ion-icon>
+          <div class="overview-info">
+            <ion-card-title class="tamil-text">நட்சத்திர தொடர்பு - சூரியன்</ion-card-title>
+            <ion-card-subtitle class="tamil-text">சூரிய கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</ion-card-subtitle>
+          </div>
+          <div class="expand-icon">
+            <ion-icon 
+              [name]="showSuriyan ? 'chevron-up' : 'chevron-down'"
+              color="light">
+            </ion-icon>
+          </div>
+        </div>
+      </ion-card-header>
+      
+      <ion-card-content *ngIf="showSuriyan" class="overview-content">
+        <div class="planets-section">
+          <!-- Suriyan Content -->
+          <div class="planet-content">
+          <!-- கர்மப்பதிவு கொண்ட நட்சத்திரங்கள் -->
+          <div class="content-section highlight-section">
+            <h4 class="tamil-text section-heading">
+              <ion-icon name="star" color="warning"></ion-icon>
+              கர்மப்பதிவு கொண்ட நட்சத்திரங்கள்
+            </h4>
+            <ul class="tamil-text nakshatram-list">
+              <li>அஸ்வினி</li>
+              <li>ஆயில்யம்</li>
+              <li>அனுஷம்</li>
+              <li>பூரட்டாதி</li>
+            </ul>
+          </div>
 
-      <!-- Dynamic Planet Cards -->
-      <ion-card 
-        *ngFor="let planet of planets; let i = index" 
-        class="planet-card"
-        [ngClass]="planet.id"
-        (click)="togglePlanet(planet)"
-        [style.animation-delay]="i * 100 + 'ms'">
-        
-        <ion-card-header>
-          <div class="planet-header">
-            <ion-icon [name]="planet.icon" [color]="planet.color"></ion-icon>
-            <div class="planet-info">
-              <ion-card-title class="tamil-text">{{i + 1}}. {{planet.name}} ({{planet.name}})</ion-card-title>
-              <ion-card-subtitle>{{planet.nameEnglish}}</ion-card-subtitle>
-            </div>
-            <div class="expand-icon">
-              <ion-icon 
-                [name]="planet.expanded ? 'chevron-up' : 'chevron-down'"
-                color="light">
-              </ion-icon>
-            </div>
+          <!-- சூரிய தோஷம் -->
+          <div class="content-section highlight-section">
+            <h4 class="tamil-text section-heading">
+              <ion-icon name="warning" color="danger"></ion-icon>
+              சூரிய தோஷம் - பொதுவான தன்மைகள்
+            </h4>
+            <ul class="tamil-text dosham-list">
+              <li>ஆனவம், அகங்காரம், ஆளுமை குணங்கள் கொண்டவர்கள்</li>
+              <li>அரசு/அரசாங்கம்/அரசியல்/சட்டம் / தொழில்கள் சம்பந்தப்படும்</li>
+              <li>மருத்துவம் / மற்றும் மருத்துவம் சம்பந்தப்படும்</li>
+              <li>அரசாங்க வேலைகளில் சிக்கல் வரலாம்</li>
+              <li>சட்டத்திற்கு புறம்பாக செயல்படக்கூடாது</li>
+              <li>அப்பா, மூத்த மகன், மாமனார், உடன் வேலை செய்பவர்கள் தோஷம்</li>
+              <li>இவர்களை கஷ்டப்படுத்தவோ பகைக்கவோ கூடாது</li>
+              <li>தந்தையின் ஆதரவு, பொருள் / உறவு மூலமாக குறைபடலாம்</li>
+              <li>தலை, முதுகெலும்பு, கண் பார்வை, உடலெங்கும் போன்ற உடல் உபாதைகள் சம்பந்தப்படும்</li>
+              <li class="highlight-text">இத்துடன், ஒவ்வொரு நட்சத்திரத்திற்கான கர்மங்களும் சேர்ந்து செயல்படும்</li>
+            </ul>
           </div>
-        </ion-card-header>
-        
-        <ion-card-content *ngIf="planet.expanded" class="planet-content" [@slideIn]>
+
+          <!-- நட்சத்திர விவரங்கள் -->
           <div class="content-section">
-            <h5 class="tamil-text">
-              <ion-icon name="analytics" color="primary"></ion-icon>
-              மரபணு தாக்கம்:
-            </h5>
-            <p class="tamil-text">{{planet.geneticImpact}}</p>
-            
-            <h5 class="tamil-text">
-              <ion-icon name="dna" color="secondary"></ion-icon>
-              DNA குறிப்பான்கள்:
-            </h5>
-            <p class="tamil-text">{{planet.dnaMarkers}}</p>
-            
-            <h5 class="tamil-text">
-              <ion-icon name="medical" color="success"></ion-icon>
-              பரிகாரங்கள்:
-            </h5>
-            <p class="tamil-text">{{planet.remedies}}</p>
+            <h4 class="tamil-text section-heading">
+              <ion-icon name="library" color="primary"></ion-icon>
+              நட்சத்திர விவரங்கள்
+            </h4>
+
+            <!-- அஸ்வினி -->
+            <div class="nakshatram-detail">
+              <h5 class="tamil-text nakshatram-title">
+                <ion-icon name="flash" color="tertiary"></ion-icon>
+                அஸ்வினி (குறிய ஜோஷியம்) (கேது)
+              </h5>
+              <div class="detail-content tamil-text">
+                <p><strong>முக்கிய குணங்கள்:</strong> வேகம்(செ) + ஆன்ம(க) + Healing(கேது)</p>
+                <ul class="detail-list">
+                  <li>அரசாங்க தோஷம் கொண்ட</li>
+                  <li>நெற்றிக்கண் கொண்டவர்</li>
+                  <li>Healer (மாற்று மருத்துவர்) / மருத்துவர்</li>
+                  <li>குழு தோஷம் கொண்ட தொஷம்</li>
+                  <li>ஆண்மை, அனுபவம் சார்ந்த</li>
+                  <li>கட்டாய கருக்கலைப்பு / voluntary abortion</li>
+                  <li>நல்ல intuition power, சொன்னது நடக்கும் (3rd eye opening)</li>
+                  <li>யாருக்கும் அடங்காத, psycho, argumentative</li>
+                  <li>ஆஸ்வினி யில் நிற்கும் கிரக காரகத்துவத்தை ஜாதகர் வேகமாக அடைந்துவிடுவார்</li>
+                  <li>தந்தை உடன் தோஷம் கொண்ட அல்லது அனுபவி</li>
+                  <li>Medicine/Abortion, Medical field, pharmacy, மாற்று மருத்துவம்</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- ஆயில்யம் -->
+            <div class="nakshatram-detail">
+              <h5 class="tamil-text nakshatram-title">
+                <ion-icon name="water" color="medium"></ion-icon>
+                ஆயில்யம் (துரிய தோஷம்) (புதன் – கேது)
+              </h5>
+              <div class="detail-content tamil-text">
+                <ul class="detail-list">
+                  <li>தன்னலம்(தற்+तलैமை), கடகம் தன்னலம் கொண்டது</li>
+                  <li>தாய்மை உள்ளம் கொண்டது, கேது - detachment</li>
+                  <li>தற்கொலை நோக்கம் கொண்ட (பயந்துகொண்டு)</li>
+                  <li>மூத்த தலைமுறையில் தூரம் கண்டிப்பாக இருக்கும்</li>
+                  <li>தலைமைப் பொறுப்பில் நோக்கம் இருப்பார்கள்</li>
+                  <li>ஆரம்ப தோஷத்தில் இருப்பவர்களுக்கு சுலபமாக உயர்ந்த பதவி கிடைக்கும்</li>
+                  <li>திருமணம் சிறந்தது (early marriage will reach success)</li>
+                  <li>நினைத்த வேலை கிடைக்காது. கிடைத்ததை விடக்கூடாது</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- அனுஷம் -->
+            <div class="nakshatram-detail">
+              <h5 class="tamil-text nakshatram-title">
+                <ion-icon name="people" color="secondary"></ion-icon>
+                அனுஷம் (சூரிய தோஷம்) (சனி- வாயு பகவான்)
+              </h5>
+              <div class="detail-content tamil-text">
+                <ul class="detail-list">
+                  <li>மாமியார் தோஷம் பெற்ற</li>
+                  <li>ஆணுக்கு அனுஷம் – வீட்டோடு மாப்பிள்ளை அல்லது மனைவி குடும்பத்திற்கு அருகில் இருப்பார்</li>
+                  <li>மாமியார் மூலமாக சுகம் அனுபவிக்க முடியாது</li>
+                  <li>பெண்கள் கணவனின் தேவைகளை முழுமையாக பூர்த்தி செய்ய வேண்டும்</li>
+                  <li>மருத்துவம் குறைவு (medical field)</li>
+                  <li>Sexual counselling, Event organizer/co-ordinator</li>
+                  <li>நிர்வாகம், தந்தையின் ஆதரவு குறையும்</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- பூரட்டாதி -->
+            <div class="nakshatram-detail">
+              <h5 class="tamil-text nakshatram-title">
+                <ion-icon name="card" color="success"></ion-icon>
+                பூரட்டாதி (துரிய தோஷம்) (குரு - குபேரன், கர்ணன்)
+              </h5>
+              <div class="detail-content tamil-text">
+                <ul class="detail-list">
+                  <li>வட்டத்தொழில்: Finance / Banking சம்பந்தம்</li>
+                  <li>அரசு அரசாங்கம்/அரசு கருவிகள்/மருத்துவம் சம்பந்தப்பட்ட தொழில்</li>
+                  <li>கூட்டுறவில் பிரச்சனைகள், 2 தார தொழில் கொண்ட – (மறுமணம்)</li>
+                  <li>உடன் கொடுக்கலாவது ஆகாது, சொத்துக்களை மேடை உடன் பார்க்கக்கூடாது</li>
+                  <li>வாகனம் விரையும்: (repair/damage/ no vehicle lending)</li>
+                  <li>கடன் தருவது, ஜாமீன், Guarantee போடக்கூடாது</li>
+                  <li>தந்தையின் ஆசிர்வாதம் முழுமையாக கிடைக்காது</li>
+                  <li>மருத்துவர்கள் வர வர தேவறங்கள் குறையும்</li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
+
+          <!-- பரிகாரங்கள் -->
+          <div class="content-section">
+            <h4 class="tamil-text section-heading">
+              <ion-icon name="medical" color="success"></ion-icon>
+              சூரிய தோஷ பரிகாரங்கள்
+            </h4>
+
+            <div class="remedy-section">
+              <h5 class="tamil-text remedy-title">
+                <ion-icon name="heart" color="danger"></ion-icon>
+                தர்மப் பரிகாரம்
+              </h5>
+              <ul class="tamil-text remedy-list">
+                <li>பிள்ளைகளால் கைவிடப்பட்ட தந்தைகளுக்கு முடிந்த வகையில் ஆதரவு கொடுப்பது (physically, financially, etc.)</li>
+                <li>Helping strange deserted fathers on roadside</li>
+                <li>வயது முதிர்ந்த ஆண்களின் ஆசிர்வாதம் பெறுவது</li>
+              </ul>
+            </div>
+
+            <div class="remedy-section">
+              <h5 class="tamil-text remedy-title">
+                <ion-icon name="briefcase" color="primary"></ion-icon>
+                தொழில் பரிகாரம்
+              </h5>
+              <ul class="tamil-text remedy-list">
+                <li>MBA administration, HR, Head Master, Managerial skills</li>
+                <li>Giving colleague's works - பணியில் பிறரின் வேலையை பகிர்ந்துக்கொள்வது</li>
+                <li>ஆளுமை/நிதானம் பொறுமையை வேலையில் காட்டக்கூடாது</li>
+                <li>தனக்குக் கீழ் பணி செய்பவரை தாழ்வாக நடத்தக்கூடாது</li>
+              </ul>
+            </div>
+
+            <div class="remedy-section">
+              <h5 class="tamil-text remedy-title">
+                <ion-icon name="flower" color="tertiary"></ion-icon>
+                ஆன்மீகப் பரிகாரம்
+              </h5>
+              <ul class="tamil-text remedy-list">
+                <li>சூரிய நமஸ்காரம் வழிபாடு செய்வது</li>
+                <li>சூரிய நமஸ்காரம் செய்வது</li>
+                <li>சூரியனுக்கு நீர் அர்ப்பணிப்பது</li>
+                <li>சிவ லிங்கத்திற்கு அபிஷேகம் செய்வது</li>
+                <li>ஆதித்ய ஹிருதயம் படிப்பது/கேட்பது</li>
+                <li>சூரிய காயத்ரி மந்திரம் சொல்வது</li>
+                <li>அசைவ உணவு (முட்டை உடபட) தவிர்க்க வேண்டும்</li>
+              </ul>
+            </div>
+          </div>
+        </div>
 
     <!-- Instructor Information -->
     <ion-card class="instructor-card">
@@ -273,6 +409,4 @@
         நண்பர்களுடன் பகிரவும்
       </ion-button>
     </div>
-  </div>
 
-</ion-content>

@@ -38,6 +38,7 @@ interface CompatibilityData {
 export class DnaAstrologyPage implements OnInit {
   isBookmarked = false;
   showOverview = false;
+  showSuriyan = false;
   
   compatibilityData: CompatibilityData[] = [
     {
@@ -195,6 +196,10 @@ export class DnaAstrologyPage implements OnInit {
 
   toggleOverview() {
     this.showOverview = !this.showOverview;
+  }
+
+  toggleSuriyan() {
+    this.showSuriyan = !this.showSuriyan;
   }
 
   checkBookmarkStatus() {
