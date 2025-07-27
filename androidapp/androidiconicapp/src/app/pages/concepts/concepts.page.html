@@ -16,6 +16,40 @@
     <p>Explore the ancient wisdom of Vedic Astrology</p>
   </div>
 
+  <!-- Promotional Carousel -->
+  <div class="promo-carousel-container">
+    <div class="promo-slide" 
+         *ngFor="let slide of promoSlides; let i = index"
+         [class.active]="currentPromoIndex === i"
+         [style.display]="currentPromoIndex === i ? 'flex' : 'none'"
+         (click)="onPromoClick(slide)">
+      <div class="promo-content">
+        <div class="promo-icon">
+          <ion-icon [name]="slide.icon" size="large" [color]="slide.color"></ion-icon>
+        </div>
+        <div class="promo-text">
+          <div class="promo-badge" [style.background]="slide.color === 'danger' ? '#e53e3e' : slide.color === 'success' ? '#38a169' : '#805ad5'">
+            {{slide.badge}}
+          </div>
+          <h3 class="promo-title tamil-text">{{slide.title}}</h3>
+          <h4 class="promo-title-english">{{slide.titleEnglish}}</h4>
+          <p class="promo-description tamil-text">{{slide.description}}</p>
+          <p class="promo-description-english">{{slide.descriptionEnglish}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <div class="promo-navigation">
+      <div 
+        *ngFor="let slide of promoSlides; let i = index"
+        class="nav-dot"
+        [class.active]="currentPromoIndex === i"
+        (click)="goToPromoSlide(i)">
+      </div>
+    </div>
+  </div>
+
   <!-- Search and Filter Section -->
   <div class="search-section">
     <ion-searchbar

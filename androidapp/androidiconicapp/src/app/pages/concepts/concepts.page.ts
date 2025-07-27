@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
 import { ConceptService, AstrologyConcept, ConceptCategory, ConceptSubcategory } from '../../services/concept.service';
@@ -9,7 +9,7 @@ import { ActionSheetController, AlertController } from '@ionic/angular';
   templateUrl: './concepts.page.html',
   styleUrls: ['./concepts.page.scss'],
 })
-export class ConceptsPage implements OnInit {
+export class ConceptsPage implements OnInit, OnDestroy {
   currentUser: User | null = null;
   allConcepts: AstrologyConcept[] = [];
   filteredConcepts: AstrologyConcept[] = [];
@@ -27,6 +27,42 @@ export class ConceptsPage implements OnInit {
     { value: 'intermediate', label: 'நடுத்தர (Intermediate)', labelEnglish: 'Intermediate' },
     { value: 'advanced', label: 'மேம்பட்ட (Advanced)', labelEnglish: 'Advanced' }
   ];
+
+  // Promotional Carousel Properties
+  currentPromoIndex = 0;
+  promoSlides = [
+    {
+      id: 'new_courses',
+      title: 'புதிய பாடப்பிரிவுகள்',
+      titleEnglish: 'New Courses Added',
+      description: 'DNA ஜோதிடம் மற்றும் நட்சத்திர பரிகாரங்கள் இப்போது கிடைக்கின்றன!',
+      descriptionEnglish: 'Explore DNA Astrology and Nakshatra Remedies now available!',
+      icon: 'sparkles',
+      color: 'tertiary',
+      badge: 'புதிதாக!'
+    },
+    {
+      id: 'special_offer',
+      title: 'சிறப்பு வழங்கல்',
+      titleEnglish: 'Special Offer',
+      description: '50% தள்ளுபடி - அனைத்து பிரீமியம் கோர்ஸ்களுக்கும்!',
+      descriptionEnglish: '50% OFF on all Premium Courses - Limited Time!',
+      icon: 'gift',
+      color: 'danger',
+      badge: '50% OFF'
+    },
+    {
+      id: 'free_consultation',
+      title: 'இலவச ஆலோசனை',
+      titleEnglish: 'Free Consultation',
+      description: 'நிபுணர்களுடன் 15 நிமிட இலவச ஆலோசனை பெறுங்கள்',
+      descriptionEnglish: 'Get 15-min free consultation with expert astrologers',
+      icon: 'call',
+      color: 'success',
+      badge: 'இலவசம்!'
+    }
+  ];
+  private promoInterval: any;
 
   constructor(
     private authService: AuthService,
@@ -57,6 +93,50 @@ export class ConceptsPage implements OnInit {
       this.updateConceptsPurchaseStatus();
       this.filterConcepts();
     });
+
+    // Start promotional carousel
+    this.startPromoCarousel();
+  }
+
+  ngOnDestroy() {
+    if (this.promoInterval) {
+      clearInterval(this.promoInterval);
+    }
+  }
+
+  startPromoCarousel() {
+    this.promoInterval = setInterval(() => {
+      this.currentPromoIndex = (this.currentPromoIndex + 1) % this.promoSlides.length;
+    }, 4000); // Change slide every 4 seconds
+  }
+
+  goToPromoSlide(index: number) {
+    this.currentPromoIndex = index;
+    // Restart the auto-rotation
+    if (this.promoInterval) {
+      clearInterval(this.promoInterval);
+      this.startPromoCarousel();
+    }
+  }
+
+  onPromoClick(slide: any) {
+    switch (slide.id) {
+      case 'new_courses':
+        // Show new courses or navigate to specific section
+        this.selectedCategory = 'all';
+        this.searchTerm = 'DNA';
+        this.filterConcepts();
+        break;
+      case 'special_offer':
+        // Navigate to paid courses
+        this.selectedCourseType = 'paid';
+        this.filterConcepts();
+        break;
+      case 'free_consultation':
+        // Navigate to contact or booking page
+        this.router.navigate(['/contact']);
+        break;
+    }
   }
 
   updateConceptsPurchaseStatus() {
@@ -149,9 +229,6 @@ export class ConceptsPage implements OnInit {
     if (!concept.isPaid || this.hasAccess(concept)) {
       // Navigate to specific concept module based on concept ID
       switch (concept.id) {
-        case 'rasi_001':
-          this.router.navigate(['/mesha-rasi']);
-          break;
         case 'tantrik_001':
           this.router.navigate(['/tantrik-pariharam']);
           break;

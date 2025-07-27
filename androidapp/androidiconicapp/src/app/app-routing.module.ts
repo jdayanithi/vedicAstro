@@ -18,10 +18,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'mesha-rasi',
-    loadChildren: () => import('./concept-modules/mesha-rasi/mesha-rasi.module').then( m => m.MeshaRasiPageModule)
-  },
-  {
     path: 'tantrik-pariharam',
     loadChildren: () => import('./concept-modules/tantrik-pariharam/tantrik-pariharam.module').then( m => m.TantrikPariharamPageModule)
   },
