@@ -13,15 +13,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: '',
     redirectTo: 'concepts',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'mesha-rasi',
     loadChildren: () => import('./concept-modules/mesha-rasi/mesha-rasi.module').then( m => m.MeshaRasiPageModule)
   },
