@@ -176,28 +176,40 @@
       <ion-card-content *ngIf="showSuriyan">
         <!-- Suriyan Content -->
           <!-- கர்மப்பதிவு கொண்ட நட்சத்திரங்கள் -->
-          <div class="content-section highlight-section">
-            <h4 class="section-heading">
-              <ion-icon name="star" color="warning"></ion-icon>
-              கர்மப்பதிவு கொண்ட நட்சத்திரங்கள்
-            </h4>
-            <ul>
+          <ion-card class="karma-nakshatra-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="star" color="warning"></ion-icon>
+                கர்மப்பதிவு கொண்ட நட்சத்திரங்கள்
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
               <ion-list>
-                <ion-item>அஸ்வினி</ion-item>
-                <ion-item>ஆயில்யம்</ion-item>
-                <ion-item>அனுஷம்</ion-item>
-                <ion-item>பூரட்டாதி</ion-item>
+                <ion-item>
+                  <ion-label><strong>அஸ்வினி</strong></ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>ஆயில்யம்</strong></ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>அனுஷம்</strong></ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>பூரட்டாதி</strong></ion-label>
+                </ion-item>
               </ion-list>
-            </ul>
-          </div>
+            </ion-card-content>
+          </ion-card>
 
           <!-- சூரிய தோஷம் -->
-          <div class="content-section highlight-section">
-            <h4 class="section-heading">
-              <ion-icon name="warning" color="danger"></ion-icon>
-              சூரிய தோஷம் - பொதுவான தன்மைகள்
-            </h4>
-            <ul class="dosham-list">
+          <ion-card class="dosham-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="warning" color="danger"></ion-icon>
+                சூரிய தோஷம் - பொதுவான தன்மைகள்
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
               <ion-list>
                 <ion-item>ஆனவம், அகங்காரம், ஆளுமை குணங்கள் கொண்டவர்கள்</ion-item>
                 <ion-item>அரசு/அரசாங்கம்/அரசியல்/சட்டம் / தொழில்கள் சம்பந்தப்படும்</ion-item>
@@ -210,24 +222,21 @@
                 <ion-item>தலை, முதுகெலும்பு, கண் பார்வை, உடலெங்கும் போன்ற உடல் உபாதைகள் சம்பந்தப்படும்</ion-item>
                 <ion-item class="highlight-text">இத்துடன், ஒவ்வொரு நட்சத்திரத்திற்கான கர்மங்களும் சேர்ந்து செயல்படும்</ion-item>
               </ion-list>
-            </ul>
-          </div>
+            </ion-card-content>
+          </ion-card>
 
           <!-- நட்சத்திர விவரங்கள் -->
-          <div class="content-section">
-            <h4 class="tamil-text section-heading">
-              <ion-icon name="library" color="primary"></ion-icon>
-              நட்சத்திர விவரங்கள்
-            </h4>
-        
-            <!-- அஸ்வினி -->
-          <div class="detail-content tamil-text">
-            <h5>அஸ்வினி (குறிய ஜோஷியம்) (கேது)</h5>
-          </div>
-          <!-- நட்சத்திர விவரங்கள் -->
-          <div class="section-heading">
-              <div class="detail-content tamil-text">
-                <ul class="detail-list">
+          <ion-card class="nakshatra-details-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="library" color="primary"></ion-icon>
+                நட்சத்திர விவரங்கள்
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="nakshatra-detail-block">
+                <h5><ion-icon name="flash" color="tertiary"></ion-icon> அஸ்வினி (குறிய ஜோஷியம்) (கேது)</h5>
+                
                   <ion-list>
                     <ion-item><strong>முக்கிய குணங்கள்:</strong> வேகம்(செ) + ஆன்ம(க) + Healing(கேது)</ion-item>
                     <ion-item>அரசாங்க தோஷம் கொண்ட</ion-item>
@@ -242,17 +251,11 @@
                     <ion-item>தந்தை உடன் தோஷம் கொண்ட அல்லது அனுபவி</ion-item>
                     <ion-item>Medicine/Abortion, Medical field, pharmacy, மாற்று மருத்துவம்</ion-item>
                   </ion-list>
-                </ul>
+                
               </div>
-            </div>
-
-            <!-- ஆயில்யம் -->
-            <div>
-          <!-- பரிகாரங்கள் -->
-          <div class="section-heading">
-                ஆயில்யம் (துரிய தோஷம்) (புதன் – கேது)
-              <div class="detail-content tamil-text">
-                <ul class="detail-list">
+              <div class="nakshatra-detail-block">
+                <h5><ion-icon name="water" color="medium"></ion-icon> ஆயில்யம் (துரிய தோஷம்) (புதன் – கேது)</h5>
+                
                   <ion-list>
                     <ion-item>தன்னலம்(தற்+तलैமை), கடகம் தன்னலம் கொண்டது</ion-item>
                     <ion-item>தாய்மை உள்ளம் கொண்டது, கேது - detachment</ion-item>
@@ -263,18 +266,11 @@
                     <ion-item>திருமணம் சிறந்தது (early marriage will reach success)</ion-item>
                     <ion-item>நினைத்த வேலை கிடைக்காது. கிடைத்ததை விடக்கூடாது</ion-item>
                   </ion-list>
-                </ul>
+                
               </div>
-            </div>
-
-            <!-- அனுஷம் -->
-            <div>
-              <h5>
-                <ion-icon name="people" color="secondary"></ion-icon>
-                அனுஷம் (சூரிய தோஷம்) (சனி- வாயு பகவான்)
-              </h5>
-              <div class="detail-content tamil-text">
-                <ul class="detail-list">
+              <div class="nakshatra-detail-block">
+                <h5><ion-icon name="people" color="secondary"></ion-icon> அனுஷம் (சூரிய தோஷம்) (சனி- வாயு பகவான்)</h5>
+                
                   <ion-list>
                     <ion-item>மாமியார் தோஷம் பெற்ற</ion-item>
                     <ion-item>ஆணுக்கு அனுஷம் – வீட்டோடு மாப்பிள்ளை அல்லது மனைவி குடும்பத்திற்கு அருகில் இருப்பார்</ion-item>
@@ -284,18 +280,11 @@
                     <ion-item>Sexual counselling, Event organizer/co-ordinator</ion-item>
                     <ion-item>நிர்வாகம், தந்தையின் ஆதரவு குறையும்</ion-item>
                   </ion-list>
-                </ul>
+                
               </div>
-            </div>
-
-            <!-- பூரட்டாதி -->
-            <div>
-              <h5>
-                <ion-icon name="card" color="success"></ion-icon>
-                பூரட்டாதி (துரிய தோஷம்) (குரு - குபேரன், கர்ணன்)
-              </h5>
-              <div class="detail-content tamil-text">
-                <ul class="detail-list">
+              <div class="nakshatra-detail-block">
+                <h5><ion-icon name="card" color="success"></ion-icon> பூரட்டாதி (துரிய தோஷம்) (குரு - குபேரன், கர்ணன்)</h5>
+                
                   <ion-list>
                     <ion-item>வட்டத்தொழில்: Finance / Banking சம்பந்தம்</ion-item>
                     <ion-item>அரசு அரசாங்கம்/அரசு கருவிகள்/மருத்துவம் சம்பந்தப்பட்ட தொழில்</ion-item>
@@ -306,65 +295,50 @@
                     <ion-item>தந்தையின் ஆசிர்வாதம் முழுமையாக கிடைக்காது</ion-item>
                     <ion-item>மருத்துவர்கள் வர வர தேவறங்கள் குறையும்</ion-item>
                   </ion-list>
-                </ul>
+                
               </div>
-            </div>
-          </div>
-</div>
+            </ion-card-content>
+          </ion-card>
           <!-- பரிகாரங்கள் -->
-          <div class="section-heading">
-            <h4 class="tamil-text section-heading">
-              <ion-icon name="medical" color="success"></ion-icon>
-              சூரிய தோஷ பரிகாரங்கள்
-            </h4>
-
-            <div class="remedy-section">
-              <h5 class="tamil-text remedy-title">
-                <ion-icon name="heart" color="danger"></ion-icon>
-                தர்மப் பரிகாரம்
-              </h5>
-              <ul class="tamil-text remedy-list">
+          <ion-card class="remedy-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="medical" color="success"></ion-icon>
+                சூரிய தோஷ பரிகாரங்கள்
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="remedy-block">
+                <h5><ion-icon name="heart" color="danger"></ion-icon> தர்மப் பரிகாரம்</h5>
                 <ion-list>
                   <ion-item>பிள்ளைகளால் கைவிடப்பட்ட தந்தைகளுக்கு முடிந்த வகையில் ஆதரவு கொடுப்பது (physically, financially, etc.)</ion-item>
                   <ion-item>Helping strange deserted fathers on roadside</ion-item>
                   <ion-item>வயது முதிர்ந்த ஆண்களின் ஆசிர்வாதம் பெறுவது</ion-item>
                 </ion-list>
-              </ul>
-            </div>
-
-            <div class="remedy-section">
-              <h5 class="tamil-text remedy-title">
-                <ion-icon name="briefcase" color="primary"></ion-icon>
-                தொழில் பரிகாரம்
-              </h5>
-              <ul class="tamil-text remedy-list">
+              </div>
+              <div class="remedy-block">
+                <h5><ion-icon name="briefcase" color="primary"></ion-icon> தொழில் பரிகாரம்</h5>
                 <ion-list>
                   <ion-item>MBA administration, HR, Head Master, Managerial skills</ion-item>
-                  <ion-item class="tamil-text">Giving colleague's works - பணியில் பிறரின் வேலையை பகிர்ந்துக்கொள்வது</ion-item>
-                  <ion-item class="tamil-text">ஆளுமை/நிதானம் பொறுமையை வேலையில் காட்டக்கூடாது</ion-item>
-                  <ion-item class="tamil-text">தனக்குக் கீழ் பணி செய்பவரை தாழ்வாக நடத்தக்கூடாது</ion-item>
+                  <ion-item>Giving colleague's works - பணியில் பிறரின் வேலையை பகிர்ந்துக்கொள்வது</ion-item>
+                  <ion-item>ஆளுமை/நிதானம் பொறுமையை வேலையில் காட்டக்கூடாது</ion-item>
+                  <ion-item>தனக்குக் கீழ் பணி செய்பவரை தாழ்வாக நடத்தக்கூடாது</ion-item>
                 </ion-list>
-              </ul>
-            </div>
-
-            <div class="remedy-section">
-              <h5 class="tamil-text remedy-title">
-                <ion-icon name="flower" color="tertiary"></ion-icon>
-                ஆன்மீகப் பரிகாரம்
-              </h5>
-              <ul class="tamil-text remedy-list">
+              </div>
+              <div class="remedy-block">
+                <h5><ion-icon name="flower" color="tertiary"></ion-icon> ஆன்மீகப் பரிகாரம்</h5>
                 <ion-list>
-                  <ion-item class="tamil-text">சூரிய நமஸ்காரம் வழிபாடு செய்வது</ion-item>
-                  <ion-item class="tamil-text">சூரிய நமஸ்காரம் செய்வது</ion-item>
-                  <ion-item class="tamil-text">சூரியனுக்கு நீர் அர்ப்பணிப்பது</ion-item>
-                  <ion-item class="tamil-text">சிவ லிங்கத்திற்கு அபிஷேகம் செய்வது</ion-item>
-                  <ion-item class="tamil-text">ஆதித்ய ஹிருதயம் படிப்பது/கேட்பது</ion-item>
-                  <ion-item class="tamil-text">சூரிய காயத்ரி மந்திரம் சொல்வது</ion-item>
-                  <ion-item class="tamil-text">அசைவ உணவு (முட்டை உடபட) தவிர்க்க வேண்டும்</ion-item>
+                  <ion-item>சூரிய நமஸ்காரம் வழிபாடு செய்வது</ion-item>
+                  <ion-item>சூரிய நமஸ்காரம் செய்வது</ion-item>
+                  <ion-item>சூரியனுக்கு நீர் அர்ப்பணிப்பது</ion-item>
+                  <ion-item>சிவ லிங்கத்திற்கு அபிஷேகம் செய்வது</ion-item>
+                  <ion-item>ஆதித்ய ஹிருதயம் படிப்பது/கேட்பது</ion-item>
+                  <ion-item>சூரிய காயத்ரி மந்திரம் சொல்வது</ion-item>
+                  <ion-item>அசைவ உணவு (முட்டை உடபட) தவிர்க்க வேண்டும்</ion-item>
                 </ion-list>
-              </ul>
-            </div>
-        </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
       </ion-card-content>
     </ion-card>
     <!-- Instructor Information -->
