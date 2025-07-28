@@ -122,40 +122,8 @@
 }
 .bg-yellow-detail-heading {
   background: #fbbf24;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 6px;
-  padding: 0.3rem 0.8rem;
-  margin-bottom: 1rem;
-}
-
-// Blue detail block
-.bg-blue-detail {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: #e0e7ff;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(59,130,246,0.10);
-}
 .bg-blue-detail-heading {
   background: #3b82f6;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border-radius: 6px;
-  padding: 0.3rem 0.8rem;
-  margin-bottom: 1rem;
-}
-// Dosham card list spacing
-.dosham-list {
-  margin-bottom: 1.5rem;
-}
-
-// Remedy block yellow
-.bg-yellow-remedy {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
   background: #fffbe6;
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(251,191,36,0.10);
@@ -304,37 +272,7 @@
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 8px rgba(239,68,68,0.12);
 }
-.nakshatram-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #7c3aed;
-  background: linear-gradient(90deg, #f3f4f6 60%, #ede9fe 100%);
-  border-left: 4px solid #7c3aed;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  margin: 1.2rem 0 0.7rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.07);
-  ion-icon {
-    font-size: 1.5rem;
-    margin-right: 0.5rem;
-  }
-}
-// Section Heading Style
-.section-heading {
-  font-weight: bold;
-}
-// DNA Astrology Page Styles
-.hero-section {
-  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
-  color: white;
-  padding: 2rem 1rem;
   text-align: center;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   position: relative;
   overflow: hidden;
@@ -418,51 +356,39 @@
   margin-bottom: 2rem;
 }
 
-.welcome-card {
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(139, 92, 246, 0.1);
-  margin: 0;
-  overflow: hidden;
-
-  ion-card-header {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
-    
-    ion-card-title {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #8b5cf6;
-    }
-  }
+// Planet section styles (formerly sun)
+.section-card-planet {
+  margin-bottom: 2rem;
+}
+.section-header-planet {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(251,191,36,0.12);
+}
+.section-header-content-planet {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-header-icon-planet {
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  color: #fbbf24;
+}
+.section-header-toggle-icon-planet {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.section-toggle-icon-planet {
+  font-size: 1.8rem;
+  color: #fbbf24;
 }
 
-h5{ font-size: 1.25rem; font-weight: 700; color: #333; margin-bottom: 0.75rem;}
-
-.welcome-content {
-  h3 {
-    color: #1e293b;
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin: 1rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    
-    &::before {
-      content: '🧬';
-      font-size: 1.5rem;
-    }
-  }
-
-  p {
-    line-height: 1.6;
-    color: #475569;
-    margin-bottom: 1.5rem;
-  }
-}
 
 .features-grid {
   display: grid;

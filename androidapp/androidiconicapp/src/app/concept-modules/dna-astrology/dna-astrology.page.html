@@ -96,7 +96,7 @@
     </ion-card>
 
     <!-- Overview Section - Natchathira Samantham -->
-<ion-card class="section-card-sun">
+<ion-card class="section-card-planet">
       <ion-card-header (click)="toggleOverview()" class="section-header-overview">
         <div class="section-header-content-overview">
           <ion-icon name="planet" color="primary" class="section-header-icon-overview"></ion-icon>
@@ -175,16 +175,16 @@
 
     <!-- Suriyan (Sun) Section - Natchathira Thodarpu -->
     <ion-card style="margin-bottom: 1.5rem;">
-      <ion-card-header (click)="toggleSection('suriyan')" class="section-header-sun">
-        <div class="section-header-content-sun">
-          <ion-icon name="sunny" class="section-header-icon-sun"></ion-icon>
+      <ion-card-header (click)="toggleSection('suriyan')" class="section-header-planet">
+        <div class="section-header-content-planet">
+          <ion-icon name="sunny" class="section-header-icon-planet"></ion-icon>
           <div>
             <div style="font-size: 1.25rem; font-weight: 800; color: #222; letter-spacing: 1px;">நட்சத்திர தொடர்பு - சூரியன்</div>
             <div style="font-size: 1rem; color: #222; opacity: 0.9;">சூரிய கிரகத்தின் மரபணு தாக்கம் மற்றும் கர்ம பரிகாரங்கள்</div>
           </div>
         </div>
-        <div class="section-header-toggle-icon-sun">
-          <ion-icon [name]="sectionOpen['suriyan'] ? 'chevron-up-circle' : 'chevron-down-circle'" class="section-toggle-icon-sun"></ion-icon>
+        <div class="section-header-toggle-icon-planet">
+          <ion-icon [name]="sectionOpen['suriyan'] ? 'chevron-up-circle' : 'chevron-down-circle'" class="section-toggle-icon-planet"></ion-icon>
         </div>
       </ion-card-header>
       <ion-card-content *ngIf="sectionOpen['suriyan']">
