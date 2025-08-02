@@ -9,12 +9,20 @@ interface Rasi {
   nameEnglish: string;
   sanskritName: string;
   symbol: string;
+  symbolUnicode?: string;
+  photoUrl?: string;
+  chinnam?: string;
   element: string; // பஞ்சபூதம்
   rulingPlanet: string;
   lordPlanet: string;
   quality: string; // கார்டினல், ஃபிக்ஸ்ட், மியூட்டபிள்
   gender: string;
   nature: string; // பிருத்வி, ஜல, வாயு, அக்னி
+  tamilMonth?: string;
+  river?: string;
+  nakshatras?: string[];
+  gems?: string[];
+  ratnams?: string[];
   bodyParts: string[];
   diseases: string[];
   characteristics: string[];
@@ -36,6 +44,9 @@ interface Rasi {
   animals: string[];
   deities: string[];
   mantras: string[];
+  pathams108?: string[];
+  pariharam?: string[];
+  varalakshmi?: string[];
   remedies: string[];
   healthTips: string[];
   financialTips: string[];
@@ -66,6 +77,11 @@ export class RasiKarakathuvamPage implements OnInit {
   searchTerm = '';
   filteredRasis: Rasi[] = [];
   selectedFilter = 'all';
+  selectedElement = 'all';
+  showAllPathams = false;
+  compatibilityRasi1: Rasi | null = null;
+  compatibilityRasi2: Rasi | null = null;
+  compatibilityResult: any = null;
 
   rasis: Rasi[] = [
     {
@@ -117,6 +133,30 @@ export class RasiKarakathuvamPage implements OnInit {
         'சிவப்பு வஸ்திரம் அணியவும்',
         'பவளம் அணியவும்',
         'ஹனுமான் சாலிசா பாராயணம்'
+      ],
+      symbolUnicode: '♈',
+      photoUrl: 'assets/rasi-images/mesha.jpg',
+      chinnam: 'ஆட்டின் தலை - வீரம் மற்றும் தலைமையின் அடையாளம்',
+      tamilMonth: 'சித்திரை - வைகாசி',
+      river: 'கங்கை',
+      nakshatras: ['அசுவினி', 'பரணி', 'கிருத்திகை (1/4)'],
+      gems: ['மாணிக்கம்', 'பவளம்', 'செம்பட்டை'],
+      pathams108: [
+        'ॐ अश्विनीकुमाराय नमः', 'ॐ भरणीशक्तये नमः', 'ॐ कृत्तिकाग्नये नमः',
+        'ॐ मेषराशाय नमः', 'ॐ मंगलग्रहाय नमः', 'ॐ रक्तवर्णाय नमः',
+        'சிவஜி சரணம்', 'முருகா சரணம்', 'கணபதி சரணம்'
+      ],
+      pariharam: [
+        'செவ்வாய் கிரஹப் பீடிதம் நீங்க ஹனுமான் வழிபாடு',
+        'சிவப்பு வஸ்திரம் தானம்',
+        'மசூர் தால் தானம்',
+        'செம்பருத்தி மலர் சாத்து'
+      ],
+      varalakshmi: [
+        'சிவப்பு கலர் அலங்காரம்',
+        'வெள்ளிக்கிழமை விரதம்',
+        'மஹாலக்ஷ்மி மந்திரம்',
+        'செம்பருத்தி மலர் மாலை'
       ],
       healthTips: [
         'தலை பகுதியை பாதுகாக்கவும்',
@@ -187,6 +227,30 @@ export class RasiKarakathuvamPage implements OnInit {
         'வைரம் அல்லது ஓபல் அணியவும்',
         'இனிப்பு பொருட்கள் தானம்'
       ],
+      symbolUnicode: '♉',
+      photoUrl: 'assets/rasi-images/vrishabha.jpg',
+      chinnam: 'காளையின் முகம் - நிலைத்தன்மை மற்றும் பொறுமையின் அடையாளம்',
+      tamilMonth: 'வைகாசி - ஆனி',
+      river: 'யமுனை',
+      nakshatras: ['கிருத்திகை (3/4)', 'ரோஹிணி', 'மிருகசீர்ஷம் (1/2)'],
+      gems: ['வைரம்', 'ஓபல்', 'வெள்ளை மூங்கில்'],
+      pathams108: [
+        'ॐ कृत्तिकाग्नये नमः', 'ॐ रोहिणीचन्द्राय नमः', 'ॐ मृगशिरामंगलाय नमः',
+        'ॐ वृषभराशाय नमः', 'ॐ शुक्रग्रहाय नमः', 'ॐ स्थिरत्वाय नमः',
+        'லக்ஷ்மி சரணம்', 'சுக்கிர சரணம்', 'சிவ சரணம்'
+      ],
+      pariharam: [
+        'சுக்கிர கிரஹப் பீடிதம் நீங்க லக்ஷ்மி வழிபாடு',
+        'வெள்ளை வஸ்திரம் தானம்',
+        'சர்க்கரை மற்றும் இனிப்பு தானம்',
+        'வெள்ளை பூவின் மாலை சாத்து'
+      ],
+      varalakshmi: [
+        'வெள்ளை மற்றும் இளஞ்சிவப்பு அலங்காரம்',
+        'வெள்ளிக்கிழமை விரதம்',
+        'மஹாலக்ஷ்மி அஷ்டோத்தரம்',
+        'வெள்ளை ரோஜா மாலை'
+      ],
       healthTips: [
         'கழுத்து பகுதியை பாதுகாக்கவும்',
         'தொண்டையை ஈரப்பதத்துடன் வைக்கவும்',
@@ -256,6 +320,30 @@ export class RasiKarakathuvamPage implements OnInit {
         'எமரால்ட் அணியவும்',
         'கல்வித்துறையில் தானம்'
       ],
+      symbolUnicode: '♊',
+      photoUrl: 'assets/rasi-images/mithuna.jpg',
+      chinnam: 'இரட்டையர்கள் - இருமைத்தன்மை மற்றும் சுறுசுறுப்பின் அடையாளம்',
+      tamilMonth: 'ஆனி - ஆடி',
+      river: 'சரஸ்வதி',
+      nakshatras: ['மிருகசீர்ஷம் (1/2)', 'ஆர்த்ரா', 'புனர்வசு (3/4)'],
+      gems: ['எமரால்ட்', 'அக்வாமரைன்', 'ஜேட்'],
+      pathams108: [
+        'ॐ मृगशिरामंगलाय नमः', 'ॐ आर्द्राशिवाय नमः', 'ॐ पुनर्वसुब्रह्मने नमः',
+        'ॐ मिथुनराशाय नमः', 'ॐ बुधग्रहाय नमः', 'ॐ वायुतत्त्वाय नमः',
+        'விஷ்ணு சரணம்', 'கிருஷ்ணா சரணம்', 'சரஸ்வதி சரணம்'
+      ],
+      pariharam: [
+        'புதன் கிரஹப் பீடிதம் நீங்க விஷ்ணு வழிபாடு',
+        'பச்சை வஸ்திரம் தானம்',
+        'புத்தகங்கள் மற்றும் எழுது பொருட்கள் தானம்',
+        'மல்லிகை மலர் சாத்து'
+      ],
+      varalakshmi: [
+        'பச்சை மற்றும் மஞ்சள் அலங்காரம்',
+        'புதன்கிழமை விரதம்',
+        'சரஸ்வதி மந்திரம்',
+        'துளசி மாலை சாத்து'
+      ],
       healthTips: [
         'நுரையீரல் பராமரிப்பு',
         'மூச்சுப்பயிற்சி',
@@ -324,6 +412,30 @@ export class RasiKarakathuvamPage implements OnInit {
         'வெள்ளை வஸ்திரம் அணியவும்',
         'முத்து அணியவும்',
         'நீர் தானம் செய்யவும்'
+      ],
+      symbolUnicode: '♋',
+      photoUrl: 'assets/rasi-images/karka.jpg', 
+      chinnam: 'நண்டு - பாதுகாப்பு மற்றும் உணர்ச்சிவசம் தன்மையின் அடையாளம்',
+      tamilMonth: 'ஆடி - ஆவணி',
+      river: 'கங்கை',
+      nakshatras: ['புனர்வசு (1/4)', 'புஷ்யம்', 'ஆஸ்லேஷா'],
+      gems: ['முத்து', 'மூன்ஸ்டோன்', 'வெள்ளை கோரல்'],
+      pathams108: [
+        'ॐ पुनर्वसुब्रह्मणे नमः', 'ॐ पुष्यब्रह्मस्पतये नमः', 'ॐ आश्लेषाभुजंगाय नमः',
+        'ॐ कर्कराशाय नमः', 'ॐ चन्द्रग्रहाय नमः', 'ॐ जलतत्त्वाय नमः',
+        'சந்திர சரணம்', 'பார்வதி சரணம்', 'கெளரி சரணம்'
+      ],
+      pariharam: [
+        'சந்திர கிரஹப் பீடிதம் நீங்க சிவ வழிபாடு',
+        'வெள்ளை வஸ்திரம் தானம்',
+        'பால் மற்றும் நீர் தானம்',
+        'வெள்ளை தாமரை பூ சாத்து'
+      ],
+      varalakshmi: [
+        'வெள்ளை மற்றும் வெள்ளி அலங்காரம்',
+        'பவுர்ணமி விரதம்',
+        'சந்திர மந்திரம்',
+        'முத்து மாலை சாத்து'
       ],
       healthTips: [
         'வயிற்று பராமரிப்பு',
@@ -906,6 +1018,7 @@ export class RasiKarakathuvamPage implements OnInit {
 
   ngOnInit() {
     this.filteredRasis = this.rasis;
+    this.updateFilteredRasis();
   }
 
   async presentToast(message: string) {
@@ -946,17 +1059,6 @@ export class RasiKarakathuvamPage implements OnInit {
     this.showAnalysisView = false;
   }
 
-  searchRasis() {
-    if (this.searchTerm.trim() === '') {
-      this.filteredRasis = this.rasis;
-    } else {
-      this.filteredRasis = this.rasis.filter(rasi =>
-        rasi.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        rasi.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    }
-  }
-
   applyFilter() {
     if (this.selectedFilter === 'all') {
       this.filteredRasis = this.rasis;
@@ -967,5 +1069,171 @@ export class RasiKarakathuvamPage implements OnInit {
 
   goToDetailPage(rasi: Rasi) {
     this.router.navigate(['/rasi-detail', { rasi: JSON.stringify(rasi) }]);
+  }
+
+  // New methods for the beautiful UI
+
+  onSegmentChange(event: any) {
+    this.selectedSegment = event.detail.value;
+  }
+
+  toggleBookmark() {
+    this.isBookmarked = !this.isBookmarked;
+    this.presentToast(this.isBookmarked ? 'புத்தகக்குறி சேர்க்கப்பட்டது' : 'புத்தகக்குறி நீக்கப்பட்டது');
+  }
+
+  navigateToRasis() {
+    this.selectedSegment = 'rasis';
+  }
+
+  searchRasis() {
+    this.updateFilteredRasis();
+  }
+
+  filterByElement(element: string) {
+    this.selectedElement = element;
+    this.updateFilteredRasis();
+  }
+
+  updateFilteredRasis() {
+    this.filteredRasis = this.getFilteredRasis();
+  }
+
+  getFilteredRasis(): Rasi[] {
+    let filtered = this.rasis;
+    
+    // Filter by element
+    if (this.selectedElement !== 'all') {
+      filtered = filtered.filter(r => r.element === this.selectedElement);
+    }
+
+    // Filter by search term
+    if (this.searchTerm) {
+      filtered = filtered.filter(r => 
+        r.name.includes(this.searchTerm) || 
+        r.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        r.sanskritName.includes(this.searchTerm)
+      );
+    }
+
+    return filtered;
+  }
+
+  getElementColor(element: string): string {
+    switch (element) {
+      case 'அக்னி': return 'danger';
+      case 'பூமி': return 'success';
+      case 'வாயு': return 'tertiary';
+      case 'நீர்': return 'secondary';
+      default: return 'medium';
+    }
+  }
+
+  getElementIcon(element: string): string {
+    switch (element) {
+      case 'அக்னி': return 'flame';
+      case 'பூமி': return 'earth';
+      case 'வாயு': return 'cloud';
+      case 'நீர்': return 'water';
+      default: return 'help';
+    }
+  }
+
+  toggleRasiExpansion(rasi: Rasi) {
+    rasi.expanded = !rasi.expanded;
+  }
+
+  togglePathams() {
+    this.showAllPathams = !this.showAllPathams;
+  }
+
+  async showDetailedInfo(rasi: Rasi) {
+    const alert = await this.alertController.create({
+      header: rasi.name,
+      subHeader: rasi.nameEnglish,
+      message: `
+        <strong>சின্নम:</strong> ${rasi.symbol}<br>
+        <strong>தत্துवম:</strong> ${rasi.element}<br>
+        <strong>அதিপতি:</strong> ${rasi.rulingPlanet}<br>
+        <strong>தমিழ் মাসম:</strong> ${rasi.tamilMonth || 'N/A'}<br>
+        <strong>নদী:</strong> ${rasi.river || 'N/A'}
+      `,
+      buttons: ['சরি']
+    });
+
+    await alert.present();
+  }
+
+  async showCompatibility(rasi: Rasi) {
+    this.selectedSegment = 'compatibility';
+    this.compatibilityRasi1 = rasi;
+  }
+
+  getCurrentRasi(): Rasi {
+    return this.rasis[this.currentRasiIndex];
+  }
+
+  previousRasi() {
+    if (this.currentRasiIndex > 0) {
+      this.currentRasiIndex--;
+    }
+  }
+
+  nextRasi() {
+    if (this.currentRasiIndex < this.rasis.length - 1) {
+      this.currentRasiIndex++;
+    }
+  }
+
+  checkCompatibility() {
+    if (!this.compatibilityRasi1 || !this.compatibilityRasi2) return;
+
+    // Simple compatibility logic based on elements and compatibility arrays
+    const rasi1 = this.compatibilityRasi1;
+    const rasi2 = this.compatibilityRasi2;
+
+    let score = 50; // Base score
+    let level = 'average';
+    let description = 'சராসरி பொருத্তম';
+    let details = '';
+
+    // Check if they are in each other's compatibility list
+    if (rasi1.marriageCompatibility?.includes(rasi2.name) || 
+        rasi2.marriageCompatibility?.includes(rasi1.name)) {
+      score += 30;
+      level = 'excellent';
+      description = 'மிகச் சிறপ্ত பொருத্তম';
+      details = 'இரண্டு ராসিকळും একে অপরের সাথে খুব ভাল পொরুত্ত।';
+    } else if (rasi1.incompatibleRasis?.includes(rasi2.name) || 
+               rasi2.incompatibleRasis?.includes(rasi1.name)) {
+      score -= 30;
+      level = 'challenging';
+      description = 'கষ্টকর পொরুত্ত';
+      details = 'এই দুই ראসি একসাথে চ্যালেঞ্জিং হতে পারে।';
+    } else {
+      // Check element compatibility
+      if (rasi1.element === rasi2.element) {
+        score += 10;
+        details = 'একই তত্ত্বের কারणে ভাল বোঝাপড়া।';
+      } else if ((rasi1.element === 'অগ্নি' && rasi2.element === 'বায়ু') ||
+                 (rasi1.element === 'বায়ু' && rasi2.element === 'অগ্নি') ||
+                 (rasi1.element === 'পৃথিবী' && rasi2.element === 'জল') ||
+                 (rasi1.element === 'জল' && rasi2.element === 'পৃথিবী')) {
+        score += 15;
+        details = 'তত্ত্বের সামঞ্জস্যের কারণে ভাল মিল।';
+      }
+      
+      if (score >= 70) {
+        level = 'good';
+        description = 'ভাল পொরुত্ত';
+      }
+    }
+
+    this.compatibilityResult = {
+      score: Math.min(Math.max(score, 0), 100),
+      level: level,
+      description: description,
+      details: details
+    };
   }
 }

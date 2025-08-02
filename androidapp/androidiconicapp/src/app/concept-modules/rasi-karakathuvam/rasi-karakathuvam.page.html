@@ -1,0 +1,493 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="tamil-text">🏛️ 12 ராசி கராத்துவம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Header -->
+  <div class="hero-header" *ngIf="selectedSegment === 'overview'">
+    <div class="hero-content">
+      <div class="hero-icon-wrapper">
+        <ion-icon name="telescope" class="floating-icon"></ion-icon>
+      </div>
+      <h1 class="tamil-text">🏛️ 12 ராசி கராத்துவம்</h1>
+      <p class="subtitle">12 ராசிகளின் முழுமையான ஆய்வு - சின்னம், ரத்தினம், நட்சத்திரம், பரிகாரம் மற்றும் வரலக்ஷ்மி</p>
+      <div class="meta-chips">
+        <ion-chip color="primary" size="small">
+          <ion-icon name="diamond" slot="start"></ion-icon>
+          <ion-label>₹599</ion-label>
+        </ion-chip>
+        <ion-chip color="success" size="small">
+          <ion-icon name="time" slot="start"></ion-icon>
+          <ion-label>180 நிமிடங்கள்</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" size="small">
+          <ion-icon name="trophy" slot="start"></ion-icon>
+          <ion-label>விரிவான பாடம்</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segment Control -->
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="primary" class="segment-control">
+    <ion-segment-button value="overview">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <ion-label>மேலோட்டம்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="rasis">
+      <ion-icon name="planet-outline"></ion-icon>
+      <ion-label>12 ராசிகள்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="analysis">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <ion-label>ஆய்வு</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="compatibility">
+      <ion-icon name="heart-outline"></ion-icon>
+      <ion-label>பொருத்தம்</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Overview Content -->
+  <div *ngIf="selectedSegment === 'overview'" class="content-section">
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📚 பாடப்பிரிவு பற்றி</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description-text">
+          12 ராசிகள் ஜோதிட சாஸ்திரத்தின் அடிப்படையாகும். ஒவ்வொரு ராசியும் தனித்துவமான
+          குணங்கள், சின்னம், ரத்தினம், நட்சத்திரங்கள், பரிகார வழிபாடுகள் மற்றும் வரலக்ஷ்மி விவரங்களைக் கொண்டுள்ளது.
+        </p>
+        <ion-list class="feature-list">
+          <ion-item lines="none">
+            <ion-icon name="planet" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">12 ராசிகளின் முழுமையான கராத்துவம்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="diamond" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">ரத்தினம் மற்றும் உலோக விவரங்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="star" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">நட்சத்திர தொடர்பு மற்றும் ஆய்வு</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="calendar" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">தமிழ் மாதம் மற்றும் நதி தொடர்பு</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="book" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">108 பாடல்கள் மற்றும் மந்திரங்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="flower" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">பரிகார வழிபாட்டு முறைகள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="heart" slot="start" color="primary"></ion-icon>
+            <ion-label class="feature-text">வரலக்ஷ்மி மற்றும் ஜீவன சாம்பல்</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <h3 class="tamil-text">📖 கற்றல் தொடங்குங்கள்</h3>
+        <p>12 ராசிகளின் விரிவான ஆய்வுக்குச் செல்லுங்கள்</p>
+        <ion-button expand="block" fill="solid" color="primary" (click)="navigateToRasis()">
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+          ராசிகளை ஆராயுங்கள்
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Rasis Content -->
+  <div *ngIf="selectedSegment === 'rasis'" class="content-section">
+    <!-- Search and Filter -->
+    <ion-card class="search-card">
+      <ion-card-content>
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          (ionInput)="searchRasis()"
+          placeholder="ராசி தேடுங்கள்..."
+          show-clear-button="focus">
+        </ion-searchbar>
+        
+        <div class="filter-chips">
+          <ion-chip 
+            [color]="selectedElement === 'all' ? 'primary' : 'medium'"
+            (click)="filterByElement('all')">
+            <ion-label>அனைத்தும்</ion-label>
+          </ion-chip>
+          <ion-chip 
+            [color]="selectedElement === 'அக்னி' ? 'danger' : 'medium'"
+            (click)="filterByElement('அக்னி')">
+            <ion-icon name="flame" slot="start"></ion-icon>
+            <ion-label>அக்னி</ion-label>
+          </ion-chip>
+          <ion-chip 
+            [color]="selectedElement === 'பூமி' ? 'success' : 'medium'"
+            (click)="filterByElement('பூமி')">
+            <ion-icon name="earth" slot="start"></ion-icon>
+            <ion-label>பூமி</ion-label>
+          </ion-chip>
+          <ion-chip 
+            [color]="selectedElement === 'வாயு' ? 'tertiary' : 'medium'"
+            (click)="filterByElement('வாயு')">
+            <ion-icon name="cloud" slot="start"></ion-icon>
+            <ion-label>வாயு</ion-label>
+          </ion-chip>
+          <ion-chip 
+            [color]="selectedElement === 'நீர்' ? 'secondary' : 'medium'"
+            (click)="filterByElement('நீர்')">
+            <ion-icon name="water" slot="start"></ion-icon>
+            <ion-label>நீர்</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Rasi Cards -->
+    <div class="rasi-grid">
+      <ion-card *ngFor="let rasi of getFilteredRasis()" class="rasi-card" [class.expanded]="rasi.expanded">
+        <!-- Main Rasi Info -->
+        <ion-card-header (click)="toggleRasiExpansion(rasi)" class="clickable rasi-header">
+          <div class="rasi-title-section">
+            <div class="rasi-symbol">
+              <span class="symbol-icon" [innerHTML]="rasi.symbolUnicode || '♈'"></span>
+              <span class="rasi-number">{{rasi.number}}</span>
+            </div>
+            <div class="rasi-info">
+              <ion-card-title class="tamil-text">{{rasi.name}}</ion-card-title>
+              <ion-card-subtitle>{{rasi.nameEnglish}} ({{rasi.sanskritName}})</ion-card-subtitle>
+              <div class="element-chip">
+                <ion-chip size="small" [color]="getElementColor(rasi.element)">
+                  <ion-icon [name]="getElementIcon(rasi.element)" slot="start"></ion-icon>
+                  <ion-label>{{rasi.element}}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <div class="expand-icon">
+              <ion-icon [name]="rasi.expanded ? 'chevron-up' : 'chevron-down'"></ion-icon>
+            </div>
+          </div>
+          
+          <!-- Quick Info Row -->
+          <div class="quick-info-row">
+            <div class="info-item">
+              <ion-icon name="star" color="warning"></ion-icon>
+              <span>{{rasi.rulingPlanet}}</span>
+            </div>
+            <div class="info-item">
+              <ion-icon name="diamond" color="primary"></ion-icon>
+              <span>{{rasi.gems?.[0] || 'N/A'}}</span>
+            </div>
+            <div class="info-item">
+              <ion-icon name="calendar" color="success"></ion-icon>
+              <span>{{rasi.tamilMonth || 'N/A'}}</span>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <!-- Expanded Content -->
+        <ion-card-content *ngIf="rasi.expanded" class="expanded-content">
+          <!-- Detailed Sections -->
+          <div class="detail-sections">
+            
+            <!-- Basic Info -->
+            <div class="detail-section">
+              <h4 class="section-title">
+                <ion-icon name="information-circle" color="primary"></ion-icon>
+                அடிப்படை தகவல்கள்
+              </h4>
+              <div class="info-grid">
+                <div class="info-row">
+                  <strong>சின்னம்:</strong> {{rasi.symbol}} {{rasi.chinnam || ''}}
+                </div>
+                <div class="info-row">
+                  <strong>தமிழ் மாதம்:</strong> {{rasi.tamilMonth || 'N/A'}}
+                </div>
+                <div class="info-row">
+                  <strong>நதி:</strong> {{rasi.river || 'N/A'}}
+                </div>
+                <div class="info-row">
+                  <strong>பாலினம்:</strong> {{rasi.gender}}
+                </div>
+                <div class="info-row">
+                  <strong>தன்மை:</strong> {{rasi.nature}}
+                </div>
+              </div>
+            </div>
+
+            <!-- Nakshatras -->
+            <div class="detail-section" *ngIf="rasi.nakshatras?.length">
+              <h4 class="section-title">
+                <ion-icon name="star" color="warning"></ion-icon>
+                நட்சத்திரங்கள்
+              </h4>
+              <div class="chips-container">
+                <ion-chip *ngFor="let nakshatra of rasi.nakshatras" color="warning" size="small">
+                  <ion-icon name="star" slot="start"></ion-icon>
+                  <ion-label>{{nakshatra}}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+
+            <!-- Gems & Ratnas -->
+            <div class="detail-section" *ngIf="rasi.gems?.length || rasi.ratnams?.length">
+              <h4 class="section-title">
+                <ion-icon name="diamond" color="primary"></ion-icon>
+                ரத்தினங்கள் & ரத்னங்கள்
+              </h4>
+              <div class="gems-section">
+                <div *ngIf="rasi.gems?.length" class="gems-row">
+                  <strong>முக்கிய ரத்தினங்கள்:</strong>
+                  <div class="chips-container">
+                    <ion-chip *ngFor="let gem of rasi.gems" color="primary" size="small">
+                      <ion-icon name="diamond" slot="start"></ion-icon>
+                      <ion-label>{{gem}}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+                <div *ngIf="rasi.ratnams?.length" class="gems-row">
+                  <strong>உப ரத்னங்கள்:</strong>
+                  <div class="chips-container">
+                    <ion-chip *ngFor="let ratna of rasi.ratnams" color="secondary" size="small">
+                      <ion-icon name="diamond-outline" slot="start"></ion-icon>
+                      <ion-label>{{ratna}}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Characteristics -->
+            <div class="detail-section" *ngIf="rasi.characteristics?.length">
+              <h4 class="section-title">
+                <ion-icon name="person" color="success"></ion-icon>
+                குணாதிசயங்கள்
+              </h4>
+              <ion-list class="characteristics-list">
+                <ion-item *ngFor="let characteristic of rasi.characteristics" lines="none">
+                  <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+                  <ion-label>{{characteristic}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- 108 Pathams -->
+            <div class="detail-section" *ngIf="rasi.pathams108?.length">
+              <h4 class="section-title">
+                <ion-icon name="book" color="tertiary"></ion-icon>
+                108 பாடங்கள்
+              </h4>
+              <div class="pathams-container">
+                <ion-item *ngFor="let patham of rasi.pathams108?.slice(0, showAllPathams ? rasi.pathams108?.length : 3)" lines="none">
+                  <ion-icon name="musical-note" slot="start" color="tertiary"></ion-icon>
+                  <ion-label class="patham-text">{{patham}}</ion-label>
+                </ion-item>
+                <ion-button 
+                  *ngIf="rasi.pathams108 && rasi.pathams108.length > 3" 
+                  fill="clear" 
+                  size="small" 
+                  (click)="togglePathams()">
+                  {{showAllPathams ? 'குறைவாக காட்டு' : 'மேலும் காட்டு'}} ({{rasi.pathams108.length}})
+                </ion-button>
+              </div>
+            </div>
+
+            <!-- Pariharam -->
+            <div class="detail-section" *ngIf="rasi.pariharam?.length">
+              <h4 class="section-title">
+                <ion-icon name="flower" color="danger"></ion-icon>
+                பரிகாரம்
+              </h4>
+              <ion-list class="pariharam-list">
+                <ion-item *ngFor="let remedy of rasi.pariharam" lines="none">
+                  <ion-icon name="flower" slot="start" color="danger"></ion-icon>
+                  <ion-label>{{remedy}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Varalakshmi -->
+            <div class="detail-section" *ngIf="rasi.varalakshmi?.length">
+              <h4 class="section-title">
+                <ion-icon name="heart" color="danger"></ion-icon>
+                வரலக்ஷ்மி விவரங்கள்
+              </h4>
+              <ion-list class="varalakshmi-list">
+                <ion-item *ngFor="let detail of rasi.varalakshmi" lines="none">
+                  <ion-icon name="heart" slot="start" color="danger"></ion-icon>
+                  <ion-label>{{detail}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Colors & Elements -->
+            <div class="detail-section">
+              <h4 class="section-title">
+                <ion-icon name="color-palette" color="warning"></ion-icon>
+                நிறங்கள் & உலோகங்கள்
+              </h4>
+              <div class="colors-metals-grid">
+                <div class="colors-section" *ngIf="rasi.luckyColors?.length">
+                  <strong>அதிர்ஷ்ட நிறங்கள்:</strong>
+                  <div class="chips-container">
+                    <ion-chip *ngFor="let color of rasi.luckyColors" color="warning" size="small">
+                      <ion-label>{{color}}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+                <div class="metals-section" *ngIf="rasi.metals?.length">
+                  <strong>உலோகங்கள்:</strong>
+                  <div class="chips-container">
+                    <ion-chip *ngFor="let metal of rasi.metals" color="medium" size="small">
+                      <ion-label>{{metal}}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <ion-button fill="outline" color="primary" (click)="showDetailedInfo(rasi)">
+              <ion-icon name="information-circle" slot="start"></ion-icon>
+              விரிவான தகவல்
+            </ion-button>
+            <ion-button fill="outline" color="success" (click)="showCompatibility(rasi)">
+              <ion-icon name="heart" slot="start"></ion-icon>
+              பொருத்தம்
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Analysis Content -->
+  <div *ngIf="selectedSegment === 'analysis'" class="content-section">
+    <ion-card class="analysis-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📊 ராசி ஆய்வு</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="analysis-navigation">
+          <div class="current-rasi-display">
+            <h3>{{getCurrentRasi().name}} ({{getCurrentRasi().nameEnglish}})</h3>
+            <div class="rasi-symbol-large">
+              <span [innerHTML]="getCurrentRasi().symbolUnicode || '♈'"></span>
+            </div>
+          </div>
+          
+          <div class="navigation-buttons">
+            <ion-button fill="outline" color="primary" (click)="previousRasi()" [disabled]="currentRasiIndex === 0">
+              <ion-icon name="chevron-back" slot="start"></ion-icon>
+              முந்தைய
+            </ion-button>
+            <ion-button fill="outline" color="primary" (click)="nextRasi()" [disabled]="currentRasiIndex === rasis.length - 1">
+              அடுத்து
+              <ion-icon name="chevron-forward" slot="end"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+        <div class="detailed-analysis">
+          <div class="analysis-section">
+            <h4>அடிப்படை தகவல்கள்</h4>
+            <p><strong>சின்னம்:</strong> {{ getCurrentRasi().symbol }}</p>
+            <p><strong>தமிழ் மாதம்:</strong> {{ getCurrentRasi().tamilMonth || 'N/A' }}</p>
+            <p><strong>நதி:</strong> {{ getCurrentRasi().river || 'N/A' }}</p>
+            <p><strong>தத்துவம்:</strong> {{ getCurrentRasi().element }}</p>
+            <p><strong>அதிபதி:</strong> {{ getCurrentRasi().rulingPlanet }}</p>
+          </div>
+
+          <div class="analysis-section" *ngIf="getCurrentRasi().nakshatras?.length">
+            <h4>நட்சத்திரங்கள்</h4>
+            <div class="chips-container">
+              <ion-chip *ngFor="let nakshatra of getCurrentRasi().nakshatras" color="warning" size="small">
+                <ion-icon name="star" slot="start"></ion-icon>
+                <ion-label>{{nakshatra}}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Compatibility Content -->
+  <div *ngIf="selectedSegment === 'compatibility'" class="content-section">
+    <ion-card class="compatibility-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">💕 ராசி பொருத்தம்</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description-text">இரண்டு ராசிகளின் பொருத்தத்தை பார்க்க தேர்வு செய்யுங்கள்</p>
+        
+        <div class="compatibility-selectors">
+          <ion-item>
+            <ion-label position="stacked">முதல் ராசி</ion-label>
+            <ion-select [(ngModel)]="compatibilityRasi1" placeholder="ராசி தேர்வு செய்யுங்கள்">
+              <ion-select-option *ngFor="let rasi of rasis" [value]="rasi">
+                {{rasi.name}} ({{rasi.nameEnglish}})
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="stacked">இரண்டாம் ராசி</ion-label>
+            <ion-select [(ngModel)]="compatibilityRasi2" placeholder="ராசி தேர்வு செய்யுங்கள்">
+              <ion-select-option *ngFor="let rasi of rasis" [value]="rasi">
+                {{rasi.name}} ({{rasi.nameEnglish}})
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+
+        <ion-button *ngIf="compatibilityRasi1 && compatibilityRasi2" 
+                   expand="block" 
+                   color="primary" 
+                   (click)="checkCompatibility()">
+          <ion-icon name="heart" slot="start"></ion-icon>
+          பொருத்தம் பார்க்கவும்
+        </ion-button>
+
+        <div *ngIf="compatibilityResult" class="compatibility-result">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>பொருத்த முடிவு</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="compatibility-score" [class]="compatibilityResult.level">
+                <h3>{{compatibilityResult.score}}%</h3>
+                <p>{{compatibilityResult.description}}</p>
+              </div>
+              <div class="compatibility-details">
+                <h4>விரிவான ஆய்வு:</h4>
+                <p>{{compatibilityResult.details}}</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
