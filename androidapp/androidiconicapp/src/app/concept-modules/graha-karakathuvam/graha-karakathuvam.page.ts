@@ -144,11 +144,11 @@ export class GrahaKarakathuvamPage implements OnInit {
       message: `
         <strong>प्रकृति:</strong> ${graha.type}<br>
         <strong>तत्व:</strong> ${graha.element}<br>
-        <strong>दिन:</strong> ${graha.day}<br>
-        <strong>रंग:</strong> ${graha.color}<br>
-        <strong>रत्न:</strong> ${graha.gemstone}
+        <strong>நாள்:</strong> ${graha.day}<br>
+        <strong>நிறம்:</strong> ${graha.color}<br>
+        <strong>ரத்னம்:</strong> ${graha.gemstone}
       `,
-      buttons: ['बंद करें']
+      buttons: ['மூடு']
     });
 
     await alert.present();

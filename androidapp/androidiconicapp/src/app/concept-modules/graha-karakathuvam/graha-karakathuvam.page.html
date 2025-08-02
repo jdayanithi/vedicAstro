@@ -3,9 +3,6 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/concepts"></ion-back-button>
     </ion-buttons>
-    <div class="app-logo-small">
-      <img src="assets/icon/favicon.svg" alt="LDML Online Astro Logo" />
-    </div>
     <ion-title class="tamil-text">🪐 கிரக கராத்துவம்</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="toggleBookmark()">
@@ -157,23 +154,23 @@
                 <strong>तत्व:</strong> {{ graha.element }}
               </div>
               <div class="info-item">
-                <strong>रंग:</strong> {{ graha.color }}
+                <strong>நிறம்:</strong> {{ graha.color }}
               </div>
               <div class="info-item">
-                <strong>रत्न:</strong> {{ graha.gemstone }}
+                <strong>ரத்னம்:</strong> {{ graha.gemstone }}
               </div>
               <div class="info-item">
                 <strong>धातु:</strong> {{ graha.metal }}
               </div>
               <div class="info-item">
-                <strong>दिशा:</strong> {{ graha.direction }}
+                <strong>திசை:</strong> {{ graha.direction }}
               </div>
             </div>
           </div>
 
           <!-- Significances -->
           <div class="detail-section">
-            <h4 class="section-title">🎯 कारकत्व</h4>
+            <h4 class="section-title">🎯 கராகத்துவம்</h4>
             <ion-list>
               <ion-item *ngFor="let significance of graha.significances" lines="none">
                 <ion-icon name="arrow-forward" slot="start" color="secondary"></ion-icon>
@@ -184,7 +181,7 @@
 
           <!-- Body Parts -->
           <div class="detail-section">
-            <h4 class="section-title">👤 शरीर के अंग</h4>
+            <h4 class="section-title">👤 உடல் உறுப்புகள்</h4>
             <div class="tags-container">
               <ion-chip *ngFor="let part of graha.bodyParts" color="tertiary" size="small">
                 <ion-label>{{ part }}</ion-label>
@@ -204,7 +201,7 @@
 
           <!-- Planetary Relationships -->
           <div class="detail-section">
-            <h4 class="section-title">🤝 ग्रह संबंध</h4>
+            <h4 class="section-title">🤝 கிரக உறவுகள்</h4>
             <div class="relationship-section">
               <div class="relationship-item">
                 <strong style="color: #22c55e;">मित्र:</strong>
@@ -235,7 +232,7 @@
 
           <!-- Zodiac Positions -->
           <div class="detail-section">
-            <h4 class="section-title">♈ राशि स्थितियां</h4>
+            <h4 class="section-title">♈ ராசி நிலைகள்</h4>
             <div class="zodiac-info">
               <div class="zodiac-item">
                 <strong style="color: #22c55e;">उच्च:</strong> {{ graha.exaltationSign }}
@@ -247,14 +244,14 @@
                 <strong style="color: #3b82f6;">स्वक्षेत्र:</strong> {{ graha.ownSigns.join(', ') }}
               </div>
               <div class="zodiac-item">
-                <strong style="color: #8b5cf6;">मूलत्रिकोण:</strong> {{ graha.moolaTrikona }}
+                <strong style="color: #8b5cf6;">மூலத்ரிகோணம்:</strong> {{ graha.moolaTrikona }}
               </div>
             </div>
           </div>
 
           <!-- Remedies -->
           <div class="detail-section">
-            <h4 class="section-title">🙏 उपाय</h4>
+            <h4 class="section-title">🙏 பரிகாரங்கள்</h4>
             <ion-list>
               <ion-item *ngFor="let remedy of graha.remedies" lines="none">
                 <ion-icon name="leaf" slot="start" color="success"></ion-icon>
@@ -265,7 +262,7 @@
 
           <!-- Mantras -->
           <div class="detail-section">
-            <h4 class="section-title">🕉️ मंत्र</h4>
+            <h4 class="section-title">🕉️ மந்திரம்</h4>
             <ion-list>
               <ion-item *ngFor="let mantra of graha.mantras" lines="none">
                 <ion-icon name="musical-notes" slot="start" color="tertiary"></ion-icon>
@@ -276,7 +273,7 @@
 
           <ion-button expand="block" fill="outline" color="secondary" (click)="showGrahaDetails(graha)">
             <ion-icon name="information-circle" slot="start"></ion-icon>
-            और जानकारी
+            மேலும் தகவल்
           </ion-button>
         </ion-card-content>
       </ion-card>
@@ -288,7 +285,7 @@
     <ion-card class="analysis-card">
       <ion-card-header>
         <ion-card-title class="tamil-text">📊 किरक ऑनालिसिस</ion-card-title>
-        <ion-card-subtitle>व्यापक जन्मकुंडली ग्रह विश्लेषण</ion-card-subtitle>
+        <ion-card-subtitle>விரிவான ஜனனேந்திர கிரக பகுப்பாய்வு</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <div class="analysis-content">
@@ -299,8 +296,8 @@
             <div class="graha-details">
               <p><strong>संस्कृत नाम:</strong> {{ getCurrentGraha().sanskritName }}</p>
               <p><strong>प्रकृति:</strong> {{ getCurrentGraha().type }}</p>
-              <p><strong>दशा काल:</strong> {{ getCurrentGraha().dasaPeriod }}</p>
-              <p><strong>रत्न:</strong> {{ getCurrentGraha().gemstone }}</p>
+              <p><strong>தசா காலம்:</strong> {{ getCurrentGraha().dasaPeriod }}</p>
+              <p><strong>ரத்னம்:</strong> {{ getCurrentGraha().gemstone }}</p>
             </div>
 
             <div class="navigation-buttons">
@@ -323,10 +320,10 @@
         <div class="premium-content">
           <ion-icon name="diamond" color="secondary" size="large"></ion-icon>
           <h3 class="tamil-text">🔒 उन्नत सुविधाएं</h3>
-          <p>पूर्ण ग्रह विश्लेषण और व्यक्तिगत उपायों के लिए कोर्स खरीदें</p>
+          <p>முழுமையான கிரக பகுப்பாய்வு மற்றும் தனிப்பட்ட பரிகாரங்களுக்கு பாடப்பகுதியை வாங்கவும்</p>
           <ion-button expand="block" fill="solid" color="secondary">
             <ion-icon name="card" slot="start"></ion-icon>
-            ₹249 में खरीदें
+            ₹249 இல் வாங்கவும்
           </ion-button>
         </div>
       </ion-card-content>

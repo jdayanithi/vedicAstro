@@ -256,6 +256,39 @@ export class ConceptsPage implements OnInit, OnDestroy {
         case 'namayogam_course_001':
           this.router.navigate(['/namayogam-course']);
           break;
+        case 'mudhunilai_astrology_001':
+          this.router.navigate(['/mudhunilai-astrology']);
+          break;
+        case 'muthuniali_astrology_001':
+          this.router.navigate(['/muthuniali-astrology']);
+          break;
+        case 'uyarnilai_astrology_001':
+          this.router.navigate(['/uyarnilai-astrology']);
+          break;
+        case 'uraynilai_astrology_001':
+          this.router.navigate(['/uraynilai-astrology']);
+          break;
+        case 'gayathri_manthirangal_001':
+          this.router.navigate(['/gayathri-manthirangal']);
+          break;
+        case 'adipadai_astrology_001':
+          this.router.navigate(['/adipadai-astrology']);
+          break;
+        case 'mudaku_pariharangal_001':
+          this.router.navigate(['/mudaku-pariharangal']);
+          break;
+        case 'modaku_pariharangal_001':
+          this.router.navigate(['/modaku-pariharangal']);
+          break;
+        case 'manthi_pariharangal_001':
+          this.router.navigate(['/manthi-pariharangal']);
+          break;
+        case 'maanthi_pariharangal_001':
+          this.router.navigate(['/maanthi-pariharangal']);
+          break;
+        case 'uyarnillai_astrology_001':
+          this.router.navigate(['/uyarnillai-astrology']);
+          break;
         default:
           // Navigate to generic concept content page
           this.router.navigate(['/concept', concept.id]);
