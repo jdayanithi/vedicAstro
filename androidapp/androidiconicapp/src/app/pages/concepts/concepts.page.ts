@@ -52,14 +52,14 @@ export class ConceptsPage implements OnInit, OnDestroy {
       badge: '50% OFF'
     },
     {
-      id: 'free_consultation',
-      title: 'இலவச ஆலோசனை',
-      titleEnglish: 'Free Consultation',
-      description: 'நிபுணர்களுடன் 15 நிமிட இலவச ஆலோசனை பெறுங்கள்',
-      descriptionEnglish: 'Get 15-min free consultation with expert astrologers',
-      icon: 'call',
-      color: 'success',
-      badge: 'இலவசம்!'
+      id: 'paid_consultation',
+      title: 'நிபுணர் ஆலோசனை',
+      titleEnglish: 'Expert Consultation',
+      description: 'அனுபவமிக்க ஜோதிட நிபுணர்களுடன் விரிவான ஆலோசனை',
+      descriptionEnglish: 'Detailed consultation with experienced astrology experts',
+      icon: 'people',
+      color: 'warning',
+      badge: '₹465'
     }
   ];
   private promoInterval: any;
@@ -132,9 +132,9 @@ export class ConceptsPage implements OnInit, OnDestroy {
         this.selectedCourseType = 'paid';
         this.filterConcepts();
         break;
-      case 'free_consultation':
-        // Navigate to contact or booking page
-        this.router.navigate(['/contact']);
+      case 'paid_consultation':
+        // Navigate to paid consultation booking page
+        this.openConsultationBooking();
         break;
     }
   }
@@ -340,6 +340,26 @@ export class ConceptsPage implements OnInit, OnDestroy {
     this.router.navigate(['/concept', concept.id], { queryParams: { preview: true } });
   }
 
+  showFreeCourses() {
+    this.selectedCourseType = 'free';
+    this.filterConcepts();
+    // Scroll to courses section
+    const coursesSection = document.getElementById('courses-section');
+    if (coursesSection) {
+      coursesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  showPurchaseCourses() {
+    this.selectedCourseType = 'paid';
+    this.filterConcepts();
+    // Scroll to courses section
+    const coursesSection = document.getElementById('courses-section');
+    if (coursesSection) {
+      coursesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   async presentUserMenu() {
     const actionSheet = await this.actionSheetController.create({
       header: this.currentUser?.name || 'User Menu',
@@ -400,11 +420,58 @@ export class ConceptsPage implements OnInit, OnDestroy {
     return 'medium';
   }
 
+  getDiscountedPrice(concept: AstrologyConcept): number {
+    return Math.round(concept.price * 0.5); // 50% discount
+  }
+
   navigateToProfile() {
     this.router.navigate(['/profile']);
   }
 
   navigateToPurchases() {
     this.router.navigate(['/purchases']);
+  }
+
+  async openConsultationBooking() {
+    const alert = await this.alertController.create({
+      header: 'நிபுணர் ஆலோசனை',
+      subHeader: 'Expert Astrology Consultation',
+      message: `
+        <div style="text-align: left;">
+          <h4 style="color: #b45309; margin: 10px 0;">ஆலோசனை விவரங்கள்:</h4>
+          <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>கால அளவு: 45 நிமிடங்கள்</li>
+            <li>அனுபவமிக்க ஜோதிட நிபுணர்</li>
+            <li>வாழ்க்கை பிரச்சனைகள் மற்றும் பரிகாரங்கள்</li>
+            <li>கர்ம தோஷ கண்டறிதல்</li>
+            <li>ரகசிய மந்திர பரிகாரங்கள்</li>
+          </ul>
+          <div style="text-align: center; margin: 15px 0;">
+            <div style="margin-bottom: 8px;">
+              <span style="text-decoration: line-through; color: #999; font-size: 1em;">₹930</span>
+              <span style="background: #e53e3e; color: white; font-size: 0.8em; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">50% OFF</span>
+            </div>
+            <strong style="font-size: 1.3em; color: #e53e3e;">கட்டணம்: ₹465</strong>
+          </div>
+        </div>
+      `,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Book Now',
+          cssClass: 'primary',
+          handler: () => {
+            // Navigate to booking page or payment gateway
+            this.router.navigate(['/consultation-booking']);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

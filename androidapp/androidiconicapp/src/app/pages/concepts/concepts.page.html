@@ -2,11 +2,17 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <div class="app-logo">
-        <img src="assets/icon/favicon.svg" alt="LDML Online Astro" width="32" height="32">
+        <img src="assets/icon/logo.svg" alt="LDML Online Astro" width="32" height="32">
       </div>
     </ion-buttons>
     <ion-title class="tamil-text">LDML Online Astro</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="showFreeCourses()" fill="clear" title="Free Courses">
+        <ion-icon name="library-outline" slot="icon-only" color="success"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showPurchaseCourses()" fill="clear" title="Premium Courses">
+        <ion-icon name="diamond-outline" slot="icon-only" color="warning"></ion-icon>
+      </ion-button>
       <ion-button (click)="presentUserMenu()">
         <ion-icon name="person-circle" slot="icon-only"></ion-icon>
       </ion-button>
@@ -154,7 +160,7 @@
   </div>
 
   <!-- Concepts Grid -->
-  <div class="concepts-container">
+  <div class="concepts-container" id="courses-section">
     <ion-grid>
       <ion-row>
         <ion-col size="12" size-md="6" size-lg="4" 
@@ -199,8 +205,10 @@
                     <ion-icon name="time" size="small"></ion-icon>
                     {{concept.duration}}
                   </span>
-                  <span class="price" *ngIf="concept.isPaid && !hasAccess(concept)">
-                    ₹{{concept.price}}
+                  <span class="price-container" *ngIf="concept.isPaid && !hasAccess(concept)">
+                    <span class="original-price" style="text-decoration: line-through; color: #999; font-size: 0.8em;">₹{{concept.price}}</span>
+                    <span class="discounted-price" style="color: #e53e3e; font-weight: bold; margin-left: 5px;">₹{{getDiscountedPrice(concept)}}</span>
+                    <span class="discount-badge" style="background: #e53e3e; color: white; font-size: 0.7em; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">50% OFF</span>
                   </span>
                   <span class="free-badge" *ngIf="!concept.isPaid">
                     FREE
@@ -252,7 +260,8 @@
                   expand="block"
                   color="primary">
                   <ion-icon name="card" slot="start"></ion-icon>
-                  Purchase ₹{{concept.price}}
+                  Purchase ₹{{getDiscountedPrice(concept)}} 
+                  <small style="text-decoration: line-through; color: #999; margin-left: 5px;">₹{{concept.price}}</small>
                 </ion-button>
               </div>
             </ion-card-content>

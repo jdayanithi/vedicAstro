@@ -15,6 +15,35 @@
   }
 }
 
+// Header course buttons styling
+ion-header {
+  ion-buttons {
+    ion-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      margin: 0 2px;
+      
+      ion-icon {
+        font-size: 24px;
+        transition: transform 0.2s ease;
+      }
+      
+      &:hover ion-icon {
+        transform: scale(1.1);
+      }
+      
+      // Specific styling for course buttons
+      &[title="Free Courses"] ion-icon {
+        color: var(--ion-color-success);
+      }
+      
+      &[title="Premium Courses"] ion-icon {
+        color: var(--ion-color-warning);
+      }
+    }
+  }
+}
+
 .welcome-section {
   background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
   color: white;
