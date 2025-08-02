@@ -89,7 +89,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 1,
       name: 'மேஷம்',
       nameEnglish: 'Aries',
-      sanskritName: 'मेष',
+      sanskritName: 'Mesha',
       symbol: 'ஆட்டுக்கிடா',
       element: 'அக்னி',
       rulingPlanet: 'செவ்வ��ய்',
@@ -124,9 +124,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['ஆடு', 'குதிரை', 'சிங்கம்'],
       deities: ['முருகன்', 'ஹனுமான்', 'துர்க்கா'],
       mantras: [
-        'ॐ गं गणपतये नमः',
-        'ॐ मंगलाय नमः',
-        'मेष राशि मंत्र'
+        'Om Gam Ganapataye Namah',
+        'Om Mangalaya Namah',
+        'Mesha Rasi Mantra'
       ],
       remedies: [
         'செவ்வாய்க்கிழமை முருகன் வழிபாடு',
@@ -142,8 +142,8 @@ export class RasiKarakathuvamPage implements OnInit {
       nakshatras: ['அசுவினி', 'பரணி', 'கிருத்திகை (1/4)'],
       gems: ['மாணிக்கம்', 'பவளம்', 'செம்பட்டை'],
       pathams108: [
-        'ॐ अश्विनीकुमाराय नमः', 'ॐ भरणीशक्तये नमः', 'ॐ कृत्तिकाग्नये नमः',
-        'ॐ मेषराशाय नमः', 'ॐ मंगलग्रहाय नमः', 'ॐ रक्तवर्णाय नमः',
+        'Om Ashwini Kumaraya Namah', 'Om Bharani Shaktaye Namah', 'Om Krittika Agnaye Namah',
+        'Om Mesha Rashaya Namah', 'Om Mangala Grahaya Namah', 'Om Rakta Varnaya Namah',
         'சிவஜி சரணம்', 'முருகா சரணம்', 'கணபதி சரணம்'
       ],
       pariharam: [
@@ -182,7 +182,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 2,
       name: 'ரிஷபம்',
       nameEnglish: 'Taurus',
-      sanskritName: 'वृषभ',
+      sanskritName: 'Vrishabha',
       symbol: 'காளை',
       element: 'பூமி',
       rulingPlanet: 'சுக்கிரன்',
@@ -217,9 +217,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['காளை', 'யானை', 'பசு'],
       deities: ['லக்ஷ்மி', 'சரஸ்வதி', 'பார்வதி'],
       mantras: [
-        'ॐ शुक्राय नमः',
-        'ॐ श्रीं लक्ष्मीयै नमः',
-        'वृषभ राशि मंत्र'
+        'Om Shukraya Namah',
+        'Om Shreem Lakshmiyai Namah',
+        'Vrishabha Rasi Mantra'
       ],
       remedies: [
         'வெள்ளிக்கிழமை லக்ஷ்மி வழிபாடு',
@@ -235,8 +235,8 @@ export class RasiKarakathuvamPage implements OnInit {
       nakshatras: ['கிருத்திகை (3/4)', 'ரோஹிணி', 'மிருகசீர்ஷம் (1/2)'],
       gems: ['வைரம்', 'ஓபல்', 'வெள்ளை மூங்கில்'],
       pathams108: [
-        'ॐ कृत्तिकाग्नये नमः', 'ॐ रोहिणीचन्द्राय नमः', 'ॐ मृगशिरामंगलाय नमः',
-        'ॐ वृषभराशाय नमः', 'ॐ शुक्रग्रहाय नमः', 'ॐ स्थिरत्वाय नमः',
+        'Om Krittika Agnaye Namah', 'Om Rohini Chandraya Namah', 'Om Mrigashira Mangalaya Namah',
+        'Om Vrishabha Rashaya Namah', 'Om Shukra Grahaya Namah', 'Om Sthiratvaya Namah',
         'லக்ஷ்மி சரணம்', 'சுக்கிர சரணம்', 'சிவ சரணம்'
       ],
       pariharam: [
@@ -275,7 +275,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 3,
       name: 'மிதுனம்',
       nameEnglish: 'Gemini',
-      sanskritName: 'मिथुन',
+      sanskritName: 'Mithuna',
       symbol: 'இரட்டையர்கள்',
       element: 'வாயு',
       rulingPlanet: 'புதன்',
@@ -310,9 +310,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['குரங்கு', 'பறவைகள்', 'செல்லப்பிராணிகள்'],
       deities: ['விஷ்ணு', 'கிருஷ்ணன்', 'சர��்வதி'],
       mantras: [
-        'ॐ बुधाय नमः',
-        'ॐ गणेशाय नमः',
-        'मिथुन राशि मंत्र'
+        'Om Budhaya Namah',
+        'Om Ganeshaya Namah',
+        'Mithuna Rasi Mantra'
       ],
       remedies: [
         'புதன்கிழமை விஷ்ணு வழிபாடு',
@@ -328,8 +328,8 @@ export class RasiKarakathuvamPage implements OnInit {
       nakshatras: ['மிருகசீர்ஷம் (1/2)', 'ஆர்த்ரா', 'புனர்வசு (3/4)'],
       gems: ['எமரால்ட்', 'அக்வாமரைன்', 'ஜேட்'],
       pathams108: [
-        'ॐ मृगशिरामंगलाय नमः', 'ॐ आर्द्राशिवाय नमः', 'ॐ पुनर्वसुब्रह्मने नमः',
-        'ॐ मिथुनराशाय नमः', 'ॐ बुधग्रहाय नमः', 'ॐ वायुतत्त्वाय नमः',
+        'Om Mrigashira Mangalaya Namah', 'Om Ardra Shivaya Namah', 'Om Punarvasu Brahmane Namah',
+        'Om Mithuna Rashaya Namah', 'Om Budha Grahaya Namah', 'Om Vayu Tattvaya Namah',
         'விஷ்ணு சரணம்', 'கிருஷ்ணா சரணம்', 'சரஸ்வதி சரணம்'
       ],
       pariharam: [
@@ -368,7 +368,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 4,
       name: 'கடகம்',
       nameEnglish: 'Cancer',
-      sanskritName: 'कर्क',
+      sanskritName: 'Karka',
       symbol: 'நண்டு',
       element: 'நீர்',
       rulingPlanet: 'சந்திரன்',
@@ -403,9 +403,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['நண்டு', 'கடல் விலங்குகள்', 'நாய்'],
       deities: ['பார்வதி', 'கெளரி', 'சந்திர பகவான்'],
       mantras: [
-        'ॐ चन्द्राय नमः',
-        'ॐ गौर्यै नमः',
-        'कर्क राशि मंत्र'
+        'Om Chandraya Namah',
+        'Om Gauryai Namah',
+        'Karka Rasi Mantra'
       ],
       remedies: [
         'திங்கட்கிழமை சிவ வழிபாடு',
@@ -421,8 +421,8 @@ export class RasiKarakathuvamPage implements OnInit {
       nakshatras: ['புனர்வசு (1/4)', 'புஷ்யம்', 'ஆஸ்லேஷா'],
       gems: ['முத்து', 'மூன்ஸ்டோன்', 'வெள்ளை கோரல்'],
       pathams108: [
-        'ॐ पुनर्वसुब्रह्मणे नमः', 'ॐ पुष्यब्रह्मस्पतये नमः', 'ॐ आश्लेषाभुजंगाय नमः',
-        'ॐ कर्कराशाय नमः', 'ॐ चन्द्रग्रहाय नमः', 'ॐ जलतत्त्वाय नमः',
+        'Om Punarvasu Brahmane Namah', 'Om Pushya Brahmaspataye Namah', 'Om Ashlesha Bhujangaya Namah',
+        'Om Karka Rashaya Namah', 'Om Chandra Grahaya Namah', 'Om Jala Tattvaya Namah',
         'சந்திர சரணம்', 'பார்வதி சரணம்', 'கெளரி சரணம்'
       ],
       pariharam: [
@@ -461,7 +461,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 5,
       name: 'சிம்மம்',
       nameEnglish: 'Leo',
-      sanskritName: 'सिंह',
+      sanskritName: 'Simha',
       symbol: 'சிங்கம்',
       element: 'அக்னி',
       rulingPlanet: 'சூரியன்',
@@ -496,9 +496,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['சிங்கம்', 'புலி', 'பூனை'],
       deities: ['சூரிய பகவான்', 'நரசிம்மர்', 'அம்பிகை'],
       mantras: [
-        'ॐ सूर्याय नमः',
-        'ॐ नृसिंहाय नमः',
-        'सिंह राशि मंत्र'
+        'Om Suryaya Namah',
+        'Om Nrisimhaya Namah',
+        'Simha Rasi Mantra'
       ],
       remedies: [
         'ஞாயிற்றுக்கிழமை சூரிய வழிபாடு',
@@ -530,7 +530,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 6,
       name: 'கன்னி',
       nameEnglish: 'Virgo',
-      sanskritName: 'कन्या',
+      sanskritName: 'Kanya',
       symbol: 'கன்னி',
       element: 'பூமி',
       rulingPlanet: 'புதன்',
@@ -565,9 +565,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['குரங்கு', 'பறவை', 'முயல்'],
       deities: ['சரஸ்வதி', 'லட்ச்மி', 'விஷ்ணு'],
       mantras: [
-        'ॐ बुधाय नमः',
-        'ॐ सरस्वती नमः',
-        'कन्या राशि मंत्र'
+        'Om Budhaya Namah',
+        'Om Saraswati Namah',
+        'Kanya Rasi Mantra'
       ],
       remedies: [
         'புதன்கிழமை சரஸ்வதி வழிபாடு',
@@ -599,7 +599,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 7,
       name: 'துலாம்',
       nameEnglish: 'Libra',
-      sanskritName: 'तुला',
+      sanskritName: 'Tula',
       symbol: 'தெராசு',
       element: 'வாயு',
       rulingPlanet: 'சுக்கிரன்',
@@ -634,9 +634,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['புறா', 'லிஸார்ட்', 'முயல்'],
       deities: ['லக்ஷ்மி', 'சரஸ்வதி', 'விஷ்ணு'],
       mantras: [
-        'ॐ शुक्राय नमः',
-        'ॐ श्रीं नमः',
-        'तुला राशि मंत्र'
+        'Om Shukraya Namah',
+        'Om Shreem Namah',
+        'Tula Rasi Mantra'
       ],
       remedies: [
         'வெள்ளிக்கிழமை லக்ஷ்மி வழிபாடு',
@@ -668,7 +668,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 8,
       name: 'விருச்சிகம்',
       nameEnglish: 'Scorpio',
-      sanskritName: 'वृश्चिक',
+      sanskritName: 'Vrischika',
       symbol: 'தேள்',
       element: 'நீர்',
       rulingPlanet: 'செவ்வாய்',
@@ -703,9 +703,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['தேள்', 'பாம்பு', 'கழுகு'],
       deities: ['காளி', 'துர்க்கா', 'ஹனுமான்'],
       mantras: [
-        'ॐ अंगारकाय नमः',
-        'ॐ महाकाल्यै नमः',
-        'वृश्चिक राशि मंत्र'
+        'Om Angarakaya Namah',
+        'Om Mahakalyai Namah',
+        'Vrischika Rasi Mantra'
       ],
       remedies: [
         'செவ்வாய்க்கிழமை ஹனுமான் வழிபாடு',
@@ -737,7 +737,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 9,
       name: 'தனுசு',
       nameEnglish: 'Sagittarius',
-      sanskritName: 'धनु',
+      sanskritName: 'Dhanu',
       symbol: 'வில்லும் அம்பும்',
       element: 'அக்னி',
       rulingPlanet: 'குரு',
@@ -772,9 +772,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['குதிரை', 'சென்டார்', 'இலை'],
       deities: ['விஷ்ணு', 'குரு', 'ஹனுமான்'],
       mantras: [
-        'ॐ गुरवे नमः',
-        'ॐ वृहस्पतये नमः',
-        'धनु राशि मंत्र'
+        'Om Gurave Namah',
+        'Om Brihaspataye Namah',
+        'Dhanu Rasi Mantra'
       ],
       remedies: [
         'வியாழக்கிழமை விஷ்ணு வழிபாடு',
@@ -806,7 +806,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 10,
       name: 'மகரம்',
       nameEnglish: 'Capricorn',
-      sanskritName: 'मकर',
+      sanskritName: 'Makara',
       symbol: 'முதலை',
       element: 'பூமி',
       rulingPlanet: 'சனி',
@@ -841,9 +841,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['ஆடு', 'ஆமை', 'முதலை'],
       deities: ['சனி பகவான்', 'விநாயகர்', 'சிவன்'],
       mantras: [
-        'ॐ शनैश्चराय नमः',
-        'ॐ शिवाय नमः',
-        'मकर राशि मंत्र'
+        'Om Shanaischaraya Namah',
+        'Om Shivaya Namah',
+        'Makara Rasi Mantra'
       ],
       remedies: [
         'சனிக்கிழமை ஹனுமான் வழிபாடு',
@@ -875,7 +875,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 11,
       name: 'கும்பம்',
       nameEnglish: 'Aquarius',
-      sanskritName: 'कुम्भ',
+      sanskritName: 'Kumbha',
       symbol: 'நீர் குடம்',
       element: 'வாயு',
       rulingPlanet: 'சனி',
@@ -910,9 +910,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['பெரிய பறவைகள்', 'கழுகு', 'அல்லிகெடர்'],
       deities: ['வரு��ன்', 'சனி பகவான்', 'இந்திரன்'],
       mantras: [
-        'ॐ शनैश्चराय नमः',
-        'ॐ वरुणाय नमः',
-        'कुम्भ राशि मंत्र'
+        'Om Shanaischaraya Namah',
+        'Om Varunaya Namah',
+        'Kumbha Rasi Mantra'
       ],
       remedies: [
         'சனிக்கிழமை சனி வழிபாடு',
@@ -944,7 +944,7 @@ export class RasiKarakathuvamPage implements OnInit {
       number: 12,
       name: 'மீனம்',
       nameEnglish: 'Pisces',
-      sanskritName: 'मीन',
+      sanskritName: 'Meena',
       symbol: 'இரண்டு மீன்கள்',
       element: 'நீர்',
       rulingPlanet: 'குரு',
@@ -979,9 +979,9 @@ export class RasiKarakathuvamPage implements OnInit {
       animals: ['மீன்', 'டால்ஃபின்', 'சீல்'],
       deities: ['விஷ்ணு', 'வருணன்', 'சரஸ்வதி'],
       mantras: [
-        'ॐ गुरवे नमः',
-        'ॐ वरुणाय नमः',
-        'मीन राशि मंत्र'
+        'Om Gurave Namah',
+        'Om Varunaya Namah',
+        'Meena Rasi Mantra'
       ],
       remedies: [
         'வியாழக்கிழமை விஷ்ணு வழிபாடு',
