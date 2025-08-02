@@ -5,6 +5,10 @@ interface Namayogam {
   id: string;
   name: string;
   englishName: string;
+  nakshatra: string;
+  nakshatraEnglish: string;
+  weekday: string;
+  weekdayEnglish: string;
   effect: string;
   effectEnglish: string;
   rulingPlanet: string;
@@ -16,20 +20,6 @@ interface Namayogam {
   keyBenefits: string[];
   favorableActivities: string[];
   unfavorableActivities: string[];
-  yogi: {
-    name: string;
-    englishName: string;
-    direction: string;
-    benefits: string[];
-    significance: string;
-  };
-  avayogi: {
-    name: string;
-    englishName: string;
-    direction: string;
-    effects: string[];
-    precautions: string;
-  };
   lifeImpact: {
     career: string;
     health: string;
@@ -70,12 +60,16 @@ export class NamayogamCoursePage implements OnInit {
   completedNamayogam: string[] = [];
   favoriteNamayogam: string[] = [];
 
-  // Pure Yoga names with Yogi and Avayogi details
+  // Pure Yoga names only - completely separate from nakshatra and weekday
   namayogamList: Namayogam[] = [
     {
       id: 'vishkumba',
       name: 'விஷ்கும்ப',
       englishName: 'Vishkumba',
+      nakshatra: 'அஸ்வினி', // Reference info only - not part of yoga name
+      nakshatraEnglish: 'Ashwini',
+      weekday: 'ஞாயிறு', // Reference info only - not part of yoga name
+      weekdayEnglish: 'Sunday',
       effect: 'வெற்றி',
       effectEnglish: 'Victory',
       rulingPlanet: 'Jupiter',
@@ -110,30 +104,6 @@ export class NamayogamCoursePage implements OnInit {
         'Passive meditation',
         'Rest and relaxation'
       ],
-      yogi: {
-        name: 'விஷ்கும்ப யோகி',
-        englishName: 'Vishkumba Yogi',
-        direction: 'East',
-        benefits: [
-          'வெற்றி சக்தி',
-          'தலைமைத்துவ குணம்',
-          'முன்னேற்றம்',
-          'சாதனை உணர்வு'
-        ],
-        significance: 'விஷ்கும்ப யோகியின் ஆசி பெற்றால் அனைத்து செயல்களிலும் வெற்றி கிடைக்கும்'
-      },
-      avayogi: {
-        name: 'விஷ்கும்ப அவயோகி',
-        englishName: 'Vishkumba Avayogi',
-        direction: 'West',
-        effects: [
-          'வெற்றியில் தாமதம்',
-          'தலைமைத்துவ பிரச்சினைகள்',
-          'முன்னேற்றத்தில் தடை',
-          'சாதனையில் இடையூறு'
-        ],
-        precautions: 'மேலை திசையை தவிர்த்து முக்கியமான செயல்களை தொடங்கவும்'
-      },
       lifeImpact: {
         career: 'Leadership success and achievement',
         health: 'Strong vitality and energy',
@@ -193,6 +163,10 @@ export class NamayogamCoursePage implements OnInit {
       id: 'priti',
       name: 'பிரீதி',
       englishName: 'Priti',
+      nakshatra: 'பரணி', // Reference info only
+      nakshatraEnglish: 'Bharani',
+      weekday: 'திங்கள்', // Reference info only
+      weekdayEnglish: 'Monday',
       effect: 'அன்பு',
       effectEnglish: 'Love & Joy',
       rulingPlanet: 'Venus',
@@ -227,30 +201,6 @@ export class NamayogamCoursePage implements OnInit {
         'Breaking relationships',
         'Anger expression'
       ],
-      yogi: {
-        name: 'பிரீதி யோகி',
-        englishName: 'Priti Yogi',
-        direction: 'North',
-        benefits: [
-          'அன்பு பெருக்கம்',
-          'மகிழ்ச்சி அதிகரிப்பு',
-          'உறவு நல்லிணக்கம்',
-          'மன அமைதி'
-        ],
-        significance: 'பிரீதி யோகியின் ஆசி பெற்றால் வாழ்க்கையில் அன்பும் மகிழ்ச்சியும் நிரம்பும்'
-      },
-      avayogi: {
-        name: 'பிரீதி அவயோகி',
-        englishName: 'Priti Avayogi',
-        direction: 'South',
-        effects: [
-          'அன்பில் பிரச்சினை',
-          'உறவுகளில் தடை',
-          'மன அசமாதானம்',
-          'குடும்ப பிரச்சினை'
-        ],
-        precautions: 'தென் திசையை தவிர்த்து காதல் மற்றும் குடும்ப விஷயங்களை கையாளவும்'
-      },
       lifeImpact: {
         career: 'Success in creative and people-oriented fields',
         health: 'Emotional wellbeing and heart health',
@@ -310,6 +260,10 @@ export class NamayogamCoursePage implements OnInit {
       id: 'ayushmana',
       name: 'ஆயுஷ்மான்',
       englishName: 'Ayushmana',
+      nakshatra: 'கார்த்திகை', // Reference info only
+      nakshatraEnglish: 'Krittika',
+      weekday: 'செவ்வாய்', // Reference info only
+      weekdayEnglish: 'Tuesday',
       effect: 'நீண்ட ஆயுள்',
       effectEnglish: 'Longevity & Health',
       rulingPlanet: 'Jupiter',
@@ -344,30 +298,6 @@ export class NamayogamCoursePage implements OnInit {
         'Dangerous activities',
         'Stress-inducing work'
       ],
-      yogi: {
-        name: 'ஆயுஷ்மான் யோகி',
-        englishName: 'Ayushmana Yogi',
-        direction: 'Northeast',
-        benefits: [
-          'நீண்ட வாழ்க்கை',
-          'நல்ல ஆரோக்கியம்',
-          'வலிமை அதிகரிப்பு',
-          'நோய் நிவாரணம்'
-        ],
-        significance: 'ஆயுஷ்மான் யோகியின் ஆசி பெற்றால் நீண்ட ஆரோக்கியமான வாழ்க்கை கிடைக்கும்'
-      },
-      avayogi: {
-        name: 'ஆயுஷ்மான் அவயோகி',
-        englishName: 'Ayushmana Avayogi',
-        direction: 'Southwest',
-        effects: [
-          'ஆரோக்கிய பிரச்சினை',
-          'ஆயுள் குறைவு',
-          'வலிமை இழப்பு',
-          'நோய் தொல்லை'
-        ],
-        precautions: 'தென்மேற்கு திசையை தவிர்த்து சுகாதார விஷயங்களை கையாளவும்'
-      },
       lifeImpact: {
         career: 'Success in healthcare and wellness fields',
         health: 'Excellent physical and mental vitality',
@@ -423,7 +353,8 @@ export class NamayogamCoursePage implements OnInit {
         }
       ]
     }
-    // Note: Pure yoga names with Yogi and Avayogi details for comprehensive understanding
+    // Note: These are pure yoga names without mixing with nakshatra or weekday
+    // Nakshatra and weekday are kept as separate reference information only
   ];
 
   constructor(private modalController: ModalController) { }
@@ -448,10 +379,7 @@ export class NamayogamCoursePage implements OnInit {
     }
   }
 
-  filterNamayogam(event?: any) {
-    if (event) {
-      this.searchTerm = event.detail.value;
-    }
+  filterNamayogam() {
     if (!this.searchTerm) {
       this.filteredNamayogam = this.namayogamList;
     } else {
@@ -486,10 +414,7 @@ export class NamayogamCoursePage implements OnInit {
     localStorage.setItem('completedNamayogam', JSON.stringify(this.completedNamayogam));
   }
 
-  toggleFavorite(namayogamId: string, event?: Event) {
-    if (event) {
-      event.stopPropagation();
-    }
+  toggleFavorite(namayogamId: string) {
     if (this.favoriteNamayogam.includes(namayogamId)) {
       this.favoriteNamayogam = this.favoriteNamayogam.filter(id => id !== namayogamId);
     } else {
@@ -502,35 +427,11 @@ export class NamayogamCoursePage implements OnInit {
     return this.completedNamayogam.includes(namayogamId);
   }
 
-  isNamayogamCompleted(namayogamId: string): boolean {
-    return this.completedNamayogam.includes(namayogamId);
-  }
-
   isFavorite(namayogamId: string): boolean {
     return this.favoriteNamayogam.includes(namayogamId);
   }
 
   getCompletionPercentage(): number {
     return Math.round((this.completedNamayogam.length / this.namayogamList.length) * 100);
-  }
-
-  getProgressPercentage(): number {
-    return this.getCompletionPercentage() / 100;
-  }
-
-  shareContent() {
-    // Implementation for sharing content
-    if (navigator.share) {
-      navigator.share({
-        title: 'நாமயோகம் Course - LDML Online Astro',
-        text: 'Learn about the 27 sacred Namayogam combinations for divine timing',
-        url: window.location.href
-      });
-    }
-  }
-
-  markAsCompleted(namayogamId: string) {
-    this.toggleCompleted(namayogamId);
-    // Optionally close modal or show success message
   }
 }

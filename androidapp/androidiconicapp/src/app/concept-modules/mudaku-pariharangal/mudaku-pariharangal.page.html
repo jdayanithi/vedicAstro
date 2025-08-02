@@ -1,0 +1,209 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+      <div class="app-logo logo-small">
+        <img src="assets/icon/favicon.svg" alt="LDML Online Astro" width="24" height="24">
+      </div>
+    </ion-buttons>
+    <ion-title>முதக பரிகாரங்கள்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>முதக பரிகாரங்கள்</h1>
+      <p>ஜோதிட சாஸ்திரத்தில் முதக தோஷங்களுக்கான பரிகார முறைகள்</p>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="searchBhavams()"
+      placeholder="பாவங்களை தேடுங்கள்"
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Bhavam List -->
+  <div class="bhavam-list">
+    <ion-card *ngFor="let bhavam of filteredBhavams" class="bhavam-card" (click)="openBhavamDetails(bhavam)">
+      <ion-card-header>
+        <div class="bhavam-header">
+          <div class="bhavam-number">{{ bhavam.number }}</div>
+          <div class="bhavam-info">
+            <ion-card-title>{{ bhavam.name }}</ion-card-title>
+            <ion-card-subtitle>{{ bhavam.description }}</ion-card-subtitle>
+          </div>
+          <div class="bhavam-actions">
+            <ion-badge [color]="getSeverityColor(bhavam.severityLevel)">
+              {{ bhavam.severityLevel }}
+            </ion-badge>
+            <ion-button fill="clear" size="small" (click)="toggleFavorite(bhavam.id); $event.stopPropagation()">
+              <ion-icon [name]="isFavorite(bhavam.id) ? 'heart' : 'heart-outline'"
+                       [color]="isFavorite(bhavam.id) ? 'danger' : 'medium'"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="negative-effects-preview">
+          <h4>முख்य பாதிப்புகள்:</h4>
+          <ul>
+            <li *ngFor="let effect of bhavam.negativeEffects.slice(0, 3)">{{ effect }}</li>
+            <li *ngIf="bhavam.negativeEffects.length > 3">மேலும்...</li>
+          </ul>
+        </div>
+
+        <div class="completion-status" *ngIf="isCompleted(bhavam.id)">
+          <ion-chip color="success">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            <ion-label>முடிக்கப்பட்டது</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredBhavams.length === 0">
+    <ion-icon name="search-outline" size="large"></ion-icon>
+    <h3>பாவங்கள் கிடைக்கவில்லை</h3>
+    <p>வேறு முக்கிய வார்த்தைகளை பயன்படுத்தி தேடவும்</p>
+  </div>
+</ion-content>
+
+<!-- Detail Modal -->
+<ion-modal [isOpen]="isModalOpen" (willDismiss)="closeBhavamDetails()" #detailModal>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>{{ selectedBhavam?.name }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeBhavamDetails()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content *ngIf="selectedBhavam">
+      <div class="modal-content">
+        <!-- Bhavam Info -->
+        <div class="bhavam-detail-header">
+          <div class="bhavam-number-large">{{ selectedBhavam.number }}</div>
+          <div>
+            <h1>{{ selectedBhavam.name }}</h1>
+            <p class="description">{{ selectedBhavam.description }}</p>
+            <ion-badge [color]="getSeverityColor(selectedBhavam.severityLevel)">
+              {{ selectedBhavam.severityLevel }} தீவிரம்
+            </ion-badge>
+          </div>
+        </div>
+
+        <!-- Negative Effects -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title color="danger">
+              <ion-icon name="warning-outline"></ion-icon>
+              எதிர்மறை பாதிப்புகள்
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let effect of selectedBhavam.negativeEffects">
+                <ion-icon name="alert-circle-outline" slot="start" color="danger"></ion-icon>
+                <ion-label class="ion-text-wrap">{{ effect }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Positive Effects -->
+        <ion-card *ngIf="selectedBhavam.positiveEffects && selectedBhavam.positiveEffects.length > 0">
+          <ion-card-header>
+            <ion-card-title color="success">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              நேர்மறை பலன்கள்
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let effect of selectedBhavam.positiveEffects">
+                <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+                <ion-label class="ion-text-wrap">{{ effect }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Remedies -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title color="primary">
+              <ion-icon name="medical-outline"></ion-icon>
+              பரிகார முறைகள்
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let remedy of selectedBhavam.remedies" class="remedy-item">
+              <div class="remedy-header">
+                <ion-badge color="primary">{{ remedy.type }}</ion-badge>
+                <h3>{{ remedy.title }}</h3>
+              </div>
+              <p>{{ remedy.description }}</p>
+              <div class="timing" *ngIf="remedy.timing">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>{{ remedy.timing }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Mantras -->
+        <ion-card *ngIf="selectedBhavam.mantras && selectedBhavam.mantras.length > 0">
+          <ion-card-header>
+            <ion-card-title color="tertiary">
+              <ion-icon name="volume-high-outline"></ion-icon>
+              மந்திரங்கள்
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let mantra of selectedBhavam.mantras" class="mantra-item">
+              <h3>{{ mantra.name }}</h3>
+              <div class="mantra-text">{{ mantra.text }}</div>
+              <div class="mantra-details">
+                <span><ion-icon name="repeat-outline"></ion-icon> {{ mantra.count }}</span>
+                <span><ion-icon name="time-outline"></ion-icon> {{ mantra.timing }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <ion-button expand="block" fill="outline" (click)="toggleFavorite(selectedBhavam.id)">
+            <ion-icon [name]="isFavorite(selectedBhavam.id) ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
+            {{ isFavorite(selectedBhavam.id) ? 'பிடித்தவைகளிலிருந்து நீக்கு' : 'பிடித்தவைகளில் சேர்' }}
+          </ion-button>
+
+          <ion-button expand="block" color="success" (click)="markAsCompleted(selectedBhavam.id)"
+                     [disabled]="isCompleted(selectedBhavam.id)">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            {{ isCompleted(selectedBhavam.id) ? 'முடிக்கப்பட்டது' : 'முடிந்ததாக குறி' }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

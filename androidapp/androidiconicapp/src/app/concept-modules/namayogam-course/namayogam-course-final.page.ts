@@ -448,10 +448,7 @@ export class NamayogamCoursePage implements OnInit {
     }
   }
 
-  filterNamayogam(event?: any) {
-    if (event) {
-      this.searchTerm = event.detail.value;
-    }
+  filterNamayogam() {
     if (!this.searchTerm) {
       this.filteredNamayogam = this.namayogamList;
     } else {
@@ -486,10 +483,7 @@ export class NamayogamCoursePage implements OnInit {
     localStorage.setItem('completedNamayogam', JSON.stringify(this.completedNamayogam));
   }
 
-  toggleFavorite(namayogamId: string, event?: Event) {
-    if (event) {
-      event.stopPropagation();
-    }
+  toggleFavorite(namayogamId: string) {
     if (this.favoriteNamayogam.includes(namayogamId)) {
       this.favoriteNamayogam = this.favoriteNamayogam.filter(id => id !== namayogamId);
     } else {
@@ -502,35 +496,11 @@ export class NamayogamCoursePage implements OnInit {
     return this.completedNamayogam.includes(namayogamId);
   }
 
-  isNamayogamCompleted(namayogamId: string): boolean {
-    return this.completedNamayogam.includes(namayogamId);
-  }
-
   isFavorite(namayogamId: string): boolean {
     return this.favoriteNamayogam.includes(namayogamId);
   }
 
   getCompletionPercentage(): number {
     return Math.round((this.completedNamayogam.length / this.namayogamList.length) * 100);
-  }
-
-  getProgressPercentage(): number {
-    return this.getCompletionPercentage() / 100;
-  }
-
-  shareContent() {
-    // Implementation for sharing content
-    if (navigator.share) {
-      navigator.share({
-        title: 'நாமயோகம் Course - LDML Online Astro',
-        text: 'Learn about the 27 sacred Namayogam combinations for divine timing',
-        url: window.location.href
-      });
-    }
-  }
-
-  markAsCompleted(namayogamId: string) {
-    this.toggleCompleted(namayogamId);
-    // Optionally close modal or show success message
   }
 }

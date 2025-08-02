@@ -199,63 +199,63 @@ export class BhavaKarathuvamPage implements OnInit {
       element: 'அக்னி',
       nature: 'திரிகோணம்',
       significances: [
-        'குழந்தைகள் மற்றும் சந்ததி',
-        'படைப்பாற்றல் மற்றும் கலை',
-        'அறிவு மற்றும் புத்திசாலித்தனம்',
-        'பூர்வ புண்ணியம் மற்றும் மந்திரம்',
-        'காதல் மற்றும் உறவுகள்'
+        'மக்கள் மற்றும் சந்ததி',
+        'புத்தி மற்றும் அறிவு',
+        'கல்வி மற்றும் படிப்பு',
+        'பூர்வ புண்ணியம்',
+        'மந்திரம் மற்றும் தந்திரம்'
       ],
       significancesEnglish: [
         'Children and progeny',
-        'Creativity and arts',
         'Intelligence and wisdom',
-        'Past merit and mantras',
-        'Love and relationships'
+        'Education and learning',
+        'Past life merits',
+        'Mantras and tantras'
       ],
-      bodyParts: ['வயிறு', 'இரைப்பை', 'கல்லீரல்'],
-      relationships: ['குழந்தைகள்', 'மாணவர்கள்'],
+      bodyParts: ['வயிறு', 'குடல்', 'கல்லீரல்'],
+      relationships: ['மக்கள்', 'மாணவர்கள்'],
       karakatva: ['குரு', 'சூரியன்'],
-      goodPlanets: ['குரு', 'சூரியன்', 'சந்திரன்'],
+      goodPlanets: ['குரு', 'சூரியன்', 'புதன்'],
       badPlanets: ['சனி', 'ராகு', 'கேது'],
       remedies: [
-        'குரு மந்திரம் ஜபம்',
-        'வியாழக்கிழமை வழிபாடு',
-        'மஞ்சள் நிற உடைகள்'
+        'சரஸ்வதி வந்தனை',
+        'வியாழக்கிழமை குரு வழிபாடு',
+        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
       id: 'bhava_6',
       number: 6,
       name: 'ரிபு பாவம்',
-      nameEnglish: 'Ripu/Shatru Bhava',
-      sanskritName: 'சத்ரு பாவம்',
+      nameEnglish: 'Ripu Bhava',
+      sanskritName: 'ரிபு பாவம்',
       lord: 'ஆறாம் வீட்டு அதிபதி',
       lordEnglish: 'Sixth House Lord',
       element: 'பூமி',
       nature: 'உபசயம்',
       significances: [
-        'எதிரிகள் மற்றும் போராட்டங்கள்',
-        'நோய்கள் மற்றும் உடல்நலம்',
-        'கடன்கள் மற்றும் சேவை',
-        'வழக்குகள் மற்றும் சிக்கல்கள்',
-        'மாமா மற்றும் பணியாளர்கள்'
+        'எதிரிகள் மற்றும் போராட்டம்',
+        'நோய் மற்றும் மருத்துவம்',
+        'கடன் மற்றும் சேவை',
+        'வழக்கு மற்றும் சட்ட பிரச்சனைகள்',
+        'மாமா மற்றும் தந்தையின் சகோதரர்கள்'
       ],
       significancesEnglish: [
         'Enemies and struggles',
-        'Diseases and health',
+        'Disease and medicine',
         'Debts and service',
-        'Litigation and problems',
-        'Maternal uncle and servants'
+        'Litigation and legal issues',
+        'Maternal uncle and paternal brothers'
       ],
-      bodyParts: ['இடுப்பு', 'சிறுநீரகம்', 'குடல்'],
-      relationships: ['எதிரிகள்', 'பணியாளர்கள்'],
+      bodyParts: ['குடல்', 'சிறுநீரகம்', 'இடுப்பு'],
+      relationships: ['எதிரிகள்', 'சேவகர்கள்'],
       karakatva: ['செவ்வாய்', 'சனி'],
-      goodPlanets: ['செவ்வாய்', 'சனி', 'சூரியன்'],
+      goodPlanets: ['செவ்வாய்', 'சனி', 'ராகு'],
       badPlanets: ['குரு', 'சுக்கிரன்', 'சந்திரன்'],
       remedies: [
-        'ஹனுமான் சாலிசா பாராயணம்',
+        'ஹனுமான் சாலிசா தினமும்',
         'செவ்வாய்க்கிழமை முருகன் வழிபாடு',
-        'சிவந்த நிற உடைகள்'
+        'சிவந்த பூக்களால் அர்ச்சனை'
       ]
     },
     {
@@ -269,28 +269,28 @@ export class BhavaKarathuvamPage implements OnInit {
       element: 'வாயு',
       nature: 'கேந்திரம்',
       significances: [
-        'திருமணம் மற்றும் வாழ்க்கைத் துணை',
-        'கூட்டாளிகள் மற்றும் வணிகம்',
-        'பயணங்கள் மற்றும் வெளிநாடு',
-        'மரணம் மற்றும் மாற்றங்கள்',
-        'காம வாசனை மற்றும் உறவுகள்'
+        'திருமணம் மற்றும் கணவர்/மனைவி',
+        'கூட்டாளிகள் மற்றும் வியாபாரம்',
+        'பாலியல் உறவு',
+        'பொது வாழ்க்கை',
+        'மரணம் (மாரக ஸ்தானம்)'
       ],
       significancesEnglish: [
-        'Marriage and life partner',
+        'Marriage and spouse',
         'Partners and business',
-        'Travels and foreign lands',
-        'Death and transformations',
-        'Sexual desires and relationships'
+        'Sexual relations',
+        'Public life',
+        'Death (Maraka sthana)'
       ],
-      bodyParts: ['இடுப்பு', 'சிறுநீர்ப்பை', 'பிறப்புறுப்பு'],
-      relationships: ['மனைவி/கணவன்', 'கூட்டாளிகள்'],
-      karakatva: ['சுக்கிரன்', 'குரு'],
-      goodPlanets: ['சுக்கிரன்', 'புதன்', 'சனி'],
-      badPlanets: ['செவ்வாய்', 'சூரியன்', 'கேது'],
+      bodyParts: ['சிறுநீரக வழி', 'இனப்பெருக்க உறுப்புகள்'],
+      relationships: ['கணவர்/மனைவி', 'கூட்டாளிகள்'],
+      karakatva: ['சுக்கிரன்'],
+      goodPlanets: ['சுக்கிரன்', 'புதன்', 'குரு'],
+      badPlanets: ['சனி', 'செவ்வாய்', 'சூரியன்'],
       remedies: [
-        'சுக்கிர மந்திரம் ஜபம்',
-        'வெள்ளிக்கிழமை லக்ஷ்மி வழிபாடு',
-        'வெள்ளை அல்லது இளஞ்சிவப்பு நிற உடைகள்'
+        'சிவ பார்வதி வழிபாடு',
+        'வெள்ளிக்கிழமை சுக்கிர வழிபாடு',
+        'வெள்ளை வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -298,34 +298,34 @@ export class BhavaKarathuvamPage implements OnInit {
       number: 8,
       name: 'ஆயுர் பாவம்',
       nameEnglish: 'Ayur Bhava',
-      sanskritName: 'ஆயுர் பாவம்',
+      sanskritName: 'ரந்திர பாவம்',
       lord: 'எட்டாம் வீட்டு அதிபதி',
       lordEnglish: 'Eighth House Lord',
       element: 'நீர்',
-      nature: 'துஷ்டானம்',
+      nature: 'துஸ்தானம்',
       significances: [
         'ஆயுள் மற்றும் மரணம்',
-        'ரகசியங்கள் மற்றும் மறைவான விஷயங்கள்',
-        'மாற்றங்கள் மற்றும் புரட்சிகள்',
-        'அதிர்ஷ்ட லாபம் மற்றும் பணம்',
-        'ஆன்மீகம் மற்றும் ஜோதிடம்'
+        'ரகசியம் மற்றும் மர்மம்',
+        'விபத்து மற்றும் அறுவை சிகிச்சை',
+        'மாற்றம் மற்றும் உருமாற்றம்',
+        'ஜோதிடம் மற்றும் தந்திரம்'
       ],
       significancesEnglish: [
         'Longevity and death',
-        'Secrets and hidden matters',
-        'Transformations and revolutions',
-        'Sudden gains and money',
-        'Spirituality and astrology'
+        'Secrets and mysteries',
+        'Accidents and surgery',
+        'Transformation and change',
+        'Astrology and occult'
       ],
-      bodyParts: ['பிறப்புறுப்பு', 'மலக்குடல்', 'வெளியேற்ற உறுப்புகள்'],
-      relationships: ['மாமியார்', 'கணவன் குடும்பம்'],
+      bodyParts: ['இனப்பெருக்க உறுப்புகள்', 'குதம்'],
+      relationships: ['மர்ம நண்பர்கள்', 'குரு'],
       karakatva: ['சனி', 'ராகு'],
       goodPlanets: ['சனி', 'ராகு', 'கேது'],
       badPlanets: ['சூரியன்', 'சந்திரன்', 'குரு'],
       remedies: [
-        'சனி மந்திரம் ஜபம்',
-        'சனிக்கிழமை ஹனுமான் வழிபாடு',
-        'நீல நிற உடைகள் அணியவும்'
+        'மகா மிருத்யுஞ்சய மந்திரம்',
+        'சனிக்கிழமை சனீஸ்வர வழிபாடு',
+        'கருப்பு எள் தானம்'
       ]
     },
     {
@@ -333,34 +333,34 @@ export class BhavaKarathuvamPage implements OnInit {
       number: 9,
       name: 'பாக்கிய பாவம்',
       nameEnglish: 'Bhagya Bhava',
-      sanskritName: 'பாக்ய பாவம்',
+      sanskritName: 'தர்ம பாவம்',
       lord: 'ஒன்பதாம் வீட்டு அதிபதி',
       lordEnglish: 'Ninth House Lord',
       element: 'அக்னி',
       nature: 'திரிகோணம்',
       significances: [
-        'அதிர்ஷ்டம் மற்றும் பாக்கியம்',
         'தந்தை மற்றும் குரு',
+        'பாக்கியம் மற்றும் அதிர்ஷ்டம்',
         'தர்மம் மற்றும் மதம்',
-        'நீண்ட பயணங்கள் மற்றும் தீர்த்த யாத்திரை',
+        'நீண்ட பயணம்',
         'உயர் கல்வி மற்றும் ஞானம்'
       ],
       significancesEnglish: [
-        'Fortune and luck',
         'Father and guru',
+        'Fortune and luck',
         'Dharma and religion',
-        'Long journeys and pilgrimage',
+        'Long journeys',
         'Higher education and wisdom'
       ],
-      bodyParts: ['தொடைகள்', 'இடுப்பு', 'கல்லீரல்'],
-      relationships: ['தந்தை', 'குரு', 'ஆசிரியர்கள்'],
+      bodyParts: ['தொடை', 'இடுப்பு'],
+      relationships: ['தந்தை', 'குரு', 'ஆசான்'],
       karakatva: ['குரு', 'சூரியன்'],
       goodPlanets: ['குரு', 'சூரியன்', 'செவ்வாய்'],
       badPlanets: ['சனி', 'ராகு', 'கேது'],
       remedies: [
-        'குரு மந்திரம் ஜபம்',
-        'வியாழக்கிழமை விஷ்ணு வழிபாடு',
-        'மஞ்சள் நிற உடைகள் அணியவும்'
+        'விஷ்ணு ஸஹஸ்ரநாமம்',
+        'வியாழக்கிழமை குரு வழிபாடு',
+        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -374,28 +374,28 @@ export class BhavaKarathuvamPage implements OnInit {
       element: 'பூமி',
       nature: 'கேந்திரம்',
       significances: [
-        'தொழில் மற்றும் பணி',
-        'அதிகாரம் மற்றும் நிலை',
+        'தொழில் மற்றும் வேலை',
+        'அந்தஸ்து மற்றும் மதிப்பு',
+        'அரசு மற்றும் அதிகாரம்',
         'புகழ் மற்றும் கீர்த்தி',
-        'அரசாங்கம் மற்றும் ஆட்சி',
-        'சமூக மதிப்பு மற்றும் மரியாதை'
+        'சமுதாய சேவை'
       ],
       significancesEnglish: [
         'Career and profession',
-        'Authority and status',
-        'Fame and reputation',
-        'Government and rule',
-        'Social respect and honor'
+        'Status and reputation',
+        'Government and authority',
+        'Fame and glory',
+        'Social service'
       ],
-      bodyParts: ['முழங்கால்கள்', 'எலும்புகள்', 'மூட்டுகள்'],
-      relationships: ['அரசு', 'அதிகாரிகள்', 'முதலாளி'],
+      bodyParts: ['முழங்கால்', 'எலும்புகள்'],
+      relationships: ['முதலாளி', 'அரசு அதிகாரிகள்'],
       karakatva: ['சூரியன்', 'செவ்வாய்', 'சனி'],
-      goodPlanets: ['சூரியன்', 'செவ்வாய்', 'சனி'],
-      badPlanets: ['சந்திரன்', 'சுக்கிரன்'],
+      goodPlanets: ['சூரியன்', 'செவ்வாய்', 'சனி', 'புதன்'],
+      badPlanets: ['சந்திரன்', 'ராகு'],
       remedies: [
-        'சூரிய மந்திரம் ஜபம்',
+        'சூரிய கவசம் பாராயணம்',
         'ஞாயிற்றுக்கிழமை சூரிய வழிபாடு',
-        'சிவந்த அல்லது மஞ்சள் நிற உடைகள்'
+        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -410,27 +410,27 @@ export class BhavaKarathuvamPage implements OnInit {
       nature: 'உபசயம்',
       significances: [
         'லாபம் மற்றும் வருமானம்',
-        'நண்பர்கள் மற்றும் சமூகம்',
+        'நண்பர்கள் மற்றும் குழுக்கள்',
+        'ஆசைகள் மற்றும் எதிர்பார்ப்புகள்',
         'மூத்த சகோதரர்/சகோதரி',
-        'ஆசைகள் மற்றும் கனவுகள்',
-        'குழு நடவடிக்கைகள் மற்றும் நெட்வொர்க்'
+        'சமூக வலையமைப்பு'
       ],
       significancesEnglish: [
         'Gains and income',
-        'Friends and society',
-        'Elder siblings',
-        'Desires and dreams',
-        'Group activities and network'
+        'Friends and groups',
+        'Desires and aspirations',
+        'Elder brother/sister',
+        'Social network'
       ],
-      bodyParts: ['கணுக்கால்கள்', 'கால்கள்', 'சுழற்சி அமைப்பு'],
+      bodyParts: ['கணுக்கால்', 'கால்கள்'],
       relationships: ['நண்பர்கள்', 'மூத்த சகோதரர்கள்'],
-      karakatva: ['குரு', 'சூரியன்'],
-      goodPlanets: ['அனைத்து கிரகங்களும் நல்லவை'],
-      badPlanets: ['எதுவும் இல்லை - அனைத்தும் லாபம்'],
+      karakatva: ['குரு'],
+      goodPlanets: ['குரு', 'செவ்வாய்', 'சனி'],
+      badPlanets: ['சூரியன்', 'சந்திரன்'],
       remedies: [
-        'லக்ஷ்மி மந்திரம் ஜபம்',
-        'வெள்ளிக்கிழமை லக்ஷ்மி வழிபாடு',
-        'பச்சை நிற உடைகள் அணியவும்'
+        'கணபதி ஸ்தோத்திரம்',
+        'வியாழக்கிழமை குரு வழிபாடு',
+        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -438,34 +438,34 @@ export class BhavaKarathuvamPage implements OnInit {
       number: 12,
       name: 'வ்யய பாவம்',
       nameEnglish: 'Vyaya Bhava',
-      sanskritName: 'வ்யய பாவம்',
-      lord: 'பன்னிரெண்டாம் வீட்டு அதிபதி',
+      sanskritName: 'மோக்ஷ பாவம்',
+      lord: 'பன்னிரண்டாம் வீட்டு அதிபதி',
       lordEnglish: 'Twelfth House Lord',
       element: 'நீர்',
-      nature: 'துஷ்டானம்',
+      nature: 'துஸ்தானம்',
       significances: [
-        'செலவு மற்றும் இழப்புகள்',
-        'வெளிநாடு மற்றும் தனிமை',
-        'முக்தி மற்றும் மோக்ஷம்',
-        'தூக்கம் மற்றும் ஆன்மீக சாதனை',
-        'ரகசிய விகாரங்கள் மற்றும் எதிரிகள்'
+        'செலவு மற்றும் இழப்பு',
+        'மோக்ஷம் மற்றும் முக்தி',
+        'வெளிநாடு மற்றும் தூர பயணம்',
+        'கனவுகள் மற்றும் ஆழ் உளவியல்',
+        'தானம் மற்றும் தியாகம்'
       ],
       significancesEnglish: [
         'Expenses and losses',
-        'Foreign lands and isolation',
-        'Liberation and moksha',
-        'Sleep and spiritual practices',
-        'Secret affairs and hidden enemies'
+        'Moksha and liberation',
+        'Foreign lands and distant travel',
+        'Dreams and subconscious',
+        'Charity and sacrifice'
       ],
-      bodyParts: ['கால்கள்', 'இடது கண்', 'நரம்பு மண்டலம்'],
-      relationships: ['ரகசிய எதிரிகள்', 'வெளிநாட்டவர்கள்'],
-      karakatva: ['சனி', 'கேது', 'ராகு'],
-      goodPlanets: ['சனி', 'கேது', 'செவ்வாய்'],
+      bodyParts: ['பாதங்கள்', 'கண்கள்'],
+      relationships: ['வெளிநாட்டு நண்பர்கள்', 'ஆன்மீக குரு'],
+      karakatva: ['சனி', 'கேது'],
+      goodPlanets: ['சனி', 'கேது', 'ராகு'],
       badPlanets: ['சூரியன்', 'சந்திரன்', 'குரு'],
       remedies: [
-        'சிவ மந்திரம் ஜபம்',
-        'திங்கட்கிழமை சிவ வழிபாடு',
-        'வெள்ளை அல்லது நீல நிற உடைகள்'
+        'விஷ்ணு ஸஹஸ்ரநாமம்',
+        'சனிக்கிழமை விஷ்ணு வழிபாடு',
+        'நீல வஸ்திரம் அணியவும்'
       ]
     }
   ];

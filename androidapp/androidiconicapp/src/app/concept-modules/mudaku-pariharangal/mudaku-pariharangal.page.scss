@@ -1,0 +1,311 @@
+// Hero Section
+.hero-section {
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+
+  .hero-content {
+    h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+}
+
+// Search Container
+.search-container {
+  padding: 1rem;
+  background: var(--ion-color-light);
+}
+
+// Bhavam List
+.bhavam-list {
+  padding: 1rem;
+}
+
+.bhavam-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.bhavam-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .bhavam-number {
+    background: var(--ion-color-primary);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .bhavam-info {
+    flex: 1;
+
+    ion-card-title {
+      font-size: 1.1rem;
+      color: var(--ion-color-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    ion-card-subtitle {
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .bhavam-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.negative-effects-preview {
+  margin-top: 1rem;
+
+  h4 {
+    color: var(--ion-color-danger);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1rem;
+
+    li {
+      font-size: 0.85rem;
+      color: var(--ion-color-medium);
+      margin-bottom: 0.25rem;
+    }
+  }
+}
+
+.completion-status {
+  margin-top: 1rem;
+
+  ion-chip {
+    --background: var(--ion-color-success-tint);
+    --color: var(--ion-color-success-shade);
+  }
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+// Modal Content
+.modal-content {
+  padding: 1rem;
+}
+
+.bhavam-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .bhavam-number-large {
+    background: var(--ion-color-primary);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--ion-color-dark);
+  }
+
+  .description {
+    margin: 0 0 0.5rem 0;
+    color: var(--ion-color-medium);
+    font-size: 0.9rem;
+  }
+}
+
+// Remedy Items
+.remedy-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--ion-color-light);
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .remedy-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--ion-color-dark);
+    }
+  }
+
+  p {
+    margin: 0 0 0.5rem 0;
+    color: var(--ion-color-medium);
+    line-height: 1.5;
+  }
+
+  .timing {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--ion-color-primary);
+
+    ion-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Mantra Items
+.mantra-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    color: var(--ion-color-tertiary);
+  }
+
+  .mantra-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ion-color-dark);
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 4px;
+    border-left: 3px solid var(--ion-color-tertiary);
+  }
+
+  .mantra-details {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      ion-icon {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Action Buttons
+.action-buttons {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// App Logo
+.app-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+
+  &.logo-small img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .bhavam-header {
+    .bhavam-number {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+
+    .bhavam-info ion-card-title {
+      font-size: 1rem;
+    }
+  }
+
+  .bhavam-detail-header {
+    .bhavam-number-large {
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+    }
+  }
+}

@@ -70,8 +70,8 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/namayogam-course/namayogam-course.module').then( m => m.NamayogamCoursePageModule)
   },
   {
-    path: 'modaku-pariharangal',
-    loadChildren: () => import('./concept-modules/modaku-pariharangal/modaku-pariharangal.module').then( m => m.ModakuPariharangalPageModule)
+    path: 'mudaku-pariharangal',
+    loadChildren: () => import('./concept-modules/mudaku-pariharangal/mudaku-pariharangal.module').then( m => m.MudakuPariharangalPageModule)
   },
   {
     path: 'maanthi-pariharangal',

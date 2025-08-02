@@ -161,7 +161,7 @@
       "imageUrl": "/assets/images/mudhunilai-astrology.jpg"
     },
     {
-      "id": "modaku_pariharangal_001",
+      "id": "mudaku_pariharangal_001",
       "title": "மொடகு பரிகாரங்கள்",
       "titleEnglish": "Modaku Pariharangal",
       "description": "12 பாவங்களில் மொடகு தோஷத்தின் பலன்கள் மற்றும் சிறப்பு பரிகாரங்கள்",
@@ -174,7 +174,7 @@
       "level": "நடுத்தர",
       "content": "12 பாவங்களில் மொடகு தோஷத்தின் விரிவான பலன்கள், பரிகாரங்கள் மற்றும் மந்திர உபாயங்கள்...",
       "tags": ["மொடகு", "தோஷம்", "பரிகாரம்", "பாவம்", "மந்திரம்"],
-      "imageUrl": "/assets/images/modaku-pariharangal.jpg"
+      "imageUrl": "/assets/images/mudaku-pariharangal.jpg"
     },
     {
       "id": "maanthi_pariharangal_001",
@@ -191,6 +191,60 @@
       "content": "12 பாவங்களில் மாந்தி தோஷத்தின் விரிவான பலன்கள், பரிகாரங்கள் மற்றும் மந்திர உபாயங்கள்...",
       "tags": ["மாந்தி", "தோஷம்", "பரிகாரம்", "பாவம்", "மந்திரம்"],
       "imageUrl": "/assets/images/maanthi-pariharangal.jpg"
+    },
+    {
+      "id": "thithi_course_001",
+      "title": "திதி",
+      "titleEnglish": "Thithi",
+      "description": "30 திதிகளின் முழுமையான விவரங்கள், அதிதேவதை, பலன்கள், பரிகாரங்கள், மந்திரங்கள் மற்றும் செயல்முறைகள்",
+      "descriptionEnglish": "Complete details of 30 Thithis with deities, benefits, remedies, mantras and activation processes",
+      "category": "பஞ்சாங்கம்",
+      "categoryEnglish": "Panchangam",
+      "subcategory": "திதி",
+      "subcategoryEnglish": "Tithi",
+      "price": 249,
+      "isPaid": true,
+      "duration": "100 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "30 திதிகளின் விரிவான ஆய்வு, ஒவ்வொரு திதியின் அதிதேவதை, சிறந்த செயல்பாடுகள், தடைசெய்யப்பட்ட செயல்பாடுகள், விரதம், பரிகாரங்கள், மந்திரங்கள் மற்றும் செயல்முறைகள்...",
+      "tags": ["திதி", "சந்திரன்", "பஞ்சாங்கம்", "அதிதேவதை", "விரதம்", "பரிகாரம்", "மந்திரம்"],
+      "imageUrl": "/assets/images/thithi-course.jpg"
+    },
+    {
+      "id": "karnam_course_001",
+      "title": "கரணம்",
+      "titleEnglish": "Karnam",
+      "description": "11 கரணங்களின் முழுமையான விவரங்கள், அதிதேவதை, சிறந்த நேரங்கள், பலன்கள், பரிகாரங்கள் மற்றும் மந்திரங்கள்",
+      "descriptionEnglish": "Complete details of 11 Karnams with deities, best times, benefits, remedies and mantras",
+      "category": "பஞ்சாங்கம்",
+      "categoryEnglish": "Panchangam",
+      "subcategory": "கரணம்",
+      "subcategoryEnglish": "Karana",
+      "price": 199,
+      "isPaid": true,
+      "duration": "80 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "11 கரணங்களின் விரிவான ஆய்வு, ஒவ்வொரு கரணத்தின் அதிதேவதை, காலமுறை, குணங்கள், முக்கிய பலன்கள், சிறந்த நேரங்கள், பரிகாரங்கள், மந்திரங்கள் மற்றும் செயல்முறைகள்...",
+      "tags": ["கரணம்", "பஞ்சாங்கம்", "அதிதேவதை", "நேரம்", "பலன்", "பரிகாரம்", "மந்திரம்"],
+      "imageUrl": "/assets/images/karnam-course.jpg"
+    },
+    {
+      "id": "namayogam_course_001",
+      "title": "27 நாமயோகம்",
+      "titleEnglish": "27 Namayogam",
+      "description": "27 நாமயோகங்களின் முழுமையான விவரங்கள், குணாதிசயங்கள், பலன்கள், வாழ்க்கை தாக்கம், பரிகாரங்கள் மற்றும் ஆன்மீக மகத்துவம்",
+      "descriptionEnglish": "Complete details of 27 Namayogams with characteristics, benefits, life impact, remedies and spiritual significance",
+      "category": "பஞ்சாங்கம்",
+      "categoryEnglish": "Panchangam",
+      "subcategory": "யோகம்",
+      "subcategoryEnglish": "Yoga",
+      "price": 299,
+      "isPaid": true,
+      "duration": "110 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "27 நாமயோகங்களின் விரிவான ஆய்வு, ஒவ்வொரு யோகத்தின் குணாதிசயங்கள், வாழ்க்கையில் தாக்கம், நன்மை தீமைகள், ஆன்மீக முக்கியத்துவம், பரிகாரங்கள், மந்திரங்கள் மற்றும் செயல்முறைகள்...",
+      "tags": ["நாமயோகம்", "யோகம்", "பஞ்சாங்கம்", "குணாதிசயம்", "பலன்", "பரிகாரம்", "ஆன்மீகம்"],
+      "imageUrl": "/assets/images/namayogam-course.jpg"
     }
   ],
   "categories": [

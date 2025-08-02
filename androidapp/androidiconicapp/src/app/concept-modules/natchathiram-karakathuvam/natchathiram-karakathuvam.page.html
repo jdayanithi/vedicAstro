@@ -157,27 +157,27 @@
       <!-- Gana Filter Chips -->
       <div class="filter-chips">
         <ion-chip
-          [color]="selectedFilter === 'all' ? 'tertiary' : 'medium'"
+          [color]="selectedGana === 'all' ? 'tertiary' : 'medium'"
           (click)="filterByGana('all')">
           <ion-label>அனைத்தும்</ion-label>
         </ion-chip>
         <ion-chip
-          [color]="selectedFilter === 'தேவ' ? 'success' : 'medium'"
-          (click)="filterByGana('தேவ')">
+          [color]="selectedGana === 'தேவ கணம்' ? 'success' : 'medium'"
+          (click)="filterByGana('தேவ கணம்')">
           <ion-icon name="star" slot="start"></ion-icon>
           <ion-label>தேவ கணம்</ion-label>
         </ion-chip>
         <ion-chip
-          [color]="selectedFilter === 'மனுஷ்ய' ? 'warning' : 'medium'"
-          (click)="filterByGana('மனுஷ்ய')">
+          [color]="selectedGana === 'மனுஷ்ய கணம்' ? 'warning' : 'medium'"
+          (click)="filterByGana('மனுஷ்ய கணம்')">
           <ion-icon name="person" slot="start"></ion-icon>
           <ion-label>மனுஷ்ய கணம்</ion-label>
         </ion-chip>
         <ion-chip
-          [color]="selectedFilter === 'ராக்ஷஸ' ? 'danger' : 'medium'"
-          (click)="filterByGana('ராக்ஷஸ')">
+          [color]="selectedGana === 'ராக்ஷச கணம்' ? 'danger' : 'medium'"
+          (click)="filterByGana('ராக்ஷச கணம்')">
           <ion-icon name="flame" slot="start"></ion-icon>
-          <ion-label>ராக்ஷஸ கணம்</ion-label>
+          <ion-label>ராக்ஷச கணம்</ion-label>
         </ion-chip>
       </div>
     </div>
