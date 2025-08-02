@@ -1,0 +1,289 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>கர்ணம் (Karnam)</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <h1>கர்ணம் Course</h1>
+      <p>11 Sacred Karnam with Pariharam & Activation</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>11 Karnam</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="star-outline"></ion-icon>
+          <span>Sacred Remedies</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="flash-outline"></ion-icon>
+          <span>Activation Methods</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterKarnam($event)"
+      placeholder="Search Karnam..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="progress-section" *ngIf="completedKarnam.length > 0">
+    <h3>Your Progress</h3>
+    <ion-progress-bar [value]="getProgressPercentage()"></ion-progress-bar>
+    <p>{{ completedKarnam.length }} of {{ karnamList.length }} Karnam completed</p>
+  </div>
+
+  <!-- Karnam Grid -->
+  <div class="karnam-grid">
+    <ion-card 
+      *ngFor="let karnam of filteredKarnam; let i = index" 
+      class="karnam-card"
+      [class.completed]="isKarnamCompleted(karnam.id)"
+      (click)="openKarnamDetail(karnam)">
+      
+      <div class="card-header">
+        <div class="karnam-number">{{ i + 1 }}</div>
+        <ion-button 
+          fill="clear" 
+          size="small"
+          [color]="isFavorite(karnam.id) ? 'danger' : 'medium'"
+          (click)="toggleFavorite(karnam.id, $event)">
+          <ion-icon 
+            [name]="isFavorite(karnam.id) ? 'heart' : 'heart-outline'">
+          </ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-card-header>
+        <ion-card-title>{{ karnam.name }}</ion-card-title>
+        <ion-card-subtitle>{{ karnam.englishName }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="karnam-preview">
+          <div class="preview-item">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ karnam.duration }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="flower-outline"></ion-icon>
+            <span>{{ karnam.deity }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="diamond-outline"></ion-icon>
+            <span>{{ karnam.element }}</span>
+          </div>
+        </div>
+        
+        <div class="karnam-benefits">
+          <span class="benefit-tag" *ngFor="let benefit of karnam.keyBenefits.slice(0, 2)">
+            {{ benefit }}
+          </span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Karnam Detail Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedKarnam?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="modal-content" *ngIf="selectedKarnam">
+        <div class="detail-hero">
+          <h1>{{ selectedKarnam.name }}</h1>
+          <h2>{{ selectedKarnam.englishName }}</h2>
+          <div class="detail-stats">
+            <div class="stat-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ selectedKarnam.duration }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="flower-outline"></ion-icon>
+              <span>{{ selectedKarnam.deity }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="diamond-outline"></ion-icon>
+              <span>{{ selectedKarnam.element }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-sections">
+          <!-- Description Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="information-circle-outline"></ion-icon>
+                விளக்கம் (Description)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ selectedKarnam.description }}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Characteristics Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="star-outline"></ion-icon>
+                பண்புகள் (Characteristics)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="characteristics-grid">
+                <div class="char-item" *ngFor="let char of selectedKarnam.characteristics">
+                  <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  <span>{{ char }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Benefits Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="gift-outline"></ion-icon>
+                பலன்கள் (Benefits)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="benefits-list">
+                <div class="benefit-item" *ngFor="let benefit of selectedKarnam.keyBenefits">
+                  <ion-icon name="star"></ion-icon>
+                  <span>{{ benefit }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Pariharam Section -->
+          <ion-card class="detail-card pariharam-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                பரிகாரம் (Pariharam)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="pariharam-section">
+                <h4>Daily Practices:</h4>
+                <ul>
+                  <li *ngFor="let practice of selectedKarnam.pariharam.dailyPractices">
+                    {{ practice }}
+                  </li>
+                </ul>
+                
+                <h4>Special Offerings:</h4>
+                <ul>
+                  <li *ngFor="let offering of selectedKarnam.pariharam.offerings">
+                    {{ offering }}
+                  </li>
+                </ul>
+                
+                <h4>Mantras:</h4>
+                <div class="mantras">
+                  <div class="mantra" *ngFor="let mantra of selectedKarnam.pariharam.mantras">
+                    <strong>{{ mantra.name }}:</strong>
+                    <p class="mantra-text">{{ mantra.text }}</p>
+                    <small>Chant {{ mantra.count }} times</small>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Activation Process Section -->
+          <ion-card class="detail-card activation-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="flash-outline"></ion-icon>
+                செயல்படுத்தும் முறை (Activation Process)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="activation-steps">
+                <div class="step" *ngFor="let step of selectedKarnam.activationProcess; let i = index">
+                  <div class="step-number">{{ i + 1 }}</div>
+                  <div class="step-content">
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.description }}</p>
+                    <div class="step-details" *ngIf="step.details">
+                      <small>{{ step.details }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Best Times Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="time-outline"></ion-icon>
+                சிறந்த நேரம் (Best Times)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="times-grid">
+                <div class="time-item">
+                  <strong>Daily:</strong>
+                  <span>{{ selectedKarnam.bestTimes.daily }}</span>
+                </div>
+                <div class="time-item">
+                  <strong>Weekly:</strong>
+                  <span>{{ selectedKarnam.bestTimes.weekly }}</span>
+                </div>
+                <div class="time-item">
+                  <strong>Monthly:</strong>
+                  <span>{{ selectedKarnam.bestTimes.monthly }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class="modal-actions">
+          <ion-button 
+            expand="block" 
+            color="success"
+            (click)="markAsCompleted(selectedKarnam.id)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Mark as Completed
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

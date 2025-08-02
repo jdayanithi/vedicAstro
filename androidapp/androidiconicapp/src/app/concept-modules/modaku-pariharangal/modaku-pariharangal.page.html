@@ -1,0 +1,234 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>மோதக பரிகாரங்கள்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-icon">
+        <ion-icon name="shield-checkmark"></ion-icon>
+      </div>
+      <h1>மோதக பரிகாரங்கள்</h1>
+      <p>12 பாவங்களில் மோதக தோஷத்தின் விளைவுகள் மற்றும் பரிகார முறைகள்</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>12 பாவங்கள்</span>
+        </div>
+        <div class="stat-item">
+          <ion-icon name="medical-outline"></ion-icon>
+          <span>பரிகார முறைகள்</span>
+        </div>
+        <div class="stat-item">
+          <ion-icon name="star-outline"></ion-icon>
+          <span>சிறப்பு மந்திரங்கள்</span>
+        </div>
+      </div>
+    </div>
+    <div class="floating-elements">
+      <div class="floating-element element-1"></div>
+      <div class="floating-element element-2"></div>
+      <div class="floating-element element-3"></div>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="searchBhavams()"
+      placeholder="பாவம் அல்லது விளைவுகளை தேடுங்கள்..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <h3>கற்றல் முன்னேற்றம்</h3>
+      <span class="progress-text">{{completedBhavams.length}}/{{bhavamList.length}} பாவங்கள்</span>
+    </div>
+    <ion-progress-bar [value]="getProgressPercentage()" color="success"></ion-progress-bar>
+  </div>
+
+  <!-- Bhavam Grid -->
+  <div class="bhavam-grid">
+    <div class="bhavam-card" 
+         *ngFor="let bhavam of filteredBhavams; trackBy: trackByBhavamId"
+         (click)="openBhavamDetail(bhavam)"
+         [class.completed]="isBhavamCompleted(bhavam.id)">
+      
+      <div class="card-header">
+        <div class="bhavam-number">{{bhavam.number}}</div>
+        <ion-button 
+          fill="clear" 
+          size="small"
+          (click)="toggleFavorite(bhavam, $event)"
+          [color]="isFavorite(bhavam) ? 'danger' : 'medium'">
+          <ion-icon [name]="isFavorite(bhavam) ? 'heart' : 'heart-outline'"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="card-content">
+        <h3>{{bhavam.name}}</h3>
+        <p class="bhavam-description">{{bhavam.description}}</p>
+        
+        <div class="effects-preview">
+          <div class="effect-tag negative">{{bhavam.negativeEffects[0]}}</div>
+          <div class="effect-tag positive" *ngIf="bhavam.positiveEffects?.length">{{bhavam.positiveEffects?.[0]}}</div>
+        </div>
+
+        <div class="remedy-count">
+          <ion-icon name="medical-outline"></ion-icon>
+          <span>{{bhavam.remedies.length}} பரிகாரங்கள்</span>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="severity-level" [attr.data-level]="bhavam.severityLevel">
+          {{bhavam.severityLevel}} நிலை
+        </div>
+        <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+      </div>
+
+      <div class="completion-badge" *ngIf="isBhavamCompleted(bhavam.id)">
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Common Remedies Section -->
+  <div class="common-section">
+    <div class="section-header">
+      <h2>பொதுவான மோதக பரிகாரங்கள்</h2>
+      <p>எல்லா பாவங்களுக்கும் பொதுவான பரிகார முறைகள்</p>
+    </div>
+    
+    <div class="common-remedy-card" (click)="showCommonRemedies()">
+      <div class="remedy-icon">
+        <ion-icon name="leaf-outline"></ion-icon>
+      </div>
+      <div class="remedy-content">
+        <h3>பொதுவான பரிகாரங்கள்</h3>
+        <p>தினசரி, வாராந்திர மற்றும் மாதாந்திர பரிகார முறைகள்</p>
+      </div>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+  </div>
+
+</ion-content>
+
+<!-- Detail Modal -->
+<ion-modal #detailModal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>{{selectedBhavam?.name}} - மோதக தோஷம்</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content *ngIf="selectedBhavam">
+      <div class="modal-content">
+        
+        <!-- Bhavam Info -->
+        <div class="bhavam-info-section">
+          <div class="bhavam-header">
+            <div class="bhavam-number-large">{{selectedBhavam.number}}</div>
+            <div class="bhavam-details">
+              <h2>{{selectedBhavam.name}}</h2>
+              <p>{{selectedBhavam.description}}</p>
+              <div class="severity-badge" [attr.data-level]="selectedBhavam.severityLevel">
+                {{selectedBhavam.severityLevel}} தீவிரம்
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Negative Effects -->
+        <div class="effects-section">
+          <h3><ion-icon name="warning-outline"></ion-icon> எதிர்மறை விளைவுகள்</h3>
+          <div class="effects-list">
+            <div class="effect-item negative" *ngFor="let effect of selectedBhavam.negativeEffects">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              <span>{{effect}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Positive Effects (if any) -->
+        <div class="effects-section" *ngIf="selectedBhavam.positiveEffects?.length">
+          <h3><ion-icon name="checkmark-circle-outline"></ion-icon> நேர்மறை விளைவுகள்</h3>
+          <div class="effects-list">
+            <div class="effect-item positive" *ngFor="let effect of selectedBhavam.positiveEffects">
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+              <span>{{effect}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remedies -->
+        <div class="remedies-section">
+          <h3><ion-icon name="medical-outline"></ion-icon> பரிகார முறைகள்</h3>
+          <div class="remedies-list">
+            <div class="remedy-item" *ngFor="let remedy of selectedBhavam.remedies">
+              <div class="remedy-type">{{remedy.type}}</div>
+              <div class="remedy-details">
+                <h4>{{remedy.title}}</h4>
+                <p>{{remedy.description}}</p>
+                <div class="remedy-timing" *ngIf="remedy.timing">
+                  <ion-icon name="time-outline"></ion-icon>
+                  <span>{{remedy.timing}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mantras -->
+        <div class="mantras-section" *ngIf="selectedBhavam.mantras?.length">
+          <h3><ion-icon name="musical-notes-outline"></ion-icon> சிறப்பு மந்திரங்கள்</h3>
+          <div class="mantras-list">
+            <div class="mantra-item" *ngFor="let mantra of selectedBhavam.mantras">
+              <h4>{{mantra.name}}</h4>
+              <p class="mantra-text">{{mantra.text}}</p>
+              <div class="mantra-details">
+                <span><ion-icon name="repeat-outline"></ion-icon> {{mantra.count}}</span>
+                <span><ion-icon name="time-outline"></ion-icon> {{mantra.timing}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <ion-button expand="block" fill="solid" (click)="markAsCompleted(selectedBhavam)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            கற்றுக்கொண்டது என குறிக்கவும்
+          </ion-button>
+          
+          <ion-button expand="block" fill="outline" (click)="shareBhavam(selectedBhavam)">
+            <ion-icon name="share-outline"></ion-icon>
+            பகிரவும்
+          </ion-button>
+        </div>
+
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

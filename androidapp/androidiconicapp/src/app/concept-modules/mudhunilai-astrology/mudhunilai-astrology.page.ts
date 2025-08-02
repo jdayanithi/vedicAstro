@@ -25,11 +25,11 @@ interface Topic {
 }
 
 @Component({
-  selector: 'app-muthuniali-astrology',
-  templateUrl: './muthuniali-astrology.page.html',
-  styleUrls: ['./muthuniali-astrology.page.scss'],
+  selector: 'app-mudhunilai-astrology',
+  templateUrl: './mudhunilai-astrology.page.html',
+  styleUrls: ['./mudhunilai-astrology.page.scss'],
 })
-export class MuthunialiAstrologyPage implements OnInit {
+export class MudhunilaiAstrologyPage implements OnInit {
 
   @ViewChild('detailModal', { static: true }) detailModal!: IonModal;
 
@@ -354,25 +354,25 @@ export class MuthunialiAstrologyPage implements OnInit {
   }
 
   loadFavorites() {
-    const stored = localStorage.getItem('favoriteMuthunialiTopicIds');
+    const stored = localStorage.getItem('favoriteMudhunilaiTopicIds');
     if (stored) {
       this.favoriteTopicIds = JSON.parse(stored);
     }
   }
 
   saveFavorites() {
-    localStorage.setItem('favoriteMuthunialiTopicIds', JSON.stringify(this.favoriteTopicIds));
+    localStorage.setItem('favoriteMudhunilaiTopicIds', JSON.stringify(this.favoriteTopicIds));
   }
 
   loadStudiedTopics() {
-    const stored = localStorage.getItem('studiedMuthunialiTopicIds');
+    const stored = localStorage.getItem('studiedMudhunilaiTopicIds');
     if (stored) {
       this.studiedTopicIds = JSON.parse(stored);
     }
   }
 
   saveStudiedTopics() {
-    localStorage.setItem('studiedMuthunialiTopicIds', JSON.stringify(this.studiedTopicIds));
+    localStorage.setItem('studiedMudhunilaiTopicIds', JSON.stringify(this.studiedTopicIds));
   }
 
   searchTopics() {

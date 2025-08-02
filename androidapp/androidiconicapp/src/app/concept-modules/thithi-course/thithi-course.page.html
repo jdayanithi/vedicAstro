@@ -1,0 +1,302 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>திதி (Thithi)</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <h1>திதி Course</h1>
+      <p>15 Sacred Lunar Days with Divine Powers</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <ion-icon name="moon-outline"></ion-icon>
+          <span>15 Thithi</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="star-outline"></ion-icon>
+          <span>Lunar Cycles</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="flash-outline"></ion-icon>
+          <span>Divine Timing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterThithi($event)"
+      placeholder="Search Thithi..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="progress-section" *ngIf="completedThithi.length > 0">
+    <h3>Your Progress</h3>
+    <ion-progress-bar [value]="getProgressPercentage()"></ion-progress-bar>
+    <p>{{ completedThithi.length }} of {{ thithiList.length }} Thithi completed</p>
+  </div>
+
+  <!-- Thithi Grid -->
+  <div class="thithi-grid">
+    <ion-card 
+      *ngFor="let thithi of filteredThithi; let i = index" 
+      class="thithi-card"
+      [class.completed]="isThithiCompleted(thithi.id)"
+      (click)="openThithiDetail(thithi)">
+      
+      <div class="card-header">
+        <div class="thithi-number">{{ i + 1 }}</div>
+        <div class="moon-phase">
+          <ion-icon [name]="thithi.moonIcon"></ion-icon>
+        </div>
+        <ion-button 
+          fill="clear" 
+          size="small"
+          [color]="isFavorite(thithi.id) ? 'danger' : 'medium'"
+          (click)="toggleFavorite(thithi.id, $event)">
+          <ion-icon 
+            [name]="isFavorite(thithi.id) ? 'heart' : 'heart-outline'">
+          </ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-card-header>
+        <ion-card-title>{{ thithi.name }}</ion-card-title>
+        <ion-card-subtitle>{{ thithi.englishName }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="thithi-preview">
+          <div class="preview-item">
+            <ion-icon name="flower-outline"></ion-icon>
+            <span>{{ thithi.deity }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="diamond-outline"></ion-icon>
+            <span>{{ thithi.element }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="color-palette-outline"></ion-icon>
+            <span>{{ thithi.color }}</span>
+          </div>
+        </div>
+        
+        <div class="thithi-benefits">
+          <span class="benefit-tag" *ngFor="let benefit of thithi.keyBenefits.slice(0, 2)">
+            {{ benefit }}
+          </span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Thithi Detail Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedThithi?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="modal-content" *ngIf="selectedThithi">
+        <div class="detail-hero">
+          <div class="moon-display">
+            <ion-icon [name]="selectedThithi.moonIcon"></ion-icon>
+          </div>
+          <h1>{{ selectedThithi.name }}</h1>
+          <h2>{{ selectedThithi.englishName }}</h2>
+          <div class="detail-stats">
+            <div class="stat-item">
+              <ion-icon name="flower-outline"></ion-icon>
+              <span>{{ selectedThithi.deity }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="diamond-outline"></ion-icon>
+              <span>{{ selectedThithi.element }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="color-palette-outline"></ion-icon>
+              <span>{{ selectedThithi.color }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-sections">
+          <!-- Description Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="information-circle-outline"></ion-icon>
+                விளக்கம் (Description)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ selectedThithi.description }}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Lunar Significance Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="moon-outline"></ion-icon>
+                சந்திர சிறப்பு (Lunar Significance)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="lunar-info">
+                <div class="lunar-item">
+                  <strong>Moon Phase:</strong>
+                  <span>{{ selectedThithi.lunarPhase }}</span>
+                </div>
+                <div class="lunar-item">
+                  <strong>Energy Level:</strong>
+                  <span>{{ selectedThithi.energyLevel }}</span>
+                </div>
+                <div class="lunar-item">
+                  <strong>Best Activities:</strong>
+                  <span>{{ selectedThithi.bestActivities.join(', ') }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Benefits Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="gift-outline"></ion-icon>
+                பலன்கள் (Benefits)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="benefits-list">
+                <div class="benefit-item" *ngFor="let benefit of selectedThithi.keyBenefits">
+                  <ion-icon name="star"></ion-icon>
+                  <span>{{ benefit }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Pariharam Section -->
+          <ion-card class="detail-card pariharam-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                பரிகாரம் (Pariharam)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="pariharam-section">
+                <h4>Daily Practices:</h4>
+                <ul>
+                  <li *ngFor="let practice of selectedThithi.pariharam.dailyPractices">
+                    {{ practice }}
+                  </li>
+                </ul>
+                
+                <h4>Special Offerings:</h4>
+                <ul>
+                  <li *ngFor="let offering of selectedThithi.pariharam.offerings">
+                    {{ offering }}
+                  </li>
+                </ul>
+                
+                <h4>Fasting Guidelines:</h4>
+                <div class="fasting-info">
+                  <p><strong>Type:</strong> {{ selectedThithi.pariharam.fasting.type }}</p>
+                  <p><strong>Duration:</strong> {{ selectedThithi.pariharam.fasting.duration }}</p>
+                  <p><strong>Benefits:</strong> {{ selectedThithi.pariharam.fasting.benefits }}</p>
+                </div>
+                
+                <h4>Mantras:</h4>
+                <div class="mantras">
+                  <div class="mantra" *ngFor="let mantra of selectedThithi.pariharam.mantras">
+                    <strong>{{ mantra.name }}:</strong>
+                    <p class="mantra-text">{{ mantra.text }}</p>
+                    <small>Chant {{ mantra.count }} times</small>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Activation Process Section -->
+          <ion-card class="detail-card activation-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="flash-outline"></ion-icon>
+                செயல்படுத்தும் முறை (Activation Process)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="activation-steps">
+                <div class="step" *ngFor="let step of selectedThithi.activationProcess; let i = index">
+                  <div class="step-number">{{ i + 1 }}</div>
+                  <div class="step-content">
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.description }}</p>
+                    <div class="step-details" *ngIf="step.details">
+                      <small>{{ step.details }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Prohibited Activities Section -->
+          <ion-card class="detail-card warning-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="warning-outline"></ion-icon>
+                தவிர்க்க வேண்டியவை (Prohibited Activities)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="prohibited-list">
+                <div class="prohibited-item" *ngFor="let activity of selectedThithi.prohibitedActivities">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+                  <span>{{ activity }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class="modal-actions">
+          <ion-button 
+            expand="block" 
+            color="success"
+            (click)="markAsCompleted(selectedThithi.id)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Mark as Completed
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

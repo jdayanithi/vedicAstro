@@ -145,9 +145,9 @@
       "imageUrl": "/assets/images/uraynilai-astrology.jpg"
     },
     {
-      "id": "muthuniali_astrology_001",
-      "title": "முத்துநிலை ஜோதிஷம்",
-      "titleEnglish": "Muthuniali Astrology",
+      "id": "mudhunilai_astrology_001",
+      "title": "முதுநிலை ஜோதிஷம்",
+      "titleEnglish": "Mudhunilai Astrology",
       "description": "சிறப்பு ஜோதிட ரத்ன நிலை கருத்துக்கள் மற்றும் முத்து போன்ற அரிய ஜோதிட உண்மைகள்",
       "descriptionEnglish": "Special astrological gem-level concepts and rare astrological truths like pearls of wisdom",
       "category": "சிறப்பு ஜோதிஷம்",
@@ -157,8 +157,40 @@
       "duration": "180 நிமிடங்கள்",
       "level": "மேம்பட்ட",
       "content": "சிறப்பு ஜோதிட ரத்ன நிலை கருத்துக்கள், முத்து போன்ற அரிய ஜோதிட உண்மைகள், மற்றும் பல சிறப்பு தலைப்புகள்...",
-      "tags": ["முத்துநிலை", "சிறப்பு", "ரத்னம்", "அரிய", "உண்மைகள்"],
-      "imageUrl": "/assets/images/muthuniali-astrology.jpg"
+      "tags": ["முதுநிலை", "சிறப்பு", "ரத்னம்", "அரிய", "உண்மைகள்"],
+      "imageUrl": "/assets/images/mudhunilai-astrology.jpg"
+    },
+    {
+      "id": "modaku_pariharangal_001",
+      "title": "மொடகு பரிகாரங்கள்",
+      "titleEnglish": "Modaku Pariharangal",
+      "description": "12 பாவங்களில் மொடகு தோஷத்தின் பலன்கள் மற்றும் சிறப்பு பரிகாரங்கள்",
+      "descriptionEnglish": "Effects of Modaku dosha in 12 houses and special remedies",
+      "category": "தோஷ பரிகாரம்",
+      "categoryEnglish": "Dosha Remedies",
+      "price": 199,
+      "isPaid": true,
+      "duration": "90 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "12 பாவங்களில் மொடகு தோஷத்தின் விரிவான பலன்கள், பரிகாரங்கள் மற்றும் மந்திர உபாயங்கள்...",
+      "tags": ["மொடகு", "தோஷம்", "பரிகாரம்", "பாவம்", "மந்திரம்"],
+      "imageUrl": "/assets/images/modaku-pariharangal.jpg"
+    },
+    {
+      "id": "maanthi_pariharangal_001",
+      "title": "மாந்தி பரிகாரங்கள்",
+      "titleEnglish": "Maanthi Pariharangal",
+      "description": "12 பாவங்களில் மாந்தி தோஷத்தின் பலன்கள் மற்றும் சிறப்பு பரிகாரங்கள்",
+      "descriptionEnglish": "Effects of Maanthi dosha in 12 houses and special remedies",
+      "category": "தோஷ பரிகாரம்",
+      "categoryEnglish": "Dosha Remedies",
+      "price": 199,
+      "isPaid": true,
+      "duration": "90 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "12 பாவங்களில் மாந்தி தோஷத்தின் விரிவான பலன்கள், பரிகாரங்கள் மற்றும் மந்திர உபாயங்கள்...",
+      "tags": ["மாந்தி", "தோஷம்", "பரிகாரம்", "பாவம்", "மந்திரம்"],
+      "imageUrl": "/assets/images/maanthi-pariharangal.jpg"
     }
   ],
   "categories": [
@@ -289,6 +321,13 @@
       "nameEnglish": "Special Astrology",
       "icon": "diamond-outline",
       "color": "#f59e0b"
+    },
+    {
+      "id": "dosha_remedies",
+      "name": "தோஷ பரிகாரம்",
+      "nameEnglish": "Dosha Remedies",
+      "icon": "medical-outline",
+      "color": "#dc2626"
     }
   ]
 }

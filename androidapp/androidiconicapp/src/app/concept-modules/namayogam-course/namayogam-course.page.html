@@ -1,0 +1,324 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>நாமயோகம் (Namayogam)</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <h1>நாமயோகம் Course</h1>
+      <p>27 Sacred Star-Day Combinations</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <ion-icon name="star-outline"></ion-icon>
+          <span>27 Namayogam</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>Star-Day Magic</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="flash-outline"></ion-icon>
+          <span>Divine Timing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterNamayogam($event)"
+      placeholder="Search Namayogam..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="progress-section" *ngIf="completedNamayogam.length > 0">
+    <h3>Your Progress</h3>
+    <ion-progress-bar [value]="getProgressPercentage()"></ion-progress-bar>
+    <p>{{ completedNamayogam.length }} of {{ namayogamList.length }} Namayogam completed</p>
+  </div>
+
+  <!-- Namayogam Grid -->
+  <div class="namayogam-grid">
+    <ion-card 
+      *ngFor="let namayogam of filteredNamayogam; let i = index" 
+      class="namayogam-card"
+      [class.completed]="isNamayogamCompleted(namayogam.id)"
+      (click)="openNamayogamDetail(namayogam)">
+      
+      <div class="card-header">
+        <div class="namayogam-number">{{ i + 1 }}</div>
+        <div class="star-symbol">
+          <ion-icon name="diamond"></ion-icon>
+        </div>
+        <ion-button 
+          fill="clear" 
+          size="small"
+          [color]="isFavorite(namayogam.id) ? 'danger' : 'medium'"
+          (click)="toggleFavorite(namayogam.id, $event)">
+          <ion-icon 
+            [name]="isFavorite(namayogam.id) ? 'heart' : 'heart-outline'">
+          </ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-card-header>
+        <ion-card-title>{{ namayogam.name }}</ion-card-title>
+        <ion-card-subtitle>{{ namayogam.englishName }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="namayogam-preview">
+          <div class="preview-item">
+            <ion-icon name="star-outline"></ion-icon>
+            <span>{{ namayogam.nakshatra }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>{{ namayogam.weekday }}</span>
+          </div>
+          <div class="preview-item">
+            <ion-icon name="flash-outline"></ion-icon>
+            <span>{{ namayogam.effect }}</span>
+          </div>
+        </div>
+        
+        <div class="namayogam-benefits">
+          <span class="benefit-tag" *ngFor="let benefit of namayogam.keyBenefits.slice(0, 2)">
+            {{ benefit }}
+          </span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Namayogam Detail Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedNamayogam?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="modal-content" *ngIf="selectedNamayogam">
+        <div class="detail-hero">
+          <div class="star-display">
+            <ion-icon name="diamond"></ion-icon>
+          </div>
+          <h1>{{ selectedNamayogam.name }}</h1>
+          <h2>{{ selectedNamayogam.englishName }}</h2>
+          <div class="detail-stats">
+            <div class="stat-item">
+              <ion-icon name="star-outline"></ion-icon>
+              <span>{{ selectedNamayogam.nakshatra }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>{{ selectedNamayogam.weekday }}</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="flash-outline"></ion-icon>
+              <span>{{ selectedNamayogam.effect }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-sections">
+          <!-- Description Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="information-circle-outline"></ion-icon>
+                விளக்கம் (Description)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ selectedNamayogam.description }}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Astrological Significance Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="star-outline"></ion-icon>
+                ஜோதிட சிறப்பு (Astrological Significance)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="astro-info">
+                <div class="astro-item">
+                  <strong>Ruling Planet:</strong>
+                  <span>{{ selectedNamayogam.rulingPlanet }}</span>
+                </div>
+                <div class="astro-item">
+                  <strong>Element:</strong>
+                  <span>{{ selectedNamayogam.element }}</span>
+                </div>
+                <div class="astro-item">
+                  <strong>Quality:</strong>
+                  <span>{{ selectedNamayogam.quality }}</span>
+                </div>
+                <div class="astro-item">
+                  <strong>Best Time:</strong>
+                  <span>{{ selectedNamayogam.bestTime }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Benefits Section -->
+          <ion-card class="detail-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="gift-outline"></ion-icon>
+                பலன்கள் (Benefits)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="benefits-list">
+                <div class="benefit-item" *ngFor="let benefit of selectedNamayogam.keyBenefits">
+                  <ion-icon name="star"></ion-icon>
+                  <span>{{ benefit }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Pariharam Section -->
+          <ion-card class="detail-card pariharam-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                பரிகாரம் (Pariharam)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="pariharam-section">
+                <h4>Daily Practices:</h4>
+                <ul>
+                  <li *ngFor="let practice of selectedNamayogam.pariharam.dailyPractices">
+                    {{ practice }}
+                  </li>
+                </ul>
+                
+                <h4>Special Offerings:</h4>
+                <ul>
+                  <li *ngFor="let offering of selectedNamayogam.pariharam.offerings">
+                    {{ offering }}
+                  </li>
+                </ul>
+                
+                <h4>Gem Therapy:</h4>
+                <div class="gem-info">
+                  <p><strong>Primary Gem:</strong> {{ selectedNamayogam.pariharam.gems.primary }}</p>
+                  <p><strong>Alternative:</strong> {{ selectedNamayogam.pariharam.gems.alternative }}</p>
+                  <p><strong>Benefits:</strong> {{ selectedNamayogam.pariharam.gems.benefits }}</p>
+                </div>
+                
+                <h4>Mantras:</h4>
+                <div class="mantras">
+                  <div class="mantra" *ngFor="let mantra of selectedNamayogam.pariharam.mantras">
+                    <strong>{{ mantra.name }}:</strong>
+                    <p class="mantra-text">{{ mantra.text }}</p>
+                    <small>Chant {{ mantra.count }} times</small>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Activation Process Section -->
+          <ion-card class="detail-card activation-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="flash-outline"></ion-icon>
+                செயல்படுத்தும் முறை (Activation Process)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="activation-steps">
+                <div class="step" *ngFor="let step of selectedNamayogam.activationProcess; let i = index">
+                  <div class="step-number">{{ i + 1 }}</div>
+                  <div class="step-content">
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.description }}</p>
+                    <div class="step-details" *ngIf="step.details">
+                      <small>{{ step.details }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Favorable Activities Section -->
+          <ion-card class="detail-card favorable-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+                சாதகமான செயல்கள் (Favorable Activities)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="activities-list">
+                <div class="activity-item" *ngFor="let activity of selectedNamayogam.favorableActivities">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  <span>{{ activity }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Unfavorable Activities Section -->
+          <ion-card class="detail-card unfavorable-card">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-icon name="close-circle-outline"></ion-icon>
+                தவிர்க்க வேண்டிய செயல்கள் (Unfavorable Activities)
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="activities-list">
+                <div class="activity-item" *ngFor="let activity of selectedNamayogam.unfavorableActivities">
+                  <ion-icon name="close-circle"></ion-icon>
+                  <span>{{ activity }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class="modal-actions">
+          <ion-button 
+            expand="block" 
+            color="success"
+            (click)="markAsCompleted(selectedNamayogam.id)">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            Mark as Completed
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
