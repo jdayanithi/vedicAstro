@@ -95,6 +95,22 @@
       "content": "12 ராசிகளின் விரிவான ஆய்வு, ஒவ்வொரு ராசியின் குணங்கள், தொழில் வாய்ப்புகள், திருமண பொருத்தம், உடல்நலம், அதிர்ஷ்ட எண்கள், நிறங்கள், மற்றும் பரிகாரங்கள்...",
       "tags": ["ராசி", "கராத்துவம்", "குணங்கள்", "பலன்", "தொழில்", "திருமணம்", "உடல்நலம்"],
       "imageUrl": "/assets/images/rasi-karakathuvam.jpg"
+    },
+    {
+      "id": "gayathri_manthirangal_001",
+      "title": "காயத்ரி மந்திரங்கள்",
+      "titleEnglish": "Gayathri Manthirangal",
+      "description": "தெய்வங்கள், கிரகங்கள், நட்சத்திரங்கள் மற்றும் பீஜ மந்திரங்களின் முழுமையான தொகுப்பு",
+      "descriptionEnglish": "Complete collection of Gayathri mantras for deities, planets, nakshatras and beejam mantras",
+      "category": "மந்திர ஜோதிஷம்",
+      "categoryEnglish": "Mantra Astrology",
+      "price": 0,
+      "isPaid": false,
+      "duration": "வரம்பில்லாத",
+      "level": "எல்லா நிலைகள்",
+      "content": "தெய்வ காயத்ரிகள், நவ கிரக மந்திரங்கள், 27 நட்சத்திர மந்திரங்கள், சக்திவாய்ந்த பீஜ மந்திரங்கள் மற்றும் அவற்றின் பலன்கள், சொல்லும் முறை, சிறந்த நேரம் உள்ளிட்ட முழுமையான தகவல்கள்...",
+      "tags": ["காயத்ரி", "மந்திரம்", "தெய்வம்", "கிரகம்", "நட்சத்திரம்", "பீஜம்", "பலன்", "வழிபாடு"],
+      "imageUrl": "/assets/images/gayathri-manthirangal.jpg"
     }
   ],
   "categories": [
@@ -197,6 +213,13 @@
       "nameEnglish": "Rasi Astrology",
       "icon": "radio-button-on-outline",
       "color": "#10b981"
+    },
+    {
+      "id": "mantra_astrology",
+      "name": "மந்திர ஜோதிஷம்",
+      "nameEnglish": "Mantra Astrology",
+      "icon": "musical-notes-outline",
+      "color": "#f97316"
     }
   ]
 }

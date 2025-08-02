@@ -40,6 +40,10 @@ const routes: Routes = [
   {
     path: 'rasi-karakathuvam',
     loadChildren: () => import('./concept-modules/rasi-karakathuvam/rasi-karakathuvam.module').then( m => m.RasiKarakathuvamPageModule)
+  },
+  {
+    path: 'gayathri-manthirangal',
+    loadChildren: () => import('./concept-modules/gayathri-manthirangal/gayathri-manthirangal.module').then( m => m.GayathriManthirangalPageModule)
   }
 
 ];
