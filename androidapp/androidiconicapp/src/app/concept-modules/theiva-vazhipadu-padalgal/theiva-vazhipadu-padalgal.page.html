@@ -191,6 +191,28 @@
             </ion-list>
           </div>
 
+          <div class="padal-links-section" *ngIf="selectedPadal.webLink || selectedPadal.videoLink">
+            <h3>மேலும் தகவல்கள்</h3>
+            <ion-list>
+              <ion-item *ngIf="selectedPadal.webLink" button (click)="openWebLink(selectedPadal)">
+                <ion-icon name="link" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h4>முழுமையான பாடல் (வெப்சைட்)</h4>
+                  <p>முழு பாடலைப் படிக்க இங்கே கிளிக் செய்யுங்கள்</p>
+                </ion-label>
+                <ion-icon name="open-outline" slot="end" color="medium"></ion-icon>
+              </ion-item>
+              <ion-item *ngIf="selectedPadal.videoLink" button (click)="openVideoLink(selectedPadal)">
+                <ion-icon name="play-circle" slot="start" color="danger"></ion-icon>
+                <ion-label>
+                  <h4>வீடியோ (YouTube)</h4>
+                  <p>பாடலை கேட்க இங்கே கிளிக் செய்யுங்கள்</p>
+                </ion-label>
+                <ion-icon name="open-outline" slot="end" color="medium"></ion-icon>
+              </ion-item>
+            </ion-list>
+          </div>
+
           <div class="padal-actions-detail">
             <ion-button 
               expand="block" 

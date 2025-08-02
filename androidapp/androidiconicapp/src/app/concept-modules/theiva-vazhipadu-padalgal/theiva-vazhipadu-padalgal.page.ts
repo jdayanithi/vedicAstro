@@ -394,4 +394,16 @@ export class TheivaValzipaduPadalgalPage implements OnInit {
   trackByPadalId(index: number, padal: any): string {
     return padal.id;
   }
+
+  openWebLink(padal: any) {
+    if (padal.webLink) {
+      window.open(padal.webLink, '_blank');
+    }
+  }
+
+  openVideoLink(padal: any) {
+    if (padal.videoLink) {
+      window.open(padal.videoLink, '_blank');
+    }
+  }
 }
