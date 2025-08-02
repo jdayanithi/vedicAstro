@@ -1,0 +1,254 @@
+// Import the base styles from adipadai
+@import '../adipadai-astrology/adipadai-astrology.page.scss';
+
+// Advanced Course Overrides
+.hero-section {
+  background: linear-gradient(135deg, 
+    var(--ion-color-secondary) 0%, 
+    var(--ion-color-tertiary) 50%, 
+    var(--ion-color-warning) 100%);
+}
+
+.level-info {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+// Advanced Topic Cards
+.advanced-card {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-tertiary)) border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.advanced-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    var(--ion-color-secondary) 0%, 
+    var(--ion-color-tertiary) 50%, 
+    var(--ion-color-warning) 100%);
+}
+
+.advanced-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-tertiary));
+}
+
+// Prerequisites
+.prerequisites {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--ion-color-secondary-tint);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-secondary);
+}
+
+.prerequisites h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-secondary);
+  font-weight: 600;
+}
+
+.prereq-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// Advanced Modal Header
+.advanced-modal-header {
+  background: linear-gradient(135deg, 
+    var(--ion-color-secondary) 0%, 
+    var(--ion-color-tertiary) 100%);
+}
+
+.modal-badges {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+// Advanced Point Items
+.advanced-point {
+  background: linear-gradient(135deg, 
+    var(--ion-color-secondary-tint) 0%, 
+    var(--ion-color-tertiary-tint) 100%);
+  border-left: 4px solid var(--ion-color-secondary);
+}
+
+// Prerequisites Cards
+.prereq-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.75rem;
+}
+
+.prereq-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--ion-color-success-tint);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-success);
+}
+
+// Techniques Grid
+.techniques-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.technique-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--ion-color-tertiary-tint);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-tertiary);
+  font-weight: 500;
+}
+
+// Advanced Benefits
+.advanced-benefit {
+  background: linear-gradient(135deg, 
+    var(--ion-color-warning-tint) 0%, 
+    var(--ion-color-secondary-tint) 100%);
+  border-left: 4px solid var(--ion-color-warning);
+}
+
+// Advanced Applications
+.advanced-app {
+  background: linear-gradient(135deg, 
+    var(--ion-color-success-tint) 0%, 
+    var(--ion-color-tertiary-tint) 100%);
+  border-left: 4px solid var(--ion-color-success);
+}
+
+// Advanced Content
+.advanced-content {
+  background: var(--ion-color-light);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--ion-color-medium-tint);
+  position: relative;
+}
+
+.advanced-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--ion-color-secondary) 0%, 
+    var(--ion-color-tertiary) 50%, 
+    var(--ion-color-warning) 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+// Advanced Footer
+.advanced-footer {
+  background: linear-gradient(135deg, 
+    var(--ion-color-light) 0%, 
+    var(--ion-color-secondary-tint) 100%);
+}
+
+// Advanced Animations
+.advanced-card {
+  animation: advancedSlideIn 0.6s ease-out;
+}
+
+@keyframes advancedSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.advanced-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+// Enhanced Sparkles for Advanced Course
+.sparkle {
+  background: linear-gradient(45deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-secondary) 100%);
+  animation: advancedSparkle 3s infinite;
+}
+
+@keyframes advancedSparkle {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.5) rotate(180deg);
+  }
+}
+
+// Responsive Design for Advanced Course
+@media (max-width: 768px) {
+  .level-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .modal-badges {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .prereq-cards,
+  .techniques-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Dark Mode Support for Advanced Course
+@media (prefers-color-scheme: dark) {
+  .advanced-card {
+    background: linear-gradient(var(--ion-color-dark), var(--ion-color-dark)) padding-box,
+                linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-tertiary)) border-box;
+  }
+  
+  .prerequisites {
+    background: var(--ion-color-dark-shade);
+  }
+  
+  .advanced-content {
+    background: var(--ion-color-dark-shade);
+    border-color: var(--ion-color-medium-shade);
+  }
+  
+  .prereq-card,
+  .technique-card {
+    background: var(--ion-color-dark-tint);
+  }
+}

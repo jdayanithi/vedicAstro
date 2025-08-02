@@ -84,7 +84,7 @@
       "id": "rasi_karakathuvam_001",
       "title": "12 ராசி கராத்துவம்",
       "titleEnglish": "12 Rasi Karakathuvam",
-      "description": "12 ராசிகளின் முழுமையான கராத்துவம், குணங்கள், பலன்கள், தொழில், திருமணம், உடல்நலம் மற்றும் பரிகாரங்கள்",
+      "description": "12 ராசிகளின் முழுமையான கராத்துவம், குணங்கள், பலன்கள், தொழில், திருமணம், உடல்��லம் மற்றும் பரிகாரங்கள்",
       "descriptionEnglish": "Complete study of 12 zodiac signs with characteristics, predictions, career, marriage, health and remedies",
       "category": "ராசி ஜோதிஷம்",
       "categoryEnglish": "Rasi Astrology",
@@ -92,7 +92,7 @@
       "isPaid": true,
       "duration": "90 நிமிடங்கள்",
       "level": "நடுத்தர",
-      "content": "12 ராசிகளின் விரிவான ஆய்வு, ஒவ்வொரு ராசியின் குணங்கள், தொழில் வாய்ப்புகள், திருமண பொருத்தம், உடல்நலம், அதிர்ஷ்ட எண்கள், நிறங்கள், மற்றும் பரிகாரங்கள்...",
+      "content": "12 ராசிகளின் விரி��ான ஆய்வு, ஒவ்வொரு ராசியின் குணங்கள், தொழில் வாய்ப்புகள், திருமண பொருத்தம், உடல்நலம், அதிர்ஷ்ட எண்கள், நிறங்கள், மற்றும் பரிகாரங்கள்...",
       "tags": ["ராசி", "கராத்துவம்", "குணங்கள்", "பலன்", "தொழில்", "திருமணம்", "உடல்நலம்"],
       "imageUrl": "/assets/images/rasi-karakathuvam.jpg"
     },
@@ -109,8 +109,56 @@
       "duration": "வரம்பில்லாத",
       "level": "எல்லா நிலைகள்",
       "content": "தெய்வ காயத்ரிகள், நவ கிரக மந்திரங்கள், 27 நட்சத்திர மந்திரங்கள், சக்திவாய்ந்த பீஜ மந்திரங்கள் மற்றும் அவற்றின் பலன்கள், சொல்லும் முறை, சிறந்த நேரம் உள்ளிட்ட முழுமையான தகவல்கள்...",
-      "tags": ["காயத்ரி", "மந்திரம்", "தெய்வம்", "கிரகம்", "நட்சத்திரம்", "பீஜம்", "பலன்", "வழிபாடு"],
+      "tags": ["காயத்ரி", "மந்திரம்", "தெ���்வம்", "கிரகம்", "நட்சத்திரம்", "பீஜம்", "பலன்", "வழிபாடு"],
       "imageUrl": "/assets/images/gayathri-manthirangal.jpg"
+    },
+    {
+      "id": "adipadai_astrology_001",
+      "title": "அடிப்படை ஜோதிஷம்",
+      "titleEnglish": "Adipadai Astrology",
+      "description": "ஜோதிட சாஸ்திரத்தின் அடிப்படை கருத்துக்கள் - சரம் சீரம் உபாயம், திரைகணம், கிரக உச்சம், திசைகள் மற்றும் பல அடிப்படை விஷயங்கள்",
+      "descriptionEnglish": "Fundamental concepts of astrology - Saram Serum remedies, Dharma-Artha-Kama-Moksha rasis, planetary relationships, directions and basic principles",
+      "category": "அடிப்படை ஜோதிஷம்",
+      "categoryEnglish": "Basic Astrology",
+      "price": 199,
+      "isPaid": true,
+      "duration": "120 நிமிடங்கள்",
+      "level": "ஆரம்பம்",
+      "content": "ஜோதிட சாஸ்திரத்தின் அடிப்படை கருத்துக்கள், சரம் சீரம் உபாயங்கள், திரைகணம் தர்ம ராசி பொருள் ராசி காம ராசி மோக்ஷ ராசி, கிரக உறவுகள், திசைகள், கிரக உச்சம் மற்றும் பல முக்கிய தலைப்புகள்...",
+      "tags": ["அடிப்படை", "சரம்", "சீரம்", "திரைகணம்", "கிரக உறவு", "திசைகள்"],
+      "imageUrl": "/assets/images/adipadai-astrology.jpg"
+    },
+    {
+      "id": "uraynilai_astrology_001",
+      "title": "உறைநிலை ஜோதிஷம்",
+      "titleEnglish": "Uraynilai Astrology",
+      "description": "மேம்பட்ட ஜோதிட நுட்பங்கள் மற்றும் சிறப்பு கணிப்பு முறைகள் - பல்வேறு உன்னத நிலை ஜோதிட கருத்துக்கள்",
+      "descriptionEnglish": "Advanced astrological techniques and special prediction methods - Various sophisticated astrological concepts",
+      "category": "மேம்பட்ட ஜோதிஷம்",
+      "categoryEnglish": "Advanced Astrology",
+      "price": 349,
+      "isPaid": true,
+      "duration": "150 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "மேம்பட்ட ஜோதிட நுட்பங்கள், சிறப்பு கணிப்பு முறைகள், உன்னத நிலை ஜோதிட கருத்துக்கள், மற்றும் பல மேம்பட்ட தலைப்புகள்...",
+      "tags": ["மேம்பட்ட", "உறைநிலை", "நுட்பம்", "கணிப்பு", "உன்னதம்"],
+      "imageUrl": "/assets/images/uraynilai-astrology.jpg"
+    },
+    {
+      "id": "muthuniali_astrology_001",
+      "title": "முத்துநிலை ஜோதிஷம்",
+      "titleEnglish": "Muthuniali Astrology",
+      "description": "சிறப்பு ஜோதிட ரத்ன நிலை கருத்துக்கள் மற்றும் முத்து போன்ற அரிய ஜோதிட உண்மைகள்",
+      "descriptionEnglish": "Special astrological gem-level concepts and rare astrological truths like pearls of wisdom",
+      "category": "சிறப்பு ஜோதிஷம்",
+      "categoryEnglish": "Special Astrology",
+      "price": 449,
+      "isPaid": true,
+      "duration": "180 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "சிறப்பு ஜோதிட ரத்ன நிலை கருத்துக்கள், முத்து போன்ற அரிய ஜோதிட உண்மைகள், மற்றும் பல சிறப்பு தலைப்புகள்...",
+      "tags": ["முத்துநிலை", "சிறப்பு", "ரத்னம்", "அரிய", "உண்மைகள்"],
+      "imageUrl": "/assets/images/muthuniali-astrology.jpg"
     }
   ],
   "categories": [
@@ -216,10 +264,31 @@
     },
     {
       "id": "mantra_astrology",
-      "name": "மந்திர ஜோதிஷம்",
+      "name": "மந்திர ஜோதிஷ��்",
       "nameEnglish": "Mantra Astrology",
       "icon": "musical-notes-outline",
       "color": "#f97316"
+    },
+    {
+      "id": "basic_astrology",
+      "name": "அடிப்படை ஜோதிஷம்",
+      "nameEnglish": "Basic Astrology",
+      "icon": "library-outline",
+      "color": "#06b6d4"
+    },
+    {
+      "id": "advanced_astrology",
+      "name": "மேம்பட்ட ஜோதிஷம்",
+      "nameEnglish": "Advanced Astrology",
+      "icon": "trophy-outline",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "special_astrology",
+      "name": "சிறப்பு ஜோதிஷம்",
+      "nameEnglish": "Special Astrology",
+      "icon": "diamond-outline",
+      "color": "#f59e0b"
     }
   ]
 }

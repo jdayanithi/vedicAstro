@@ -44,6 +44,18 @@ const routes: Routes = [
   {
     path: 'gayathri-manthirangal',
     loadChildren: () => import('./concept-modules/gayathri-manthirangal/gayathri-manthirangal.module').then( m => m.GayathriManthirangalPageModule)
+  },
+  {
+    path: 'adipadai-astrology',
+    loadChildren: () => import('./concept-modules/adipadai-astrology/adipadai-astrology.module').then( m => m.AdipadaiAstrologyPageModule)
+  },
+  {
+    path: 'uraynilai-astrology',
+    loadChildren: () => import('./concept-modules/uraynilai-astrology/uraynilai-astrology.module').then( m => m.UraynilaiAstrologyPageModule)
+  },
+  {
+    path: 'muthuniali-astrology',
+    loadChildren: () => import('./concept-modules/muthuniali-astrology/muthuniali-astrology.module').then( m => m.MuthunialiAstrologyPageModule)
   }
 
 ];

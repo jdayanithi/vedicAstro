@@ -1,0 +1,196 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>அடிப்படை ஜோதிஷம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-icon">
+        <ion-icon name="school-outline"></ion-icon>
+      </div>
+      <h1 class="hero-title">அடிப்படை ஜோதிஷம்</h1>
+      <p class="hero-subtitle">ஜோதிட சாஸ்திரத்தின் அடிப்படை கருத்துக்கள்</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">{{topics.length}}</span>
+          <span class="stat-label">தலைப்புகள்</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">120</span>
+          <span class="stat-label">நிமிடங்கள்</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">₹199</span>
+          <span class="stat-label">கட்டணம்</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-decoration">
+      <div class="sparkle sparkle-1"></div>
+      <div class="sparkle sparkle-2"></div>
+      <div class="sparkle sparkle-3"></div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="searchTopics()" 
+      placeholder="தலைப்புகளைத் தேடுங்கள்..."
+      showClearButton="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Topics Grid -->
+  <div class="topics-container">
+    <div class="topics-grid">
+      <div *ngFor="let topic of filteredTopics; trackBy: trackByTopicId" 
+           class="topic-card" 
+           [attr.data-category]="topic.category"
+           (click)="openTopicDetail(topic)">
+        
+        <div class="topic-header">
+          <div class="topic-icon" [style.background]="topic.color">
+            <ion-icon [name]="topic.icon"></ion-icon>
+          </div>
+          <div class="topic-badge" [style.background]="topic.color">
+            {{topic.difficulty}}
+          </div>
+        </div>
+
+        <div class="topic-content">
+          <h3 class="topic-title">{{topic.title}}</h3>
+          <p class="topic-description">{{topic.description}}</p>
+          
+          <div class="topic-meta">
+            <div class="meta-item">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{topic.duration}}</span>
+            </div>
+            <div class="meta-item">
+              <ion-icon name="library-outline"></ion-icon>
+              <span>{{topic.category}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-footer">
+          <ion-button fill="clear" size="small" (click)="toggleFavorite(topic, $event)">
+            <ion-icon [name]="isFavorite(topic) ? 'heart' : 'heart-outline'" 
+                      [color]="isFavorite(topic) ? 'danger' : 'medium'">
+            </ion-icon>
+          </ion-button>
+          <ion-button fill="outline" size="small" (click)="shareTopic(topic, $event)">
+            <ion-icon name="share-outline"></ion-icon>
+            பகிர்
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredTopics.length === 0">
+    <ion-icon name="search-outline"></ion-icon>
+    <h3>தலைப்புகள் கிடைக்கவில்லை</h3>
+    <p>வேறு ஒரு தேடல் வார்த்தையை முயற்சிக்கவும்</p>
+  </div>
+
+  <!-- Topic Detail Modal -->
+  <ion-modal #detailModal [isOpen]="false" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{selectedTopic?.title}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeTopicDetail()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content" *ngIf="selectedTopic">
+        <div class="modal-header">
+          <div class="modal-icon" [style.background]="selectedTopic.color">
+            <ion-icon [name]="selectedTopic.icon"></ion-icon>
+          </div>
+          <h2>{{selectedTopic.title}}</h2>
+          <p class="modal-subtitle">{{selectedTopic.description}}</p>
+        </div>
+
+        <div class="modal-body">
+          <!-- Key Points -->
+          <div class="section">
+            <h3>முக்கிய விஷயங்கள்</h3>
+            <div class="key-points">
+              <div *ngFor="let point of selectedTopic.keyPoints" class="point-item">
+                <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                <span>{{point}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="section">
+            <h3>விரிவான விளக்கம்</h3>
+            <div class="content-text" [innerHTML]="selectedTopic.content"></div>
+          </div>
+
+          <!-- Benefits -->
+          <div class="section">
+            <h3>பலன்கள்</h3>
+            <div class="benefits-grid">
+              <div *ngFor="let benefit of selectedTopic.benefits" class="benefit-card">
+                <ion-icon name="star" color="warning"></ion-icon>
+                <span>{{benefit}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Practical Applications -->
+          <div class="section" *ngIf="selectedTopic.applications">
+            <h3>நடைமுறை பயன்பாடுகள்</h3>
+            <div class="applications-list">
+              <div *ngFor="let app of selectedTopic.applications" class="app-item">
+                <ion-icon name="bulb" color="tertiary"></ion-icon>
+                <span>{{app}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <ion-button expand="block" color="primary" (click)="markAsStudied(selectedTopic)">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            பயின்றது என்று குறிக்கவும்
+          </ion-button>
+          
+          <div class="action-buttons">
+            <ion-button fill="outline" (click)="toggleFavorite(selectedTopic)">
+              <ion-icon [name]="isFavorite(selectedTopic) ? 'heart' : 'heart-outline'"></ion-icon>
+              {{isFavorite(selectedTopic) ? 'விருப்பத்திலிருந்து நீக்கு' : 'விருப்பத்தில் சேர்'}}
+            </ion-button>
+            <ion-button fill="outline" (click)="shareTopic(selectedTopic)">
+              <ion-icon name="share-outline"></ion-icon>
+              பகிர்
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

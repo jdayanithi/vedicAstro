@@ -1,0 +1,428 @@
+// Hero Section
+.hero-section {
+  background: linear-gradient(135deg, 
+    var(--ion-color-primary) 0%, 
+    var(--ion-color-secondary) 50%, 
+    var(--ion-color-tertiary) 100%);
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--ion-color-warning);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.hero-decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: sparkle 2s infinite;
+}
+
+.sparkle-1 {
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.sparkle-2 {
+  top: 60%;
+  right: 20%;
+  animation-delay: 0.7s;
+}
+
+.sparkle-3 {
+  bottom: 25%;
+  left: 25%;
+  animation-delay: 1.4s;
+}
+
+@keyframes sparkle {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Search Container
+.search-container {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+// Topics Container
+.topics-container {
+  padding: 0 1rem;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+// Topic Cards
+.topic-card {
+  background: var(--ion-color-light);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.topic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.topic-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.topic-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.topic-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 500;
+}
+
+.topic-content {
+  padding: 0 1rem 1rem;
+}
+
+.topic-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  color: var(--ion-color-dark);
+}
+
+.topic-description {
+  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.topic-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}
+
+.topic-footer {
+  padding: 0 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--ion-color-medium);
+}
+
+.empty-state ion-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  margin: 1rem 0 0.5rem;
+  color: var(--ion-color-dark);
+}
+
+// Modal Styles
+.modal-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, 
+    var(--ion-color-primary) 0%, 
+    var(--ion-color-secondary) 100%);
+  padding: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.modal-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 2rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.modal-subtitle {
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  color: var(--ion-color-primary);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+// Key Points
+.key-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.point-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+}
+
+.point-item ion-icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+// Content Text
+.content-text {
+  line-height: 1.6;
+  color: var(--ion-color-dark);
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  strong {
+    color: var(--ion-color-primary);
+  }
+}
+
+// Benefits Grid
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.benefit-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--ion-color-warning-tint);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-warning);
+}
+
+// Applications List
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.app-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--ion-color-tertiary-tint);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-tertiary);
+}
+
+.app-item ion-icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+// Modal Footer
+.modal-footer {
+  padding: 1.5rem;
+  background: var(--ion-color-light);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.action-buttons ion-button {
+  flex: 1;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-stats {
+    gap: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.25rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Dark Mode Support
+@media (prefers-color-scheme: dark) {
+  .topic-card {
+    background: var(--ion-color-dark);
+    color: var(--ion-color-light);
+  }
+  
+  .topic-title {
+    color: var(--ion-color-light);
+  }
+  
+  .point-item,
+  .benefit-card,
+  .app-item {
+    background: var(--ion-color-dark-tint);
+  }
+  
+  .modal-footer {
+    background: var(--ion-color-dark);
+  }
+}
+
+// Animation Classes
+.topic-card {
+  animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

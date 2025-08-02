@@ -1,0 +1,453 @@
+// Import base styles
+@import '../adipadai-astrology/adipadai-astrology.page.scss';
+
+// Premium Course Overrides
+.hero-section {
+  background: linear-gradient(135deg, 
+    var(--ion-color-tertiary) 0%, 
+    var(--ion-color-warning) 30%,
+    var(--ion-color-success) 60%,
+    var(--ion-color-primary) 100%);
+  position: relative;
+}
+
+.specialty-info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+// Gem Decorations
+.gem {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(45deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 100%);
+  border-radius: 50%;
+  animation: gemGlow 3s infinite;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+.gem-1 {
+  top: 15%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.gem-2 {
+  top: 70%;
+  right: 15%;
+  animation-delay: 1s;
+}
+
+.gem-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+@keyframes gemGlow {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.5);
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+  }
+}
+
+// Premium Topic Cards
+.premium-card {
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, 
+                var(--ion-color-warning) 0%, 
+                var(--ion-color-tertiary) 50%, 
+                var(--ion-color-success) 100%) border-box;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+}
+
+.premium-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 33%, 
+    var(--ion-color-success) 66%, 
+    var(--ion-color-primary) 100%);
+}
+
+.premium-card::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, 
+    var(--ion-color-warning) 0%, 
+    transparent 70%);
+  border-radius: 50%;
+  animation: premiumGlow 2s infinite;
+}
+
+@keyframes premiumGlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+.premium-icon {
+  background: linear-gradient(135deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 100%) !important;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+}
+
+.premium-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(135deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 100%);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+// Ancient Wisdom Section
+.ancient-wisdom {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    var(--ion-color-tertiary-tint) 0%, 
+    var(--ion-color-warning-tint) 100%);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-tertiary);
+}
+
+.ancient-wisdom h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-tertiary);
+  font-weight: 600;
+}
+
+.wisdom-source {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-style: italic;
+  color: var(--ion-color-dark);
+}
+
+// Gem Connection Section
+.gem-connection {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    var(--ion-color-warning-tint) 0%, 
+    var(--ion-color-success-tint) 100%);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-warning);
+}
+
+.gem-connection h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-warning);
+  font-weight: 600;
+}
+
+.gem-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--ion-color-dark);
+}
+
+// Premium Modal Header
+.premium-modal-header {
+  background: linear-gradient(135deg, 
+    var(--ion-color-tertiary) 0%, 
+    var(--ion-color-warning) 50%,
+    var(--ion-color-success) 100%);
+}
+
+.premium-modal-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+// Premium Point Items
+.premium-point {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.1) 0%, 
+    rgba(255, 235, 59, 0.1) 100%);
+  border-left: 4px solid var(--ion-color-warning);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);
+}
+
+// Ancient Source Card
+.ancient-source-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, 
+    var(--ion-color-tertiary-tint) 0%, 
+    var(--ion-color-light) 100%);
+  border-radius: 12px;
+  border: 2px solid var(--ion-color-tertiary-tint);
+}
+
+.ancient-source-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--ion-color-tertiary);
+  font-weight: 600;
+}
+
+// Gemstone Card
+.gemstone-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, 
+    var(--ion-color-warning-tint) 0%, 
+    var(--ion-color-light) 100%);
+  border-radius: 12px;
+  border: 2px solid var(--ion-color-warning-tint);
+}
+
+.gemstone-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--ion-color-warning);
+  font-weight: 600;
+}
+
+// Sacred Practices Grid
+.practices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.75rem;
+}
+
+.practice-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    var(--ion-color-success-tint) 0%, 
+    var(--ion-color-light) 100%);
+  border-radius: 8px;
+  border-left: 4px solid var(--ion-color-success);
+  font-weight: 500;
+}
+
+// Premium Benefits
+.premium-benefit {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.2) 0%, 
+    rgba(255, 235, 59, 0.1) 50%,
+    rgba(76, 175, 80, 0.1) 100%);
+  border-left: 4px solid var(--ion-color-warning);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+// Premium Applications
+.premium-app {
+  background: linear-gradient(135deg, 
+    rgba(63, 81, 181, 0.1) 0%, 
+    rgba(255, 193, 7, 0.1) 50%,
+    rgba(76, 175, 80, 0.1) 100%);
+  border-left: 4px solid var(--ion-color-tertiary);
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.2);
+}
+
+// Premium Content
+.premium-content {
+  background: linear-gradient(135deg, 
+    var(--ion-color-light) 0%, 
+    rgba(255, 193, 7, 0.05) 100%);
+  border: 2px solid var(--ion-color-warning-tint);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.1);
+}
+
+.premium-content::before {
+  background: linear-gradient(90deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 25%, 
+    var(--ion-color-success) 50%, 
+    var(--ion-color-primary) 75%,
+    var(--ion-color-warning) 100%);
+}
+
+// Premium Footer
+.premium-footer {
+  background: linear-gradient(135deg, 
+    var(--ion-color-light) 0%, 
+    rgba(255, 193, 7, 0.1) 100%);
+  border-top: 3px solid var(--ion-color-warning-tint);
+}
+
+// Premium Animations
+.premium-card {
+  animation: premiumSlideIn 0.8s ease-out;
+}
+
+@keyframes premiumSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9) rotateX(10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0deg);
+  }
+}
+
+.premium-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(255, 193, 7, 0.4);
+}
+
+// Enhanced Sparkles for Premium Course
+.sparkle {
+  background: linear-gradient(45deg, 
+    var(--ion-color-warning) 0%, 
+    var(--ion-color-tertiary) 50%,
+    var(--ion-color-success) 100%);
+  animation: premiumSparkle 4s infinite;
+  width: 8px;
+  height: 8px;
+}
+
+@keyframes premiumSparkle {
+  0%, 100% { 
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    opacity: 0.8;
+    transform: scale(1) rotate(90deg);
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.8) rotate(180deg);
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1) rotate(270deg);
+    filter: hue-rotate(270deg);
+  }
+}
+
+// Responsive Design for Premium Course
+@media (max-width: 768px) {
+  .specialty-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .practices-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ancient-source-card,
+  .gemstone-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .premium-modal-icon {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+// Dark Mode Support for Premium Course
+@media (prefers-color-scheme: dark) {
+  .premium-card {
+    background: linear-gradient(var(--ion-color-dark), var(--ion-color-dark)) padding-box,
+                linear-gradient(135deg, 
+                  var(--ion-color-warning) 0%, 
+                  var(--ion-color-tertiary) 50%, 
+                  var(--ion-color-success) 100%) border-box;
+  }
+  
+  .ancient-wisdom,
+  .gem-connection {
+    background: var(--ion-color-dark-shade);
+  }
+  
+  .premium-content {
+    background: linear-gradient(135deg, 
+      var(--ion-color-dark-shade) 0%, 
+      rgba(255, 193, 7, 0.05) 100%);
+    border-color: var(--ion-color-warning-shade);
+  }
+  
+  .ancient-source-card,
+  .gemstone-card,
+  .practice-card {
+    background: var(--ion-color-dark-tint);
+  }
+  
+  .premium-footer {
+    background: linear-gradient(135deg, 
+      var(--ion-color-dark) 0%, 
+      rgba(255, 193, 7, 0.05) 100%);
+  }
+}
+
+// Special Glow Effects for Premium Elements
+.premium-card,
+.premium-modal-icon,
+.premium-badge {
+  position: relative;
+}
+
+.premium-card:hover::after,
+.premium-modal-icon::after,
+.premium-badge::after {
+  animation: none;
+  opacity: 1;
+}
+
+// Luxury Typography
+.premium-card .topic-title {
+  background: linear-gradient(135deg, 
+    var(--ion-color-dark) 0%, 
+    var(--ion-color-warning) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
