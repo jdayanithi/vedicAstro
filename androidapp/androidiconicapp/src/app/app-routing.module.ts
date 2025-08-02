@@ -50,32 +50,40 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/adipadai-astrology/adipadai-astrology.module').then( m => m.AdipadaiAstrologyPageModule)
   },
   {
-    path: 'uyarnilai-astrology',
-    loadChildren: () => import('./concept-modules/uyarnilai-astrology/uyarnilai-astrology.module').then( m => m.UyarnilaiAstrologyPageModule)
-  },
-  {
-    path: 'mudhunilai-astrology',
-    loadChildren: () => import('./concept-modules/mudhunilai-astrology/mudhunilai-astrology.module').then( m => m.MudhunilaiAstrologyPageModule)
+    path: 'thithi-course',
+    loadChildren: () => import('./concept-modules/thithi-course/thithi-course.module').then( m => m.ThithiCoursePageModule)
   },
   {
     path: 'karnam-course',
     loadChildren: () => import('./concept-modules/karnam-course/karnam-course.module').then( m => m.KarnamCoursePageModule)
   },
   {
-    path: 'thithi-course',
-    loadChildren: () => import('./concept-modules/thithi-course/thithi-course.module').then( m => m.ThithiCoursePageModule)
+    path: 'mudaku-pariharangal',
+    loadChildren: () => import('./concept-modules/mudaku-pariharangal/mudaku-pariharangal.module').then( m => m.MudakuPariharangalPageModule)
+  },
+  {
+    path: 'muthuniali-astrology',
+    loadChildren: () => import('./concept-modules/muthuniali-astrology/muthuniali-astrology.module').then( m => m.MuthuniliAstrologyPageModule)
+  },
+  {
+    path: 'mudhunilai-astrology',
+    loadChildren: () => import('./concept-modules/mudhunilai-astrology/mudhunilai-astrology.module').then( m => m.MudhunilaiAstrologyPageModule)
+  },
+  {
+    path: 'uyarnilai-astrology',
+    loadChildren: () => import('./concept-modules/uyarnilai-astrology/uyarnilai-astrology.module').then( m => m.UyarnilaiAstrologyPageModule)
   },
   {
     path: 'namayogam-course',
     loadChildren: () => import('./concept-modules/namayogam-course/namayogam-course.module').then( m => m.NamayogamCoursePageModule)
   },
   {
-    path: 'mudaku-pariharangal',
-    loadChildren: () => import('./concept-modules/mudaku-pariharangal/mudaku-pariharangal.module').then( m => m.MudakuPariharangalPageModule)
+    path: 'manthi-pariharangal',
+    loadChildren: () => import('./concept-modules/manthi-pariharangal/manthi-pariharangal.module').then( m => m.ManthiPariharangalPageModule)
   },
   {
-    path: 'maanthi-pariharangal',
-    loadChildren: () => import('./concept-modules/maanthi-pariharangal/maanthi-pariharangal.module').then( m => m.MaanthiPariharangalPageModule)
+    path: 'uraynilai-astrology',
+    loadChildren: () => import('./concept-modules/uraynilai-astrology/uraynilai-astrology.module').then( m => m.UraynilaiAstrologyPageModule)
   }
 
 ];

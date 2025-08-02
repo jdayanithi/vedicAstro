@@ -321,56 +321,6 @@ export class NamayogamCoursePage implements OnInit {
         { title: 'Artistic Expression', description: 'Express your creativity', details: 'Create something beautiful daily' },
         { title: 'Grace Cultivation', description: 'Develop graceful behavior', details: 'Practice elegant and refined conduct' }
       ]
-    },
-    {
-      id: 'atiganda',
-      name: 'அதிகண்ட',
-      englishName: 'Atiganda',
-      effect: 'தடை நீக்கம்',
-      effectEnglish: 'Obstacle Removal',
-      rulingPlanet: 'Mars',
-      element: 'Fire',
-      quality: 'Rajasic',
-      bestTime: 'காலை 9-12 மணி (Morning 9-12 PM)',
-      description: 'அதிகண்ட யோகம் எல்லா தடைகளையும் நீக்கி வெற்றி பெற உதவும் யோகம். இந்த யோகத்தில் சிக்கலான விஷயங்களை தீர்க்க முடியும்.',
-      characteristics: ['தடை நீக்கம்', 'சிக்கல் தீர்வு', 'வெற்றிக்கு வழி', 'எதிர்ப்பை வெல்லுதல்', 'முன்னேற்ற பாதை', 'தடையற்ற வாழ்க்கை'],
-      keyBenefits: ['தடை நீக்கம்', 'சிக்கல் தீர்வு', 'வெற்றி பாதை', 'முன்னேற்றம்'],
-      favorableActivities: ['Removing obstacles', 'Problem solving', 'Legal matters', 'Conflict resolution', 'Breakthrough activities'],
-      unfavorableActivities: ['Creating new problems', 'Avoiding challenges', 'Procrastination', 'Giving up easily'],
-      yogi: {
-        name: 'அதிகண்ட யோகி',
-        englishName: 'Atiganda Yogi',
-        direction: 'கிழக்கு (East)',
-        benefits: ['பெரிய தடைகளை நீக்கும் சக்தி', 'சிக்கலான பிரச்சினைகளுக்கு தீர்வு காணும் ஆற்றல்', 'வெற்றி பாதையில் முன்னேறும் வலிமை', 'எதிர்ப்புகளை வெல்லும் உறுதி'],
-        significance: 'கிழக்கு திசையில் இருந்து வரும் அதிகண்ட யோகியின் ஆசீர்வாதம் பெற்றால் வாழ்க்கையில் எந்த தடையும் நிலைக்காது'
-      },
-      avayogi: {
-        name: 'அதிகண்ட அவயோகி',
-        englishName: 'Atiganda Avayogi',
-        direction: 'மேற்கு (West)',
-        effects: ['தடைகள் அதிகரிப்பு மற்றும் சிக்கல் பெருக்கம்', 'பிரச்சினைகளுக்கு தீர்வு கிடைக்காமை', 'வெற்றியில் தாமதம் மற்றும் இடையூறு', 'முன்னேற்றத்தில் தொடர் தடைகள்'],
-        precautions: 'மேற்கு திசையை தவிர்த்து முக்கிய தீர்வுகள் மற்றும் சிக்கல் நிவாரணம் சம்பந்தமான செயல்களை மேற்கொள்ளவும். மேற்கு பகுதியில் சட்ட விஷயங்கள் அல்லது போராட்ட சம்பந்தமான முடிவுகளை எடுக்க வேண்டாம்.'
-      },
-      lifeImpact: {
-        career: 'Breakthrough in stalled projects',
-        health: 'Recovery from chronic issues',
-        relationships: 'Resolution of conflicts',
-        spirituality: 'Removal of spiritual obstacles'
-      },
-      pariharam: {
-        dailyPractices: ['Face challenges bravely', 'Seek solutions actively', 'Help others overcome obstacles', 'Practice persistence'],
-        offerings: ['Red flowers to Mars', 'Iron objects to temple', 'Help to struggling people', 'Tools for problem solving'],
-        gems: { primary: 'Red Coral', alternative: 'Carnelian', benefits: 'Gives courage to overcome all obstacles' },
-        mantras: [
-          { name: 'Mangal Mantra', text: 'ॐ मंगलाय नमः', count: '108 times' },
-          { name: 'Obstacle Removal Mantra', text: 'ॐ अतिगण्डाय नमः', count: '21 times' }
-        ]
-      },
-      activationProcess: [
-        { title: 'Problem Identification', description: 'Identify your main obstacles', details: 'List all challenges blocking your progress' },
-        { title: 'Solution Strategy', description: 'Develop removal strategies', details: 'Plan systematic approach to overcome blocks' },
-        { title: 'Action Execution', description: 'Take decisive action', details: 'Implement solutions with determination' }
-      ]
     }
   ];
 

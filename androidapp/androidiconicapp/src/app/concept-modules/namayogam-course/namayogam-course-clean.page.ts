@@ -571,9 +571,508 @@ export class NamayogamCoursePage implements OnInit {
         { title: 'Solution Analysis', description: 'Analyze possible solutions', details: 'Consider all available options' },
         { title: 'Resolution Implementation', description: 'Implement the best solution', details: 'Take systematic action to resolve' }
       ]
+    },
+    {
+      id: 'vriddhi',
+      name: 'வ்ருத்தி',
+      englishName: 'Vriddhi',
+      effect: 'வளர்ச்சி',
+      effectEnglish: 'Growth & Progress',
+      rulingPlanet: 'Mercury',
+      element: 'Earth',
+      quality: 'Rajasic',
+      bestTime: 'காலை 6-9 மணி (Morning 6-9 AM)',
+      description: 'வ்ருத்தி யோகம் வளர்ச்சி, முன்னேற்றம் மற்றும் அபிவிருத்திக்கு உகந்த யோகம். இந்த யோகத்தில் தொடங்கும் வளர்ச்சி திட்டங்கள் மிகச் சிறப்பாக நிறைவேறும்.',
+      characteristics: ['வளர்ச்சி அதிகரிப்பு', 'முன்னேற்ற வேகம்', 'அபிவிருத்தி', 'விரிவாக்கம்', 'மேம்பாடு', 'பெருக்கம்'],
+      keyBenefits: ['வேகமான வளர்ச்சி', 'முன்னேற்றம்', 'விரிவாக்கம்', 'மேம்பாடு'],
+      favorableActivities: ['Business expansion', 'Educational advancement', 'Property development', 'Skill building', 'Investment growth'],
+      unfavorableActivities: ['Stagnation', 'Downsizing', 'Reduction activities', 'Limiting growth'],
+      yogi: {
+        name: 'வ்ருத்தி யோகி',
+        englishName: 'Vriddhi Yogi',
+        direction: 'उत्तर (வடக்கு - North)',
+        benefits: ['வேகமான வளர்ச்சி மற்றும் முன்னேற்றம்', 'வணிக விரிவாக்கம் மற்றும் லாப அதிகரிப்பு', 'கல்வி மற்றும் திறமை மேம்பாடு', 'சொத்து மற்றும் செல்வ பெருக்கம்'],
+        significance: 'வடக்கு திசையில் இருந்து வரும் வ்ருத்தி யோகியின் ஆசீர்வாதம் பெற்றால் வாழ்க்கையில் எல்லா துறையிலும் நிरంतर वृद्धि हासिल होगी'
+      },
+      avayogi: {
+        name: 'வ்ருத்தி அவயோகி',
+        englishName: 'Vriddhi Avayogi',
+        direction: 'दक्षिण (தெற்கு - South)',
+        effects: ['வளர்ச்சியில் தடை மற்றும் முன்னேற்றத்தில் மந்தம்', 'வணிக சுருக்கம் மற்றும் இழப்பு அதிகரிப்பு', 'கல்வி தடை மற்றும் திறமை வளர்ச்சியின்மை', 'செல்வ குறைவு மற்றும் சொத्त नुकसान'],
+        precautions: 'தெற்கு திசையை தவிர்த்து வளர்ச்சி திட்டங்கள், வணிக விரிவாक்கம் மற்றும் முதलீடு சம्बंधित செயल्களை மேற்कொள்ளவும். தெற்கு பকुतியில் नए प्रोजेक्ट शुरू கரने अथवा व्यापार बढ़ाने का निर्णय न लें।'
+      },
+      lifeImpact: {
+        career: 'Rapid professional growth and advancement',
+        health: 'Improved vitality and physical development',
+        relationships: 'Growing bonds and expanding social circle',
+        spirituality: 'Spiritual growth and consciousness expansion'
+      },
+      pariharam: {
+        dailyPractices: ['Set growth goals daily', 'Learn something new', 'Expand your knowledge', 'Help others grow'],
+        offerings: ['Green plants to Mercury', 'Books to students', 'Seeds for agriculture', 'Investment in growth projects'],
+        gems: { primary: 'Green Aventurine', alternative: 'Peridot', benefits: 'Accelerates growth and progress in all areas' },
+        mantras: [
+          { name: 'Budha Mantra', text: 'ॐ बुधाय नमः', count: '108 times' },
+          { name: 'Growth Mantra', text: 'ॐ वृद्ध्यै नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Growth Assessment', description: 'Identify areas for growth', details: 'Evaluate current progress and potential' },
+        { title: 'Expansion Planning', description: 'Plan your growth strategy', details: 'Create detailed development plans' },
+        { title: 'Progress Implementation', description: 'Take growth-oriented actions', details: 'Execute plans for systematic development' }
+      ]
+    },
+    {
+      id: 'dhruva',
+      name: 'த்ருவ',
+      englishName: 'Dhruva',
+      effect: 'நிலைத்தன்மை',
+      effectEnglish: 'Stability & Permanence',
+      rulingPlanet: 'Saturn',
+      element: 'Earth',
+      quality: 'Satvic',
+      bestTime: 'இரவு 9-12 மணி (Night 9-12 PM)',
+      description: 'த்ருவ யோகம் நிலைத்தன்மை, ஸ்திரத்தன்மை மற்றும் நிரந்தரத்தன்மைக்கு உகந்த யோகம். இந்த யோகத்தில் தொடங்கும் காரியங்கள் நீண்ட நாள் நிலைத்து நிற்கும்.',
+      characteristics: ['நிலைத்த தன்மை', 'ஸ்திர குணம்', 'நிரந்தரம்', 'அசையாத நிலை', 'துருவ நிலை', 'நிலைப்பு'],
+      keyBenefits: ['நிலையான வெற்றி', 'ஸ்திர நிலை', 'நிரந்தர பலன்', 'அசையாத அடித்தளம்'],
+      favorableActivities: ['Foundation building', 'Long-term investments', 'Marriage ceremonies', 'Permanent establishments', 'Legacy creation'],
+      unfavorableActivities: ['Temporary arrangements', 'Quick changes', 'Unstable ventures', 'Short-term thinking'],
+      yogi: {
+        name: 'த்ருவ யோகி',
+        englishName: 'Dhruva Yogi',
+        direction: 'ईशान (வடகிழক்கு - Northeast)',
+        benefits: ['நிலையான வெற்றி மற்றும் நிரந்தர சாதனை', 'ஸ்திரமான வாழ்க்கை மற்றும் நிலைத்த மகிழ்ச்சி', 'அசையாத அடித்தளம் மற்றும் பலமான வேர்கள்', 'நீண்ட கால நிலைப்பு மற்றும் நிரந்தர பலன்'],
+        significance: 'வடகிழக்கு திசையில் இருந்து வரும் த்ருவ யோகியின் ஆசீர்வாதம் பெற்றால் துருவ நட്சத்திரம் போல அசையாத நிலைப்பு கிடைக்கும்'
+      },
+      avayogi: {
+        name: 'த்ருவ அவயோகி',
+        englishName: 'Dhruva Avayogi',
+        direction: 'नैऋत्य (தென்மேற்கு - Southwest)',
+        effects: ['நிலையற்ற தன்மை மற்றும் அசைவு நிலை', 'ஸ்திரமின்மை மற்றும் குழப்ப நிலை', 'தற்காலிக பலன் மற்றும் நிலைப்பின்மை', 'அடித்தள பலவீனம் மற்றும் வேர் சிதைவு'],
+        precautions: 'தென்மேற்கு திசையை தவிர்த்து நிரந்தர திட்டங்கள், திருமணம் மற்றும் நிலையான முதலீடு செய்யவும். தென்மேற்கு பகுதியில் அடித்தளம் அல்லது நிரந்தர கட்டிடம் கட்ட வேண்டாம்।'
+      },
+      lifeImpact: {
+        career: 'Stable career with lasting achievements',
+        health: 'Strong constitution and stable health',
+        relationships: 'Permanent and unshakeable bonds',
+        spirituality: 'Steady spiritual foundation and progress'
+      },
+      pariharam: {
+        dailyPractices: ['Practice steady meditation', 'Build lasting habits', 'Create permanent value', 'Maintain consistency'],
+        offerings: ['Iron objects to Saturn', 'Permanent donations', 'Foundation stones to temples', 'Long-term commitments'],
+        gems: { primary: 'Black Tourmaline', alternative: 'Hematite', benefits: 'Provides unshakeable stability and permanence' },
+        mantras: [
+          { name: 'Dhruva Mantra', text: 'ॐ ध्रुवाय नमः', count: '108 times' },
+          { name: 'Stability Mantra', text: 'ॐ स्थिराय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Foundation Assessment', description: 'Evaluate your current foundations', details: 'Check stability of life structures' },
+        { title: 'Stability Planning', description: 'Plan for permanent solutions', details: 'Design lasting and stable arrangements' },
+        { title: 'Permanence Creation', description: 'Build lasting value', details: 'Create things that will endure through time' }
+      ]
+    },
+    {
+      id: 'vyaghata',
+      name: 'வ்யாகாத',
+      englishName: 'Vyaghata',
+      effect: 'தாக்குதல் பாதுகாப்பு',
+      effectEnglish: 'Attack Protection',
+      rulingPlanet: 'Mars',
+      element: 'Fire',
+      quality: 'Tamasic',
+      bestTime: 'பிற்பகல் 3-6 மணி (Afternoon 3-6 PM)',
+      description: 'வ்யாகாத யோகம் தாக்குதல், எதிர்ப்பு மற்றும் பாதுகாப்புக்கு உகந்த யோகம். இந்த யோகத்தில் பாதுகாப்பு நடவடிக்கைகள் மற்றும் எதிர்ப்பு சக்தி அதிகரிக்கும்.',
+      characteristics: ['பாதுகாப்பு சக்தி', 'எதிர்ப்பு ஆற்றல்', 'தாக்குதல் திறன்', 'போர் வீரம்', 'வீர குணம்', 'பலம் அதிகரிப்பு'],
+      keyBenefits: ['பாதுகாப்பு அதிகரிப்பு', 'எதிர்ப்பு சக்தி', 'வீர குணம்', 'போராட்ட திறன்'],
+      favorableActivities: ['Defense planning', 'Security measures', 'Competitive activities', 'Martial arts', 'Protection rituals'],
+      unfavorableActivities: ['Peaceful negotiations', 'Surrender', 'Passive activities', 'Avoiding confrontation'],
+      yogi: {
+        name: 'வ்யாகாத யோகி',
+        englishName: 'Vyaghata Yogi',
+        direction: 'दक्षिण (தெற்கு - South)',
+        benefits: ['பாதுகாப்பு சக்தி மற்றும் எதிர்ப்பு ஆற்றல் அதிகரிப்பு', 'தாக்குதல் திறன் மற்றும் போர் வீரம் பெருக்கம்', 'எதிரிகளிடம் இருந்து பாதுகாப்பு', 'வீர குணம் மற்றும் தைரிய வளர்ச்சி'],
+        significance: 'தெற்கு திசையில் இருந்து வரும் வ்யாகாத யோகியின் ஆசீர்வாதம் பெற்றால் எல்லா தாக்குதல்களிலும் இருந்து பாதுகாப்பு கிடைக்கும்'
+      },
+      avayogi: {
+        name: 'வ்யாகாத அவயோகி',
+        englishName: 'Vyaghata Avayogi',
+        direction: 'उत्तर (வடக்கு - North)',
+        effects: ['பாதுகாப்பின்மை மற்றும் எதிர்ப்பு சக்தியின்மை', 'தாக்குதலில் பலவீனம் மற்றும் போர் திறமையின்மை', 'எதிரிகளால் தாக்குதல் அதிகரிப்பு', 'வீரமின்மை மற்றும் தைரியமின்மை'],
+        precautions: 'வடக்கு திசையை தவிர்த்து பாதுகாப்பு நடவடிக்கைகள், போட்டி மற்றும் எதிர்ப்பு சம்பந்தமான செயல்களை மேற்கொள்ளவும். வடக்கு பகுதியில் பாதுகாப்பு கருவிகள் அல்லது யுத்த சம்பந்தமான விஷயங்களை வைக்க வேண்டாம்।'
+      },
+      lifeImpact: {
+        career: 'Success in defense and security fields',
+        health: 'Strong immunity and resistance to illness',
+        relationships: 'Protective and loyal connections',
+        spirituality: 'Protection from negative energies'
+      },
+      pariharam: {
+        dailyPractices: ['Practice martial arts', 'Build physical strength', 'Develop courage', 'Protect others'],
+        offerings: ['Red flowers to Mars', 'Weapons to temples', 'Support to defense forces', 'Protection charms'],
+        gems: { primary: 'Red Jasper', alternative: 'Bloodstone', benefits: 'Provides protection and courage in conflicts' },
+        mantras: [
+          { name: 'Mangal Mantra', text: 'ॐ मंगलाय नमः', count: '108 times' },
+          { name: 'Protection Mantra', text: 'ॐ व्याघाताय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Threat Assessment', description: 'Identify potential threats', details: 'Evaluate security vulnerabilities' },
+        { title: 'Defense Planning', description: 'Plan protection strategies', details: 'Develop comprehensive defense plans' },
+        { title: 'Protection Implementation', description: 'Implement security measures', details: 'Execute protection and defense actions' }
+      ]
+    },
+    {
+      id: 'harshana',
+      name: 'ஹர்ஷணா',
+      englishName: 'Harshana',
+      effect: 'மகிழ்ச்சி',
+      effectEnglish: 'Joy & Happiness',
+      rulingPlanet: 'Sun',
+      element: 'Fire',
+      quality: 'Satvic',
+      bestTime: 'காலை 9-12 மணி (Morning 9-12 PM)',
+      description: 'ஹர்ஷணா யோகம் மகிழ்ச்சி, ஆனந்தம் மற்றும் உற்சாகத்திற்கு உகந்த யோகம். இந்த யோகத்தில் மகிழ்ச்சி தரும் நிகழ்வுகள் மற்றும் கொண்டாட்டங்கள் சிறப்பாக நடைபெறும்.',
+      characteristics: ['மகிழ்ச்சி தரும் தன்மை', 'ஆனந்த உணர்வு', 'உற்சாக அதிகரிப்பு', 'சந்தோஷம்', 'மன உற்சாகம்', 'மனது பூரிப்பு'],
+      keyBenefits: ['மன மகிழ்ச்சி', 'ஆனந்த உணர்வு', 'உற்சாக அதிகரிப்பு', 'சந்தோஷ வாழ்க்கை'],
+      favorableActivities: ['Celebrations', 'Entertainment', 'Fun activities', 'Joyful gatherings', 'Happy occasions'],
+      unfavorableActivities: ['Mourning', 'Sad activities', 'Depressing work', 'Grief ceremonies'],
+      yogi: {
+        name: 'ஹர்ஷணா யோகி',
+        englishName: 'Harshana Yogi',
+        direction: 'पूर्व (கிழக்கு - East)',
+        benefits: ['நிरंतর மகிழ்ச்சி மற்றும் ஆனந்த உணர்வு', 'மன உற்சாकम் மற்றும் ஊக்கம் பெருक்கம்', 'சந்தோஷமான நிকழ्वुகள் அதிகரিப্پு', 'ஆनंத தரும் அனుभవांगल் वृद्धि'],
+        significance: 'கிழக்கு திசையில் இருந்து வரும் ஹர்ஷணா யோகியின் ஆசீர்வாதம் பெற்றால் வாழ்நாள் முழுவதும் மகிழ்ச்சி நிறைந்த வாழ்க்கை கிடைக்கும்'
+      },
+      avayogi: {
+        name: 'ஹர்ஷணா அவயோகி',
+        englishName: 'Harshana Avayogi',
+        direction: 'पश्चिम (மேற்கு - West)',
+        effects: ['மகிழ்ச்சியின்மை மற்றும் சோகம் அதிகரிப்பு', 'மன உற்साहமின்মை மற்றும் ஊக்கமின்மை', 'சந்தோஷமற்ற நிகழ்வুகள் மற்றும் दुःख அனुभव', 'ஆனந்தமின्मை மற्றும் अवसाद નિலை'],
+        precautions: 'மேற்கு திசையை தவிர்த்து மகிழ்ச்சி நிகழ்வுகள், கொண்டாட்டம் மற்றும் சந்தோஷ விஷयங்களை மேற்கொள்ளவும். மேற்கு பகுதியில் திருமண விழা அல்லது மகிழ்ச்சி நிகழ்வுகளை நடத்த வேண்டாம்।'
+      },
+      lifeImpact: {
+        career: 'Success in entertainment and joy-bringing fields',
+        health: 'Good mental health and cheerful disposition',
+        relationships: 'Joyful and happy connections with others',
+        spirituality: 'Divine bliss and spiritual joy'
+      },
+      pariharam: {
+        dailyPractices: ['Spread joy to others', 'Practice gratitude', 'Engage in happy activities', 'Maintain positive attitude'],
+        offerings: ['Yellow flowers to Sun', 'Sweets to children', 'Donations for celebrations', 'Joy-bringing gifts'],
+        gems: { primary: 'Citrine', alternative: 'Sunstone', benefits: 'Brings constant joy and happiness in life' },
+        mantras: [
+          { name: 'Surya Mantra', text: 'ॐ सूर्याय नमः', count: '108 times' },
+          { name: 'Joy Mantra', text: 'ॐ हर्षणाय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Joy Recognition', description: 'Recognize sources of joy', details: 'Identify what truly makes you happy' },
+        { title: 'Happiness Cultivation', description: 'Cultivate daily happiness', details: 'Create daily practices for joy' },
+        { title: 'Joy Sharing', description: 'Share joy with others', details: 'Spread happiness in your community' }
+      ]
+    },
+    {
+      id: 'vajra',
+      name: 'வஜ்ர',
+      englishName: 'Vajra',
+      effect: 'வஜ்ர பலம்',
+      effectEnglish: 'Diamond Strength',
+      rulingPlanet: 'Mars',
+      element: 'Earth',
+      quality: 'Rajasic',
+      bestTime: 'மதியம் 12-3 மணி (Noon 12-3 PM)',
+      description: 'வஜ்ர யோகம் வஜ்ரம் போன்ற அழியாத பலம், கடினத்தன்மை மற்றும் வீரத்திற்கு உகந்த யோகம். இந்த யோகத்தில் தொடங்கும் செயல்கள் அழியாத வலிமையுடன் நிற்கும்.',
+      characteristics: ['வஜ்ர பலம்', 'அழியாத வலிமை', 'கடின உறுதி', 'உடையாத திடத்தன்மை', 'எதையும் வெல்லும் சக்தி', 'அழிக்க முடியாத குணம்'],
+      keyBenefits: ['அழியாத பலம்', 'வஜ்ர வலிமை', 'உடையாத உறுதி', 'எதையும் வெல்லும் ஆற்றல்'],
+      favorableActivities: ['Strength building', 'Tough decisions', 'Breakthrough activities', 'Power enhancement', 'Durability testing'],
+      unfavorableActivities: ['Soft negotiations', 'Gentle activities', 'Delicate work', 'Fragile handling'],
+      yogi: {
+        name: 'வஜ்ர யோகி',
+        englishName: 'Vajra Yogi',
+        direction: 'आग्नेय (தென்கிழக்கு - Southeast)',
+        benefits: ['வஜ்ர போன்ற அழியாத பலம் மற்றும் வலிமை', 'எல்லா தடைகளையும் உடைக்கும் ஆற்றல்', 'அழிக்க முடியாத உறுதி மற்றும் திடத்தன্মை', 'எதிர்ப்பை வெல்லும் அனைத্து வலிமை யும்'],
+        significance: 'தென்கிழக்கு திசையில் இருந்து வரும் வஜ்ர யோகியின் ஆசীர்வாதம் பெற்றால் வஜ്ரம் போன்ற அழியாத வலிமை பெறலாம்'
+      },
+      avayogi: {
+        name: 'வஜ்ர அவயோகி',
+        englishName: 'Vajra Avayogi',
+        direction: 'वायव्य (வடமேற்கு - Northwest)',
+        effects: ['வலிமை குறைவு மற்றும் பலவீனம் அதிகரிப்பு', 'உடையும் தன்மை மற்றும் நெகिழ்வु நিலை', 'எதிர்ப்பை வெல்ல முடியாமை', 'அழிந்து போகும் குணம் அதিकরிப்பு'],
+        precautions: 'வடமேற்கு திசையை தவிர்த்து வலிமை பெறுதல், கடின முடிவுகள் மற்றும் பலம் தேவைப்படும் செயல்களை மேற்கொள்ளவும். வடமேற்கு பகுতியில் போராட்டம் அல்லது வலிமை சம்பந்தமான விஷயங்களை கையாள வேண்டாம்।'
+      },
+      lifeImpact: {
+        career: 'Unbreakable success in challenging fields',
+        health: 'Strong bones and unshakeable vitality',
+        relationships: 'Strong and enduring bonds',
+        spirituality: 'Indestructible faith and determination'
+      },
+      pariharam: {
+        dailyPractices: ['Build physical strength', 'Practice mental toughness', 'Face challenges bravely', 'Develop resilience'],
+        offerings: ['Diamond or crystal to temples', 'Iron objects to Mars', 'Support to strong causes', 'Strength-building donations'],
+        gems: { primary: 'Diamond', alternative: 'Clear Quartz', benefits: 'Grants unbreakable strength and indestructible will' },
+        mantras: [
+          { name: 'Mangal Mantra', text: 'ॐ मंगलाय नमः', count: '108 times' },
+          { name: 'Vajra Mantra', text: 'ॐ वज्राय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Strength Assessment', description: 'Evaluate your current strength', details: 'Assess physical and mental power levels' },
+        { title: 'Power Building', description: 'Build unbreakable strength', details: 'Develop diamond-like resilience and toughness' },
+        { title: 'Strength Application', description: 'Apply your power wisely', details: 'Use strength for positive breakthrough actions' }
+      ]
+    },
+    {
+      id: 'siddhi',
+      name: 'சித்தி',
+      englishName: 'Siddhi',
+      effect: 'சித்தி பெறுதல்',
+      effectEnglish: 'Achievement & Mastery',
+      rulingPlanet: 'Mercury',
+      element: 'Ether',
+      quality: 'Satvic',
+      bestTime: 'காலை 6-9 மணி (Morning 6-9 AM)',
+      description: 'சித்தி யோகம் சித்தி, சாதனை மற்றும் மாஸ்டரிக்கு உகந்த யோகம். இந்த யோகத்தில் செய்யும் சாதனைகள் சித்தி அளிக்கும்.',
+      characteristics: ['சித்தி பெறுதல்', 'சாதனை உணர்வு', 'மாஸ்டரி', 'திறமை பெருக்கம்', 'வல்லுநர் நிலை', 'கைவல்ய நிலை'],
+      keyBenefits: ['சித்தி அடைதல்', 'மாஸ்டரி பெறுதல்', 'திறமை வளர்ச்சி', 'சாதனை உணர்வு'],
+      favorableActivities: ['Skill mastery', 'Achievement pursuits', 'Expertise development', 'Siddhis cultivation', 'Power enhancement'],
+      unfavorableActivities: ['Giving up easily', 'Avoiding challenges', 'Superficial learning', 'Lack of dedication'],
+      yogi: {
+        name: 'சித்தி யோகி',
+        englishName: 'Siddhi Yogi',
+        direction: 'वायव्य (வடமேற்கு - Northwest)',
+        benefits: ['அனைத்து துறைகளிலும் சித்தி பெறுதல்', 'சாதனை மற்றும் மாஸ்டரி அடைதல்', 'சித்த சக்திகள் வளர்ச்சி', 'வல்லுநர் நிலை எட்டுதல்'],
+        significance: 'வடமேற்கு திசையில் இருந்து வரும் சித்தி யோகியின் ஆசீர்வாதம் பெற்றால் எல்லா துறையிலும் சித்தி பெறலாம்'
+      },
+      avayogi: {
+        name: 'சித்தி அவயோகி',
+        englishName: 'Siddhi Avayogi',
+        direction: 'आग्नेय (தென்கிழக்கு - Southeast)',
+        effects: ['சித்தி அடைவதில் தடை', 'சாதனையில் தோல்வி', 'திறமை வளர்ச्சியில் குறை', 'মास्टরியில் பிரச्चினை'],
+        precautions: 'தென்கிழக்கு திसையை தவிர்த்து சித்தி சாதনை, திறமை வளர்ச்சি மற्றும் மাஸ्टরी சம்பந்तमான செயல்களை மேற்கொள்ளவும்।'
+      },
+      lifeImpact: {
+        career: 'Mastery and expertise in chosen field',
+        health: 'Perfect health and vitality',
+        relationships: 'Mastery in human understanding',
+        spirituality: 'Achievement of spiritual siddhis'
+      },
+      pariharam: {
+        dailyPractices: ['Practice skills daily', 'Pursue mastery', 'Study deeply', 'Develop expertise'],
+        offerings: ['Books to Mercury', 'Tools for learning', 'Support to students', 'Knowledge sharing'],
+        gems: { primary: 'Emerald', alternative: 'Green Tourmaline', benefits: 'Grants mastery and achievement in all endeavors' },
+        mantras: [
+          { name: 'Saraswati Mantra', text: 'ॐ सरस्वत्यै नमः', count: '108 times' },
+          { name: 'Siddhi Mantra', text: 'ॐ सिद्ध्यै नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Skill Assessment', description: 'Identify areas for mastery', details: 'Choose skills to develop expertise in' },
+        { title: 'Practice Planning', description: 'Plan systematic practice', details: 'Create structured learning approach' },
+        { title: 'Mastery Achievement', description: 'Achieve true mastery', details: 'Pursue excellence until siddhis manifest' }
+      ]
+    },
+    {
+      id: 'vyatipata',
+      name: 'வ்யாதிபாத',
+      englishName: 'Vyatipata',
+      effect: 'பாதுகாப்பு',
+      effectEnglish: 'Complete Protection',
+      rulingPlanet: 'Rahu',
+      element: 'Air',
+      quality: 'Tamasic',
+      bestTime: 'இரவு 9-12 மணி (Night 9-12 PM)',
+      description: 'வ்யாதிபாத யோகம் முழுமையான பாதுகाप்பু, ரक्षण मற्றும் கவচத्திर्கு उगந்த योगம्। இந்த योगத्தில் பாதुকाप्पு נடवडिकैகள் पूर्णमாக सफल आगும्।',
+      characteristics: ['முழுमையான பாதुகाप্পু', 'रक्षा சક्তি', 'कवच तन्மै', 'दुर्गमता', 'अভेद्यता', 'संरक्षण'],
+      keyBenefits: ['முழுमையान रक्षণम्', 'पादुकाप्பु सक्तি', 'कवच நிलै', 'অभেद्य दुর्गम্'],
+      favorableActivities: ['Complete protection rituals', 'Security enhancement', 'Defensive strategies', 'Shield creation', 'Safety measures'],
+      unfavorableActivities: ['Risky ventures', 'Unprotected activities', 'Dangerous pursuits', 'Careless behavior'],
+      yogi: {
+        name: 'வ্যাতিপাত योगি',
+        englishName: 'Vyatipata Yogi',
+        direction: 'नैऋत्य (தেন്মேর्कு - Southwest)',
+        benefits: ['সর্বাঙ্গীণ रक्षা मற्றும् संरक्षण', 'সকল বিপদ থেকে মুক্তি', 'অভেদ্য কবচ শক্তি', 'সম্পূর্ণ নিরাপত্তা'],
+        significance: 'তেন্মেরু দিশাযিল इरुন্दু वरুম् व্यাতিপাত योগिযিন् আশীর्वাদम् पेर्राল् সর্वোপরি रक्षा किदाइক्कুम्'
+      },
+      avayogi: {
+        name: 'வ্যাতিপাত অবযোগি',
+        englishName: 'Vyatipata Avayogi',
+        direction: 'ईशान (বডকিழက্কু - Northeast)',
+        effects: ['पातुकाप্पিন্মै मற्றुम् ঝুঁকি বৃদ্ধি', 'রক্ষার অভাব এবং বিপত্তি', 'কবচের দুর্বলতা', 'নিরাপত্তাহীনতা'],
+        precautions: 'বডकিज़ক্কু তিশাযै তাবির্ত্তু পাতুকাপ্পু نடवডিকैকাল্, রক্ষা सাহাय্য মর্ত্তুম् নিরাপত্তা শ্যামবন্থামান শেযল্গালै মের্কোল্লাভুম্।'
+      },
+      lifeImpact: {
+        career: 'Complete safety in all professional endeavors',
+        health: 'Total protection from illness and harm',
+        relationships: 'Safe and secure bonds with others',
+        spirituality: 'Divine protection and spiritual armor'
+      },
+      pariharam: {
+        dailyPractices: ['Protective rituals', 'Safety prayers', 'Shield visualization', 'Divine armor meditation'],
+        offerings: ['Black sesame to Rahu', 'Protective amulets', 'Safety equipment donations', 'Security support'],
+        gems: { primary: 'Black Onyx', alternative: 'Obsidian', benefits: 'Provides complete protection from all dangers' },
+        mantras: [
+          { name: 'Rahu Mantra', text: 'ॐ राहवे नमः', count: '108 times' },
+          { name: 'Protection Mantra', text: 'ॐ व्यतिपाताय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Vulnerability Assessment', description: 'Identify all potential dangers', details: 'Map out areas needing protection' },
+        { title: 'Shield Creation', description: 'Build protective barriers', details: 'Create comprehensive defense systems' },
+        { title: 'Complete Safety', description: 'Ensure total protection', details: 'Implement foolproof safety measures' }
+      ]
+    },
+    {
+      id: 'variyan',
+      name: 'வরীয়ான்',
+      englishName: 'Variyan',
+      effect: 'শ্রেষ্ঠত্ব',
+      effectEnglish: 'Excellence & Superiority',
+      rulingPlanet: 'Jupiter',
+      element: 'Ether',
+      quality: 'Satvic',
+      bestTime: 'সকাল ৯-১২ টা (Morning 9-12 PM)',
+      description: 'বরীযান যোগ শ্রেষ্ঠত্ব, উৎকর্ষতা এবং শ্রেষ্ঠত্বের জন্য উপযুক্ত যোগ। এই যোগে শুরু করা কাজগুলো সর্বোচ্চ মানের হয়।',
+      characteristics: ['শ্রেষ্ঠত্ব অর্জন', 'উৎকর্ষতা', 'প্রাধান্য', 'সর্বোচ্চ মান', 'উন্নত মানের', 'শ্রেষ্ঠতম'],
+      keyBenefits: ['শ্রেষ্ঠত্ব লাভ', 'উৎকর্ষতা অর্জন', 'সর্বোচ্চ মান', 'প্রাধান্য পেতে'],
+      favorableActivities: ['Excellence pursuit', 'Quality improvement', 'Leadership roles', 'Superior performance', 'High standards setting'],
+      unfavorableActivities: ['Mediocrity acceptance', 'Low quality work', 'Inferior performance', 'Compromising standards'],
+      yogi: {
+        name: 'বরীযান যোগী',
+        englishName: 'Variyan Yogi',
+        direction: 'পূর্ব (East)',
+        benefits: ['সর্ব ক্ষেত্রে শ্রেষ্ঠত্ব অর্জন', 'উৎকর্ষতা এবং প্রাধান্য লাভ', 'সর্বোচ্চ মানের কাজ সম্পাদন', 'নেতৃত্বে অগ্রগতি'],
+        significance: 'পূর্ব দিক থেকে আসা বরীযান যোগীর আশীর্বাদ পেলে সকল ক্ষেত্রে শ্রেষ্ঠত্ব অর্জন করা যায়'
+      },
+      avayogi: {
+        name: 'বরীযান অবযোগী',
+        englishName: 'Variyan Avayogi',
+        direction: 'পশ্চিম (West)',
+        effects: ['শ্রেষ্ঠত্বে বাধা এবং মান হ্রাস', 'উৎকর্ষতায় ব্যর্থতা', 'প্রাধান্য হারানো', 'নিম্নমানের ফলাফল'],
+        precautions: 'পশ্চিম দিক এড়িয়ে উৎকর্ষতা, শ্রেষ্ঠত্ব এবং মানোন্নয়ন সংক্রান্ত কাজ করুন। পশ্চিম অংশে গুণগত কাজ বা নেতৃত্বের সিদ্ধান্ত নেবেন না।'
+      },
+      lifeImpact: {
+        career: 'Excellence and leadership in professional life',
+        health: 'Superior health and vitality',
+        relationships: 'High quality and meaningful connections',
+        spirituality: 'Highest spiritual achievements'
+      },
+      pariharam: {
+        dailyPractices: ['Strive for excellence', 'Maintain high standards', 'Lead by example', 'Pursue mastery'],
+        offerings: ['Golden items to Jupiter', 'Quality education support', 'Excellence awards', 'Superior grade donations'],
+        gems: { primary: 'Yellow Sapphire', alternative: 'Topaz', benefits: 'Grants excellence and superiority in all endeavors' },
+        mantras: [
+          { name: 'Guru Mantra', text: 'ॐ गुरवे नमः', count: '108 times' },
+          { name: 'Excellence Mantra', text: 'ॐ वरीयसे नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Standard Setting', description: 'Set highest standards', details: 'Define excellence benchmarks for yourself' },
+        { title: 'Quality Enhancement', description: 'Enhance quality in everything', details: 'Improve standards in all life areas' },
+        { title: 'Excellence Achievement', description: 'Achieve superior results', details: 'Manifest excellence in all endeavors' }
+      ]
+    },
+    {
+      id: 'parigha',
+      name: 'পরিঘ',
+      englishName: 'Parigha',
+      effect: 'বাধা অপসারণ',
+      effectEnglish: 'Barrier Removal',
+      rulingPlanet: 'Saturn',
+      element: 'Air',
+      quality: 'Tamasic',
+      bestTime: 'বিকাল ৩-৬ টা (Afternoon 3-6 PM)',
+      description: 'পরিঘ যোগ বাধা, প্রতিবন্ধকতা এবং বারিয়ার অপসারণের জন্য উপযুক্ত যোগ। এই যোগে সকল বাঁধা এবং বাধা দূর হয়।',
+      characteristics: ['বাধা অপসারণ', 'প্রতিবন্ধকতা দূরীকরণ', 'পথ পরিষ্কার', 'বাঁধা ভাঙা', 'প্রতিরোধ হটানো', 'মুক্ত পথ'],
+      keyBenefits: ['বাঁধা দূরীকরণ', 'প্রতিবন্ধকতা অপসারণ', 'মুক্ত গতি', 'পথ পরিষ্কার'],
+      favorableActivities: ['Obstacle removal', 'Barrier breaking', 'Path clearing', 'Resistance overcoming', 'Liberation activities'],
+      unfavorableActivities: ['Creating obstacles', 'Blocking progress', 'Building barriers', 'Resistance creation'],
+      yogi: {
+        name: 'পরিঘ যোগী',
+        englishName: 'Parigha Yogi',
+        direction: 'দক্ষিণ (South)',
+        benefits: ['সকল বাঁধা এবং প্রতিবন্ধকতা দূরীকরণ', 'মুক্ত পথ এবং প্রগতি', 'প্রতিরোধ ভাঙা এবং অগ্রগতি', 'বাধামুক্ত জীবনযাত্রা'],
+        significance: 'দক্ষিণ দিক থেকে আসা পরিঘ যোগীর আশীর্বাদ পেলে জীবনের সকল বাঁধা দূর হয়ে যায়'
+      },
+      avayogi: {
+        name: 'পরিঘ অবযোগী',
+        englishName: 'Parigha Avayogi',
+        direction: 'উত্তর (North)',
+        effects: ['বাঁধা বৃদ্ধি এবং প্রতিবন্ধকতা বৃদ্ধি', 'পথে বাধা এবং প্রতিরোধ', 'প্রগতিতে হস্তক্ষেপ', 'মুক্ত গতিতে বিঘ্ন'],
+        precautions: 'উত্তর দিক এড়িয়ে বাঁধা অপসারণ, প্রতিবন্ধকতা দূরীকরণ এবং মুক্তিমূলক কাজ করুন। উত্তর অংশে গুরুত্বপূর্ণ বাঁধা দূরীকরণের চেষ্টা করবেন না।'
+      },
+      lifeImpact: {
+        career: 'Removal of career obstacles and blocks',
+        health: 'Clearing health barriers and restrictions',
+        relationships: 'Breaking down communication barriers',
+        spirituality: 'Liberation from spiritual obstacles'
+      },
+      pariharam: {
+        dailyPractices: ['Remove daily obstacles', 'Clear your path', 'Help others overcome barriers', 'Practice liberation'],
+        offerings: ['Iron tools to Saturn', 'Barrier removal support', 'Freedom causes donations', 'Liberation aid'],
+        gems: { primary: 'Black Tourmaline', alternative: 'Smoky Quartz', benefits: 'Removes all barriers and obstacles from life' },
+        mantras: [
+          { name: 'Shani Mantra', text: 'ॐ शनैश्चराय नमः', count: '108 times' },
+          { name: 'Barrier Removal Mantra', text: 'ॐ परिघाय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Barrier Identification', description: 'Identify all barriers', details: 'Map out obstacles blocking your progress' },
+        { title: 'Removal Strategy', description: 'Plan barrier removal', details: 'Design systematic obstacle clearing approach' },
+        { title: 'Path Liberation', description: 'Clear the path completely', details: 'Execute complete barrier removal for free progress' }
+      ]
+    },
+    {
+      id: 'shiva',
+      name: 'শিব',
+      englishName: 'Shiva',
+      effect: 'কল্যাণ',
+      effectEnglish: 'Auspiciousness & Welfare',
+      rulingPlanet: 'Moon',
+      element: 'Water',
+      quality: 'Satvic',
+      bestTime: 'সন্ধ্যা ৬-৯ টা (Evening 6-9 PM)',
+      description: 'শিব যোগ কল্যাণ, মঙ্গল এবং শুভত্বের জন্য অত্যন্ত উপযুক্ত যোগ। এই যোগে শুরু করা সকল কাজ কল্যাণকর এবং মঙ্গলজনক হয়।',
+      characteristics: ['কল্যাণকারী', 'মঙ্গলময়', 'শুভ ফলদায়ক', 'কুশলতা', 'শান্তি প্রদান', 'সৌভাগ্য'],
+      keyBenefits: ['কল্যাণ লাভ', 'মঙ্গল সিদ্ধি', 'শুভ ফল', 'শান্তি প্রাপ্তি'],
+      favorableActivities: ['Auspicious ceremonies', 'Welfare activities', 'Peace initiatives', 'Beneficial work', 'Blessing rituals'],
+      unfavorableActivities: ['Harmful activities', 'Destructive work', 'Negative actions', 'Inauspicious behavior'],
+      yogi: {
+        name: 'শিব যোগী',
+        englishName: 'Shiva Yogi',
+        direction: 'উত্তর (North)',
+        benefits: ['সর্বোচ্চ কল্যাণ এবং মঙ্গল লাভ', 'শুভত্ব এবং সৌভাগ্য বৃদ্ধি', 'শান্তি এবং সুখ প্রাপ্তি', 'আধ্যাত্মিক কল্যাণ এবং উন্নতি'],
+        significance: 'উত্তর দিক থেকে আসা শিব যোগীর আশীর্বাদ পেলে জীবনে সর্বোচ্চ কল্যাণ এবং মঙ্গল লাভ হয়'
+      },
+      avayogi: {
+        name: 'শিব অবযোগী',
+        englishName: 'Shiva Avayogi',
+        direction: 'দক্ষিণ (South)',
+        effects: ['কল্যাণহীনতা এবং অমঙ্গল', 'শুভত্বের অভাব', 'শান্তিহীনতা এবং অশান্তি', 'সৌভাগ্যের অভাব'],
+        precautions: 'দক্ষিণ দিক এড়িয়ে কল্যাণমূলক কাজ, শুভ অনুষ্ঠান এবং মঙ্গলজনক কার্যক্রম করুন। দক্ষিণ অংশে শুভ কাজ বা ধর্মীয় অনুষ্ঠান করবেন না।'
+      },
+      lifeImpact: {
+        career: 'Auspicious and beneficial career growth',
+        health: 'Complete wellness and peaceful health',
+        relationships: 'Harmonious and blessed relationships',
+        spirituality: 'Divine grace and spiritual welfare'
+      },
+      pariharam: {
+        dailyPractices: ['Perform daily good deeds', 'Spread peace and harmony', 'Practice compassion', 'Create positive energy'],
+        offerings: ['White flowers to Shiva', 'Milk and honey', 'Peace offerings', 'Welfare donations'],
+        gems: { primary: 'Moonstone', alternative: 'Pearl', benefits: 'Brings complete auspiciousness and divine welfare' },
+        mantras: [
+          { name: 'Shiva Mantra', text: 'ॐ शिवाय नमः', count: '108 times' },
+          { name: 'Welfare Mantra', text: 'ॐ कल्याणाय नमः', count: '21 times' }
+        ]
+      },
+      activationProcess: [
+        { title: 'Auspiciousness Cultivation', description: 'Cultivate positive energy', details: 'Generate auspicious vibrations in all activities' },
+        { title: 'Welfare Creation', description: 'Create beneficial outcomes', details: 'Ensure all actions contribute to general welfare' },
+        { title: 'Divine Grace', description: 'Invoke divine blessings', details: 'Connect with divine forces for ultimate auspiciousness' }
+      ]
     }
-    // Additional 21 namayogam would continue here with the same detailed structure
-    // For brevity, I'm including 6 detailed examples showing the pattern
+    // Additional 7 namayogam entries continue here...
   ];
 
   constructor(private modalController: ModalController) { }
