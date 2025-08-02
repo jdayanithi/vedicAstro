@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastController, AlertController, IonModal } from '@ionic/angular';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 interface Mantra {
   id: string;
@@ -33,14 +34,27 @@ interface MantraCategory {
   selector: 'app-gayathri-manthirangal',
   templateUrl: './gayathri-manthirangal.page.html',
   styleUrls: ['./gayathri-manthirangal.page.scss'],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ height: '0px', opacity: 0, overflow: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '*', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in-out', style({ height: '0px', opacity: 0, overflow: 'hidden' }))
+      ])
+    ])
+  ]
 })
 export class GayathriManthirangalPage implements OnInit {
 
   @ViewChild('detailModal', { static: true }) detailModal!: IonModal;
+  @ViewChild('previewModal', { static: true }) previewModal!: IonModal;
 
   selectedSegment = 'categories';
   selectedCategory = '';
   selectedMantra: Mantra | null = null;
+  selectedMantraForPreview: any = null;
   searchTerm = '';
   isPlaying = false;
   currentAudio: HTMLAudioElement | null = null;
@@ -274,6 +288,7 @@ export class GayathriManthirangalPage implements OnInit {
   filteredMantras: Mantra[] = [];
   selectedGayathriCategory: any = null;
   favoriteGayathriIds: string[] = [];
+  expandedCategories: { [key: string]: boolean } = {};
 
   constructor(
     private toastController: ToastController,
@@ -339,6 +354,7 @@ export class GayathriManthirangalPage implements OnInit {
 
   openMantraDetail(mantra: any) {
     this.selectedMantra = mantra;
+    this.previewModal.dismiss(); // Close preview modal if open
     this.detailModal.present();
   }
 
@@ -346,6 +362,16 @@ export class GayathriManthirangalPage implements OnInit {
     this.selectedMantra = null;
     this.detailModal.dismiss();
     this.stopAudio();
+  }
+
+  openMantraPreview(mantra: any) {
+    this.selectedMantraForPreview = mantra;
+    this.previewModal.present();
+  }
+
+  closeMantraPreview() {
+    this.selectedMantraForPreview = null;
+    this.previewModal.dismiss();
   }
 
   toggleFavorite(mantra: Mantra) {
@@ -457,8 +483,12 @@ export class GayathriManthirangalPage implements OnInit {
     this.selectedGayathriCategory = category;
   }
 
+  toggleCategory(categoryId: string) {
+    this.expandedCategories[categoryId] = !this.expandedCategories[categoryId];
+  }
+
   copyMantra(mantra: any) {
-    const text = `${mantra.name}\n\n${mantra.text || mantra.tamil}\n\nபலன்கள்:\n${mantra.benefits.join('\n')}`;
+    const text = `${mantra.name}\n\n${mantra.text}\n\nபலன்கள்:\n${mantra.benefits.join('\n')}`;
     navigator.clipboard.writeText(text).then(() => {
       this.presentToast('மந்திரம் நகலெடுக்கப்பட்டது');
     });

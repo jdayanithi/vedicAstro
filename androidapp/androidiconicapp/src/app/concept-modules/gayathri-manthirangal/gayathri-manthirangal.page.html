@@ -26,53 +26,140 @@
 
   <!-- Content Section -->
   <div class="content-section">
-    <!-- Category Grid -->
-    <div class="category-grid">
-      <ion-card 
-        *ngFor="let category of gayathriCategories" 
-        [color]="category.color" 
-        (click)="selectGayathriCategory(category)"
-        class="category-card">
-        <ion-card-content>
-          <div class="category-icon">{{ category.icon }}</div>
-          <h3>{{ category.name }}</h3>
-          <p>{{ category.mantras.length }} மந்திரங்கள்</p>
-        </ion-card-content>
-      </ion-card>
-    </div>
+    <!-- Category Grid with Expandable Sections -->
+    <div class="categories-container">
+      <div *ngFor="let category of gayathriCategories" class="category-section">
+        
+        <!-- Category Header Card -->
+        <ion-card 
+          [color]="category.color" 
+          (click)="toggleCategory(category.id)"
+          class="category-header-card">
+          <ion-card-content>
+            <div class="category-header-content">
+              <div class="category-info">
+                <div class="category-icon">{{ category.icon }}</div>
+                <div class="category-details">
+                  <h3>{{ category.name }}</h3>
+                  <p>{{ category.mantras.length }} மந்திரங்கள்</p>
+                </div>
+              </div>
+              <div class="expand-icon">
+                <ion-icon [name]="expandedCategories[category.id] ? 'chevron-up' : 'chevron-down'"></ion-icon>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-    <!-- Selected Category Mantras -->
-    <div *ngIf="selectedGayathriCategory" class="mantras-section">
-      <ion-card class="back-card" (click)="selectedGayathriCategory = null">
-        <ion-card-content>
-          <ion-icon name="arrow-back"></ion-icon>
-          <span>வகைகளுக்கு திரும்பு</span>
-        </ion-card-content>
-      </ion-card>
-
-      <h2 class="section-title">{{ selectedGayathriCategory.name }}</h2>
-      
-      <ion-card 
-        *ngFor="let mantra of selectedGayathriCategory.mantras; trackBy: trackByMantraId" 
-        class="mantra-card"
-        (click)="openMantraDetail(mantra)">
-        <ion-card-header>
-          <ion-card-title>{{ mantra.name }}</ion-card-title>
-          <ion-card-subtitle>{{ mantra.deity }}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <div class="mantra-text-preview">{{ mantra.text || mantra.tamil }}</div>
-          <div class="benefits-preview">
-            <ion-chip *ngFor="let benefit of mantra.benefits.slice(0,2)" color="light">
-              {{ benefit }}
-            </ion-chip>
-            <ion-chip *ngIf="mantra.benefits.length > 2" color="medium">
-              +{{ mantra.benefits.length - 2 }} மேலும்
-            </ion-chip>
+        <!-- Expandable Mantras List -->
+        <div *ngIf="expandedCategories[category.id]" class="mantras-expandable" [@slideInOut]>
+          <div class="mantras-list">
+            <ion-card 
+              *ngFor="let mantra of category.mantras; trackBy: trackByMantraId" 
+              class="compact-mantra-card"
+              (click)="openMantraPreview(mantra)">
+              
+              <ion-card-content>
+                <div class="card-header">
+                  <div class="mantra-info">
+                    <h4>{{ mantra.name }}</h4>
+                    <p>{{ mantra.deity }}</p>
+                  </div>
+                  <div class="card-actions">
+                    <ion-button fill="clear" size="small" (click)="toggleFavoriteMantra(mantra); $event.stopPropagation()">
+                      <ion-icon [name]="isFavoriteMantra(mantra) ? 'heart' : 'heart-outline'" [color]="isFavoriteMantra(mantra) ? 'danger' : 'medium'"></ion-icon>
+                    </ion-button>
+                    <ion-icon name="chevron-forward" color="medium"></ion-icon>
+                  </div>
+                </div>
+                
+                <div class="mantra-preview-text">
+                  {{ mantra.text?.substring(0, 80) }}...
+                </div>
+                
+                <div class="mantra-actions-inline">
+                  <ion-button size="small" fill="clear" (click)="copyMantra(mantra); $event.stopPropagation()">
+                    <ion-icon name="copy" slot="start"></ion-icon>
+                    நகल்
+                  </ion-button>
+                  <ion-chip color="primary" size="small">
+                    {{ mantra.benefits.length }} பலன்கள்
+                  </ion-chip>
+                </div>
+              </ion-card-content>
+            </ion-card>
           </div>
-        </ion-card-content>
-      </ion-card>
+        </div>
+      </div>
     </div>
+
+  <!-- Mantra Preview Modal -->
+  <ion-modal #previewModal class="preview-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button (click)="closeMantraPreview()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ selectedMantraForPreview?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="openMantraDetail(selectedMantraForPreview)">
+              <ion-icon name="expand-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content *ngIf="selectedMantraForPreview">
+        <div class="preview-content">
+          <!-- Deity Header -->
+          <div class="deity-header-preview">
+            <div class="deity-icon">{{ selectedGayathriCategory?.icon }}</div>
+            <div class="deity-info">
+              <h2>{{ selectedMantraForPreview.name }}</h2>
+              <p>{{ selectedMantraForPreview.deity }}</p>
+            </div>
+          </div>
+
+          <!-- Mantra Text -->
+          <ion-card class="mantra-text-card">
+            <ion-card-content>
+              <div class="mantra-text-full">{{ selectedMantraForPreview.text }}</div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Benefits -->
+          <ion-card class="benefits-card">
+            <ion-card-header>
+              <ion-card-title>பலன்கள்</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="benefits-list">
+                <div *ngFor="let benefit of selectedMantraForPreview.benefits" class="benefit-item">
+                  <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                  <span>{{ benefit }}</span>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- Action Buttons -->
+          <div class="preview-actions">
+            <ion-button expand="block" fill="outline" (click)="copyMantra(selectedMantraForPreview)">
+              <ion-icon name="copy" slot="start"></ion-icon>
+              நகலெடு
+            </ion-button>
+            <ion-button expand="block" (click)="openMantraDetail(selectedMantraForPreview)">
+              <ion-icon name="eye" slot="start"></ion-icon>
+              முழு விவரம்
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
     <!-- Practice Guidelines -->
     <ion-card class="practice-card">
@@ -142,7 +229,7 @@
               <ion-card-subtitle>{{ selectedMantra.deity }}</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              <div class="mantra-text-full">{{ selectedMantra.text || selectedMantra.tamil }}</div>
+              <div class="mantra-text-full">{{ selectedMantra.text }}</div>
               
               <div class="benefits-section">
                 <h4>பலன்கள்:</h4>
