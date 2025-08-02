@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Horse Rune Symbol (Ehwaz) - M shaped - Clean favicon version -->
+  <g transform="translate(64,64)" stroke="#7c3aed" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left vertical line -->
+    <line x1="-30" y1="-35" x2="-30" y2="35"/>
+    
+    <!-- Right vertical line -->
+    <line x1="30" y1="-35" x2="30" y2="35"/>
+    
+    <!-- Left diagonal (forming the M shape) -->
+    <line x1="-30" y1="-35" x2="0" y2="0"/>
+    
+    <!-- Right diagonal (forming the M shape) -->
+    <line x1="30" y1="-35" x2="0" y2="0"/>
+    
+    <!-- Central point -->
+    <circle cx="0" cy="0" r="5" fill="#7c3aed"/>
+  </g>
+</svg>

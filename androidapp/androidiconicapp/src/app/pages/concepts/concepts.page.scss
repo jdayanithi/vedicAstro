@@ -1,8 +1,81 @@
+// Logo styling
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  
+  img {
+    filter: brightness(0) invert(1); // Make it white to match the header
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
 .welcome-section {
   background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
   color: white;
-  padding: 24px 20px;
+  padding: 32px 20px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+    opacity: 0.3;
+    animation: starfield 20s linear infinite;
+  }
+}
+
+@keyframes starfield {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+
+.welcome-logo {
+  margin-bottom: 16px;
+  
+  .app-logo {
+    display: inline-flex;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: logoGlow 3s ease-in-out infinite alternate;
+    
+    img {
+      filter: none !important; // Don't invert the colors for this logo
+      // Removed rotation animation
+    }
+  }
+}
+
+@keyframes logoGlow {
+  0% { 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
+  }
+  100% { 
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+  }
+}
+
+.app-tagline {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0.8;
+  letter-spacing: 2px;
 }
 
 .welcome-section h2 {

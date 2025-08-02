@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title class="tamil-text">வேதிக ஜோதிடம்</ion-title>
+    <ion-buttons slot="start">
+      <div class="app-logo">
+        <img src="assets/icon/favicon.svg" alt="LDML Online Astro" width="32" height="32">
+      </div>
+    </ion-buttons>
+    <ion-title class="tamil-text">LDML Online Astro</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentUserMenu()">
         <ion-icon name="person-circle" slot="icon-only"></ion-icon>
@@ -12,8 +17,16 @@
 <ion-content [fullscreen]="true">
   <!-- Welcome Section -->
   <div class="welcome-section">
+    <div class="welcome-logo">
+      <div class="app-logo logo-large logo-colored">
+        <img src="assets/icon/logo.svg" alt="LDML Online Astro" width="80" height="80">
+      </div>
+    </div>
     <h2 class="tamil-text">வணக்கம், {{ currentUser?.name }}!</h2>
     <p>Explore the ancient wisdom of Vedic Astrology</p>
+    <div class="app-tagline">
+      <p class="tamil-text">ॐ • LDML Online Astro • ॐ</p>
+    </div>
   </div>
 
   <!-- Promotional Carousel -->

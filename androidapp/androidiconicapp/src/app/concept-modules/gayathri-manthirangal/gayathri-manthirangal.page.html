@@ -1,0 +1,219 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <div class="app-logo-small">
+      <img src="assets/icon/favicon.svg" alt="LDML Online Astro Logo" />
+    </div>
+    <ion-title>🕉️ காயத்ரி மந்திரங்கள்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-icon">
+        <ion-icon name="flower-outline"></ion-icon>
+      </div>
+      <h1>காயத்ரி மந்திரங்கள்</h1>
+      <p>Sacred Gayathri Mantras for Spiritual Enhancement</p>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-section">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>🌅 மூல காயத்ரி மந்திரம்</ion-card-title>
+        <ion-card-subtitle>Original Gayathri Mantra</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="mantra-text">
+          ॐ भूर्भुवः स्वः<br>
+          तत्सवितुर्वरेण्यं<br>
+          भर्गो देवस्य धीमहि<br>
+          धियो यो नः प्रचोदयात्॥
+        </div>
+        <div class="tamil-translation">
+          <strong>தமிழ் பொருள்:</strong><br>
+          ஓம் பூர் புவ: ஸ்வ:<br>
+          தத் சவிதுர் வரேண்யம்<br>
+          பர்கோ தேவஸ்ய தீமஹி<br>
+          தியோ யோ ந: ப்ரசோதயாத்
+        </div>
+        <div class="benefits">
+          <strong>பலன்கள்:</strong>
+          <ul>
+            <li>மன அமைதி மற்றும் தெளிவு</li>
+            <li>ஞானம் மற்றும் புத்தி வளர்ச்சி</li>
+            <li>ஆன்மீக முன்னேற்றம்</li>
+            <li>நேர்மறை சக்தி அதிகரிப்பு</li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>🌞 சூர்ய காயத்ரி</ion-card-title>
+        <ion-card-subtitle>Surya Gayathri for Solar Energy</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="mantra-text">
+          ॐ आदित्याय विद्महे<br>
+          मार्तण्डाय धीमहि<br>
+          तन्नो सूर्यः प्रचोदयात्॥
+        </div>
+        <div class="tamil-translation">
+          <strong>தமிழ் பொருள்:</strong><br>
+          ஓம் ஆதித்யாய வித்மஹே<br>
+          மார்தண்டாய தீமஹி<br>
+          தன்னோ சூர்ய: ப்ரசோதயாத்
+        </div>
+        <div class="benefits">
+          <strong>பலன்கள்:</strong>
+          <ul>
+            <li>உடல் ஆரோக்யம் மற்றும் வலிமை</li>
+            <li>தலைமைத்துவ குணங்கள்</li>
+            <li>வெற்றி மற்றும் புகழ்</li>
+            <li>கண் நோய்கள் தீர்வு</li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>🌙 சந்திர காயத்ரி</ion-card-title>
+        <ion-card-subtitle>Chandra Gayathri for Lunar Blessings</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="mantra-text">
+          ॐ पद्मद्वजाय विद्महे<br>
+          हेम रूपाय धीमहि<br>
+          तन्नो सोमः प्रचोदयात्॥
+        </div>
+        <div class="tamil-translation">
+          <strong>தமிழ் பொருள்:</strong><br>
+          ஓம் பத்மத்வஜாய வித்மஹே<br>
+          ஹேம ரூபாய தீமஹி<br>
+          தன்னோ சோம: ப்ரசோதயாத்
+        </div>
+        <div class="benefits">
+          <strong>பலன்கள்:</strong>
+          <ul>
+            <li>மன அமைதி மற்றும் குளிர்ச்சி</li>
+            <li>உணர்ச்சி சமநிலை</li>
+            <li>தாய்மை சக்தி அதிகரிப்பு</li>
+            <li>நினைவாற்றல் வளர்ச்சி</li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>🔥 அங்காரக காயத்ரி</ion-card-title>
+        <ion-card-subtitle>Mangal Gayathri for Mars Energy</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="mantra-text">
+          ॐ अंगारकाय विद्महे<br>
+          भूमिपुत्राय धीमहि<br>
+          तन्नो भौमः प्रचोदयात्॥
+        </div>
+        <div class="tamil-translation">
+          <strong>தமிழ் பொருள்:</strong><br>
+          ஓம் அங்காரகாய வித்மஹே<br>
+          பூமிபுத்ராய தீமஹி<br>
+          தன்னோ பௌம: ப்ரசோதயாத்
+        </div>
+        <div class="benefits">
+          <strong>பலன்கள்:</strong>
+          <ul>
+            <li>தைரியம் மற்றும் வீரம்</li>
+            <li>செவ்வாய் தோஷ நிவாரணம்</li>
+            <li>போட்டியில் வெற்றி</li>
+            <li>சொத்து மற்றும் நிலம் பெறுதல்</li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>💚 புத காயத்ரி</ion-card-title>
+        <ion-card-subtitle>Budha Gayathri for Mercury Blessings</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="mantra-text">
+          ॐ गजध्वजाय विद्महे<br>
+          सुकुमाराय धीमहि<br>
+          तन्नो बुधः प्रचोदयात्॥
+        </div>
+        <div class="tamil-translation">
+          <strong>தமிழ் பொருள்:</strong><br>
+          ஓம் கஜத்வஜாய வித்மஹே<br>
+          சுகுமாராய தீமஹி<br>
+          தன்னோ புத: ப்ரசோதயாத்
+        </div>
+        <div class="benefits">
+          <strong>பலன்கள்:</strong>
+          <ul>
+            <li>புத்தி கூர்மை மற்றும் கல்வி</li>
+            <li>வணிகம் மற்றும் தொழில் வளர்ச்சி</li>
+            <li>பேச்சுத் திறமை</li>
+            <li>தொழில்நுட்ப ஞானம்</li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Practice Guidelines -->
+    <ion-card class="practice-card">
+      <ion-card-header>
+        <ion-card-title>🙏 ஜப விதிமுறைகள்</ion-card-title>
+        <ion-card-subtitle>Practice Guidelines</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="time-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>சிறந்த நேரம்</h3>
+              <p>அதிகாலை 4-6 மணி அல்லது சூர்ய உதயம்</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="repeat-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>ஜப எண்ணிக்கை</h3>
+              <p>108 முறை அல்லது 27 முறை தினமும்</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="leaf-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>தூய்மை</h3>
+              <p>குளித்து சுத்தமான உடையுடன்</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="flower-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>பூஜை பொருட்கள்</h3>
+              <p>விளக்கு, அகர்பத்தி, பூ, நீர்</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

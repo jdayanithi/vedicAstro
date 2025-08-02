@@ -14,11 +14,42 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-/* Custom CSS for Tamil Pariharam App */
+/* Custom CSS for LDML Online Astro App */
 .tamil-text {
   font-family: 'Noto Sans Tamil', Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+}
+
+/* Global logo styles */
+.app-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  
+  img {
+    filter: brightness(0) invert(1); // Make it white for dark backgrounds
+    transition: transform 0.3s ease, filter 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  
+  &.logo-colored img {
+    filter: none; // Remove filter for colored backgrounds
+  }
+  
+  &.logo-large img {
+    width: 48px;
+    height: 48px;
+  }
+  
+  &.logo-small img {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .remedy-card {

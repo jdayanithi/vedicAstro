@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Logo Generator</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, 512, 512);
+        
+        // Draw circle background
+        ctx.beginPath();
+        ctx.arc(256, 256, 240, 0, 2 * Math.PI);
+        ctx.fillStyle = '#7c3aed';
+        ctx.fill();
+        ctx.strokeStyle = '#5b21b6';
+        ctx.lineWidth = 8;
+        ctx.stroke();
+        
+        // Draw inner circle
+        ctx.beginPath();
+        ctx.arc(256, 256, 200, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Draw horse rune symbol (Ehwaz) - M shaped
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        // Left vertical line
+        ctx.beginPath();
+        ctx.moveTo(186, 166); // -70, -90 from center
+        ctx.lineTo(186, 346); // -70, 90 from center
+        ctx.stroke();
+        
+        // Right vertical line
+        ctx.beginPath();
+        ctx.moveTo(326, 166); // 70, -90 from center
+        ctx.lineTo(326, 346); // 70, 90 from center
+        ctx.stroke();
+        
+        // Left diagonal (left side of M)
+        ctx.beginPath();
+        ctx.moveTo(186, 166); // -70, -90 from center
+        ctx.lineTo(256, 256); // 0, 0 from center
+        ctx.stroke();
+        
+        // Right diagonal (right side of M)
+        ctx.beginPath();
+        ctx.moveTo(326, 166); // 70, -90 from center
+        ctx.lineTo(256, 256); // 0, 0 from center
+        ctx.stroke();
+        
+        // Central point
+        ctx.beginPath();
+        ctx.arc(256, 256, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        
+        // Download function
+        function downloadCanvas() {
+            const link = document.createElement('a');
+            link.download = 'logo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Auto download after drawing
+        setTimeout(downloadCanvas, 100);
+    </script>
+    <button onclick="downloadCanvas()">Download PNG</button>
+</body>
+</html>

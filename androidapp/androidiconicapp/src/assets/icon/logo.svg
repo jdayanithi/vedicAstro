@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Horse Rune Symbol (Ehwaz) - M shaped rune - Clean and Sharp -->
+  <g transform="translate(256,256)" stroke="#7c3aed" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Left vertical line -->
+    <line x1="-80" y1="-100" x2="-80" y2="100"/>
+    
+    <!-- Right vertical line -->
+    <line x1="80" y1="-100" x2="80" y2="100"/>
+    
+    <!-- Left diagonal (left side of M) -->
+    <line x1="-80" y1="-100" x2="0" y2="0"/>
+    
+    <!-- Right diagonal (right side of M) -->
+    <line x1="80" y1="-100" x2="0" y2="0"/>
+    
+    <!-- Central point emphasis -->
+    <circle cx="0" cy="0" r="12" fill="#7c3aed"/>
+  </g>
+</svg>

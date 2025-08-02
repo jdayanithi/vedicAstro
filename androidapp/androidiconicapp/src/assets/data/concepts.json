@@ -129,9 +129,9 @@
       "imageUrl": "/assets/images/adipadai-astrology.jpg"
     },
     {
-      "id": "uraynilai_astrology_001",
-      "title": "உறைநிலை ஜோதிஷம்",
-      "titleEnglish": "Uraynilai Astrology",
+      "id": "uyarnilai_astrology_001",
+      "title": "உயர்நிலை ஜோதிஷம்",
+      "titleEnglish": "Uyarnilai Astrology",
       "description": "மேம்பட்ட ஜோதிட நுட்பங்கள் மற்றும் சிறப்பு கணிப்பு முறைகள் - பல்வேறு உன்னத நிலை ஜோதிட கருத்துக்கள்",
       "descriptionEnglish": "Advanced astrological techniques and special prediction methods - Various sophisticated astrological concepts",
       "category": "மேம்பட்ட ஜோதிஷம்",
@@ -141,8 +141,8 @@
       "duration": "150 நிமிடங்கள்",
       "level": "மேம்பட்ட",
       "content": "மேம்பட்ட ஜோதிட நுட்பங்கள், சிறப்பு கணிப்பு முறைகள், உன்னத நிலை ஜோதிட கருத்துக்கள், மற்றும் பல மேம்பட்ட தலைப்புகள்...",
-      "tags": ["மேம்பட்ட", "உறைநிலை", "நுட்பம்", "கணிப்பு", "உன்னதம்"],
-      "imageUrl": "/assets/images/uraynilai-astrology.jpg"
+      "tags": ["மேம்பட்ட", "உயர்நிலை", "நுட்பம்", "கணிப்பு", "உன்னதம்"],
+      "imageUrl": "/assets/images/uyarnilai-astrology.jpg"
     },
     {
       "id": "mudhunilai_astrology_001",
