@@ -303,6 +303,34 @@ ion-header {
   transition: all 0.3s ease;
   position: relative;
   --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  height: 100%; // Make all cards equal height
+  display: flex;
+  flex-direction: column;
+}
+
+.concept-card ion-card-content {
+  flex: 1; // Allow content to expand
+  display: flex;
+  flex-direction: column;
+}
+
+.concept-card .action-section {
+  margin-top: auto; // Push action button to bottom
+  padding-top: 12px;
+}
+
+.purchase-button {
+  .purchase-price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .original-price-small {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.8em;
+  }
 }
 
 .concept-card:hover {
@@ -383,6 +411,43 @@ ion-header {
   margin-bottom: 4px;
   flex-wrap: wrap;
   gap: 8px;
+  min-height: 32px; // Ensure consistent height for all meta sections
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-height: 28px; // Consistent height for price display
+  justify-content: center;
+}
+
+.price-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.8em;
+}
+
+.discounted-price {
+  color: #e53e3e;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.discount-badge {
+  background: #e53e3e;
+  color: white;
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
 }
 
 .course-id {
@@ -420,6 +485,10 @@ ion-header {
   border-radius: 12px;
   font-size: 10px;
   font-weight: 600;
+  min-height: 28px; // Match price-container height
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .purchased-badge {
@@ -429,6 +498,10 @@ ion-header {
   border-radius: 12px;
   font-size: 10px;
   font-weight: 600;
+  min-height: 28px; // Match price-container height
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tags-container {

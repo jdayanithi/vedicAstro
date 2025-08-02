@@ -206,9 +206,11 @@
                     {{concept.duration}}
                   </span>
                   <span class="price-container" *ngIf="concept.isPaid && !hasAccess(concept)">
-                    <span class="original-price" style="text-decoration: line-through; color: #999; font-size: 0.8em;">₹{{concept.price}}</span>
-                    <span class="discounted-price" style="color: #e53e3e; font-weight: bold; margin-left: 5px;">₹{{getDiscountedPrice(concept)}}</span>
-                    <span class="discount-badge" style="background: #e53e3e; color: white; font-size: 0.7em; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">50% OFF</span>
+                    <div class="price-display">
+                      <span class="original-price">₹{{concept.price}}</span>
+                      <span class="discounted-price">₹{{getDiscountedPrice(concept)}}</span>
+                    </div>
+                    <span class="discount-badge">50% OFF</span>
                   </span>
                   <span class="free-badge" *ngIf="!concept.isPaid">
                     FREE
@@ -258,10 +260,13 @@
                   fill="outline" 
                   size="small" 
                   expand="block"
-                  color="primary">
+                  color="primary"
+                  class="purchase-button">
                   <ion-icon name="card" slot="start"></ion-icon>
-                  Purchase ₹{{getDiscountedPrice(concept)}} 
-                  <small style="text-decoration: line-through; color: #999; margin-left: 5px;">₹{{concept.price}}</small>
+                  <span class="purchase-price">
+                    Purchase ₹{{getDiscountedPrice(concept)}} 
+                    <small class="original-price-small">₹{{concept.price}}</small>
+                  </span>
                 </ion-button>
               </div>
             </ion-card-content>
