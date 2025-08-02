@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NatchathiramKarakathuvamPageRoutingModule } from './natchathiram-karakathuvam-routing.module';
 
-import { NatchathiramKarakathuvamPage } from './natchathiram-karakathuvam.page';
+// import { NatchathiramKarakathuvamPage } from './natchathiram-karakathuvam.page';
 
 @NgModule({
   imports: [
@@ -15,6 +15,8 @@ import { NatchathiramKarakathuvamPage } from './natchathiram-karakathuvam.page';
     IonicModule,
     NatchathiramKarakathuvamPageRoutingModule
   ],
-  declarations: [NatchathiramKarakathuvamPage]
+  declarations: [
+    // NatchathiramKarakathuvamPage
+  ]
 })
 export class NatchathiramKarakathuvamPageModule {}
