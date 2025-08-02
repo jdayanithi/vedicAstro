@@ -31,6 +31,70 @@
       "content": "உங்கள் மரபணு வரிசையின் அடிப்படையில் ஜோதிஷ் கணிப்புகள், பூர்வ ஜென்ม கர்ம தோஷங்கள், மற்றும் அறிவியல் பூர்வமான பரிகாரங்கள்...",
       "tags": ["DNA", "மரபணு", "ஜோதிஷம்", "அறிவியல்", "நவீனம்", "கணிப்பு"],
       "imageUrl": "/assets/images/dna-astrology.jpg"
+    },
+    {
+      "id": "bhava_karathuvam_001",
+      "title": "பாவ கராத்துவம்",
+      "titleEnglish": "Bhava Karathuvam",
+      "description": "12 பாவங்களின் கராத்துவம், பலன்கள் மற்றும் ஜாதகத்தில் அவற்றின் முக்கியத்துவம்",
+      "descriptionEnglish": "Complete study of 12 houses, their significances and importance in horoscope analysis",
+      "category": "பாவ ஜோதிஷம்",
+      "categoryEnglish": "Bhava Astrology",
+      "price": 199,
+      "isPaid": true,
+      "duration": "60 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "12 பாவங்களின் விரிவான ஆய்வு, ஒவ்வொரு பாவத்தின் கராத்துவம், கிரகங்களின் நிலை, தசாபுக்தி பலன்கள், மற்றும் ஜாதக பலன்கள்...",
+      "tags": ["பாவம்", "கராத்துவம்", "ஜாதகம்", "கிரகம்", "பலன்", "ஜோதிஷம்"],
+      "imageUrl": "/assets/images/bhava-karathuvam.jpg"
+    },
+    {
+      "id": "graha_karakathuvam_001",
+      "title": "கிரக கராத்துவம்",
+      "titleEnglish": "Graha Karakathuvam",
+      "description": "9 கிரகங்களின் கராத்துவம், பலன்கள் மற்றும் ஜாதகத்தில் அவற்றின் முக்கியத்துவம்",
+      "descriptionEnglish": "Complete study of 9 planets, their significances and importance in horoscope analysis",
+      "category": "கிரக ஜோதிஷம்",
+      "categoryEnglish": "Planetary Astrology",
+      "price": 249,
+      "isPaid": true,
+      "duration": "75 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "9 கிரகங்களின் விரிவான ஆய்வு, ஒவ்வொரு கிரகத்தின் கராத்துவம், பாவ நிலை பலன்கள், தசாபுக்தி பலன்கள், மற்றும் கிரக பரிகாரங்கள்...",
+      "tags": ["கிரகம்", "கராத்துவம்", "ஜோதிஷம்", "பலன்", "தசை", "பரிகாரம்"],
+      "imageUrl": "/assets/images/graha-karakathuvam.jpg"
+    },
+    {
+      "id": "natchathiram_karakathuvam_001",
+      "title": "27 நட்சத்திர கராத்துவம்",
+      "titleEnglish": "27 Natchathiram Karakathuvam",
+      "description": "27 நட்சத்திரங்களின் முழுமையான கராத்துவம், அதிதேவதை, உணவு, இடம், கோயில்கள், உடல் பாகங்கள், DNA மற்றும் யோனி விவரங்கள்",
+      "descriptionEnglish": "Complete study of 27 nakshatras with deities, food, places, temples, body parts, DNA patterns and yoni details",
+      "category": "நட்சத்திர ஜோதிஷம்",
+      "categoryEnglish": "Nakshatra Astrology",
+      "price": 399,
+      "isPaid": true,
+      "duration": "120 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "27 நட்சத்திரங்களின் விரிவான ஆய்வு, அதிதேவதை, உணவு பழக்கங்கள், புனித இடங்கள், கோயில்கள், உடல் பாகங்கள், DNA வடிவங்கள், யோனி, மற்றும் ஜாதக பலன்கள்...",
+      "tags": ["நட்சத்திரம்", "அதிதேவதை", "யோனி", "DNA", "கோயில்", "உணவு", "உடல்", "கராத்துவம்"],
+      "imageUrl": "/assets/images/natchathiram-karakathuvam.jpg"
+    },
+    {
+      "id": "rasi_karakathuvam_001",
+      "title": "12 ராசி கராத்துவம்",
+      "titleEnglish": "12 Rasi Karakathuvam",
+      "description": "12 ராசிகளின் முழுமையான கராத்துவம், குணங்கள், பலன்கள், தொழில், திருமணம், உடல்நலம் மற்றும் பரிகாரங்கள்",
+      "descriptionEnglish": "Complete study of 12 zodiac signs with characteristics, predictions, career, marriage, health and remedies",
+      "category": "ராசி ஜோதிஷம்",
+      "categoryEnglish": "Rasi Astrology",
+      "price": 299,
+      "isPaid": true,
+      "duration": "90 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "12 ராசிகளின் விரிவான ஆய்வு, ஒவ்வொரு ராசியின் குணங்கள், தொழில் வாய்ப்புகள், திருமண பொருத்தம், உடல்நலம், அதிர்ஷ்ட எண்கள், நிறங்கள், மற்றும் பரிகாரங்கள்...",
+      "tags": ["ராசி", "கராத்துவம்", "குணங்கள்", "பலன்", "தொழில்", "திருமணம்", "உடல்நலம்"],
+      "imageUrl": "/assets/images/rasi-karakathuvam.jpg"
     }
   ],
   "categories": [
@@ -105,6 +169,34 @@
           "color": "#dc2626"
         }
       ]
+    },
+    {
+      "id": "bhava_astrology",
+      "name": "பாவ ஜோதிஷம்",
+      "nameEnglish": "Bhava Astrology",
+      "icon": "home-outline",
+      "color": "#f59e0b"
+    },
+    {
+      "id": "planetary_astrology",
+      "name": "கிரக ஜோதிஷம்",
+      "nameEnglish": "Planetary Astrology",
+      "icon": "planet-outline",
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "nakshatra_astrology",
+      "name": "நட்சத்திர ஜோதிஷம்",
+      "nameEnglish": "Nakshatra Astrology",
+      "icon": "star-outline",
+      "color": "#ec4899"
+    },
+    {
+      "id": "rasi_astrology",
+      "name": "ராசி ஜோதிஷம்",
+      "nameEnglish": "Rasi Astrology",
+      "icon": "radio-button-on-outline",
+      "color": "#10b981"
     }
   ]
 }

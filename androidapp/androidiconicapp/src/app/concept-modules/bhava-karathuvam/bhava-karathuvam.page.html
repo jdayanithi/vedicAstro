@@ -1,0 +1,262 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="tamil-text">🏠 பாவ கராத்துவம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Header -->
+  <div class="hero-header" *ngIf="selectedSegment === 'overview'">
+    <div class="hero-content">
+      <div class="hero-icon-wrapper">
+        <ion-icon name="home" class="floating-icon"></ion-icon>
+      </div>
+      <h1 class="tamil-text">🏠 பாவ கராத்துவம்</h1>
+      <p class="subtitle">12 பாவங்களின் முழுமையான ஆய்வு மற்றும் பலன்கள்</p>
+      <div class="meta-chips">
+        <ion-chip color="warning" size="small">
+          <ion-icon name="star" slot="start"></ion-icon>
+          <ion-label>₹199</ion-label>
+        </ion-chip>
+        <ion-chip color="success" size="small">
+          <ion-icon name="time" slot="start"></ion-icon>
+          <ion-label>60 நிமிடங்கள்</ion-label>
+        </ion-chip>
+        <ion-chip color="primary" size="small">
+          <ion-icon name="school" slot="start"></ion-icon>
+          <ion-label>நடுத்தர நிலை</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segment Control -->
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="warning" class="segment-control">
+    <ion-segment-button value="overview">
+      <ion-icon name="list-outline"></ion-icon>
+      <ion-label>பண்ணம்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="bhavas">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>பாவங்கள்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="analysis">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <ion-label>ஆய்வு</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Overview Content -->
+  <div *ngIf="selectedSegment === 'overview'" class="content-section">
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📚 பாடப்பிரிவு பற்றி</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description-text">
+          ஜோதிஷ சாஸ்திரத்தில் 12 பாவங்கள் ஒரு முக்கியமான அம்சமாகும். ஒவ்வொரு பாவமும் வாழ்க்கையின்
+          வெவ்வேறு பகுதிகளைக் குறிக்கிறது. இந்த பாடப்பிரிவில் நீங்கள் கற்றுக்கொள்வது:
+        </p>
+        <ion-list class="feature-list">
+          <ion-item lines="none">
+            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+            <ion-label class="feature-text">12 பாவங்களின் விரிவான கராத்துவம்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+            <ion-label class="feature-text">ஒவ்வொரு பாவத்தின் சிறப்பு அம்சங்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+            <ion-label class="feature-text">கிரகங்களின் பாவ நிலை பலன்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+            <ion-label class="feature-text">பாவ பலம் மற்றும் பலவீனம்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+            <ion-label class="feature-text">பாவ சார்ந்த பரிகாரங்கள்</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-content">
+          <h3 class="tamil-text">🚀 ஆய்வு துவங்குங்கள்</h3>
+          <p>உங்கள் ஜாதகத்தின் பாவ பலன்களை அறிய தயாரா?</p>
+          <ion-button expand="block" fill="solid" color="warning" (click)="navigateToAnalysis()">
+            <ion-icon name="analytics" slot="start"></ion-icon>
+            பாவ ஆய்வு துவங்கு
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Bhavas Content -->
+  <div *ngIf="selectedSegment === 'bhavas'" class="content-section">
+    <!-- Search Bar -->
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="searchBhavas()"
+      placeholder="பாவம் தேடுங்கள்..."
+      show-clear-button="focus">
+    </ion-searchbar>
+
+    <!-- Bhavas List -->
+    <ion-list class="bhavas-list">
+      <ion-card *ngFor="let bhava of filteredBhavas" class="bhava-card">
+        <ion-card-header (click)="toggleBhavaExpansion(bhava)" class="clickable">
+          <div class="bhava-header">
+            <div class="bhava-number">{{ bhava.number }}</div>
+            <div class="bhava-info">
+              <ion-card-title class="tamil-text">{{ bhava.name }}</ion-card-title>
+              <ion-card-subtitle>{{ bhava.nameEnglish }}</ion-card-subtitle>
+              <div class="bhava-meta">
+                <ion-chip size="small" color="warning">
+                  <ion-label>{{ bhava.nature }}</ion-label>
+                </ion-chip>
+                <ion-chip size="small" color="medium">
+                  <ion-label>{{ bhava.element }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <ion-icon
+              [name]="bhava.expanded ? 'chevron-up' : 'chevron-down'"
+              class="expand-icon">
+            </ion-icon>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="bhava.expanded" class="expanded-content">
+          <!-- Significances -->
+          <div class="detail-section">
+            <h4 class="section-title">🎯 கராத்துவம்</h4>
+            <ion-list>
+              <ion-item *ngFor="let significance of bhava.significances" lines="none">
+                <ion-icon name="arrow-forward" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ significance }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Body Parts -->
+          <div class="detail-section">
+            <h4 class="section-title">👤 உடல் அங்கங்கள்</h4>
+            <div class="tags-container">
+              <ion-chip *ngFor="let part of bhava.bodyParts" color="tertiary" size="small">
+                <ion-label>{{ part }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Karakatva -->
+          <div class="detail-section">
+            <h4 class="section-title">🌟 கரகத்துவம்</h4>
+            <div class="tags-container">
+              <ion-chip *ngFor="let karaka of bhava.karakatva" color="success" size="small">
+                <ion-label>{{ karaka }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Good Planets -->
+          <div class="detail-section">
+            <h4 class="section-title">✅ நல்ல கிரகங்கள்</h4>
+            <div class="tags-container">
+              <ion-chip *ngFor="let planet of bhava.goodPlanets" color="success" size="small">
+                <ion-label>{{ planet }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Bad Planets -->
+          <div class="detail-section">
+            <h4 class="section-title">⚠️ பாதக கிரகங்கள்</h4>
+            <div class="tags-container">
+              <ion-chip *ngFor="let planet of bhava.badPlanets" color="danger" size="small">
+                <ion-label>{{ planet }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Remedies -->
+          <div class="detail-section">
+            <h4 class="section-title">🙏 பரிகாரங்கள்</h4>
+            <ion-list>
+              <ion-item *ngFor="let remedy of bhava.remedies" lines="none">
+                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+                <ion-label class="remedy-text">{{ remedy }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <ion-button expand="block" fill="outline" color="warning" (click)="showBhavaDetails(bhava)">
+            <ion-icon name="information-circle" slot="start"></ion-icon>
+            மேலும் விவரங்கள்
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <!-- Analysis Content -->
+  <div *ngIf="selectedSegment === 'analysis'" class="content-section">
+    <ion-card class="analysis-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📊 பாவ ஆய்வு</ion-card-title>
+        <ion-card-subtitle>விரிவான ஜாதக பாவ பகுப்பாய்வு</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="analysis-content">
+          <div class="current-bhava">
+            <h3 class="tamil-text">{{ getCurrentBhava().number }}. {{ getCurrentBhava().name }}</h3>
+            <p class="subtitle">{{ getCurrentBhava().nameEnglish }}</p>
+
+            <div class="bhava-details">
+              <p><strong>संस्कृत नाम:</strong> {{ getCurrentBhava().sanskritName }}</p>
+              <p><strong>प्रकृति:</strong> {{ getCurrentBhava().nature }}</p>
+              <p><strong>तत्व:</strong> {{ getCurrentBhava().element }}</p>
+            </div>
+
+            <div class="navigation-buttons">
+              <ion-button fill="outline" color="warning" (click)="previousBhava()" [disabled]="currentBhavaIndex === 0">
+                <ion-icon name="chevron-back" slot="start"></ion-icon>
+                முந்தைய
+              </ion-button>
+              <ion-button fill="outline" color="warning" (click)="nextBhava()" [disabled]="currentBhavaIndex === bhavas.length - 1">
+                அடுத்த
+                <ion-icon name="chevron-forward" slot="end"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="premium-feature">
+      <ion-card-content>
+        <div class="premium-content">
+          <ion-icon name="diamond" color="warning" size="large"></ion-icon>
+          <h3 class="tamil-text">🔒 மேம்பட்ட அம்சங்கள்</h3>
+          <p>முழு பாவ ஆய்வு மற்றும் தனிப்பயனாக்கப்பட்ட பரிகாரங்களுக்கு கோர்ஸை வாங்குங்கள்</p>
+          <ion-button expand="block" fill="solid" color="warning">
+            <ion-icon name="card" slot="start"></ion-icon>
+            ₹199 இல் வாங்குங்கள்
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

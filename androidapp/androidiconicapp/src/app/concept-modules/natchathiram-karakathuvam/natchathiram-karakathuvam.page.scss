@@ -1,0 +1,476 @@
+/* 27 Natchathiram Karakathuvam Styles */
+
+.hero-header {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 0 0 20px 20px;
+}
+
+.hero-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.hero-icon-wrapper {
+  margin-bottom: 1rem;
+}
+
+.floating-icon {
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite, twinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+.tamil-text {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin: 0.5rem 0;
+}
+
+.meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.segment-control {
+  margin: 1rem;
+  border-radius: 10px;
+}
+
+.content-section {
+  padding: 1rem;
+}
+
+/* Stats Card */
+.stats-card {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  border: 2px solid #ec4899;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item ion-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ec4899;
+  margin: 0.5rem 0;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Search and Filter Section */
+.search-filter-section {
+  margin-bottom: 1rem;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Cards */
+.info-card, .action-card, .analysis-card {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list {
+  background: transparent;
+}
+
+.feature-text {
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.action-content {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Nakshatra Cards */
+.nakshatras-list {
+  background: transparent;
+}
+
+.nakshatra-card {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  border-left: 4px solid #ec4899;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nakshatra-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+}
+
+.nakshatra-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.nakshatra-number {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 3px 8px rgba(236, 72, 153, 0.3);
+}
+
+.nakshatra-info {
+  flex-grow: 1;
+}
+
+.nakshatra-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.expand-icon {
+  font-size: 1.5rem;
+  color: #ec4899;
+  transition: transform 0.3s ease;
+}
+
+.expanded-content .expand-icon {
+  transform: rotate(180deg);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.expanded-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Detail Sections */
+.detail-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #ec4899;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ec4899;
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.info-item {
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  border-left: 3px solid #ec4899;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Food and Places Sections */
+.food-section, .places-section, .personality-section {
+  margin-top: 0.8rem;
+}
+
+.food-category, .place-category, .trait-category {
+  margin-bottom: 1rem;
+}
+
+.food-category strong, .place-category strong, .trait-category strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.remedy-text, .mantra-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.mantra-text {
+  font-family: 'Devanagari', serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Analysis Section */
+.analysis-content {
+  text-align: center;
+}
+
+.current-nakshatra {
+  padding: 1rem;
+}
+
+.nakshatra-details {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  text-align: left;
+  border-left: 4px solid #ec4899;
+}
+
+.nakshatra-details p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.navigation-buttons ion-button {
+  flex: 1;
+}
+
+/* Premium Feature */
+.premium-feature {
+  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  border: 2px solid #ec4899;
+}
+
+.premium-content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.premium-content ion-icon {
+  margin-bottom: 1rem;
+}
+
+/* Gana specific colors and styles */
+.deva-gana {
+  --background: linear-gradient(135deg, #22c55e, #16a34a);
+  --color: white;
+}
+
+.manushya-gana {
+  --background: linear-gradient(135deg, #f59e0b, #d97706);
+  --color: white;
+}
+
+.rakshasa-gana {
+  --background: linear-gradient(135deg, #ef4444, #dc2626);
+  --color: white;
+}
+
+/* Star constellation background effects */
+.nakshatra-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #ec4899 2px, transparent 2px);
+  opacity: 0.3;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .tamil-text {
+    font-size: 1.3rem;
+  }
+
+  .nakshatra-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nakshatra-number {
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-chips {
+    justify-content: center;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .detail-section {
+    background: #2d2d2d;
+  }
+
+  .nakshatra-details {
+    background: #2d2d2d;
+  }
+
+  .info-item {
+    background: #374151;
+    color: #f3f4f6;
+  }
+
+  .stat-item {
+    background: #374151;
+    color: #f3f4f6;
+  }
+
+  .premium-feature {
+    background: linear-gradient(135deg, #831843, #6b1548);
+  }
+}
+
+/* Special nakshatra-specific styling */
+.ashwini-card { border-left-color: #dc2626; }
+.bharani-card { border-left-color: #ec4899; }
+.krittika-card { border-left-color: #f59e0b; }
+.rohini-card { border-left-color: #ef4444; }
+.mrigashira-card { border-left-color: #22c55e; }
+.ardra-card { border-left-color: #3b82f6; }
+.punarvasu-card { border-left-color: #eab308; }
+.pushya-card { border-left-color: #f97316; }
+.ashlesha-card { border-left-color: #8b5cf6; }
+.magha-card { border-left-color: #dc2626; }
+
+/* Yoni compatibility indicators */
+.yoni-compatible {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  border: 1px solid #22c55e;
+}
+
+.yoni-neutral {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid #f59e0b;
+}
+
+.yoni-incompatible {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  border: 1px solid #ef4444;
+}
+
+/* Loading and transition effects */
+.nakshatra-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nakshatra-card:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #be185d, #9d174d);
+}

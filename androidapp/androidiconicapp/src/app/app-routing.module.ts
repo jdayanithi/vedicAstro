@@ -25,6 +25,22 @@ const routes: Routes = [
     path: 'tantrik-pariharam',
     loadChildren: () => import('./concept-modules/tantrik-pariharam/tantrik-pariharam.module').then( m => m.TantrikPariharamPageModule)
   },
+  {
+    path: 'bhava-karathuvam',
+    loadChildren: () => import('./concept-modules/bhava-karathuvam/bhava-karathuvam.module').then( m => m.BhavaKarathuvamPageModule)
+  },
+  {
+    path: 'graha-karakathuvam',
+    loadChildren: () => import('./concept-modules/graha-karakathuvam/graha-karakathuvam.module').then( m => m.GrahaKarakathuvamPageModule)
+  },
+  {
+    path: 'natchathiram-karakathuvam',
+    loadChildren: () => import('./concept-modules/natchathiram-karakathuvam/natchathiram-karakathuvam.module').then( m => m.NatchathiramKarakathuvamPageModule)
+  },
+  {
+    path: 'rasi-karakathuvam',
+    loadChildren: () => import('./concept-modules/rasi-karakathuvam/rasi-karakathuvam.module').then( m => m.RasiKarakathuvamPageModule)
+  }
 
 ];
 

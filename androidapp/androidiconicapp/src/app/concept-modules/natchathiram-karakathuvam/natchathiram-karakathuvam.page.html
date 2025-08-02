@@ -1,0 +1,426 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>                 [color]="selectedFilter === 'ராக்ஷஸ' ? 'danger' : 'medium'" [color]="selectedFilter === 'மனுஷ்ய' ? 'warning' : 'medium'"   </ion-buttons>
+    <ion-title class="tamil-text">⭐ 27 நட்சத்திர கராத்துவம்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Header -->
+  <div class="hero-header" *ngIf="selectedSegment === 'overview'">
+    <div class="hero-content">
+      <div class="hero-icon-wrapper">
+        <ion-icon name="star" class="floating-icon"></ion-icon>
+      </div>
+      <h1 class="tamil-text">⭐ 27 நட்சத்திர கராத்துவம்</h1>
+      <p class="subtitle">27 நட்சத்திரங்களின் விரிவான ஆய்வு மற்றும் அதிதேவதை வழிபாடு</p>
+      <div class="meta-chips">
+        <ion-chip color="tertiary" size="small">
+          <ion-icon name="diamond" slot="start"></ion-icon>
+          <ion-label>₹399</ion-label>
+        </ion-chip>
+        <ion-chip color="success" size="small">
+          <ion-icon name="time" slot="start"></ion-icon>
+          <ion-label>120 நிமிடங்கள்</ion-label>
+        </ion-chip>
+        <ion-chip color="danger" size="small">
+          <ion-icon name="trophy" slot="start"></ion-icon>
+          <ion-label>மேம்பட்ட நிலை</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+
+  <!-- Segment Control -->
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="tertiary" class="segment-control">
+    <ion-segment-button value="overview">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <ion-label>மேலோட்டம்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="nakshatras">
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-label>நட்சத்திரங்கள்</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="analysis">
+      <ion-icon name="analytics-outline"></ion-icon>
+      <ion-label>ஆய்வு</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Overview Content -->
+  <div *ngIf="selectedSegment === 'overview'" class="content-section">
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📚 பாடப்பிரிவு பற்றி</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description-text">
+          27 நட்சத்திரங்கள் ஜோதிஷ சாஸ்திரத்தின் அடிப்படையாகும். ஒவ்வொரு நட்சத்திரமும் தனித்துவமான
+          குணங்கள், அதிதేவதை, உணவு, இடம், DNA பண்புகள் மற்றும் யோனி விவரங்களைக் கொண்டுள்ளது.
+          இந்த பாடப்பிரிவில் நீங்கள் கற்றுக்கொள்வது:
+        </p>
+        <ion-list class="feature-list">
+          <ion-item lines="none">
+            <ion-icon name="star" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">27 நட்சத்திரங்களின் முழுமையான கராத்துவம்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="person" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">அதிதேவதை மற்றும் வழிபாட்டு முறைகள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="restaurant" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">உணவு பழக்கங்கள் மற்றும் வாழ்க்கை முறை</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="location" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">புனித இடங்கள் மற்றும் கோயில்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="body" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">உடல் பாகங்கள் மற்றும் நோய்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="cellular" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">DNA பண்புகள் மற்றும் மரபணு குணங்கள்</ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="heart" slot="start" color="tertiary"></ion-icon>
+            <ion-label class="feature-text">யோனி மற்றும் இணக்கம்</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <ion-icon name="star" color="tertiary"></ion-icon>
+            <div class="stat-number">27</div>
+            <div class="stat-label">நட்சத்திரங்கள்</div>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="people" color="success"></ion-icon>
+            <div class="stat-number">3</div>
+            <div class="stat-label">கணங்கள்</div>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="heart" color="danger"></ion-icon>
+            <div class="stat-number">14</div>
+            <div class="stat-label">யோனிகள்</div>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="business" color="warning"></ion-icon>
+            <div class="stat-number">4</div>
+            <div class="stat-label">வர்ணங்கள்</div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-content">
+          <h3 class="tamil-text">🚀 ஆய்வு துவங்குங்கள்</h3>
+          <p>உங்கள் நட்சத்திரத்தின் ரகசியங்களை அறிய தயாரா?</p>
+          <ion-button expand="block" fill="solid" color="tertiary" (click)="navigateToAnalysis()">
+            <ion-icon name="star" slot="start"></ion-icon>
+            நட்சத்திர ஆய்வு துவங்கு
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Nakshatras Content -->
+  <div *ngIf="selectedSegment === 'nakshatras'" class="content-section">
+    <!-- Search and Filter Bar -->
+    <div class="search-filter-section">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="searchNakshatras()"
+        placeholder="நட்சத்திரம் தேடுங்கள்..."
+        show-clear-button="focus">
+      </ion-searchbar>
+
+      <!-- Gana Filter Chips -->
+      <div class="filter-chips">
+        <ion-chip
+          [color]="selectedFilter === 'all' ? 'tertiary' : 'medium'"
+          (click)="filterByGana('all')">
+          <ion-label>அனைத்தும்</ion-label>
+        </ion-chip>
+        <ion-chip
+          [color]="selectedFilter === 'தேவ' ? 'success' : 'medium'"
+          (click)="filterByGana('தேவ')">
+          <ion-icon name="star" slot="start"></ion-icon>
+          <ion-label>தேவ கணம்</ion-label>
+        </ion-chip>
+        <ion-chip
+          [color]="selectedFilter === 'மனுஷ்ய' ? 'warning' : 'medium'"
+          (click)="filterByGana('மனுஷ்ய')">>
+          <ion-icon name="person" slot="start"></ion-icon>
+          <ion-label>மனுஷ்ய கணம்</ion-label>
+        </ion-chip>
+        <ion-chip
+          [color]="selectedFilter === 'ராக்ஷஸ' ? 'danger' : 'medium'"
+          (click)="filterByGana('ராக்ஷஸ')">>
+          <ion-icon name="flame" slot="start"></ion-icon>
+          <ion-label>ராக்ஷஸ கணம்</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+
+    <!-- Nakshatras List -->
+    <ion-list class="nakshatras-list">
+      <ion-card *ngFor="let nakshatra of filteredNakshatras" class="nakshatra-card">
+        <ion-card-header (click)="toggleNakshatraExpansion(nakshatra)" class="clickable">
+          <div class="nakshatra-header">
+            <div class="nakshatra-number">{{ nakshatra.number }}</div>
+            <div class="nakshatra-info">
+              <ion-card-title class="tamil-text">{{ nakshatra.name }}</ion-card-title>
+              <ion-card-subtitle>{{ nakshatra.nameEnglish }} ({{ nakshatra.sanskritName }})</ion-card-subtitle>
+              <div class="nakshatra-meta">
+                <ion-chip size="small" [color]="getGanaColor(nakshatra.gana)">
+                  <ion-icon [name]="getGanaIcon(nakshatra.gana)" slot="start"></ion-icon>
+                  <ion-label>{{ nakshatra.gana }}</ion-label>
+                </ion-chip>
+                <ion-chip size="small" color="medium">
+                  <ion-icon name="planet" slot="start"></ion-icon>
+                  <ion-label>{{ nakshatra.rulingPlanet }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <ion-icon
+              [name]="nakshatra.expanded ? 'chevron-up' : 'chevron-down'"
+              class="expand-icon">
+            </ion-icon>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content *ngIf="nakshatra.expanded" class="expanded-content">
+          <!-- Basic Information -->
+          <div class="detail-section">
+            <h4 class="section-title">📋 அடிப்படை தகவல்கள்</h4>
+            <div class="info-grid">
+              <div class="info-item">
+                <strong>சின்னம்:</strong> {{ nakshatra.symbol }}
+              </div>
+              <div class="info-item">
+                <strong>अधिदेवता:</strong> {{ nakshatra.deity }}
+              </div>
+              <div class="info-item">
+                <strong>योनि:</strong> {{ nakshatra.yoni }} ({{ nakshatra.yoniAnimal }})
+              </div>
+              <div class="info-item">
+                <strong>वर्ण:</strong> {{ nakshatra.varna }}
+              </div>
+              <div class="info-item">
+                <strong>तत्व:</strong> {{ nakshatra.element }}
+              </div>
+              <div class="info-item">
+                <strong>लिंग:</strong> {{ nakshatra.yoniGender }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Significances -->
+          <div class="detail-section">
+            <h4 class="section-title">🎯 कारकत्व</h4>
+            <ion-list>
+              <ion-item *ngFor="let significance of nakshatra.significances" lines="none">
+                <ion-icon name="arrow-forward" slot="start" color="tertiary"></ion-icon>
+                <ion-label>{{ significance }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Food Preferences -->
+          <div class="detail-section">
+            <h4 class="section-title">🍽️ आहार संस्कार</h4>
+            <div class="food-section">
+              <div class="food-category">
+                <strong style="color: #22c55e;">अनुकूल आहार:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let food of nakshatra.favorableFoods" color="success" size="small">
+                    <ion-label>{{ food }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+              <div class="food-category">
+                <strong style="color: #ef4444;">प्रतिकूल आहार:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let food of nakshatra.unfavorableFoods" color="danger" size="small">
+                    <ion-label>{{ food }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Places -->
+          <div class="detail-section">
+            <h4 class="section-title">🏛️ स्थान विशेषताएं</h4>
+            <div class="places-section">
+              <div class="place-category">
+                <strong style="color: #22c55e;">अनुकूल स्थान:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let place of nakshatra.favorablePlaces" color="success" size="small">
+                    <ion-label>{{ place }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+              <div class="place-category">
+                <strong style="color: #ef4444;">प्रतिकूल स्थान:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let place of nakshatra.unfavorablePlaces" color="danger" size="small">
+                    <ion-label>{{ place }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Body Parts -->
+          <div class="detail-section">
+            <h4 class="section-title">👤 शरीर के अंग</h4>
+            <div class="tags-container">
+              <ion-chip *ngFor="let part of nakshatra.bodyParts" color="tertiary" size="small">
+                <ion-label>{{ part }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+
+          <!-- Temples -->
+          <div class="detail-section">
+            <h4 class="section-title">🏛️ पवित्र मंदिर</h4>
+            <ion-list>
+              <ion-item *ngFor="let temple of nakshatra.temples" lines="none">
+                <ion-icon name="business" slot="start" color="warning"></ion-icon>
+                <ion-label>{{ temple }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- DNA Characteristics -->
+          <div class="detail-section">
+            <h4 class="section-title">🧬 DNA विशेषताएं</h4>
+            <ion-list>
+              <ion-item *ngFor="let dna of nakshatra.dnaCharacteristics" lines="none">
+                <ion-icon name="cellular" slot="start" color="primary"></ion-icon>
+                <ion-label>{{ dna }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Personality Traits -->
+          <div class="detail-section">
+            <h4 class="section-title">💪 व्यक्तित्व के गुण</h4>
+            <div class="personality-section">
+              <div class="trait-category">
+                <strong style="color: #22c55e;">शक्तियां:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let strength of nakshatra.strengths" color="success" size="small">
+                    <ion-label>{{ strength }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+              <div class="trait-category">
+                <strong style="color: #ef4444;">कमजोरियां:</strong>
+                <div class="tags-container">
+                  <ion-chip *ngFor="let weakness of nakshatra.weaknesses" color="danger" size="small">
+                    <ion-label>{{ weakness }}</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remedies -->
+          <div class="detail-section">
+            <h4 class="section-title">🙏 उपाय</h4>
+            <ion-list>
+              <ion-item *ngFor="let remedy of nakshatra.remedies" lines="none">
+                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+                <ion-label class="remedy-text">{{ remedy }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Mantras -->
+          <div class="detail-section">
+            <h4 class="section-title">🕉️ मंत्र</h4>
+            <ion-list>
+              <ion-item *ngFor="let mantra of nakshatra.mantras" lines="none">
+                <ion-icon name="musical-notes" slot="start" color="tertiary"></ion-icon>
+                <ion-label class="mantra-text">{{ mantra }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <ion-button expand="block" fill="outline" color="tertiary" (click)="showNakshatraDetails(nakshatra)">
+            <ion-icon name="information-circle" slot="start"></ion-icon>
+            और जानकारी
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+  </div>
+
+  <!-- Analysis Content -->
+  <div *ngIf="selectedSegment === 'analysis'" class="content-section">
+    <ion-card class="analysis-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">📊 நட்சத்திர ஆய்வு</ion-card-title>
+        <ion-card-subtitle>व्यापक नक्षत्र विश्लेषण</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="analysis-content">
+          <div class="current-nakshatra">
+            <h3 class="tamil-text">{{ getCurrentNakshatra().name }}</h3>
+            <p class="subtitle">{{ getCurrentNakshatra().nameEnglish }}</p>
+
+            <div class="nakshatra-details">
+              <p><strong>अधिदेवता:</strong> {{ getCurrentNakshatra().deity }}</p>
+              <p><strong>योनि:</strong> {{ getCurrentNakshatra().yoni }} ({{ getCurrentNakshatra().yoniAnimal }})</p>
+              <p><strong>गण:</strong> {{ getCurrentNakshatra().gana }}</p>
+              <p><strong>वर्ण:</strong> {{ getCurrentNakshatra().varna }}</p>
+            </div>
+
+            <div class="navigation-buttons">
+              <ion-button fill="outline" color="tertiary" (click)="previousNakshatra()" [disabled]="currentNakshatraIndex === 0">
+                <ion-icon name="chevron-back" slot="start"></ion-icon>
+                पिछला
+              </ion-button>
+              <ion-button fill="outline" color="tertiary" (click)="nextNakshatra()" [disabled]="currentNakshatraIndex === nakshatras.length - 1">
+                अगला
+                <ion-icon name="chevron-forward" slot="end"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="premium-feature">
+      <ion-card-content>
+        <div class="premium-content">
+          <ion-icon name="diamond" color="tertiary" size="large"></ion-icon>
+          <h3 class="tamil-text">🔒 उन्नत सुविधाएं</h3>
+          <p>पूर्ण नक्षत्र विश्लेषण और व्यक्तिगत उपायों के लिए कोर्स खरीदें</p>
+          <ion-button expand="block" fill="solid" color="tertiary">
+            <ion-icon name="card" slot="start"></ion-icon>
+            ₹399 में खरीदें
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
