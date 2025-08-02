@@ -26,121 +26,53 @@
 
   <!-- Content Section -->
   <div class="content-section">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>🌅 மூல காயத்ரி மந்திரம்</ion-card-title>
-        <ion-card-subtitle>Original Gayathri Mantra</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="mantra-text">
-          ஓம் பூர் புவ: ஸ்வ:<br>
-          தத் சவிதுர் வரேண்யம்<br>
-          பர்கோ தேவஸ்ய தீமஹி<br>
-          தியோ யோ ந: ப்ரசோதயாத்॥
-        </div>
-        <div class="benefits">
-          <strong>பலன்கள்:</strong>
-          <ul>
-            <li>மன அமைதி மற்றும் தெளிவு</li>
-            <li>ஞானம் மற்றும் புத்தி வளர்ச்சி</li>
-            <li>ஆன்மீக முன்னேற்றம்</li>
-            <li>நேர்மறை சக்தி அதிகரிப்பு</li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
+    <!-- Category Grid -->
+    <div class="category-grid">
+      <ion-card 
+        *ngFor="let category of gayathriCategories" 
+        [color]="category.color" 
+        (click)="selectGayathriCategory(category)"
+        class="category-card">
+        <ion-card-content>
+          <div class="category-icon">{{ category.icon }}</div>
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.mantras.length }} மந்திரங்கள்</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>🌞 சூர்ய காயத்ரி</ion-card-title>
-        <ion-card-subtitle>Surya Gayathri for Solar Energy</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="mantra-text">
-          ஓம் ஆதித்யாய வித்மஹே<br>
-          மார்தண்டாய தீமஹி<br>
-          தன்னோ சூர்ய: ப்ரசோதயாத்॥
-        </div>
-        <div class="benefits">
-          <strong>பலன்கள்:</strong>
-          <ul>
-            <li>உடல் ஆரோக்யம் மற்றும் வலிமை</li>
-            <li>தலைமைத்துவ குணங்கள்</li>
-            <li>வெற்றி மற்றும் புகழ்</li>
-            <li>கண் நோய்கள் தீர்வு</li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
+    <!-- Selected Category Mantras -->
+    <div *ngIf="selectedGayathriCategory" class="mantras-section">
+      <ion-card class="back-card" (click)="selectedGayathriCategory = null">
+        <ion-card-content>
+          <ion-icon name="arrow-back"></ion-icon>
+          <span>வகைகளுக்கு திரும்பு</span>
+        </ion-card-content>
+      </ion-card>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>🌙 சந்திர காயத்ரி</ion-card-title>
-        <ion-card-subtitle>Chandra Gayathri for Lunar Blessings</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="mantra-text">
-          ஓம் பத்மத்வஜாய வித்மஹே<br>
-          ஹேம ரூபாய தீமஹி<br>
-          தன்னோ சோம: ப்ரசோதயாத்॥
-        </div>
-        <div class="benefits">
-          <strong>பலன்கள்:</strong>
-          <ul>
-            <li>மன அமைதி மற்றும் குளிர்ச்சி</li>
-            <li>உணர்ச்சி சமநிலை</li>
-            <li>தாய்மை சக்தி அதிகரிப்பு</li>
-            <li>நினைவாற்றல் வளர்ச்சி</li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>🔥 அங்காரக காயத்ரி</ion-card-title>
-        <ion-card-subtitle>Mangal Gayathri for Mars Energy</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="mantra-text">
-          ஓம் அங்காரகாய வித்மஹே<br>
-          பூமிபுத்ராய தீமஹி<br>
-          தன்னோ பௌம: ப்ரசோதயாத்॥
-        </div>
-        <div class="benefits">
-          <strong>பலன்கள்:</strong>
-          <ul>
-            <li>தைரியம் மற்றும் வீரம்</li>
-            <li>செவ்வாய் தோஷ நிவாரணம்</li>
-            <li>போட்டியில் வெற்றி</li>
-            <li>சொத்து மற்றும் நிலம் பெறுதல்</li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>💚 புத காயத்ரி</ion-card-title>
-        <ion-card-subtitle>Budha Gayathri for Mercury Blessings</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="mantra-text">
-          ஓம் கஜத்வஜாய வித்மஹே<br>
-          சுகுமாராய தீமஹி<br>
-          தன்னோ புத: ப்ரசோதயாத்॥
-        </div>
-        <div class="benefits">
-          <strong>பலன்கள்:</strong>
-          <ul>
-            <li>புத்தி கூர்மை மற்றும் கல்வி</li>
-            <li>வணிகம் மற்றும் தொழில் வளர்ச்சி</li>
-            <li>பேச்சுத் திறமை</li>
-            <li>தொழில்நுட்ப ஞானம்</li>
-          </ul>
-        </div>
-      </ion-card-content>
-    </ion-card>
+      <h2 class="section-title">{{ selectedGayathriCategory.name }}</h2>
+      
+      <ion-card 
+        *ngFor="let mantra of selectedGayathriCategory.mantras; trackBy: trackByMantraId" 
+        class="mantra-card"
+        (click)="openMantraDetail(mantra)">
+        <ion-card-header>
+          <ion-card-title>{{ mantra.name }}</ion-card-title>
+          <ion-card-subtitle>{{ mantra.deity }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="mantra-text-preview">{{ mantra.text || mantra.tamil }}</div>
+          <div class="benefits-preview">
+            <ion-chip *ngFor="let benefit of mantra.benefits.slice(0,2)" color="light">
+              {{ benefit }}
+            </ion-chip>
+            <ion-chip *ngIf="mantra.benefits.length > 2" color="medium">
+              +{{ mantra.benefits.length - 2 }} மேலும்
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
     <!-- Practice Guidelines -->
     <ion-card class="practice-card">
@@ -182,4 +114,64 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+  <!-- Mantra Detail Modal -->
+  <ion-modal #detailModal [isOpen]="selectedMantra !== null" [presentingElement]="null" class="fullscreen-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-button (click)="closeMantraDetail()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ selectedMantra?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeMantraDetail()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content *ngIf="selectedMantra">
+        <div class="modal-content">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ selectedMantra.name }}</ion-card-title>
+              <ion-card-subtitle>{{ selectedMantra.deity }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="mantra-text-full">{{ selectedMantra.text || selectedMantra.tamil }}</div>
+              
+              <div class="benefits-section">
+                <h4>பலன்கள்:</h4>
+                <ion-list>
+                  <ion-item *ngFor="let benefit of selectedMantra.benefits">
+                    <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+                    <ion-label>{{ benefit }}</ion-label>
+                  </ion-item>
+                </ion-list>
+              </div>
+
+              <div class="action-buttons">
+                <ion-button fill="outline" (click)="copyMantra(selectedMantra)">
+                  <ion-icon name="copy" slot="start"></ion-icon>
+                  நகलெடு
+                </ion-button>
+                <ion-button fill="outline" (click)="shareMantra(selectedMantra)">
+                  <ion-icon name="share" slot="start"></ion-icon>
+                  பகிரு
+                </ion-button>
+                <ion-button fill="outline" (click)="toggleFavoriteMantra(selectedMantra)">
+                  <ion-icon [name]="isFavoriteMantra(selectedMantra) ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
+                  {{ isFavoriteMantra(selectedMantra) ? 'நீக்கு' : 'சேர்' }}
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
