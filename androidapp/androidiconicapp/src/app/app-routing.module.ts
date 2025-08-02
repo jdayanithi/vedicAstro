@@ -84,6 +84,10 @@ const routes: Routes = [
   {
     path: 'uraynilai-astrology',
     loadChildren: () => import('./concept-modules/uraynilai-astrology/uraynilai-astrology.module').then( m => m.UraynilaiAstrologyPageModule)
+  },
+  {
+    path: 'theiva-vazhipadu-padalgal',
+    loadChildren: () => import('./concept-modules/theiva-vazhipadu-padalgal/theiva-vazhipadu-padalgal.module').then( m => m.TheivaValzipaduPadalgalPageModule)
   }
 
 ];

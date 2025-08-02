@@ -1,0 +1,256 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>🎵 தெய்வ வழிபாடு பாடல்கள்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">🎵 தெய்வ வழிபாடு பாடல்கள்</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <div class="hero-icon">🎵</div>
+      <h1>தெய்வ வழிபாடு பாடல்கள்</h1>
+      <p>விநாயகர் அகவல், சகலகலாவல்லி மாலை, சஷ்டி கவசம் மற்றும் பல புனித பாடல்கள்</p>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="searchPadals()" 
+      placeholder="பாடல்களை தேடுங்கள்..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Categories Grid -->
+  <div class="categories-grid">
+    <div 
+      *ngFor="let category of padalCategories; trackBy: trackByPadalId" 
+      class="category-card"
+      [class.expanded]="expandedCategories[category.id]"
+      (click)="toggleCategory(category.id)">
+      
+      <div class="category-header">
+        <div class="category-icon">{{category.icon}}</div>
+        <div class="category-info">
+          <h3>{{category.name}}</h3>
+          <p>{{category.mantras.length}} பாடல்கள்</p>
+        </div>
+        <ion-icon 
+          [name]="expandedCategories[category.id] ? 'chevron-up' : 'chevron-down'"
+          class="expand-icon">
+        </ion-icon>
+      </div>
+
+      <!-- Expandable Content -->
+      <div 
+        class="category-content" 
+        *ngIf="expandedCategories[category.id]"
+        [@slideInOut]>
+        
+        <div 
+          *ngFor="let padal of category.mantras; trackBy: trackByPadalId" 
+          class="padal-card"
+          (click)="openPadalDetail(padal)">
+          
+          <div class="padal-header">
+            <h4>{{padal.name}}</h4>
+            <div class="padal-meta">
+              <span class="deity">{{padal.deity}}</span>
+              <span class="author" *ngIf="padal.author">- {{padal.author}}</span>
+            </div>
+          </div>
+
+          <div class="padal-preview">
+            <p>{{padal.text | slice:0:100}}...</p>
+          </div>
+
+          <div class="padal-info">
+            <span class="verses" *ngIf="padal.verses">{{padal.verses}} பாடல்கள்</span>
+            <span class="duration" *ngIf="padal.duration">{{padal.duration}}</span>
+          </div>
+
+          <div class="padal-actions" (click)="$event.stopPropagation()">
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              (click)="toggleFavoritePadal(padal)">
+              <ion-icon 
+                [name]="isFavoritePadal(padal) ? 'heart' : 'heart-outline'" 
+                [color]="isFavoritePadal(padal) ? 'danger' : 'medium'">
+              </ion-icon>
+            </ion-button>
+
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              (click)="sharePadal(padal)">
+              <ion-icon name="share-outline" color="medium"></ion-icon>
+            </ion-button>
+
+            <ion-button 
+              fill="clear" 
+              size="small" 
+              (click)="copyPadal(padal)">
+              <ion-icon name="copy-outline" color="medium"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <ion-modal #detailModal [isOpen]="false" [presentingElement]="null">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>{{selectedPadal?.name}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closePadalDetail()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content">
+        <div *ngIf="selectedPadal" class="padal-detail">
+          
+          <div class="padal-header-detail">
+            <h1>{{selectedPadal.name}}</h1>
+            <div class="padal-meta-detail">
+              <p><strong>தெய்வம்:</strong> {{selectedPadal.deity}}</p>
+              <p *ngIf="selectedPadal.author"><strong>ஆசிரியர்:</strong> {{selectedPadal.author}}</p>
+              <p *ngIf="selectedPadal.verses"><strong>பாடல்கள்:</strong> {{selectedPadal.verses}}</p>
+            </div>
+          </div>
+
+          <div class="padal-text-section">
+            <h3>பாடல்</h3>
+            <div class="padal-text">
+              <p>{{selectedPadal.text}}</p>
+            </div>
+          </div>
+
+          <div class="padal-meaning-section" *ngIf="selectedPadal.meaning">
+            <h3>பொருள்</h3>
+            <p>{{selectedPadal.meaning}}</p>
+          </div>
+
+          <div class="padal-benefits-section">
+            <h3>பலன்கள்</h3>
+            <ion-list>
+              <ion-item *ngFor="let benefit of selectedPadal.benefits">
+                <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
+                <ion-label>{{benefit}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="padal-practice-section">
+            <h3>பாடும் முறை</h3>
+            <ion-list>
+              <ion-item *ngIf="selectedPadal.howToSing">
+                <ion-icon name="musical-notes" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h4>எப்படி பாடுவது</h4>
+                  <p>{{selectedPadal.howToSing}}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item *ngIf="selectedPadal.bestTime">
+                <ion-icon name="time" slot="start" color="secondary"></ion-icon>
+                <ion-label>
+                  <h4>சிறந்த நேரம்</h4>
+                  <p>{{selectedPadal.bestTime}}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item *ngIf="selectedPadal.duration">
+                <ion-icon name="timer" slot="start" color="tertiary"></ion-icon>
+                <ion-label>
+                  <h4>கால அளவு</h4>
+                  <p>{{selectedPadal.duration}}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="padal-actions-detail">
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              (click)="toggleFavoritePadal(selectedPadal)">
+              <ion-icon 
+                [name]="isFavoritePadal(selectedPadal) ? 'heart' : 'heart-outline'" 
+                slot="start">
+              </ion-icon>
+              {{isFavoritePadal(selectedPadal) ? 'விருப்பத்திலிருந்து நீக்கு' : 'விருப்பத்தில் சேர்'}}
+            </ion-button>
+
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              (click)="sharePadal(selectedPadal)">
+              <ion-icon name="share" slot="start"></ion-icon>
+              பகிர்
+            </ion-button>
+
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              (click)="copyPadal(selectedPadal)">
+              <ion-icon name="copy" slot="start"></ion-icon>
+              நகல் எடு
+            </ion-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Preview Modal -->
+  <ion-modal #previewModal [isOpen]="false" class="preview-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{selectedPadalForPreview?.name}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closePadalPreview()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <div *ngIf="selectedPadalForPreview" class="preview-content">
+          <p><strong>தெய்வம்:</strong> {{selectedPadalForPreview.deity}}</p>
+          <div class="preview-text">
+            <p>{{selectedPadalForPreview.text | slice:0:200}}...</p>
+          </div>
+          <ion-button 
+            expand="block" 
+            (click)="openPadalDetail(selectedPadalForPreview)">
+            முழு பாடலைப் பார்க்க
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

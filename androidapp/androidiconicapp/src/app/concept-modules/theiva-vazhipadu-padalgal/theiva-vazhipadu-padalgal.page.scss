@@ -1,0 +1,420 @@
+// Hero Section
+.hero-section {
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
+  color: white;
+  padding: 40px 20px 60px;
+  text-align: center;
+
+  .hero-content {
+    .hero-icon {
+      font-size: 60px;
+      margin-bottom: 15px;
+      animation: musicPulse 2s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+    }
+
+    p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+}
+
+@keyframes musicPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+// Category Cards Styling
+.search-container {
+  padding: 16px;
+  margin-top: -30px; // Overlap with hero section
+  position: relative;
+  z-index: 10;
+  
+  ion-searchbar {
+    --background: var(--ion-color-light);
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+}
+
+.categories-grid {
+  padding: 0 16px 20px;
+  
+  .category-card {
+    background: var(--ion-color-light);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    &.expanded {
+      .category-header {
+        border-bottom: 1px solid var(--ion-color-medium);
+      }
+    }
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    
+    .category-icon {
+      font-size: 32px;
+      margin-right: 16px;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    .category-info {
+      flex: 1;
+      
+      h3 {
+        margin: 0 0 4px 0;
+        color: var(--ion-color-dark);
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: var(--ion-color-medium);
+        font-size: 14px;
+      }
+    }
+
+    .expand-icon {
+      font-size: 24px;
+      color: var(--ion-color-medium);
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .category-content {
+    padding: 0 20px 20px;
+    
+    .padal-card {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .padal-header {
+      margin-bottom: 8px;
+      
+      h4 {
+        margin: 0 0 4px 0;
+        color: var(--ion-color-primary);
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .padal-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ion-color-medium);
+
+        .deity {
+          color: var(--ion-color-secondary);
+          font-weight: 500;
+        }
+
+        .author {
+          font-style: italic;
+        }
+      }
+    }
+
+    .padal-preview {
+      margin-bottom: 12px;
+      
+      p {
+        margin: 0;
+        color: var(--ion-color-dark);
+        font-size: 14px;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .padal-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--ion-color-medium);
+
+      .verses {
+        background: var(--ion-color-primary-tint);
+        color: var(--ion-color-primary);
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: 500;
+      }
+
+      .duration {
+        background: var(--ion-color-secondary-tint);
+        color: var(--ion-color-secondary);
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: 500;
+      }
+    }
+
+    .padal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 4px;
+      
+      ion-button {
+        --padding-start: 8px;
+        --padding-end: 8px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+// Modal Styling
+.modal-content {
+  .padal-detail {
+    padding: 20px;
+
+    .padal-header-detail {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--ion-color-light);
+
+      h1 {
+        color: var(--ion-color-primary);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .padal-meta-detail {
+        p {
+          margin: 4px 0;
+          color: var(--ion-color-medium);
+          font-size: 14px;
+
+          strong {
+            color: var(--ion-color-dark);
+          }
+        }
+      }
+    }
+
+    .padal-text-section,
+    .padal-meaning-section,
+    .padal-benefits-section,
+    .padal-practice-section {
+      margin-bottom: 24px;
+
+      h3 {
+        color: var(--ion-color-primary);
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        
+        &:before {
+          content: '';
+          width: 4px;
+          height: 20px;
+          background: var(--ion-color-primary);
+          margin-right: 8px;
+          border-radius: 2px;
+        }
+      }
+    }
+
+    .padal-text {
+      background: var(--ion-color-light-tint);
+      padding: 16px;
+      border-radius: 12px;
+      border-left: 4px solid var(--ion-color-primary);
+
+      p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--ion-color-dark);
+        white-space: pre-line;
+        margin: 0;
+        font-family: 'Noto Sans Tamil', sans-serif;
+      }
+    }
+
+    .padal-meaning-section p {
+      background: var(--ion-color-secondary-tint);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .padal-benefits-section {
+      ion-list {
+        background: transparent;
+        padding: 0;
+      }
+
+      ion-item {
+        --background: var(--ion-color-success-tint);
+        --color: var(--ion-color-dark);
+        --border-radius: 8px;
+        margin-bottom: 8px;
+        
+        ion-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .padal-practice-section {
+      ion-list {
+        background: transparent;
+        padding: 0;
+      }
+
+      ion-item {
+        --background: white;
+        --border-radius: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        
+        ion-label {
+          h4 {
+            color: var(--ion-color-primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+          }
+          
+          p {
+            color: var(--ion-color-medium);
+            font-size: 14px;
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .padal-actions-detail {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--ion-color-light);
+
+      ion-button {
+        margin-bottom: 12px;
+        --border-radius: 12px;
+        height: 48px;
+        font-weight: 500;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+// Preview Modal
+.preview-modal {
+  --height: auto;
+  --border-radius: 16px 16px 0 0;
+  
+  .preview-content {
+    padding: 20px;
+    
+    .preview-text {
+      background: var(--ion-color-light-tint);
+      padding: 16px;
+      border-radius: 12px;
+      margin: 16px 0;
+      
+      p {
+        margin: 0;
+        line-height: 1.6;
+        color: var(--ion-color-dark);
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .categories-grid .category-card .category-header .category-icon {
+    font-size: 28px;
+    min-width: 40px;
+  }
+  
+  .modal-content .padal-detail .padal-header-detail h1 {
+    font-size: 20px;
+  }
+  
+  .modal-content .padal-detail .padal-text p {
+    font-size: 14px;
+  }
+}
+
+// Animation Support
+.category-content {
+  overflow: hidden;
+}
+
+// Accessibility
+ion-button[aria-pressed="true"] {
+  --color: var(--ion-color-primary);
+}
+
+// Dark Theme Support
+@media (prefers-color-scheme: dark) {
+  .categories-grid .category-card {
+    background: var(--ion-color-step-50);
+  }
+  
+  .categories-grid .category-content .padal-card {
+    background: var(--ion-color-step-100);
+  }
+  
+  .modal-content .padal-detail .padal-text {
+    background: var(--ion-color-step-100);
+  }
+}

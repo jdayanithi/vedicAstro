@@ -271,6 +271,22 @@
       "content": "நிலையான ஜோதிட கருத்துக்கள், ஸ்திர கணிப்பு முறைகள், உறுதியான பலன்கள், நிரந்தர தாக்கங்கள், மற்றும் நிலையான பரிகார முறைகள்...",
       "tags": ["உறைநிலை", "நிலையான", "ஸ்திர", "உறுதி", "நிரந்தர"],
       "imageUrl": "/assets/images/uraynilai-astrology.jpg"
+    },
+    {
+      "id": "theiva_vazhipadu_padalgal_001",
+      "title": "தெய்வ வழிபாடு பாடல்கள்",
+      "titleEnglish": "Divine Worship Songs",
+      "description": "விநாயகர் அகவல், சகலகலாவல்லி மாலை, சஷ்டி கவசம் உள்ளிட்ட தெய்வ வழிபாட்டு பாடல்களின் தொகுப்பு",
+      "descriptionEnglish": "Collection of divine worship songs including Vinayagar Agaval, Sakalakala Valli Malai, Sashti Kavasam and more",
+      "category": "பக்தி பாடல்கள்",
+      "categoryEnglish": "Devotional Songs",
+      "price": 0,
+      "isPaid": false,
+      "duration": "வரம்பில்லாத",
+      "level": "எல்லா நிலைகள்",
+      "content": "விநாயகர் அகவல், சகலகலாவல்லி மாலை, முருகன் சஷ்டி கவசம், திருவாசகம், லலிதா சஹஸ்ரநாமம், விஷ்ணு சஹஸ்ரநாமம், ஹனுமான் சாலீசா போன்ற புனித பாடல்கள் மற்றும் அவற்றின் பலன்கள், பாடும் முறை, சிறந்த நேரம்...",
+      "tags": ["பாடல்", "வழிபாடு", "விநாயகர்", "முருகன்", "சிவன்", "அம்மன்", "விஷ்ணு", "ஹனுமான்", "பக்தி"],
+      "imageUrl": "/assets/images/theiva-vazhipadu-padalgal.jpg"
     }
   ],
   "categories": [
