@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.tamilpariharam.app',
-  appName: 'Tamil Pariharam',
+  appName: 'LDML Online Astro',
   webDir: 'dist',
   bundledWebRuntime: false,
   plugins: {

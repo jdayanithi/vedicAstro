@@ -1,7 +1,7 @@
 {
-  "name": "androidiconicapp",
+  "name": "ldml-online-astro",
   "version": "0.0.1",
-  "author": "Tamil Pariharam App",
+  "author": "LDML Online Astro",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
