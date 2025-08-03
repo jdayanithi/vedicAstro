@@ -303,6 +303,22 @@
       "content": "அனைத்து இரண்டு கிரக சேர்க்கைகளின் விரிவான ஆய்வு - சூரிய சந்திர, சூரிய செவ்வாய், சூரிய புதன், சூரிய குரு, சூரிய சுக்ரன், சூரிய சனி, சந்திர செவ்வாய் மற்றும் பல சேர்க்கைகளின் லக்ஷணங்கள், பலன்கள், வாழ்வியல் பரிகாரங்கள், கோவில் பரிகாரங்கள், நேர்மறை எதிர்மறை விளைவுகள் மற்றும் தீர்வுகள்...",
       "tags": ["கிரக சேர்க்கை", "இரண்டு கிரகம்", "பலன்", "பரிகாரம்", "வாழ்வியல்", "கோவில்", "லக்ஷணம்", "விளைவு"],
       "imageUrl": "/assets/images/kiraga-serkai.jpg"
+    },
+    {
+      "id": "temple_vazhipadu_sthalangal_001",
+      "title": "கோவில் வழிபாடு ஸ்தலங்கள்",
+      "titleEnglish": "Temple Vazhipadu Sthalangal",
+      "description": "நவ திருப்பதி, 51 சக்தி பீடங்கள், நவகிரக ஸ்தலங்கள், கடன் பரிகார கோவில்கள், திருமண பரிகார கோவில்கள் உள்ளிட்ட புனித ஸ்தலங்களின் முழுமையான தொகுப்பு",
+      "descriptionEnglish": "Complete collection of sacred temples including Nava Tirupati, 51 Shakti Peethas, Navagraha temples, debt relief temples, marriage remedy temples and more",
+      "category": "கோவில் வழிபாடு",
+      "categoryEnglish": "Temple Worship",
+      "price": 299,
+      "isPaid": true,
+      "duration": "240 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "பல்வேறு நோக்கங்களுக்கான புனித கோவில்களின் விரிவான தொகுப்பு - நவ திருப்பதி ஸ்தலங்கள், 51 சக்தி பீடங்கள், நவகிரக கோவில்கள், கடன் நிவர்த்தி கோவில்கள், திருமண வரம் கோவில்கள், சந்தான பிராப்தி கோவில்கள், கல்வி வளர்ச்சி கோவில்கள், ஆரோக்கிய வளர்ச்சி கோவில்கள் - ஒவ்வொரு கோவிலின் சிறப்புகள், பரிகாரங்கள், திருவிழாக்கள், பயண விவரங்கள், தங்கும் இடங்கள், சிறப்பு நிவேதனங்கள்...",
+      "tags": ["கோவில்", "வழிபாடு", "திருப்பதி", "சக்தி பீடம்", "நவகிரகம்", "பரிகாரம்", "திருமணம்", "கடன் நிவர்த்தி", "சந்தானம்", "ஸ்தலங்கள்"],
+      "imageUrl": "/assets/images/temple-vazhipadu-sthalangal.jpg"
     }
   ],
   "categories": [
@@ -447,6 +463,13 @@
       "nameEnglish": "Planetary Combination Astrology",
       "icon": "git-merge-outline",
       "color": "#6366f1"
+    },
+    {
+      "id": "temple_worship",
+      "name": "கோவில் வழிபாடு",
+      "nameEnglish": "Temple Worship",
+      "icon": "business-outline",
+      "color": "#059669"
     }
   ]
 }

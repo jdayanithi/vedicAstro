@@ -1,0 +1,380 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
+    </ion-buttons>
+    <ion-title>கோவில் வழிபாடு ஸ்தலங்கள்</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="header-section">
+    <h1>கோவில் வழிபாடு ஸ்தலங்கள்</h1>
+    <p>புனித ஸ்தலங்கள் மற்றும் பரிகார கோவில்களின் முழுமையான தொகுப்பு</p>
+
+    <div class="progress-card">
+      <div class="progress-info">
+        <span>பார்வையிட்ட கோவில்கள்: {{ getVisitedTemplesCount() }}/{{ getTotalTemplesCount() }}</span>
+        <span>முன்னேற்றம்: {{ getProgressPercentage() }}%</span>
+      </div>
+      <ion-progress-bar [value]="getProgressPercentage() / 100" color="success"></ion-progress-bar>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="searchTempleGroups()"
+      placeholder="கோவில் குழுக்கள் தேடுங்கள்..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <div class="content-section">
+    <div class="temple-groups-grid">
+      <div
+        *ngFor="let group of filteredTempleGroups"
+        class="temple-group-card"
+        (click)="openTempleGroupDetail(group)">
+
+        <div class="card-header" [style.background]="'linear-gradient(135deg, ' + group.color + ' 0%, ' + group.color + '88 100%)'">
+          <div class="group-info">
+            <ion-icon [name]="group.icon" class="group-icon"></ion-icon>
+            <div class="group-details">
+              <h3>{{ group.name }}</h3>
+              <p class="english-name">{{ group.englishName }}</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="$event.stopPropagation(); toggleFavorite(group.id)"
+              [color]="isFavorite(group.id) ? 'danger' : 'light'">
+              <ion-icon [name]="isFavorite(group.id) ? 'heart' : 'heart-outline'"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <p class="description">{{ group.description }}</p>
+
+          <div class="group-stats">
+            <div class="stat-item">
+              <ion-icon name="business"></ion-icon>
+              <span>{{ group.templeCount }} கோவில்கள்</span>
+            </div>
+            <div class="stat-item">
+              <ion-icon name="star"></ion-icon>
+              <span>{{ group.purpose }}</span>
+            </div>
+          </div>
+
+          <div class="temple-preview">
+            <h4>முக்கிய கோவில்கள்:</h4>
+            <div class="temple-chips">
+              <ion-chip
+                *ngFor="let temple of group.temples.slice(0, 3); let i = index"
+                [color]="isVisited(temple.id) ? 'success' : 'medium'"
+                outline>
+                <ion-icon [name]="isVisited(temple.id) ? 'checkmark-circle' : 'location'"></ion-icon>
+                <ion-label>{{ temple.name }}</ion-label>
+              </ion-chip>
+              <ion-chip *ngIf="group.temples.length > 3" color="primary" outline>
+                <ion-label>+{{ group.temples.length - 3 }} மேலும்</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Temple Group Detail Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedTempleGroup?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content *ngIf="selectedTempleGroup">
+        <div class="modal-content">
+
+          <!-- Group Header -->
+          <div class="group-header" [style.background]="'linear-gradient(135deg, ' + selectedTempleGroup.color + ' 0%, ' + selectedTempleGroup.color + '88 100%)'">
+            <ion-icon [name]="selectedTempleGroup.icon" class="large-icon"></ion-icon>
+            <h2>{{ selectedTempleGroup.name }}</h2>
+            <p class="english-name">{{ selectedTempleGroup.englishName }}</p>
+            <p class="description">{{ selectedTempleGroup.description }}</p>
+          </div>
+
+          <!-- Group Stats -->
+          <div class="group-overview">
+            <div class="overview-card">
+              <ion-icon name="business" color="primary"></ion-icon>
+              <div>
+                <h3>{{ selectedTempleGroup.templeCount }}</h3>
+                <p>கோவில்கள்</p>
+              </div>
+            </div>
+            <div class="overview-card">
+              <ion-icon name="star" color="warning"></ion-icon>
+              <div>
+                <h3>{{ selectedTempleGroup.purpose }}</h3>
+                <p>முக்கிய நோக்கம்</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Temples List -->
+          <div class="temples-section">
+            <h3><ion-icon name="location"></ion-icon> கோவில்கள் பட்டியல்</h3>
+
+            <div class="temples-list">
+              <div
+                *ngFor="let temple of selectedTempleGroup.temples"
+                class="temple-item"
+                [class.visited]="isVisited(temple.id)"
+                (click)="openTempleDetail(temple)">
+
+                <div class="temple-main-info">
+                  <div class="temple-header">
+                    <h4>{{ temple.name }}</h4>
+                    <div class="temple-actions">
+                      <ion-button
+                        fill="clear"
+                        size="small"
+                        (click)="$event.stopPropagation(); toggleVisited(temple.id)"
+                        [color]="isVisited(temple.id) ? 'success' : 'medium'">
+                        <ion-icon [name]="isVisited(temple.id) ? 'checkmark-circle' : 'checkmark-circle-outline'"></ion-icon>
+                      </ion-button>
+                    </div>
+                  </div>
+                  <p class="english-name">{{ temple.englishName }}</p>
+                  <div class="temple-basic-info">
+                    <div class="info-item">
+                      <ion-icon name="location" color="primary"></ion-icon>
+                      <span>{{ temple.location }}</span>
+                    </div>
+                    <div class="info-item">
+                      <ion-icon name="person" color="tertiary"></ion-icon>
+                      <span>{{ temple.deity }}</span>
+                    </div>
+                  </div>
+                  <p class="significance">{{ temple.significance }}</p>
+                </div>
+
+                <div class="temple-specialities">
+                  <div class="speciality-chips">
+                    <ion-chip *ngFor="let speciality of temple.speciality.slice(0, 2)" color="success" outline>
+                      <ion-label>{{ speciality }}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <ion-button
+              expand="block"
+              fill="outline"
+              (click)="toggleFavorite(selectedTempleGroup.id)"
+              [color]="isFavorite(selectedTempleGroup.id) ? 'danger' : 'primary'">
+              <ion-icon [name]="isFavorite(selectedTempleGroup.id) ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
+              {{ isFavorite(selectedTempleGroup.id) ? 'பிடித்தவையிலிருந்து நீக்கு' : 'பிடித்தவையில் சேர்க்கவும்' }}
+            </ion-button>
+          </div>
+
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Temple Detail Modal -->
+  <ion-modal [isOpen]="isTempleDetailModalOpen" (willDismiss)="closeTempleDetailModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ selectedTemple?.name }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeTempleDetailModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content *ngIf="selectedTemple">
+        <div class="temple-detail-content">
+
+          <!-- Temple Header -->
+          <div class="temple-detail-header">
+            <h2>{{ selectedTemple.name }}</h2>
+            <p class="english-name">{{ selectedTemple.englishName }}</p>
+            <div class="location-info">
+              <ion-icon name="location" color="primary"></ion-icon>
+              <span>{{ selectedTemple.location }}</span>
+            </div>
+            <div class="deity-info">
+              <ion-icon name="person" color="tertiary"></ion-icon>
+              <span>{{ selectedTemple.deity }}</span>
+            </div>
+          </div>
+
+          <!-- Temple Details Sections -->
+          <div class="temple-sections">
+
+            <!-- Significance -->
+            <div class="detail-section">
+              <h3><ion-icon name="star" color="warning"></ion-icon> சிறப்பு</h3>
+              <p>{{ selectedTemple.significance }}</p>
+            </div>
+
+            <!-- Specialities -->
+            <div class="detail-section">
+              <h3><ion-icon name="diamond" color="success"></ion-icon> தனிச்சிறப்புகள்</h3>
+              <ion-list>
+                <ion-item *ngFor="let speciality of selectedTemple.speciality">
+                  <ion-icon name="checkmark-circle" color="success" slot="start"></ion-icon>
+                  <ion-label>{{ speciality }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Timings -->
+            <div class="detail-section">
+              <h3><ion-icon name="time" color="primary"></ion-icon> கோவில் நேரம்</h3>
+              <p>{{ selectedTemple.timings }}</p>
+            </div>
+
+            <!-- Festivals -->
+            <div class="detail-section">
+              <h3><ion-icon name="calendar" color="tertiary"></ion-icon> முக்கிய திருவிழாக்கள்</h3>
+              <div class="festival-chips">
+                <ion-chip *ngFor="let festival of selectedTemple.festivals" color="tertiary" outline>
+                  <ion-icon name="calendar"></ion-icon>
+                  <ion-label>{{ festival }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+
+            <!-- Pariharams -->
+            <div class="detail-section">
+              <h3><ion-icon name="leaf" color="success"></ion-icon> பரிகாரங்கள்</h3>
+              <ion-list>
+                <ion-item *ngFor="let pariharam of selectedTemple.pariharams">
+                  <ion-icon name="flower" color="success" slot="start"></ion-icon>
+                  <ion-label>{{ pariharam }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Benefits -->
+            <div class="detail-section">
+              <h3><ion-icon name="trophy" color="warning"></ion-icon> பலன்கள்</h3>
+              <ion-list>
+                <ion-item *ngFor="let benefit of selectedTemple.benefits">
+                  <ion-icon name="star" color="warning" slot="start"></ion-icon>
+                  <ion-label>{{ benefit }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <!-- Travel Information -->
+            <div class="detail-section">
+              <h3><ion-icon name="train" color="primary"></ion-icon> பயண விவரங்கள்</h3>
+              <div class="travel-info">
+                <div class="travel-item">
+                  <strong>எப்படி செல்வது:</strong>
+                  <p>{{ selectedTemple.howToReach }}</p>
+                </div>
+                <div class="travel-item">
+                  <strong>அருகிலுள்ள ரயில் நிலையம்:</strong>
+                  <p>{{ selectedTemple.nearestStation }}</p>
+                </div>
+              </div>
+
+              <!-- Google Maps Integration -->
+              <div class="maps-integration">
+                <h4><ion-icon name="map" color="success"></ion-icon> வரைபட சேவைகள்</h4>
+                <div class="maps-buttons">
+                  <ion-button
+                    expand="block"
+                    fill="outline"
+                    color="success"
+                    (click)="openGoogleMaps(selectedTemple)">
+                    <ion-icon name="location" slot="start"></ion-icon>
+                    Google Maps இல் பார்க்கவும்
+                  </ion-button>
+
+                  <ion-button
+                    expand="block"
+                    fill="outline"
+                    color="primary"
+                    (click)="getDirectionsToTemple(selectedTemple)">
+                    <ion-icon name="navigate" slot="start"></ion-icon>
+                    வழி திசைகள் பெறவும்
+                  </ion-button>
+                </div>
+
+                <div class="location-info" *ngIf="selectedTemple.coordinates">
+                  <p class="coordinates">
+                    <ion-icon name="pin"></ion-icon>
+                    <strong>ஆயத்தொலைவுகள்:</strong>
+                    {{ selectedTemple.coordinates.latitude }}, {{ selectedTemple.coordinates.longitude }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Accommodation -->
+            <div class="detail-section">
+              <h3><ion-icon name="bed" color="medium"></ion-icon> தங்கும் இடங்கள்</h3>
+              <div class="accommodation-chips">
+                <ion-chip *ngFor="let accommodation of selectedTemple.accommodation" color="medium" outline>
+                  <ion-icon name="bed"></ion-icon>
+                  <ion-label>{{ accommodation }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+
+            <!-- Recommended Offerings -->
+            <div class="detail-section">
+              <h3><ion-icon name="gift" color="warning"></ion-icon> சிறப்பு நிவேதனங்கள்</h3>
+              <div class="offering-chips">
+                <ion-chip *ngFor="let offering of selectedTemple.offeringsRecommended" color="warning" outline>
+                  <ion-icon name="gift"></ion-icon>
+                  <ion-label>{{ offering }}</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="temple-action-buttons">
+            <ion-button
+              expand="block"
+              fill="outline"
+              (click)="toggleVisited(selectedTemple.id)"
+              [color]="isVisited(selectedTemple.id) ? 'success' : 'primary'">
+              <ion-icon [name]="isVisited(selectedTemple.id) ? 'checkmark-circle' : 'checkmark-circle-outline'" slot="start"></ion-icon>
+              {{ isVisited(selectedTemple.id) ? 'பார்வையிட்டது' : 'பார்வையிட்டதாக குறிக்கவும்' }}
+            </ion-button>
+          </div>
+
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

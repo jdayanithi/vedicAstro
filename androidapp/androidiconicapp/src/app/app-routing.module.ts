@@ -88,6 +88,10 @@ const routes: Routes = [
   {
     path: 'kiraga-serkai',
     loadChildren: () => import('./concept-modules/kiraga-serkai/kiraga-serkai.module').then( m => m.KiragaSerkaiPageModule)
+  },
+  {
+    path: 'temple-vazhipadu-sthalangal',
+    loadChildren: () => import('./concept-modules/temple-vazhipadu-sthalangal/temple-vazhipadu-sthalangal.module').then( m => m.TempleVazhipaduSthalalangalPageModule)
   }
 
 ];

@@ -1,0 +1,680 @@
+.header-section {
+  padding: 20px;
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+  text-align: center;
+
+  h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0 0 20px 0;
+    opacity: 0.9;
+    font-size: 16px;
+  }
+}
+
+.progress-card {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  ion-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+}
+
+.search-section {
+  padding: 20px;
+  background: #f8f9fa;
+
+  ion-searchbar {
+    --background: white;
+    --border-radius: 25px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+}
+
+.content-section {
+  padding: 0 20px 20px 20px;
+}
+
+.temple-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.temple-group-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  .card-header {
+    padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .group-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+
+      .group-icon {
+        font-size: 32px;
+        opacity: 0.9;
+      }
+
+      .group-details {
+        h3 {
+          margin: 0 0 5px 0;
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .english-name {
+          margin: 0;
+          font-size: 13px;
+          opacity: 0.8;
+          font-style: italic;
+        }
+      }
+    }
+
+    .card-actions {
+      ion-button {
+        --color: white;
+      }
+    }
+  }
+
+  .card-content {
+    padding: 20px;
+
+    .description {
+      color: #555;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0 0 16px 0;
+    }
+
+    .group-stats {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 16px;
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #666;
+
+        ion-icon {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .temple-preview {
+      h4 {
+        color: #333;
+        font-size: 14px;
+        margin: 0 0 10px 0;
+        font-weight: 600;
+      }
+
+      .temple-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        ion-chip {
+          font-size: 11px;
+          height: 28px;
+        }
+      }
+    }
+  }
+}
+
+// Modal Styles
+.modal-content {
+  padding: 20px;
+
+  .group-header {
+    text-align: center;
+    padding: 30px 20px;
+    color: white;
+    border-radius: 16px;
+    margin-bottom: 20px;
+
+    .large-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .english-name {
+      margin: 0 0 16px 0;
+      font-size: 16px;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .description {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+  }
+
+  .group-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+
+    .overview-card {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      ion-icon {
+        font-size: 24px;
+      }
+
+      div {
+        h3 {
+          margin: 0 0 4px 0;
+          font-size: 16px;
+          font-weight: bold;
+          color: #333;
+        }
+
+        p {
+          margin: 0;
+          font-size: 12px;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  .temples-section {
+    h3 {
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+
+    .temples-list {
+      .temple-item {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+
+        &:hover {
+          background: #e3f2fd;
+          border-color: #2196f3;
+        }
+
+        &.visited {
+          background: #e8f5e8;
+          border-color: #4caf50;
+        }
+
+        .temple-main-info {
+          .temple-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+
+            h4 {
+              margin: 0;
+              color: #333;
+              font-size: 16px;
+              font-weight: bold;
+            }
+
+            .temple-actions {
+              ion-button {
+                --padding-start: 8px;
+                --padding-end: 8px;
+              }
+            }
+          }
+
+          .english-name {
+            color: #666;
+            font-size: 13px;
+            font-style: italic;
+            margin: 0 0 10px 0;
+          }
+
+          .temple-basic-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 10px;
+
+            .info-item {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              font-size: 13px;
+              color: #555;
+
+              ion-icon {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .significance {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 0 0 12px 0;
+            font-style: italic;
+          }
+        }
+
+        .temple-specialities {
+          .speciality-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+
+            ion-chip {
+              font-size: 11px;
+              height: 26px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .action-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ion-button {
+      height: 50px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Temple Detail Modal Styles
+.temple-detail-content {
+  padding: 20px;
+
+  .temple-detail-header {
+    text-align: center;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0 0 8px 0;
+      color: #333;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .english-name {
+      margin: 0 0 15px 0;
+      color: #666;
+      font-style: italic;
+    }
+
+    .location-info,
+    .deity-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+      color: #555;
+      font-size: 14px;
+    }
+  }
+
+  .temple-sections {
+    .detail-section {
+      margin-bottom: 25px;
+
+      h3 {
+        color: #333;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        ion-icon {
+          font-size: 18px;
+        }
+      }
+
+      p {
+        color: #555;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      ion-list {
+        background: transparent;
+
+        ion-item {
+          --background: transparent;
+          --border-color: rgba(0,0,0,0.1);
+          margin-bottom: 6px;
+
+          ion-label {
+            font-size: 14px;
+            line-height: 1.4;
+          }
+        }
+      }
+
+      .festival-chips,
+      .accommodation-chips,
+      .offering-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        ion-chip {
+          font-size: 12px;
+        }
+      }
+
+      .travel-info {
+        .travel-item {
+          margin-bottom: 12px;
+
+          strong {
+            color: #333;
+            display: block;
+            margin-bottom: 4px;
+          }
+
+          p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .maps-integration {
+        margin-top: 20px;
+        padding: 15px;
+        background: #f0f8f0;
+        border-radius: 12px;
+        border-left: 4px solid #059669;
+
+        h4 {
+          color: #059669;
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0 0 15px 0;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          ion-icon {
+            font-size: 18px;
+          }
+        }
+
+        .maps-buttons {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 15px;
+
+          ion-button {
+            height: 44px;
+            font-weight: 500;
+
+            ion-icon {
+              font-size: 18px;
+            }
+          }
+        }
+
+        .location-info {
+          .coordinates {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+
+            ion-icon {
+              font-size: 14px;
+              color: #059669;
+            }
+
+            strong {
+              color: #333;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .temple-action-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ion-button {
+      height: 50px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .temple-groups-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .group-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .content-section {
+    padding: 0 15px 15px 15px;
+  }
+
+  .header-section {
+    padding: 15px;
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .temple-item .temple-basic-info {
+    .info-item {
+      font-size: 12px;
+    }
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .temple-group-card {
+    background: #1e1e1e;
+    color: #ffffff;
+
+    .card-content {
+      .description {
+        color: #dddddd;
+      }
+
+      .group-stats .stat-item {
+        color: #cccccc;
+      }
+
+      .temple-preview h4 {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .modal-content {
+    background: #1e1e1e;
+    color: #ffffff;
+
+    .group-overview .overview-card {
+      background: #2a2a2a;
+
+      h3 {
+        color: #ffffff;
+      }
+
+      p {
+        color: #cccccc;
+      }
+    }
+
+    .temples-section {
+      h3 {
+        color: #ffffff;
+      }
+
+      .temple-item {
+        background: #2a2a2a;
+
+        &:hover {
+          background: #3a3a3a;
+        }
+
+        &.visited {
+          background: #2d4a2d;
+        }
+
+        .temple-header h4 {
+          color: #ffffff;
+        }
+
+        .english-name {
+          color: #cccccc;
+        }
+
+        .temple-basic-info .info-item {
+          color: #dddddd;
+        }
+
+        .significance {
+          color: #dddddd;
+        }
+      }
+    }
+  }
+
+  .temple-detail-content {
+    background: #1e1e1e;
+    color: #ffffff;
+
+    .temple-detail-header {
+      background: #2a2a2a;
+
+      h2 {
+        color: #ffffff;
+      }
+
+      .english-name {
+        color: #cccccc;
+      }
+
+      .location-info,
+      .deity-info {
+        color: #dddddd;
+      }
+    }
+
+    .temple-sections .detail-section {
+      h3 {
+        color: #ffffff;
+      }
+
+      p {
+        color: #dddddd;
+      }
+
+      .travel-item strong {
+        color: #ffffff;
+      }
+
+      .travel-item p {
+        color: #cccccc;
+      }
+    }
+  }
+}
