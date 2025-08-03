@@ -1,0 +1,268 @@
+.header-section {
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+  }
+}
+
+.search-section {
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+}
+
+.category-tabs {
+  padding: 0 16px;
+  margin-bottom: 16px;
+
+  ion-segment {
+    --background: #f1f5f9;
+    --indicator-color: #3b82f6;
+  }
+
+  ion-segment-button {
+    --color: #64748b;
+    --color-checked: #3b82f6;
+    min-width: auto;
+    
+    ion-icon {
+      font-size: 1.1rem;
+      margin-bottom: 2px;
+    }
+    
+    ion-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.categories-grid {
+  padding: 16px;
+  display: grid;
+  gap: 16px;
+}
+
+.category-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+
+    ion-icon {
+      font-size: 1.8rem;
+    }
+
+    .category-info {
+      flex: 1;
+
+      h3 {
+        margin: 0 0 4px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+    }
+  }
+
+  .category-stats {
+    display: flex;
+    justify-content: flex-end;
+
+    ion-chip {
+      --border-radius: 20px;
+      font-weight: 500;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.rules-section {
+  padding: 16px;
+
+  .results-header {
+    margin-bottom: 20px;
+    text-align: center;
+
+    h2 {
+      margin: 0 0 4px 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+  }
+}
+
+.rules-list {
+  display: grid;
+  gap: 16px;
+}
+
+.rule-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .rule-header {
+    margin-bottom: 12px;
+
+    ion-chip {
+      --border-radius: 16px;
+      font-weight: 500;
+      font-size: 0.75rem;
+    }
+  }
+
+  .rule-content {
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.4;
+    }
+
+    .rule-english {
+      margin: 0 0 16px 0;
+      font-size: 0.85rem;
+      color: #64748b;
+      font-style: italic;
+    }
+
+    .rule-details {
+      margin-bottom: 16px;
+
+      .condition-result {
+        display: grid;
+        gap: 8px;
+
+        .condition, .result {
+          font-size: 0.85rem;
+          line-height: 1.4;
+
+          strong {
+            color: #1e293b;
+            font-weight: 600;
+          }
+        }
+
+        .condition {
+          color: #7c3aed;
+        }
+
+        .result {
+          color: #059669;
+        }
+      }
+    }
+
+    .planets-tags {
+      .planets, .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+
+        ion-chip {
+          --border-radius: 12px;
+          font-size: 0.7rem;
+          height: 24px;
+
+          ion-icon {
+            font-size: 0.8rem;
+          }
+        }
+      }
+
+      .planets {
+        ion-chip {
+          --color: #3b82f6;
+        }
+      }
+
+      .tags {
+        ion-chip {
+          --color: #64748b;
+        }
+      }
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #64748b;
+
+  ion-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+}

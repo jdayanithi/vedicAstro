@@ -92,6 +92,10 @@ const routes: Routes = [
   {
     path: 'temple-vazhipadu-sthalangal',
     loadChildren: () => import('./concept-modules/temple-vazhipadu-sthalangal/temple-vazhipadu-sthalangal.module').then( m => m.TempleVazhipaduSthalalangalPageModule)
+  },
+  {
+    path: 'jothida-vithigal',
+    loadChildren: () => import('./concept-modules/jothida-vithigal/jothida-vithigal.module').then( m => m.JothidaVithigalPageModule)
   }
 
 ];
