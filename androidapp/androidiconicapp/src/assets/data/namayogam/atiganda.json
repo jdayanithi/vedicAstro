@@ -1,0 +1,52 @@
+﻿{
+  "id": "atiganda",
+  "name": "அதிகண்ட",
+  "englishName": "Atiganda",
+  "effect": "தடை நீக்கம்",
+  "rulingPlanet": "Mars",
+  "element": "Fire",
+  "quality": "Rajasic",
+  "bestTime": "மாலை 6-9 மணி (Evening 6-9 PM)",
+  "description": "அதிகண்ட யோகம் தடைகள் மற்றும் சிக்கல்களை நீக்குவதற்கு சிறந்த யோகம். இந்த யோகத்தில் பிரச்சினை தீர்க்கும் செயல்கள் மிகவும் பலனளிக்கும்.",
+  "keyBenefits": ["தடை நீக்கம்", "சிக்கல் தீர்வு", "வலிமை பெருக்கம்", "வெற்றி சாதனம்"],
+  "favorableActivities": ["Problem solving", "Obstacle removal", "Challenging tasks", "Breakthrough activities", "Court cases"],
+  "unfavorableActivities": ["Creating obstacles", "Avoiding challenges", "Giving up easily", "Passive behavior"],
+  "pariharam": {
+    "dailyPractices": ["Face challenges bravely", "Help others overcome obstacles", "Practice persistence", "Develop problem-solving skills"],
+    "offerings": ["Red flowers to Mars", "Spicy offerings", "Iron items to temples", "Help to struggling people"],
+    "gems": {
+      "primary": "Red Coral",
+      "alternative": "Carnelian",
+      "keyBenefits": "Provides courage and obstacle-removing power"
+    },
+    "mantras": [
+      {
+        "name": "Mars Mantra",
+        "text": "ॐ मंगलाय नमः",
+        "count": "108 times"
+      },
+      {
+        "name": "Obstacle Removal Mantra",
+        "text": "ॐ अतिगण्डाय नमः",
+        "count": "21 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Problem Identification",
+      "description": "Identify the obstacles",
+      "details": "Clearly understand what blocks your path"
+    },
+    {
+      "title": "Solution Strategy",
+      "description": "Develop removal strategies",
+      "details": "Plan systematic approach to overcome blocks"
+    },
+    {
+      "title": "Action Execution",
+      "description": "Take decisive action",
+      "details": "Implement solutions with determination"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+﻿{
+  "id": "shobhana",
+  "name": "ஶோபன",
+  "englishName": "Shobhana",
+  "effect": "அழகு",
+  "rulingPlanet": "Venus",
+  "element": "Air",
+  "quality": "Satvic",
+  "bestTime": "மாலை 3-6 மணி (Evening 3-6 PM)",
+  "description": "ஶோபன யோகம் அழகு, கருணை மற்றும் கலைக்கு சிறந்த யோகம். இந்த யோகத்தில் கலை, அழகு மற்றும் படைப்பு சார்ந்த செயல்கள் மிகவும் வெற்றிகரமாக முடியும்.",
+  "keyBenefits": ["அழகு அதிகரிப்பு", "கலைத்திறன்", "கருணை வளர்ச்சி", "படைப்பாற்றல்"],
+  "favorableActivities": ["Artistic creation", "Beauty treatments", "Cultural activities", "Fashion design", "Decorative arts"],
+  "unfavorableActivities": ["Destructive activities", "Ugly behavior", "Harsh criticism", "Neglecting appearance"],
+  "pariharam": {
+    "dailyPractices": ["Beauty care routines", "Artistic activities", "Kind acts", "Aesthetic appreciation"],
+    "offerings": ["Beautiful flowers to Venus", "Artistic offerings", "Colorful items to temples", "Beauty products to women"],
+    "gems": {
+      "primary": "Diamond",
+      "alternative": "Rose Quartz",
+      "keyBenefits": "Enhances beauty and artistic abilities"
+    },
+    "mantras": [
+      {
+        "name": "Beauty Mantra",
+        "text": "ॐ शोभनाय नमः",
+        "count": "108 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Beauty Cultivation",
+      "description": "Cultivate inner and outer beauty",
+      "details": "Focus on both physical and spiritual beauty"
+    },
+    {
+      "title": "Artistic Expression",
+      "description": "Express your creativity",
+      "details": "Engage in artistic and creative activities"
+    },
+    {
+      "title": "Grace Development",
+      "description": "Develop grace and elegance",
+      "details": "Practice graceful movements and behavior"
+    }
+  ]
+}

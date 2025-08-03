@@ -302,38 +302,6 @@
                   <p>{{ selectedTemple.nearestStation }}</p>
                 </div>
               </div>
-
-              <!-- Google Maps Integration -->
-              <div class="maps-integration">
-                <h4><ion-icon name="map" color="success"></ion-icon> வரைபட சேவைகள்</h4>
-                <div class="maps-buttons">
-                  <ion-button
-                    expand="block"
-                    fill="outline"
-                    color="success"
-                    (click)="openGoogleMaps(selectedTemple)">
-                    <ion-icon name="location" slot="start"></ion-icon>
-                    Google Maps இல் பார்க்கவும்
-                  </ion-button>
-
-                  <ion-button
-                    expand="block"
-                    fill="outline"
-                    color="primary"
-                    (click)="getDirectionsToTemple(selectedTemple)">
-                    <ion-icon name="navigate" slot="start"></ion-icon>
-                    வழி திசைகள் பெறவும்
-                  </ion-button>
-                </div>
-
-                <div class="location-info" *ngIf="selectedTemple.coordinates">
-                  <p class="coordinates">
-                    <ion-icon name="pin"></ion-icon>
-                    <strong>ஆயத்தொலைவுகள்:</strong>
-                    {{ selectedTemple.coordinates.latitude }}, {{ selectedTemple.coordinates.longitude }}
-                  </p>
-                </div>
-              </div>
             </div>
 
             <!-- Accommodation -->

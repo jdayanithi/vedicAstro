@@ -57,37 +57,6 @@ export class NamayogamCoursePage implements OnInit {
     'sadhya', 'shubha', 'shukla', 'brahma', 'indra', 'vaidhriti'
   ];
 
-  // Yoga ranges for calculation reference
-  yogaRanges = [
-    { name: 'விஷ்கும்ப யோகம் (Vishkumbha)', range: '0° - 13°20\'', unfavorable: true },
-    { name: 'ப்ரீதி யோகம் (Priti)', range: '13°20\' - 26°40\'', unfavorable: false },
-    { name: 'ஆயுஷ்மான் யோகம் (Ayushmana)', range: '26°40\' - 40°00\'', unfavorable: false },
-    { name: 'சௌபாக்ய யோகம் (Saubhagya)', range: '40°00\' - 53°20\'', unfavorable: false },
-    { name: 'ஶோபன யோகம் (Shobhana)', range: '53°20\' - 66°40\'', unfavorable: false },
-    { name: 'அதிகண்ட யோகம் (Atiganda)', range: '66°40\' - 80°00\'', unfavorable: true },
-    { name: 'சுகர்ம யோகம் (Sukarma)', range: '80°00\' - 93°20\'', unfavorable: false },
-    { name: 'த்ருதி யோகம் (Dhriti)', range: '93°20\' - 106°40\'', unfavorable: false },
-    { name: 'ஶூல யோகம் (Shoola)', range: '106°40\' - 120°00\'', unfavorable: true },
-    { name: 'கண்ட யோகம் (Ganda)', range: '120°00\' - 133°20\'', unfavorable: true },
-    { name: 'வ்ருத்தி யோகம் (Vriddhi)', range: '133°20\' - 146°40\'', unfavorable: false },
-    { name: 'துருவ யோகம் (Dhruva)', range: '146°40\' - 160°00\'', unfavorable: false },
-    { name: 'வ்யாகாத யோகம் (Vyaghata)', range: '160°00\' - 173°20\'', unfavorable: true },
-    { name: 'ஹர்ஷண யோகம் (Harshana)', range: '173°20\' - 186°40\'', unfavorable: false },
-    { name: 'வஜ்ர யோகம் (Vajra)', range: '186°40\' - 200°00\'', unfavorable: true },
-    { name: 'சித்தி யோகம் (Siddhi)', range: '200°00\' - 213°20\'', unfavorable: false },
-    { name: 'வ்யதிபாத யோகம் (Vyatipata)', range: '213°20\' - 226°40\'', unfavorable: true },
-    { name: 'வரியான் யோகம் (Variyana)', range: '226°40\' - 240°00\'', unfavorable: false },
-    { name: 'பரிக யோகம் (Parigha)', range: '240°00\' - 253°20\'', unfavorable: true },
-    { name: 'ஶிவ யோகம் (Shiva)', range: '253°20\' - 266°40\'', unfavorable: false },
-    { name: 'சித்த யோகம் (Siddha)', range: '266°40\' - 280°00\'', unfavorable: false },
-    { name: 'சாத்ய யோகம் (Sadhya)', range: '280°00\' - 293°20\'', unfavorable: false },
-    { name: 'ஶுப யோகம் (Shubha)', range: '293°20\' - 306°40\'', unfavorable: false },
-    { name: 'ஶுக்ல யோகம் (Shukla)', range: '306°40\' - 320°00\'', unfavorable: false },
-    { name: 'ப்ரஹ்ம யோகம் (Brahma)', range: '320°00\' - 333°20\'', unfavorable: false },
-    { name: 'இந்திர யோகம் (Indra)', range: '333°20\' - 346°40\'', unfavorable: false },
-    { name: 'வைத்ருதி யோகம் (Vaidhriti)', range: '346°40\' - 360°00\'', unfavorable: true }
-  ];
-
   constructor(private http: HttpClient) { }
 
   ngOnInit() {

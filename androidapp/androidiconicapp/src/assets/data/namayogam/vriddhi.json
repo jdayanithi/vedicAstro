@@ -1,0 +1,47 @@
+﻿{
+  "id": "vriddhi",
+  "name": "à®µà¯à®°à¯à®¤à¯à®¤à®¿",
+  "englishName": "Vriddhi",
+  "effect": "à®µà®³à®°à¯à®šà¯à®šà®¿",
+  "rulingPlanet": "Jupiter",
+  "element": "Water",
+  "quality": "Satvic",
+  "bestTime": "Morning 9-12 PM",
+  "description": "Vriddhi à®¯à¯‹à®•à®®à¯ à®µà®³à®°à¯à®šà¯à®šà®¿ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
+  "keyBenefits": ["à®µà®³à®°à¯à®šà¯à®šà®¿ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
+  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
+  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "pariharam": {
+    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
+    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "gems": {
+      "primary": "Suitable gemstone",
+      "alternative": "Alternative gem",
+      "keyBenefits": "Enhances positive effects"
+    },
+    "mantras": [
+      {
+        "name": "Primary Mantra",
+        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
+        "count": "108 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Preparation",
+      "description": "Prepare yourself",
+      "details": "Get ready for the practice"
+    },
+    {
+      "title": "Invocation",
+      "description": "Invoke the energy",
+      "details": "Call upon the power of Vriddhi"
+    },
+    {
+      "title": "Implementation",
+      "description": "Take action",
+      "details": "Execute your plans"
+    }
+  ]
+}

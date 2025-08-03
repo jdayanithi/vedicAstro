@@ -13,7 +13,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Hero Section -->
   <div class="hero-section">
     <div class="hero-overlay">
       <h1>நாமயோகம் Course</h1>
@@ -21,7 +20,7 @@
       <div class="hero-stats">
         <div class="stat">
           <ion-icon name="star-outline"></ion-icon>
-          <span>27 Namayogam</span>
+          <span>{{ namayogamList.length }} Namayogam</span>
         </div>
         <div class="stat">
           <ion-icon name="calendar-outline"></ion-icon>
@@ -33,6 +32,113 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Introduction Section -->
+  <div class="introduction-section">
+    <ion-card class="intro-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="information-circle-outline"></ion-icon>
+          நாமயோகம் அறிமுகம் (Introduction to Namayogam)
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>இந்த கோரிக்கை நீண்ட காலமாக நிலுவையில் இருந்தது. தாமதமானாலும் செய்வது செய்யாமல் இருப்பதை விட நல்லது என்பது போல, இப்போது இந்த மகத்தான விவரங்களை வழங்குகிறோம்.</p>
+        
+        <p>நாமயோகம் யோகி/அவயோகி மற்றும் டூப்ளிகேட் யோகி கிரகங்களைப் போன்றது. ஜோதிடத்தில் 27 யோகங்கள் உள்ளன என்று கூறப்படுகிறது, இவை உங்கள் ஜாதகத்தில் சூரியன் மற்றும் சந்திரனின் தீர்க்கரேகையின் அடிப்படையில் அமைந்துள்ளன. இவை ஜென்ம யோகம் அல்லது தின யோகம் அல்லது நித்ய யோகம் என்று அழைக்கப்படுகின்றன.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="calculation-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="calculator-outline"></ion-icon>
+          கணக்கீடு முறை (Calculation Method)
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="calculation-steps">
+          <h4>அடிப்படை கணக்கீடு:</h4>
+          <ul>
+            <li>ஒவ்வொரு ராசி = 30 டிகிரி நீளம்</li>
+            <li>12 ராசிகள் = 360 டிகிரி</li>
+            <li>27 நட்சத்திரங்கள் உள்ளன</li>
+            <li>360 ÷ 27 = 13 டிகிரி 20 நிமிடம் (ஒரு நட்சத்திரத்தின் நீளம்)</li>
+            <li>27 யோகங்கள் = ஒவ்வொரு நட்சத்திரத்திற்கும் ஒரு யோகம்</li>
+          </ul>
+
+          <h4>உங்கள் ஜென்ம யோகம் கண்டுபிடிக்கும் முறை:</h4>
+          <div class="calculation-example">
+            <div class="step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <strong>சூரியனின் தீர்க்கரேகை:</strong>
+                <p>மேஷ ராசி 0 டிகிரியிலிருந்து சூரியனின் தீர்க்கரேகையை கணக்கிடுங்கள்</p>
+                <small>எடுத்துக்காட்டு: மகர ராசி 23° = 270° + 23° = 293°</small>
+              </div>
+            </div>
+            
+            <div class="step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <strong>சந்திரனின் தீர்க்கரேகை:</strong>
+                <p>மேஷ ராசி 0 டிகிரியிலிருந்து சந்திரனின் தீர்க்கரேகையை கணக்கிடுங்கள்</p>
+                <small>எடுத்துக்காட்டு: ரிஷப ராசி 14° = 30° + 14° = 44°</small>
+              </div>
+            </div>
+            
+            <div class="step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <strong>இரண்டையும் கூட்டுங்கள்:</strong>
+                <p>சூரியன் + சந்திரன் = மொத்த டிகிரி</p>
+                <small>எடுத்துக்காட்டு: 293° + 44° = 337°</small>
+              </div>
+            </div>
+            
+            <div class="step">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <strong>யோகம் கண்டறிதல்:</strong>
+                <p>மொத்த டிகிரி எந்த யோக வரம்பில் வருகிறது என்று பார்க்கவும்</p>
+                <small>எடுத்துக்காட்டு: 337° = இந்திர யோகம் (333°20' - 346°40')</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="yogas-list-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="list-outline"></ion-icon>
+          27 நாமயோகங்கள் மற்றும் அவற்றின் வரம்புகள்
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="yogas-reference">
+          <div class="yoga-item" *ngFor="let yoga of yogaRanges">
+            <div class="yoga-name" [class.unfavorable]="yoga.unfavorable">
+              {{ yoga.name }}
+            </div>
+            <div class="yoga-range">{{ yoga.range }}</div>
+            <div class="yoga-status" [class.unfavorable]="yoga.unfavorable">
+              {{ yoga.unfavorable ? 'பாதகமான (Unfavorable)' : 'சாதகமான (Favorable)' }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="important-note">
+          <ion-icon name="warning-outline"></ion-icon>
+          <div>
+            <h4>முக்கியமான குறிப்பு:</h4>
+            <p>27 யோகங்களில் 9 யோகங்கள் பாதகமானவையாக கருதப்படுகின்றன. ஆனால் நீங்கள் இந்த 9 ஜென்ம யோகங்களில் ஏதேனும் ஒன்றில் பிறந்திருந்தால், உங்கள் முழு வாழ்க்கையும் அழிந்துவிடும் என்று அர்த்தமல்ல. ஜோதிடம் அனைத்தையும் உள்ளடக்கியது. ஒரு மோசமான நிலை மற்ற அனைத்து நல்ல நிலைகளையும் மறைக்க முடியாது.</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
   <!-- Search Bar -->

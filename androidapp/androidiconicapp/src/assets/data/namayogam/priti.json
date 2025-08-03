@@ -1,0 +1,52 @@
+﻿{
+  "id": "priti",
+  "name": "பிரீதி",
+  "englishName": "Priti",
+  "effect": "அன்பு",
+  "rulingPlanet": "Venus",
+  "element": "Water",
+  "quality": "Satvic",
+  "bestTime": "மாலை 6-9 மணி (Evening 6-9 PM)",
+  "description": "பிரீதி யோகம் அன்பு, மகிழ்ச்சி மற்றும் உறவுகளுக்கு சிறந்த யோகம். இந்த யோகத்தில் காதல் மற்றும் குடும்ப விஷயங்கள் சாதகமாக முடியும்.",
+  "keyBenefits": ["அன்பு பெருக்கம்", "மகிழ்ச்சி அதிகரிப்பு", "உறவு நல்லிணக்கம்", "மன அமைதி"],
+  "favorableActivities": ["Expressing love", "Family bonding", "Artistic creation", "Celebration", "Gift giving"],
+  "unfavorableActivities": ["Conflicts", "Harsh words", "Breaking relationships", "Anger expression"],
+  "pariharam": {
+    "dailyPractices": ["Express love to family", "Practice gratitude", "Share joy with others", "Create beautiful things"],
+    "offerings": ["Pink and white flowers to Venus", "Sweet offerings", "Beautiful ornaments", "Gifts to loved ones"],
+    "gems": {
+      "primary": "Diamond",
+      "alternative": "White Sapphire",
+      "keyBenefits": "Brings love, joy and harmonious relationships"
+    },
+    "mantras": [
+      {
+        "name": "Shukra Mantra",
+        "text": "ॐ शुक्राय नमः",
+        "count": "108 times"
+      },
+      {
+        "name": "Love Mantra",
+        "text": "ॐ प्रीत्यै नमः",
+        "count": "21 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Heart Opening",
+      "description": "Open your heart to love",
+      "details": "Feel the joy and love within you"
+    },
+    {
+      "title": "Love Expression",
+      "description": "Express love freely",
+      "details": "Share your love with others"
+    },
+    {
+      "title": "Joy Cultivation",
+      "description": "Cultivate inner joy",
+      "details": "Find reasons to be happy and grateful"
+    }
+  ]
+}

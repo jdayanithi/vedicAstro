@@ -206,9 +206,9 @@
           <ion-icon [name]="sectionOpen[planet.id] ? 'chevron-up-circle' : 'chevron-down-circle'" class="section-toggle-icon-planet"></ion-icon>
         </div>
       </ion-card-header>
-      
+
       <ion-card-content *ngIf="sectionOpen[planet.id]">
-        
+
         <!-- Dosham Nakshatrams List -->
         <ion-card>
           <ion-card-header>
@@ -264,7 +264,7 @@
             </ul>
           </ion-card-content>
         </ion-card>
-        
+
         <!-- Remedies -->
         <ion-card class="remedy-card">
           <ion-card-header>
@@ -274,7 +274,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            
+
             <!-- Dharma Remedies -->
             <div class="remedy-block bg-yellow-remedy" *ngIf="planet.remedies.dharma.length > 0">
               <h5>
@@ -285,7 +285,7 @@
                 <li *ngFor="let remedy of planet.remedies.dharma">{{remedy}}</li>
               </ul>
             </div>
-            
+
             <!-- Career Remedies -->
             <div class="remedy-block bg-blue-remedy" *ngIf="planet.remedies.career.length > 0">
               <h5>
@@ -310,7 +310,7 @@
 
           </ion-card-content>
         </ion-card>
-        
+
       </ion-card-content>
     </ion-card>
   </div>

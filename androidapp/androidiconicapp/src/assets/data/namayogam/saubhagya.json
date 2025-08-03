@@ -1,0 +1,52 @@
+﻿{
+  "id": "saubhagya",
+  "name": "சௌபாக்யம்",
+  "englishName": "Saubhagya",
+  "effect": "செல்வம்",
+  "rulingPlanet": "Jupiter",
+  "element": "Fire",
+  "quality": "Rajasic",
+  "bestTime": "மதியம் 12-3 மணி (Afternoon 12-3 PM)",
+  "description": "சௌபாக்யம் யோகம் செல்வம், அதிர்ஷ்டம் மற்றும் ஐச்வர்யத்திற்கு உகந்த யோகம். இந்த யோகத்தில் தொழில் மற்றும் முதலீடுகள் மிகவும் பலனளிக்கும்.",
+  "keyBenefits": ["செல்வ அதிகரிப்பு", "அதிர்ஷ்டம்", "தொழில் வெற்றி", "ஐச்வர்யம்"],
+  "favorableActivities": ["Business ventures", "Investments", "Wealth creation", "Property purchase", "Financial planning"],
+  "unfavorableActivities": ["Unnecessary spending", "Risky investments", "Gambling", "Debt taking"],
+  "pariharam": {
+    "dailyPractices": ["Wealth creation activities", "Generous donations", "Lakshmi worship", "Financial planning"],
+    "offerings": ["Gold and silver to temples", "Food to the needy", "Yellow flowers to Jupiter", "Sweets to Lakshmi"],
+    "gems": {
+      "primary": "Yellow Sapphire",
+      "alternative": "Citrine",
+      "keyBenefits": "Attracts wealth and prosperity"
+    },
+    "mantras": [
+      {
+        "name": "Lakshmi Mantra",
+        "text": "ॐ श्रीं महालक्ष्म्यै नमः",
+        "count": "108 times"
+      },
+      {
+        "name": "Prosperity Mantra",
+        "text": "ॐ सौभाग्याय नमः",
+        "count": "21 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Wealth Mindset",
+      "description": "Develop abundance mindset",
+      "details": "Cultivate thoughts of prosperity"
+    },
+    {
+      "title": "Opportunity Recognition",
+      "description": "Identify wealth opportunities",
+      "details": "Look for business and investment opportunities"
+    },
+    {
+      "title": "Action Implementation",
+      "description": "Take wealth-building actions",
+      "details": "Execute your prosperity plans"
+    }
+  ]
+}

@@ -460,67 +460,6 @@
           }
         }
       }
-
-      .maps-integration {
-        margin-top: 20px;
-        padding: 15px;
-        background: #f0f8f0;
-        border-radius: 12px;
-        border-left: 4px solid #059669;
-
-        h4 {
-          color: #059669;
-          font-size: 16px;
-          font-weight: 600;
-          margin: 0 0 15px 0;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-
-          ion-icon {
-            font-size: 18px;
-          }
-        }
-
-        .maps-buttons {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          margin-bottom: 15px;
-
-          ion-button {
-            height: 44px;
-            font-weight: 500;
-
-            ion-icon {
-              font-size: 18px;
-            }
-          }
-        }
-
-        .location-info {
-          .coordinates {
-            margin: 0;
-            font-size: 13px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 8px;
-
-            ion-icon {
-              font-size: 14px;
-              color: #059669;
-            }
-
-            strong {
-              color: #333;
-            }
-          }
-        }
-      }
     }
   }
 

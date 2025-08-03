@@ -1,0 +1,52 @@
+﻿{
+  "id": "ayushmana",
+  "name": "ஆயுஷ்மான்",
+  "englishName": "Ayushmana",
+  "effect": "நீண்ட ஆயுள்",
+  "rulingPlanet": "Jupiter",
+  "element": "Earth",
+  "quality": "Satvic",
+  "bestTime": "காலை 9-12 மணி (Morning 9-12 PM)",
+  "description": "ஆயுஷ்மான் யோகம் நீண்ட ஆயுள், ஆரோக்கியம் மற்றும் வலிமைக்கு உகந்த யோகம. இந்த யோகத்தில் மருத்துவ சிகிச்சைகள் மிகவும் பலனளிக்கும்.",
+  "keyBenefits": ["நீண்ட வாழ்க்கை", "நல்ல ஆரோக்கியம்", "வலிமை அதிகரிப்பு", "நோய் நிவாரணம்"],
+  "favorableActivities": ["Health treatments", "Medical procedures", "Fitness activities", "Longevity practices", "Healing ceremonies"],
+  "unfavorableActivities": ["Risky behaviors", "Unhealthy habits", "Dangerous activities", "Stress-inducing work"],
+  "pariharam": {
+    "dailyPractices": ["Daily health practices", "Yoga and meditation", "Healthy eating", "Regular exercise"],
+    "offerings": ["Healthy food offerings", "Green vegetables to temples", "Medicinal herbs", "Health donations"],
+    "gems": {
+      "primary": "Emerald",
+      "alternative": "Green Jade",
+      "keyBenefits": "Promotes health, longevity and vitality"
+    },
+    "mantras": [
+      {
+        "name": "Health Mantra",
+        "text": "ॐ आयुष्मते नमः",
+        "count": "108 times"
+      },
+      {
+        "name": "Longevity Mantra",
+        "text": "ॐ जीवनाय नमः",
+        "count": "21 times"
+      }
+    ]
+  },
+  "activationProcess": [
+    {
+      "title": "Health Assessment",
+      "description": "Assess your current health",
+      "details": "Understand your body and mind state"
+    },
+    {
+      "title": "Vitality Boost",
+      "description": "Boost your life energy",
+      "details": "Practice energizing activities"
+    },
+    {
+      "title": "Longevity Plan",
+      "description": "Create longevity plan",
+      "details": "Plan for healthy long life"
+    }
+  ]
+}
