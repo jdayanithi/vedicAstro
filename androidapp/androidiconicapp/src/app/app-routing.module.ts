@@ -30,8 +30,8 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/bhava-karathuvam/bhava-karathuvam.module').then( m => m.BhavaKarathuvamPageModule)
   },
   {
-    path: 'graha-karakathuvam',
-    loadChildren: () => import('./concept-modules/graha-karakathuvam/graha-karakathuvam.module').then( m => m.GrahaKarakathuvamPageModule)
+    path: 'kiraga-karakathuvam',
+    loadChildren: () => import('./concept-modules/kiraga-karakathuvam/kiraga-karakathuvam.module').then( m => m.KiragaKarakathuvamPageModule)
   },
   {
     path: 'natchathiram-karakathuvam',

@@ -34,11 +34,11 @@ interface Graha {
 }
 
 @Component({
-  selector: 'app-graha-karakathuvam',
-  templateUrl: './graha-karakathuvam.page.html',
-  styleUrls: ['./graha-karakathuvam.page.scss'],
+  selector: 'app-kiraga-karakathuvam',
+  templateUrl: './kiraga-karakathuvam.page.html',
+  styleUrls: ['./kiraga-karakathuvam.page.scss'],
 })
-export class GrahaKarakathuvamPage implements OnInit {
+export class KiragaKarakathuvamPage implements OnInit {
 
   selectedSegment = 'overview';
   isBookmarked = false;
