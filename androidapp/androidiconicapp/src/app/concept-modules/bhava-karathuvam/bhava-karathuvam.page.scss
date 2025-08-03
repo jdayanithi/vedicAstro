@@ -46,6 +46,20 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
+
+  ion-chip {
+    font-weight: 600;
+    font-size: 0.9rem;
+    
+    ion-label {
+      color: white !important;
+      font-weight: 600;
+    }
+    
+    ion-icon {
+      color: white !important;
+    }
+  }
 }
 
 .segment-control {
@@ -254,5 +268,123 @@
 
   .premium-feature {
     background: linear-gradient(135deg, #4a3728, #3d2e1f);
+  }
+}
+
+/* Chip Styles */
+ion-chip {
+  font-weight: 600;
+  
+  ion-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  &[color="warning"] {
+    ion-label {
+      color: white !important;
+    }
+    ion-icon {
+      color: white !important;
+    }
+  }
+  
+  &[color="success"] {
+    ion-label {
+      color: white !important;
+    }
+    ion-icon {
+      color: white !important;
+    }
+  }
+  
+  &[color="primary"] {
+    ion-label {
+      color: white !important;
+    }
+    ion-icon {
+      color: white !important;
+    }
+  }
+  
+  &[color="secondary"] {
+    ion-label {
+      color: white !important;
+    }
+    ion-icon {
+      color: white !important;
+    }
+  }
+  
+  &[color="tertiary"] {
+    ion-label {
+      color: white !important;
+    }
+    ion-icon {
+      color: white !important;
+    }
+  }
+}
+
+/* Power Note Styling */
+.power-note {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 2px solid #0ea5e9;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+}
+
+.detailed-power-explanation {
+  margin-top: 1rem;
+}
+
+.power-explanation-content {
+  .description-text {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid #0ea5e9;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    strong {
+      color: #0369a1;
+      font-weight: 700;
+    }
+  }
+}
+
+/* Note Section Styling */
+.note-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fef3c7;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #f59e0b;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+
+  .note-icon {
+    font-size: 1.5rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .note-text {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #92400e;
+    
+    strong {
+      color: #78350f;
+      font-weight: 700;
+    }
   }
 }

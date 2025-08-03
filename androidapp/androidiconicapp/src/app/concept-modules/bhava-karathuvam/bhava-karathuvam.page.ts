@@ -314,8 +314,7 @@ export class BhavaKarathuvamPage implements OnInit {
   }
 
   navigateToAnalysis() {
-    this.showAnalysisView = true;
-    this.selectedSegment = 'analysis';
+    this.selectedSegment = 'bhavas';
   }
 
   goBack() {
