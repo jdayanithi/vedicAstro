@@ -17,6 +17,16 @@ interface Padal {
   verses?: number;
   webLink?: string;
   videoLink?: string;
+  specialFeatures?: string[];
+  individualSongs?: Padal[];
+}
+
+interface PadalCategory {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+  mantras: Padal[];
 }
 
 @Component({
@@ -56,7 +66,7 @@ export class TheivaValzipaduPadalgalPage implements OnInit {
   favoritePadalCategoryIds: string[] = [];
   
   // Divine Worship Songs Structure
-  padalCategories = [
+  padalCategories: PadalCategory[] = [
     {
       id: 'vinayagar',
       name: 'விநாயகர் பாடல்கள்',
@@ -148,6 +158,38 @@ export class TheivaValzipaduPadalgalPage implements OnInit {
           duration: '1.5-2 மணி நேரம்',
           webLink: 'https://aanmeegam.co.in/blogs/lyrics/lalitha-sahasranamam-lyrics-tamil/',
           videoLink: 'https://youtu.be/DtSBLpQStT4'
+        },
+        {
+          id: 'abhirami_anthathi',
+          name: 'அபிராமி அந்தாதி',
+          deity: 'அபிராமி அம்பிகை',
+          text: 'தார் அமர் கொன்றையும் சங்கரன் செண்டு அலகும் மடந்தையர் பங்கன் மலர்ந்து அருள் கூர்ந்து\nநார் அயல் வேணியும் நாகமும் ஆடையும் பூண் அணி மார்பினில் போல வளர்ந்து\nபார் உயர் கொங்கையும் பாம்பணை மேகலையும் சுரும்பு அலி கேசரையும் வியக்கும்\nகார் உயர் மேனியும் கண் இமை போலவே நம் அபிராமி கவின் திருமேனியே',
+          meaning: 'அபிராமி அம்பிகையின் திருமேனியழகு மற்றும் அருளாசியைப் போற்றும் அற்புதமான நூல். அபிராமித்தபதர் என்னும் சுப்பிரமணிய பாரதியாரால் இயற்றப்பட்ட 100 பாடல்களின் அந்தாதி.',
+          benefits: [
+            'அம்பிகை அருள் பெறுதல்',
+            'அழகு வளர்ச்சி',
+            'திருமணத் தடைகள் நீங்குதல்',
+            'குலதெய்வ அருள்',
+            'ஞான வளர்ச்சி',
+            'மன அமைதி',
+            'பராசக்தி அனுபவம்',
+            'வேத ஞானம்',
+            'ஆன்மீக விமோசனம்',
+            'சர்வ சௌபாக்கியம்'
+          ],
+          author: 'அபிராமித்தபதர் (சுப்பிரமணிய பாரதியார்)',
+          verses: 100,
+          howToSing: 'பக்தியுடன் மெதுவாக ஒவ்வொரு பாடலாக சொல்லவும். அம்பிகையின் திருவுருவத்தை மனதில் நினைத்துக் கொண்டு பாடவும்.',
+          bestTime: 'வெள்ளிக்கிழமை, அமாவாசை, பௌர்ணமி, நவராத்திரி காலங்கள்',
+          duration: '45-60 நிமிடங்கள்',
+          webLink: 'https://ta.wikisource.org/wiki/அபிராமி_அந்தாதி',
+          videoLink: 'https://youtu.be/AbhiramiAnthathi',
+          specialFeatures: [
+            'ஒவ்வொரு பாடலும் அந்தாதி பாணியில் அமைந்துள்ளது',
+            'அம்பிகையின் வெவ்வேறு ரூபங்களை வர்ணிக்கிறது',
+            'தமிழ் இலக்கியத்தின் சிறந்த படைப்புகளில் ஒன்று',
+            'ஆன்மீக ஞானம் மற்றும் பக்தி உணர்வை வளர்க்கிறது'
+          ]
         }
       ]
     },
@@ -205,26 +247,32 @@ export class TheivaValzipaduPadalgalPage implements OnInit {
   ngOnInit() {
     this.loadFavorites();
     this.loadFavoritePadals();
-    // Load Abhirami Anthathi songs and add as a new category
+    this.loadAbhiramiAnthathiSongs();
+  }
+
+  loadAbhiramiAnthathiSongs() {
     this.http.get<any[]>('assets/data/abhirami-anthanthi.json').subscribe(songs => {
-      this.padalCategories.push({
-        id: 'abhirami_anthanthi',
-        name: 'அபிராமி அந்தாதி',
-        icon: '🌸',
-        color: 'tertiary',
-        mantras: songs.map(song => ({
-          id: `abhirami_${song.id}`,
-          name: song.name,
-          deity: 'அபிராமி',
-          text: song.text,
-          benefits: ['அம்பிகை அருள்', 'பாதுகாப்பு', 'பக்தி', 'மோக்ஷம்'],
-          author: 'அபிராமி பட்டர்',
-          verses: 1,
-          howToSing: 'பக்தியுடன்',
-          bestTime: 'எப்போதும்',
-          duration: ''
-        }))
-      });
+      const ammanCategory = this.padalCategories.find(cat => cat.id === 'amman');
+      if (ammanCategory) {
+        const abhiramiIndex = ammanCategory.mantras.findIndex(m => m.id === 'abhirami_anthathi');
+        
+        if (abhiramiIndex !== -1) {
+          // Add individual songs as sub-items
+          ammanCategory.mantras[abhiramiIndex].individualSongs = songs.map(song => ({
+            id: `abhirami_${song.id}`,
+            name: song.name,
+            deity: 'அபிராமி',
+            text: song.text,
+            meaning: song.meaning,
+            benefits: song.benefits || ['அம்பிகை அருள்', 'பாதுகாப்பு', 'பக்தி', 'மோக்ஷம்'],
+            author: 'அபிராமித்தபதர்',
+            verses: 1,
+            howToSing: 'பக்தியுடன் மெதுவாக',
+            bestTime: 'வெள்ளிக்கிழமை',
+            duration: '2-3 நிமிடங்கள்'
+          }));
+        }
+      }
     });
   }
 
@@ -404,6 +452,77 @@ export class TheivaValzipaduPadalgalPage implements OnInit {
   openVideoLink(padal: any) {
     if (padal.videoLink) {
       window.open(padal.videoLink, '_blank');
+    }
+  }
+
+  viewSongDetail(song: Padal) {
+    this.selectedPadal = song;
+  }
+
+  async viewAllAbhiramiSongs() {
+    const alert = await this.alertController.create({
+      header: 'அபிராமி அந்தாதி - முழு தொகுப்பு',
+      message: 'இது 100 பாடல்களின் முழுமையான தொகுப்பு. ஒவ்வொரு பாடலும் அம்பிகையின் வெவ்வேறு அம்சங்களை விவரிக்கிறது. முழு பாடல்களையும் காண விரும்புகிறீர்களா?',
+      buttons: [
+        {
+          text: 'இல்லை',
+          role: 'cancel'
+        },
+        {
+          text: 'ஆம்',
+          handler: () => {
+            this.showAllAbhiramiSongs();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async showAllAbhiramiSongs() {
+    const ammanCategory = this.padalCategories.find(cat => cat.id === 'amman');
+    const abhiramiPadal = ammanCategory?.mantras.find(m => m.id === 'abhirami_anthathi');
+    
+    if (abhiramiPadal?.individualSongs) {
+      let songsHtml = '<div class="all-songs-container">';
+      abhiramiPadal.individualSongs.forEach((song, index) => {
+        songsHtml += `
+          <div class="song-item">
+            <h4>பாடல் ${index + 1}: ${song.name}</h4>
+            <p class="song-text">${song.text}</p>
+            ${song.meaning ? `<p class="song-meaning"><strong>பொருள்:</strong> ${song.meaning}</p>` : ''}
+            <div class="song-benefits">
+              <strong>பலன்கள்:</strong> ${song.benefits.join(', ')}
+            </div>
+            <hr>
+          </div>
+        `;
+      });
+      songsHtml += '</div>';
+
+      const alert = await this.alertController.create({
+        header: 'அபிராமி அந்தாதி - அனைத்து பாடல்கள்',
+        message: songsHtml,
+        cssClass: 'custom-alert-large',
+        buttons: [
+          {
+            text: 'நகல் எடு',
+            handler: () => {
+              const fullText = abhiramiPadal.individualSongs?.map((song, i) => 
+                `பாடல் ${i + 1}: ${song.name}\n${song.text}\n${song.meaning ? 'பொருள்: ' + song.meaning + '\n' : ''}பலன்கள்: ${song.benefits.join(', ')}\n\n`
+              ).join('');
+              navigator.clipboard.writeText(fullText || '').then(() => {
+                this.presentToast('அனைத்து பாடல்களும் நகலெடுக்கப்பட்டது');
+              });
+            }
+          },
+          {
+            text: 'மூடு',
+            role: 'cancel'
+          }
+        ]
+      });
+      await alert.present();
     }
   }
 }

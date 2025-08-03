@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NatchathiramKarakathuvamPage } from './natchathiram-karakathuvam.page';
-
 const routes: Routes = [
   {
     path: '',
@@ -15,3 +14,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class NatchathiramKarakathuvamPageRoutingModule {}
+

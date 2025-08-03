@@ -418,3 +418,208 @@ ion-button[aria-pressed="true"] {
     background: var(--ion-color-step-100);
   }
 }
+
+// Individual Songs Section
+.individual-songs-section {
+  margin: 20px 0;
+  
+  h3 {
+    color: var(--ion-color-primary);
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .songs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+
+    .individual-song-card {
+      background: var(--ion-color-light);
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        border-color: var(--ion-color-primary);
+      }
+
+      .song-header {
+        margin-bottom: 10px;
+
+        h4 {
+          color: var(--ion-color-primary);
+          margin: 0 0 5px 0;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .song-preview {
+          color: var(--ion-color-medium);
+          font-size: 14px;
+          line-height: 1.4;
+          margin: 0;
+        }
+      }
+
+      .song-benefits {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+
+        ion-chip {
+          font-size: 11px;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  .view-all-songs-btn {
+    margin-top: 15px;
+    --border-color: var(--ion-color-primary);
+    --color: var(--ion-color-primary);
+    
+    &:hover {
+      --background: var(--ion-color-primary);
+      --color: white;
+    }
+  }
+}
+
+// Special Features Section
+.special-features-section {
+  margin: 20px 0;
+  
+  h3 {
+    color: var(--ion-color-warning);
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-item {
+    --background: var(--ion-color-light);
+    --border-radius: 8px;
+    margin-bottom: 8px;
+    
+    ion-label {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}
+
+// Custom Alert for All Songs
+.custom-alert-large {
+  .alert-wrapper {
+    max-width: 90vw;
+    max-height: 80vh;
+    
+    .alert-message {
+      max-height: 60vh;
+      overflow-y: auto;
+      
+      .all-songs-container {
+        .song-item {
+          margin-bottom: 20px;
+          padding: 15px;
+          background: var(--ion-color-light);
+          border-radius: 8px;
+          
+          h4 {
+            color: var(--ion-color-primary);
+            margin: 0 0 10px 0;
+            font-size: 16px;
+          }
+          
+          .song-text {
+            font-family: 'Tamil Fonts', serif;
+            line-height: 1.6;
+            margin: 10px 0;
+            color: var(--ion-color-dark);
+          }
+          
+          .song-meaning {
+            font-style: italic;
+            color: var(--ion-color-medium);
+            margin: 10px 0;
+          }
+          
+          .song-benefits {
+            font-size: 14px;
+            color: var(--ion-color-success);
+          }
+          
+          hr {
+            border: none;
+            border-top: 1px solid var(--ion-color-light);
+            margin: 15px 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design for Individual Songs
+@media (max-width: 768px) {
+  .individual-songs-section {
+    .songs-grid {
+      grid-template-columns: 1fr;
+      
+      .individual-song-card {
+        .song-header h4 {
+          font-size: 15px;
+        }
+        
+        .song-preview {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  
+  .custom-alert-large .alert-wrapper {
+    max-width: 95vw;
+    
+    .alert-message .all-songs-container .song-item {
+      padding: 12px;
+      
+      h4 {
+        font-size: 15px;
+      }
+      
+      .song-text {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+// Dark Theme Support for New Sections
+@media (prefers-color-scheme: dark) {
+  .individual-songs-section .songs-grid .individual-song-card {
+    background: var(--ion-color-step-100);
+    
+    &:hover {
+      background: var(--ion-color-step-150);
+    }
+  }
+  
+  .special-features-section ion-item {
+    --background: var(--ion-color-step-100);
+  }
+  
+  .custom-alert-large .alert-message .all-songs-container .song-item {
+    background: var(--ion-color-step-100);
+  }
+}

@@ -188,7 +188,7 @@ export class UyarnilaiAstrologyPage implements OnInit {
       id: 'prashna_shastra',
       title: 'பிரச்ன சாஸ்திரம்',
       description: 'கேள்வி கேட்கும் நேரத்தின் அடிப்படையில் பதில் சொல்லும் மேம்பட்ட முறை',
-      category: 'பிரச்ன ஜோதிஷம்',
+      category: 'பிரச்ன ஜோதிடம்',
       icon: 'help-circle-outline',
       color: '#ffc409',
       duration: '35 நிமிடங்கள்',
@@ -239,7 +239,7 @@ export class UyarnilaiAstrologyPage implements OnInit {
       id: 'varshaphala_technique',
       title: 'வர்ஷபல முறை',
       description: 'வருடாந்திர பலன் கணிப்பின் மேம்பட்ட முறை - சூரிய வருடம் மற்றும் மண்டல பலன்கள்',
-      category: 'வார்ஷிக ஜோதிஷம்',
+      category: 'வார்ஷிக ஜோதிடம்',
       icon: 'calendar-outline',
       color: '#7044ff',
       duration: '45 நிமிடங்கள்',
@@ -384,7 +384,7 @@ export class UyarnilaiAstrologyPage implements OnInit {
       event.stopPropagation();
     }
 
-    const shareText = `${topic.title}\n\n${topic.description}\n\nஉறைநிலை ஜோதிஷம் - வேத ஆஸ்ட்ரோ ஆப்`;
+    const shareText = `${topic.title}\n\n${topic.description}\n\nஉறைநிலை ஜோதிடம் - வேத ஆஸ்ட்ரோ ஆப்`;
     
     if (navigator.share) {
       navigator.share({

@@ -52,17 +52,18 @@ class DeviceValidationService {
           wasInactive: device.is_active === 0
         };
       } else {
-        // Check device limit per user (max 3 devices)
+        // Check if user already has an active device (STRICT POLICY: NO REPLACEMENT)
         const [userDevices] = await db.execute(
-          'SELECT COUNT(*) as device_count FROM user_devices WHERE user_id = ? AND is_active = 1',
+          'SELECT device_id, device_name FROM user_devices WHERE user_id = ? AND is_active = 1',
           [userId]
         );
 
-        if (userDevices[0].device_count >= 3) {
-          throw new Error('Maximum device limit reached. Please deactivate an old device first.');
+        if (userDevices.length > 0) {
+          const existingDevice = userDevices[0];
+          throw new Error(`You already have an active device registered (${existingDevice.device_name || existingDevice.device_id}). Please logout from your current device first before registering a new device.`);
         }
 
-        // Register new device
+        // Register new device (only allowed if no active devices)
         await db.execute(
           `INSERT INTO user_devices 
            (user_id, device_id, device_name, device_model, device_brand, android_version, app_version, fcm_token)
@@ -320,6 +321,33 @@ class DeviceValidationService {
     } catch (error) {
       console.error('Security check error:', error);
       return { isSuspicious: false };
+    }
+  }
+
+  /**
+   * Remove device completely (for logout)
+   * @param {number} userId - User ID
+   * @param {string} deviceId - Device ID
+   * @returns {boolean} Removal success
+   */
+  async removeDevice(userId, deviceId) {
+    try {
+      // Remove device completely
+      await db.execute(
+        'DELETE FROM user_devices WHERE user_id = ? AND device_id = ?',
+        [userId, deviceId]
+      );
+
+      // Remove all sessions for this device
+      await db.execute(
+        'DELETE FROM login_sessions WHERE user_id = ? AND device_id = ?',
+        [userId, deviceId]
+      );
+
+      return true;
+    } catch (error) {
+      console.error('Device removal error:', error);
+      throw error;
     }
   }
 }

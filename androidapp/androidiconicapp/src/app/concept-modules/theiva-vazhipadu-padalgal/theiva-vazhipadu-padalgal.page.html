@@ -213,6 +213,50 @@
             </ion-list>
           </div>
 
+          <!-- Individual Abhirami Anthathi Songs Section -->
+          <div class="individual-songs-section" *ngIf="selectedPadal?.id === 'abhirami_anthathi' && selectedPadal?.individualSongs">
+            <h3>அபிராமி அந்தாதி பாடல்கள் (1-20)</h3>
+            <div class="songs-grid">
+              <div 
+                *ngFor="let song of selectedPadal.individualSongs?.slice(0, 20); let i = index" 
+                class="individual-song-card"
+                (click)="viewSongDetail(song)">
+                <div class="song-header">
+                  <h4>பாடல் {{i + 1}}</h4>
+                  <p class="song-preview">{{song.text | slice:0:50}}...</p>
+                </div>
+                <div class="song-benefits">
+                  <ion-chip 
+                    *ngFor="let benefit of song.benefits?.slice(0, 2)" 
+                    color="primary" 
+                    outline="true">
+                    {{benefit}}
+                  </ion-chip>
+                </div>
+              </div>
+            </div>
+            
+            <ion-button 
+              expand="block" 
+              fill="outline" 
+              (click)="viewAllAbhiramiSongs()"
+              class="view-all-songs-btn">
+              <ion-icon name="list" slot="start"></ion-icon>
+              அனைத்து 100 பாடல்களையும் காண்க
+            </ion-button>
+          </div>
+
+          <!-- Special Features Section -->
+          <div class="special-features-section" *ngIf="selectedPadal?.specialFeatures">
+            <h3>சிறப்பு அம்சங்கள்</h3>
+            <ion-list>
+              <ion-item *ngFor="let feature of selectedPadal.specialFeatures">
+                <ion-icon name="star" slot="start" color="warning"></ion-icon>
+                <ion-label>{{feature}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
           <div class="padal-actions-detail">
             <ion-button 
               expand="block" 

@@ -168,49 +168,45 @@ router.post('/login', [
       });
     }
 
-    // Check if device is already registered
-    let deviceRegistered = await deviceValidationService.validateDevice(user.id, deviceId);
-    
-    if (!deviceRegistered) {
-      // Try to register the device
+    // Register/validate device (strict policy - no replacement allowed)
+    try {
       const deviceRegistration = await deviceValidationService.registerDevice(
         user.id, 
         deviceId, 
         deviceInfo || {}
       );
 
-      if (!deviceRegistration.success) {
-        return res.status(403).json({
-          success: false,
-          message: deviceRegistration.message,
-          errorCode: 'DEVICE_REGISTRATION_FAILED'
-        });
-      }
-      deviceRegistered = true;
+      // Create login session
+      const sessionToken = await deviceValidationService.createLoginSession(user.id, deviceId);
+
+      const tokens = generateTokens(user.id);
+
+      res.json({
+        success: true,
+        message: deviceRegistration.isNewDevice 
+          ? 'Login successful - device registered' 
+          : 'Login successful',
+        data: {
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            full_name: user.full_name,
+            profile_picture: user.profile_picture,
+            auth_provider: user.auth_provider
+          },
+          tokens,
+          sessionToken,
+          deviceRegistered: true
+        }
+      });
+    } catch (deviceError) {
+      return res.status(403).json({
+        success: false,
+        message: deviceError.message,
+        errorCode: 'DEVICE_ALREADY_REGISTERED'
+      });
     }
-
-    // Create login session
-    const sessionToken = await deviceValidationService.createLoginSession(user.id, deviceId);
-
-    const tokens = generateTokens(user.id);
-
-    res.json({
-      success: true,
-      message: 'Login successful',
-      data: {
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          full_name: user.full_name,
-          profile_picture: user.profile_picture,
-          auth_provider: user.auth_provider
-        },
-        tokens,
-        sessionToken,
-        deviceRegistered
-      }
-    });
 
   } catch (error) {
     console.error('Login error:', error);
@@ -221,12 +217,45 @@ router.post('/login', [
   }
 });
 
-// Logout (client-side token removal, but we can track this for security)
-router.post('/logout', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Logout successful'
-  });
+// Logout and remove device
+router.post('/logout', [
+  body('deviceId').notEmpty().withMessage('Device ID is required for logout')
+], require('../middleware/auth').authenticateToken, async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
+
+    const { deviceId } = req.body;
+
+    // Verify this is the user's current device
+    if (req.deviceId !== deviceId) {
+      return res.status(403).json({
+        success: false,
+        message: 'Device ID mismatch'
+      });
+    }
+
+    // Remove device completely (this allows login from new devices)
+    await deviceValidationService.removeDevice(req.user.id, deviceId);
+
+    res.json({
+      success: true,
+      message: 'Logout successful. Device removed. You can now login from a new device.'
+    });
+
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Logout failed'
+    });
+  }
 });
 
 // Google OAuth Login
@@ -320,55 +349,51 @@ router.post('/google-login', [
       isNewUser = true;
     }
 
-    // Check if device is already registered
-    let deviceRegistered = await deviceValidationService.validateDevice(user.id, deviceId);
-    
-    if (!deviceRegistered) {
-      // Try to register the device
+    // Register/validate device (strict policy - no replacement allowed)
+    try {
       const deviceRegistration = await deviceValidationService.registerDevice(
         user.id, 
         deviceId, 
         deviceInfo || {}
       );
 
-      if (!deviceRegistration.success) {
-        // If this is a new user and device registration fails, clean up
-        if (isNewUser) {
-          await db.execute('DELETE FROM users WHERE id = ?', [user.id]);
+      // Create login session
+      const sessionToken = await deviceValidationService.createLoginSession(user.id, deviceId);
+
+      // Generate JWT tokens
+      const tokens = generateTokens(user.id);
+
+      res.json({
+        success: true,
+        message: isNewUser 
+          ? 'Account created and Google login successful' 
+          : 'Google login successful',
+        data: {
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            full_name: user.full_name,
+            profile_picture: user.profile_picture,
+            auth_provider: user.auth_provider
+          },
+          tokens,
+          sessionToken,
+          deviceRegistered: true,
+          isNewUser
         }
-        return res.status(403).json({
-          success: false,
-          message: deviceRegistration.message,
-          errorCode: 'DEVICE_REGISTRATION_FAILED'
-        });
+      });
+    } catch (deviceError) {
+      // If this is a new user and device registration fails, clean up
+      if (isNewUser) {
+        await db.execute('DELETE FROM users WHERE id = ?', [user.id]);
       }
-      deviceRegistered = true;
+      return res.status(403).json({
+        success: false,
+        message: deviceError.message,
+        errorCode: 'DEVICE_ALREADY_REGISTERED'
+      });
     }
-
-    // Create login session
-    const sessionToken = await deviceValidationService.createLoginSession(user.id, deviceId);
-
-    // Generate JWT tokens
-    const tokens = generateTokens(user.id);
-
-    res.json({
-      success: true,
-      message: isNewUser ? 'Account created and Google login successful' : 'Google login successful',
-      data: {
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          full_name: user.full_name,
-          profile_picture: user.profile_picture,
-          auth_provider: user.auth_provider
-        },
-        tokens,
-        sessionToken,
-        deviceRegistered,
-        isNewUser
-      }
-    });
 
   } catch (error) {
     console.error('Google login error:', error);
@@ -381,23 +406,32 @@ router.post('/google-login', [
 
 // Device management endpoints
 
-// Get user's registered devices
+// Get user's current active device
 router.get('/devices', require('../middleware/auth').authenticateToken, async (req, res) => {
   try {
     const [devices] = await db.execute(
       `SELECT device_id, device_name, device_model, os_version, app_version, 
               is_active, last_login, created_at, login_count
        FROM user_devices 
-       WHERE user_id = ? 
-       ORDER BY last_login DESC`,
+       WHERE user_id = ? AND is_active = 1 
+       ORDER BY last_login DESC 
+       LIMIT 1`,
       [req.user.id]
     );
 
+    if (devices.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No active device found'
+      });
+    }
+
+    const device = devices[0];
     res.json({
       success: true,
-      message: 'Devices retrieved successfully',
+      message: 'Device retrieved successfully',
       data: {
-        devices: devices.map(device => ({
+        device: {
           deviceId: device.device_id,
           deviceName: device.device_name || 'Unknown Device',
           deviceModel: device.device_model,
@@ -407,66 +441,35 @@ router.get('/devices', require('../middleware/auth').authenticateToken, async (r
           lastLogin: device.last_login,
           registeredAt: device.created_at,
           loginCount: device.login_count
-        }))
+        }
       }
     });
 
   } catch (error) {
-    console.error('Get devices error:', error);
+    console.error('Get device error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to retrieve devices'
+      message: 'Failed to retrieve device'
     });
   }
 });
 
-// Deactivate a device
-router.post('/devices/:deviceId/deactivate', require('../middleware/auth').authenticateToken, async (req, res) => {
+// Remove current device (same as logout but for device management)
+router.post('/devices/remove', require('../middleware/auth').authenticateToken, async (req, res) => {
   try {
-    const { deviceId } = req.params;
-
-    // Check if device belongs to the user
-    const [devices] = await db.execute(
-      'SELECT id FROM user_devices WHERE user_id = ? AND device_id = ?',
-      [req.user.id, deviceId]
-    );
-
-    if (devices.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'Device not found'
-      });
-    }
-
-    // Don't allow deactivating the current device
-    if (req.deviceId === deviceId) {
-      return res.status(400).json({
-        success: false,
-        message: 'Cannot deactivate the current device'
-      });
-    }
-
-    // Deactivate device and end all sessions
-    await db.execute(
-      'UPDATE user_devices SET is_active = 0 WHERE user_id = ? AND device_id = ?',
-      [req.user.id, deviceId]
-    );
-
-    await db.execute(
-      'UPDATE login_sessions SET is_active = 0 WHERE user_id = ? AND device_id = ?',
-      [req.user.id, deviceId]
-    );
+    // Remove current device completely
+    await deviceValidationService.removeDevice(req.user.id, req.deviceId);
 
     res.json({
       success: true,
-      message: 'Device deactivated successfully'
+      message: 'Device removed successfully. You can now login from a new device.'
     });
 
   } catch (error) {
-    console.error('Deactivate device error:', error);
+    console.error('Remove device error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to deactivate device'
+      message: 'Failed to remove device'
     });
   }
 });

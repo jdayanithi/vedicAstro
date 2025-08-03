@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/concepts"></ion-back-button>
     </ion-buttons>
-    <ion-title>DNA ஜோதிஷம்</ion-title>
+    <ion-title>DNA ஜோதிடம்</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="toggleBookmark()">
         <ion-icon slot="icon-only" [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'"></ion-icon>
@@ -20,7 +20,7 @@
       <ion-icon name="dna" size="large"></ion-icon>
     </div>
     <div class="hero-content">
-      <h1>DNA ஜோதிஷம்</h1>
+      <h1>DNA ஜோதிடம்</h1>
       <p class="subtitle">Modern Astrological Research with Genetic Science</p>
       <div class="meta-info">
         <ion-chip size="small">
@@ -296,7 +296,7 @@
                 <li *ngFor="let remedy of planet.remedies.career">{{remedy}}</li>
               </ul>
             </div>
-            
+
             <!-- Spiritual Remedies -->
             <div class="remedy-block bg-pink-remedy" *ngIf="planet.remedies.spiritual.length > 0">
               <h5>
@@ -307,7 +307,7 @@
                 <li *ngFor="let remedy of planet.remedies.spiritual">{{remedy}}</li>
               </ul>
             </div>
-            
+
           </ion-card-content>
         </ion-card>
         

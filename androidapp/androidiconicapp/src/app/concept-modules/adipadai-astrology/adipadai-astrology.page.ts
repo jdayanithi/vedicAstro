@@ -349,7 +349,7 @@ export class AdipadaiAstrologyPage implements OnInit {
       event.stopPropagation();
     }
 
-    const shareText = `${topic.title}\n\n${topic.description}\n\nஅடிப்படை ஜோதிஷம் - வேத ஆஸ்ட்ரோ ஆப்`;
+    const shareText = `${topic.title}\n\n${topic.description}\n\nஅடிப்படை ஜோதிடம் - வேத ஆஸ்ட்ரோ ஆப்`;
     
     if (navigator.share) {
       navigator.share({

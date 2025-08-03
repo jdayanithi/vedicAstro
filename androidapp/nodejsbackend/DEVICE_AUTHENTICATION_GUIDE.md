@@ -6,19 +6,21 @@ This guide explains how to implement device-based authentication for the Vedic A
 
 ## 🔒 Security Architecture
 
-### Device Registration Process
+### Strict Device Registration Process
 1. **User Registration/Login**: Device ID and info are required
-2. **Device Validation**: Every API request validates device authorization
-3. **Session Management**: Device-specific sessions with expiration
-4. **Device Limits**: Maximum 3 devices per user account
-5. **Remote Management**: Users can deactivate devices remotely
+2. **Single Device Enforcement**: Only ONE device can be registered per user account
+3. **No Device Replacement**: Cannot login from new device if already registered elsewhere
+4. **Explicit Logout Required**: Users must logout to remove device registration
+5. **Complete Device Removal**: Logout completely removes device from system
+6. **New Device Registration**: Only allowed after previous device is removed
 
 ### Enhanced Security Features
-- **Device Fingerprinting**: Tracks device characteristics
-- **Suspicious Activity Detection**: Monitors unusual login patterns
-- **Session Expiration**: Automatic timeout after 24 hours
-- **Device Deactivation**: Remote device management capabilities
-- **Login History**: Complete audit trail of device access
+- **Strict One Device Policy**: Each user can have only one registered device at any time
+- **No Automatic Replacement**: Prevents unauthorized device switching
+- **Explicit Device Management**: Users must consciously logout to switch devices
+- **Complete Device Removal**: No traces left after logout for maximum security
+- **Login Prevention**: Cannot login from new device until current device is removed
+- **Session Security**: All sessions tied to specific device registration
 
 ## 📱 Android Implementation
 
@@ -114,9 +116,12 @@ fun loginUser(email: String, password: String) {
                            response.data.tokens.refreshToken,
                            response.data.sessionToken)
             }
-            response.errorCode == "DEVICE_REGISTRATION_FAILED" -> {
-                // Handle device limit reached or other device issues
-                showDeviceErrorDialog(response.message)
+            response.errorCode == "DEVICE_ALREADY_REGISTERED" -> {
+                // User already has a device registered elsewhere
+                showDeviceAlreadyRegisteredDialog(response.message) {
+                    // Provide option to contact support or logout from other device
+                    showLogoutInstructions()
+                }
             }
         }
     }
@@ -124,6 +129,63 @@ fun loginUser(email: String, password: String) {
 ```
 
 ### 3. Google OAuth Login with Device
+```kotlin
+fun googleLogin(googleIdToken: String) {
+    val deviceId = getDeviceId()
+    val deviceInfo = getDeviceInfo()
+    
+    val requestBody = JSONObject().apply {
+        put("token", googleIdToken)
+        put("deviceId", deviceId)
+        put("deviceInfo", deviceInfo)
+    }
+    
+    // API call to /api/auth/google-login
+    makeApiCall("/api/auth/google-login", requestBody) { response ->
+        when {
+            response.success -> {
+                storeTokens(response.data.tokens.accessToken, 
+                           response.data.tokens.refreshToken,
+                           response.data.sessionToken)
+                
+                if (response.data.isNewUser) {
+                    showWelcomeFlow()
+                }
+            }
+            response.errorCode == "DEVICE_ALREADY_REGISTERED" -> {
+                showDeviceAlreadyRegisteredDialog(response.message) {
+                    showLogoutInstructions()
+                }
+            }
+        }
+    }
+}
+```
+
+### 4. User Logout with Device Removal
+```kotlin
+fun logoutUser() {
+    val deviceId = getDeviceId()
+    
+    val requestBody = JSONObject().apply {
+        put("deviceId", deviceId)
+    }
+    
+    // API call to /api/auth/logout
+    makeApiCall("/api/auth/logout", requestBody) { response ->
+        if (response.success) {
+            // Clear all local tokens
+            clearTokens()
+            
+            // Show success message
+            showMessage("Logout successful. You can now login from any device.")
+            
+            // Redirect to login screen
+            redirectToLogin()
+        }
+    }
+}
+```
 ```kotlin
 fun googleLogin(googleIdToken: String) {
     val deviceId = getDeviceId()
@@ -156,7 +218,7 @@ fun googleLogin(googleIdToken: String) {
 ### Secure Token Storage
 ```kotlin
 class TokenManager(private val context: Context) {
-    private val sharedPrefs = context.getSharedPreferences("vedic_astro_tokens", Context.MODE_PRIVATE)
+    private val sharedPrefs = context.getSharedPreferences("ldml_astro_tokens", Context.MODE_PRIVATE)
     
     fun storeTokens(accessToken: String, refreshToken: String, sessionToken: String) {
         sharedPrefs.edit().apply {
@@ -215,30 +277,57 @@ class ApiClient {
 
 ## 📱 Device Management
 
-### Get User's Devices
+### Get Current Device
 ```kotlin
-fun getUserDevices() {
+fun getCurrentDevice() {
     apiClient.makeAuthenticatedRequest("/api/auth/devices") { response ->
         if (response.getBoolean("success")) {
-            val devices = response.getJSONObject("data").getJSONArray("devices")
-            displayDeviceList(devices)
+            val device = response.getJSONObject("data").getJSONObject("device")
+            displayCurrentDevice(device)
         }
     }
 }
 ```
 
-### Deactivate Device
+### Remove Current Device (Same as Logout)
 ```kotlin
-fun deactivateDevice(deviceId: String) {
+fun removeCurrentDevice() {
     apiClient.makeAuthenticatedRequest(
-        "/api/auth/devices/$deviceId/deactivate",
+        "/api/auth/devices/remove",
         "POST"
     ) { response ->
         if (response.getBoolean("success")) {
-            showMessage("Device deactivated successfully")
-            refreshDeviceList()
+            // Clear local tokens
+            tokenManager.clearTokens()
+            
+            showMessage("Device removed successfully. You can now login from a new device.")
+            redirectToLogin()
         }
     }
+}
+```
+
+### Handle Device Already Registered Error
+```kotlin
+fun handleDeviceAlreadyRegistered() {
+    showDialog(
+        title = "Device Already Registered",
+        message = "You already have another device registered. To use this device, you need to logout from your current device first.",
+        positiveButton = "Get Instructions" to { showLogoutInstructions() },
+        negativeButton = "Contact Support" to { contactSupport() }
+    )
+}
+
+fun showLogoutInstructions() {
+    showInstructionsDialog(
+        title = "How to Switch Devices",
+        message = "To use this device:\n\n" +
+                 "1. Open the app on your current device\n" +
+                 "2. Go to Profile or Settings\n" +
+                 "3. Tap 'Logout' or 'Remove Device'\n" +
+                 "4. Return to this device and login again\n\n" +
+                 "Note: Logging out will completely remove your device registration."
+    )
 }
 ```
 
@@ -275,15 +364,21 @@ fun handleApiError(error: VolleyError) {
         
         when (errorCode) {
             "DEVICE_NOT_AUTHORIZED" -> {
-                // Device has been deactivated or not registered
-                showReLoginDialog("Your device is no longer authorized. Please login again.")
+                // Device has been removed or never registered
+                showReLoginDialog("Your device is not registered. Please login again.")
                 clearTokensAndRedirectToLogin()
             }
             
-            "DEVICE_REGISTRATION_FAILED" -> {
-                // Cannot register device (limit reached, etc.)
-                val message = errorData.getString("message")
-                showDeviceErrorDialog(message)
+            "DEVICE_ALREADY_REGISTERED" -> {
+                // User already has another device registered
+                showDeviceAlreadyRegisteredDialog(
+                    title = "Device Already Registered",
+                    message = "You already have another device registered. Please logout from your current device first, then try again.",
+                    actions = mapOf(
+                        "Contact Support" to { contactSupport() },
+                        "Try Again" to { /* retry login */ }
+                    )
+                )
             }
             
             "SESSION_INVALID" -> {

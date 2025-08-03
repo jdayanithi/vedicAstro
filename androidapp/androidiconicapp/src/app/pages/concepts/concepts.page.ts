@@ -265,9 +265,6 @@ export class ConceptsPage implements OnInit, OnDestroy {
         case 'uyarnilai_astrology_001':
           this.router.navigate(['/uyarnilai-astrology']);
           break;
-        case 'uraynilai_astrology_001':
-          this.router.navigate(['/uraynilai-astrology']);
-          break;
         case 'gayathri_manthirangal_001':
           this.router.navigate(['/gayathri-manthirangal']);
           break;
@@ -494,7 +491,7 @@ export class ConceptsPage implements OnInit, OnDestroy {
           <div style="text-align: center; margin: 15px 0;">
             <div style="margin-bottom: 8px;">
               <span style="text-decoration: line-through; color: #999; font-size: 1em;">₹930</span>
-              <span style="background: #e53e3e; color: white; font-size: 0.8em; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">50% OFF</span>
+              <span style="background: #e53e3e; color: white, font-size: 0.8em; padding: 2px 8px; border-radius: 4px; margin-left: 8px;">50% OFF</span>
             </div>
             <strong style="font-size: 1.3em; color: #e53e3e;">கட்டணம்: ₹465</strong>
           </div>

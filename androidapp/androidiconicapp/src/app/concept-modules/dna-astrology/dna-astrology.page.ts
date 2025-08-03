@@ -531,7 +531,7 @@ export class DnaAstrologyPage implements OnInit {
       // Use Web Share API if available
       if (navigator.share) {
         await navigator.share({
-          title: 'DNA ஜோதிஷம் - DNA Astrology',
+          title: 'DNA ஜோதிடம் - DNA Astrology',
           text: 'மரபணு அறிவியலுடன் இணைந்த நவீன ஜோதிட ஆராய்ச்சி மற்றும் கணிப்புகள்',
           url: window.location.href
         });

@@ -18,11 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payments');
 const userRoutes = require('./routes/users');
-const googlePlayRoutes = require('./routes/googlePlay');
+const phonePeRoutes = require('./routes/phonePePayments');
 
 // Database connection
 const db = require('./config/database');
-const googlePlayBillingService = require('./services/googlePlayBilling');
+const googleAuthService = require('./services/googleAuth');
 
 // Test database connection
 async function testDatabaseConnection() {
@@ -45,12 +45,12 @@ async function testDatabaseConnection() {
   }
 }
 
-// Initialize Google Play Billing service
-async function initializeGooglePlayBilling() {
+// Initialize Google Auth service
+async function initializeGoogleAuth() {
   try {
-    await googlePlayBillingService.initialize();
+    await googleAuthService.initialize();
   } catch (error) {
-    console.error('⚠️  Google Play Billing initialization failed:', error.message);
+    console.error('⚠️  Google Auth initialization failed:', error.message);
   }
 }
 
@@ -58,7 +58,7 @@ async function initializeGooglePlayBilling() {
 app.use('/api/auth', authRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/billing', googlePlayRoutes);
+app.use('/api/phonepe', phonePeRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -91,8 +91,10 @@ app.use('*', (req, res) => {
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`� Google OAuth integration available`);
+  console.log(`�💳 PhonePe Payment Gateway integrated`);
   await testDatabaseConnection();
-  await initializeGooglePlayBilling();
+  await initializeGoogleAuth();
 });
 
 module.exports = app;

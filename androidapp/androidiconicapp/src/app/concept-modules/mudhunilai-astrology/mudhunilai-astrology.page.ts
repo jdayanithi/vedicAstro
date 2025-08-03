@@ -439,7 +439,7 @@ export class MudhunilaiAstrologyPage implements OnInit {
       event.stopPropagation();
     }
 
-    const shareText = `${topic.title}\n\n${topic.description}\n\nமுத்துநிலை ஜோதிஷம் - வேத ஆஸ்ட்ரோ ஆப்`;
+    const shareText = `${topic.title}\n\n${topic.description}\n\nமுத்துநிலை ஜோதிடம் - வேத ஆஸ்ட்ரோ ஆப்`;
     
     if (navigator.share) {
       navigator.share({

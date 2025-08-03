@@ -1,4 +1,7 @@
-# API Documentation
+# Vedic Astro Backend API Documentation
+
+## Overview
+This API serves the Vedic Astrology mobile application with user authentication, strict device security, course management, and PhonePe payment integration.
 
 ## Base URL
 ```
@@ -14,14 +17,15 @@ x-session-token: <session_token> (optional, for enhanced security)
 ```
 
 ### Device Security Features
-- **Device Registration**: Each user can register up to 3 mobile devices
-- **Device Tracking**: Monitors device info, login history, and suspicious activity
-- **Session Management**: Device-specific login sessions with automatic expiration
-- **Security Monitoring**: Detects and prevents unauthorized device access
+- **Strict Single Device Policy**: Each user can only have ONE active mobile device
+- **No Device Replacement**: Users cannot login from new device if already registered elsewhere
+- **Explicit Logout Required**: Users must logout to remove device registration
+- **Complete Device Removal**: Logout completely removes device from system
+- **New Device Registration**: Only allowed after previous device is removed via logout
 
 ### Error Codes
-- `DEVICE_NOT_AUTHORIZED` - Device not registered or deactivated
-- `DEVICE_REGISTRATION_FAILED` - Cannot register device (limit reached, etc.)
+- `DEVICE_NOT_AUTHORIZED` - Device not registered or removed
+- `DEVICE_ALREADY_REGISTERED` - User already has an active device, must logout first
 - `SESSION_INVALID` - Session token expired or invalid
 - `TOKEN_EXPIRED` - JWT token has expired
 
@@ -34,6 +38,13 @@ All responses follow this format:
   "data": {} // Optional response data
 }
 ```
+
+## Table of Contents
+1. [Health Check](#health-check)
+2. [Authentication](#authentication-endpoints)
+3. [User Management](#user-management)
+4. [Payment Integration (PhonePe)](#phonepe-payment-integration)
+5. [Course Management](#course-management)
 
 ## Endpoints
 
@@ -116,45 +127,56 @@ All responses follow this format:
 
 #### Logout
 - **POST** `/auth/logout`
-- **Description**: Logout user (client-side token removal)
-- **Authentication**: None required
+- **Description**: Logout user and completely remove device registration
+- **Authentication**: Required (JWT + Device ID)
+- **Body**:
+```json
+{
+  "deviceId": "string (current device ID)"
+}
+```
+- **Response**:
+```json
+{
+  "success": true,
+  "message": "Logout successful. Device removed. You can now login from a new device."
+}
+```
 
-#### Get Registered Devices
+#### Get Current Device
 - **GET** `/auth/devices`
-- **Description**: Get list of user's registered mobile devices
+- **Description**: Get current user's active device information (single device policy)
 - **Authentication**: Required (JWT + Device ID)
 - **Response**:
 ```json
 {
   "success": true,
-  "message": "Devices retrieved successfully",
+  "message": "Device retrieved successfully",
   "data": {
-    "devices": [
-      {
-        "deviceId": "unique_device_id_123",
-        "deviceName": "John's Phone",
-        "deviceModel": "Samsung Galaxy S21",
-        "osVersion": "Android 12",
-        "appVersion": "1.0.0",
-        "isActive": true,
-        "lastLogin": "2024-01-15T10:30:00.000Z",
-        "registeredAt": "2024-01-10T08:15:00.000Z",
-        "loginCount": 25
-      }
-    ]
+    "device": {
+      "deviceId": "unique_device_id_123",
+      "deviceName": "John's Phone",
+      "deviceModel": "Samsung Galaxy S21",
+      "osVersion": "Android 12",
+      "appVersion": "1.0.0",
+      "isActive": true,
+      "lastLogin": "2024-01-15T10:30:00.000Z",
+      "registeredAt": "2024-01-10T08:15:00.000Z",
+      "loginCount": 25
+    }
   }
 }
 ```
 
-#### Deactivate Device
-- **POST** `/auth/devices/:deviceId/deactivate`
-- **Description**: Deactivate a registered device (cannot deactivate current device)
+#### Remove Current Device
+- **POST** `/auth/devices/remove`
+- **Description**: Remove current device registration (allows login from new device)
 - **Authentication**: Required (JWT + Device ID)
 - **Response**:
 ```json
 {
   "success": true,
-  "message": "Device deactivated successfully"
+  "message": "Device removed successfully. You can now login from a new device."
 }
 ```
 
@@ -271,44 +293,99 @@ All responses follow this format:
 - **Description**: Get specific payment details
 - **Authentication**: Required
 
-### Google Play Billing
+## PhonePe Payment Integration
 
-#### Verify Google Play Purchase
-- **POST** `/billing/google-play/verify-purchase`
-- **Description**: Verify and process Google Play in-app purchase
+### Initiate Payment
+- **POST** `/phonepe/initiate`
+- **Description**: Initiate a PhonePe payment for course enrollment
 - **Authentication**: Required
 - **Body**:
 ```json
 {
-  "productId": "string (Google Play product ID)",
-  "purchaseToken": "string (Google Play purchase token)",
-  "courseId": "integer (course to enroll in)",
-  "isSubscription": "boolean (optional, default: false)"
+  "courseId": 1,
+  "amount": 999.00,
+  "redirectUrl": "https://yourapp.com/payment/success",
+  "callbackUrl": "https://yourapi.com/api/phonepe/callback"
 }
 ```
-
-#### Get Subscription Status
-- **GET** `/billing/google-play/subscription-status/:courseId`
-- **Description**: Get user's Google Play subscription status for a course
-- **Authentication**: Required
-
-#### Check Subscription with Google Play
-- **POST** `/billing/google-play/check-subscription`
-- **Description**: Verify current subscription status with Google Play servers
-- **Authentication**: Required
-- **Body**:
+- **Response**:
 ```json
 {
-  "subscriptionId": "string (Google Play subscription ID)",
-  "purchaseToken": "string (Google Play purchase token)"
+  "success": true,
+  "message": "Payment initiated successfully",
+  "data": {
+    "paymentId": 123,
+    "merchantTransactionId": "TXN_1_1704123456789_abc123def",
+    "paymentUrl": "https://phonepe.com/pay/...",
+    "transactionId": "T2024010112345678",
+    "course": {
+      "id": 1,
+      "title": "Basic Vedic Astrology",
+      "price": 999.00
+    }
+  }
 }
 ```
 
-#### Google Play Webhook
-- **POST** `/billing/google-play/webhook`
-- **Description**: Handle Google Play Real-time Developer Notifications
-- **Authentication**: None (secured by Google's pub/sub system)
-- **Note**: Used for automatic subscription status updates
+### Payment Callback (Webhook)
+- **POST** `/phonepe/callback`
+- **Description**: Receive payment notifications from PhonePe (called automatically)
+- **Authentication**: None (secured by checksum verification)
+- **Note**: This endpoint is called by PhonePe servers to notify payment status
+
+### Check Payment Status
+- **GET** `/phonepe/status/:merchantTransactionId`
+- **Description**: Check the status of a payment transaction
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "success": true,
+  "message": "Payment status retrieved successfully",
+  "data": {
+    "paymentId": 123,
+    "merchantTransactionId": "TXN_1_1704123456789_abc123def",
+    "amount": 999.00,
+    "status": "completed",
+    "phonePeStatus": "COMPLETED",
+    "paymentDate": "2024-01-01T12:34:56.000Z",
+    "courseId": 1
+  }
+}
+```
+
+### Payment History
+- **GET** `/phonepe/history?page=1&limit=10`
+- **Description**: Get user's PhonePe payment history
+- **Authentication**: Required
+- **Response**:
+```json
+{
+  "success": true,
+  "message": "Payment history retrieved successfully",
+  "data": {
+    "payments": [
+      {
+        "id": 123,
+        "amount": 999.00,
+        "payment_status": "completed",
+        "payment_date": "2024-01-01T12:34:56.000Z",
+        "phonepe_merchant_transaction_id": "TXN_1_1704123456789_abc123def",
+        "phonepe_transaction_id": "T2024010112345678",
+        "course_title": "Basic Vedic Astrology",
+        "course_description": "Learn the fundamentals of Vedic Astrology"
+      }
+    ],
+    "pagination": {
+      "currentPage": 1,
+      "totalPages": 5,
+      "totalRecords": 47,
+      "hasNext": true,
+      "hasPrev": false
+    }
+  }
+}
+```
 
 ## Database Setup
 
@@ -321,7 +398,7 @@ To enable full functionality, set up MySQL:
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_password
-DB_NAME=vedic_astro
+DB_NAME=ldml_db
 DB_PORT=3306
 ```
 4. Restart the server
@@ -336,152 +413,113 @@ The system includes these sample courses:
 3. Horoscope Reading Mastery (₹1999, 16 weeks)
 4. Remedial Astrology (₹1299, 10 weeks)
 
-## Google OAuth Setup
+## PhonePe Payment Gateway Setup
 
-To enable Google login functionality:
+To enable PhonePe payments for Indian users:
 
-### 1. Google Cloud Console Setup
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing project
-3. Enable Google+ API or Google Sign-In API
-4. Go to "Credentials" and create OAuth 2.0 Client ID
-5. Configure authorized JavaScript origins and redirect URIs
-6. Copy the Client ID and Client Secret
+### 1. PhonePe Merchant Account Setup
+1. Visit [PhonePe Business](https://business.phonepe.com/) and register as a merchant
+2. Complete KYC verification process
+3. Submit required business documents
+4. Wait for approval (usually 2-3 business days)
+5. Once approved, access your merchant dashboard
 
-### 2. Environment Configuration
+### 2. Get API Credentials
+1. Login to PhonePe Merchant Dashboard
+2. Go to "Developer" section
+3. Generate/copy your Merchant ID
+4. Generate/copy your Salt Key
+5. Note down the Salt Index (usually 1)
+
+### 3. Environment Configuration
 Update your `.env` file:
 ```env
-GOOGLE_CLIENT_ID=your_google_client_id_here
-GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+# PhonePe Configuration
+PHONEPE_MERCHANT_ID=your_merchant_id
+PHONEPE_SALT_KEY=your_salt_key
+PHONEPE_SALT_INDEX=1
+PHONEPE_API_URL=https://api-preprod.phonepe.com/apis/pg-sandbox
+PHONEPE_ENVIRONMENT=sandbox
+
+# App URLs
+APP_URL=http://localhost:3000
+API_URL=http://localhost:3000
 ```
 
-### 3. Client-Side Integration (Android)
-In your Android app, implement Google Sign-In:
-1. Add Google Sign-In SDK to your Android project
-2. Configure `google-services.json` with your OAuth client ID
-3. Implement Google Sign-In flow to get ID token
-4. Send the ID token to `/api/auth/google-login` endpoint
-
-### 4. Authentication Flow
-1. **Android App**: User taps "Sign in with Google"
-2. **Google SDK**: Shows Google login dialog
-3. **Google**: Returns ID token to app
-4. **Android App**: Sends token to `/api/auth/google-login`
-5. **Backend**: Verifies token with Google, creates/updates user
-6. **Backend**: Returns JWT tokens for app authentication
-7. **Android App**: Stores JWT tokens for API calls
-
-### 5. User Data Handling
-- **New Users**: Automatically created with Google profile data
-- **Existing Users**: Google info is merged with existing account
-- **Profile Pictures**: Automatically synced from Google profile
-- **Email Verification**: Google-verified emails are trusted
-
-## Google Play Billing Setup
-
-To enable Google Play in-app purchases and subscriptions:
-
-### 1. Google Play Console Setup
-1. Go to [Google Play Console](https://play.google.com/console/)
-2. Select your app project
-3. Navigate to "Monetize" > "Products" to create in-app products/subscriptions
-4. Set up pricing and availability for each product
-5. Go to "Setup" > "API access" and link a Google Cloud project
-6. Create a service account and download the JSON key file
-
-### 2. Google Cloud Console Setup
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Enable the "Google Play Android Developer API"
-3. Create a service account with "Editor" role
-4. Generate and download the service account key (JSON file)
-5. Share the service account email with your Google Play Console (with "Admin" role)
-
-### 3. Server Configuration
-1. Place the service account JSON file in `config/google-play-service-account.json`
-2. Update your `.env` file:
+### 4. Production Configuration
+For live transactions, update:
 ```env
-GOOGLE_PLAY_SERVICE_ACCOUNT_KEY_PATH=./config/google-play-service-account.json
-GOOGLE_PLAY_PACKAGE_NAME=com.vedicastro.app
-GOOGLE_PLAY_DEVELOPER_ACCOUNT_ID=your_developer_account_id
+PHONEPE_API_URL=https://api.phonepe.com/apis/hermes
+PHONEPE_ENVIRONMENT=production
+APP_URL=https://yourdomain.com
+API_URL=https://api.yourdomain.com
 ```
 
-### 4. Android App Integration
-Configure Google Play Billing in your Android app:
+### 5. Webhook Configuration
+In PhonePe dashboard, configure webhook URL:
+- Callback URL: `https://api.yourdomain.com/api/phonepe/callback`
+- Ensure your server has valid HTTPS certificate for production
 
-```gradle
-// build.gradle (Module: app)
-dependencies {
-    implementation 'com.android.billingclient:billing:6.0.1'
-}
-```
+### 6. Android App Integration
+For Android app, integrate PhonePe payment flow:
 
-### 5. Purchase Flow Example
 ```java
-// Initialize billing client
-private void initializeBillingClient() {
-    billingClient = BillingClient.newBuilder(context)
-        .setListener(purchaseUpdateListener)
-        .enablePendingPurchases()
-        .build();
-    
-    billingClient.startConnection(new BillingClientStateListener() {
-        @Override
-        public void onBillingSetupFinished(BillingResult billingResult) {
-            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                // Ready to make purchases
+// Initiate payment from Android app
+private void initiatePhonePePayment(int courseId, double amount) {
+    // Call your backend API
+    ApiService.initiatePayment(courseId, amount)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(response -> {
+            if (response.isSuccess()) {
+                String paymentUrl = response.getData().getPaymentUrl();
+                // Open PhonePe payment page in WebView or browser
+                openPaymentUrl(paymentUrl);
             }
-        }
-        
-        @Override onBillingServiceDisconnected() {
-            // Try to restart connection
-        }
-    });
+        });
 }
 
-// Handle purchase updates
-private PurchasesUpdatedListener purchaseUpdateListener = (billingResult, purchases) -> {
-    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK 
-        && purchases != null) {
-        for (Purchase purchase : purchases) {
-            handlePurchase(purchase);
-        }
-    }
-};
-
-// Send purchase to your backend for verification
-private void handlePurchase(Purchase purchase) {
-    // Send to backend API
-    apiService.verifyPurchase(new VerifyPurchaseRequest(
-        purchase.getSkus().get(0),  // productId
-        purchase.getPurchaseToken(),
-        courseId,
-        purchase.getSkus().get(0).contains("subscription") // isSubscription
-    ));
+// Handle payment completion
+private void handlePaymentResult(String merchantTransactionId) {
+    // Check payment status
+    ApiService.checkPaymentStatus(merchantTransactionId)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(response -> {
+            if (response.isSuccess() && "completed".equals(response.getData().getStatus())) {
+                // Payment successful - update UI
+                showSuccessMessage("Payment successful! Course enrolled.");
+                navigateToCourse();
+            } else {
+                showErrorMessage("Payment failed. Please try again.");
+            }
+        });
 }
 ```
-
-### 6. Real-time Developer Notifications
-Set up webhooks for automatic subscription updates:
-
-1. In Google Play Console, go to "Monetize" > "Monetization setup"
-2. Enable Real-time developer notifications
-3. Set endpoint URL: `https://yourdomain.com/api/billing/google-play/webhook`
-4. Configure Google Cloud Pub/Sub topic
 
 ### 7. Testing
-- Use Google Play Console's "License Testing" for test accounts
-- Test with real Google accounts added to "Internal testing" track
-- Verify purchase tokens with the verification endpoints
+- Use sandbox environment for testing
+- Test with small amounts (₹1 to ₹10)
+- PhonePe provides test cards and UPI IDs
+- Verify callback handling with test transactions
+
+### 8. Security Features
+- All requests include SHA256 checksum verification
+- Callback authenticity verified using salt key
+- HTTPS required for production
+- IP whitelisting available in PhonePe dashboard
 
 ## Payment Method Updates
 
 The payment system now supports:
-- `credit_card`, `debit_card`, `paypal`, `bank_transfer`, `upi`, `google_play`
+- `credit_card`, `debit_card`, `paypal`, `bank_transfer`, `upi`, `phonepe`
 
-Google Play purchases include additional fields:
-- `google_play_purchase_token`: Unique purchase identifier
-- `google_play_product_id`: Product SKU from Google Play
-- `google_play_order_id`: Google Play order identifier
-- `is_subscription`: Boolean flag for subscription purchases
-- `subscription_start_date`: Start date for subscriptions
-- `subscription_end_date`: Expiry date for subscriptions
+PhonePe payments include additional fields:
+- `phonepe_transaction_id`: Unique PhonePe transaction identifier
+- `phonepe_merchant_transaction_id`: Your generated transaction ID
+- `phonepe_response_code`: PhonePe response code (SUCCESS, FAILURE, etc.)
+- `phonepe_payment_method`: Method used (UPI, card, wallet, etc.)
+
+### Payment Status Values
+- `pending`: Payment initiated but not completed
+- `completed`: Payment successful and course enrolled
+- `failed`: Payment failed or declined
+- `refunded`: Payment refunded (manual process)
