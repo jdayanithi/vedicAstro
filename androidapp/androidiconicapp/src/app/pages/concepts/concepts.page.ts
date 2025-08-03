@@ -283,8 +283,8 @@ export class ConceptsPage implements OnInit, OnDestroy {
         case 'uyarnilai_astrology_001':
           this.router.navigate(['/uyarnilai-astrology']);
           break;
-        case 'theiva_vazhipadu_padalgal_001':
-          this.router.navigate(['/theiva-vazhipadu-padalgal']);
+        case 'pathigam_001':
+          this.router.navigate(['/pathigam']);
           break;
         case 'kiraga_serkai_001':
           this.router.navigate(['/kiraga-serkai']);

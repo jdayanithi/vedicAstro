@@ -82,8 +82,8 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/manthi-pariharangal/manthi-pariharangal.module').then( m => m.ManthiPariharangalPageModule)
   },
   {
-    path: 'theiva-vazhipadu-padalgal',
-    loadChildren: () => import('./concept-modules/theiva-vazhipadu-padalgal/theiva-vazhipadu-padalgal.module').then( m => m.TheivaValzipaduPadalgalPageModule)
+    path: 'pathigam',
+    loadChildren: () => import('./concept-modules/pathigam/pathigam.module').then( m => m.PathigamPageModule)
   },
   {
     path: 'kiraga-serkai',

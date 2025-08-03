@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TheivaValzipaduPadalgalPageRoutingModule } from './theiva-vazhipadu-padalgal-routing.module';
-import { TheivaValzipaduPadalgalPage } from './theiva-vazhipadu-padalgal.page';
+import { PathigamPageRoutingModule } from './pathigam-routing.module';
+import { PathigamPage } from './pathigam.page';
 
 @NgModule({
   imports: [
@@ -13,8 +13,8 @@ import { TheivaValzipaduPadalgalPage } from './theiva-vazhipadu-padalgal.page';
     FormsModule,
     IonicModule,
     HttpClientModule,
-    TheivaValzipaduPadalgalPageRoutingModule
+    PathigamPageRoutingModule
   ],
-  declarations: [TheivaValzipaduPadalgalPage]
+  declarations: [PathigamPage]
 })
-export class TheivaValzipaduPadalgalPageModule {}
+export class PathigamPageModule {}
