@@ -1,141 +1,197 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/concepts"></ion-back-button>
     </ion-buttons>
-    <ion-title>ஜோதிட விதிகள்</ion-title>
+    <ion-title class="tamil-text">🔮 ஜோதிட விதிகள்</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleBookmark()">
+        <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="header-section">
-    <h1>ஜோதிட விதிகள்</h1>
-    <p>வாழ்க்கையின் அனைத்து அம்சங்களுக்கான அடிப்படை விதிகள்</p>
-  </div>
-
-  <!-- Search Section -->
-  <div class="search-section">
-    <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ionInput)="searchRules()"
-      placeholder="விதிகள், கிரகங்கள், டேக்குகள் தேடுங்கள்..."
-      show-clear-button="focus">
-    </ion-searchbar>
-  </div>
-
-  <!-- Loading Indicator -->
-  <div *ngIf="isLoading" class="loading-container">
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
-    <p>விதிகளை ஏற்றுகிறது...</p>
-  </div>
-
-  <!-- Category Tabs -->
-  <div *ngIf="!isLoading" class="category-tabs">
-    <ion-segment 
-      [(ngModel)]="selectedCategory" 
-      (ionChange)="filterRules()"
-      scrollable="true">
-      <ion-segment-button value="">
-        <ion-label>அனைத்தும்</ion-label>
-      </ion-segment-button>
-      <ion-segment-button *ngFor="let category of categories" [value]="category.id">
-        <ion-icon [name]="category.icon"></ion-icon>
-        <ion-label>{{ category.name }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </div>
-
-  <!-- Category Grid (when no search term) -->
-  <div *ngIf="!isLoading && !searchTerm && !selectedCategory" class="categories-grid">
-    <div 
-      *ngFor="let category of categories" 
-      class="category-card"
-      (click)="selectCategory(category.id)"
-      [style.border-left-color]="category.color">
-      
-      <div class="category-header">
-        <ion-icon [name]="category.icon" [style.color]="category.color"></ion-icon>
-        <div class="category-info">
-          <h3>{{ category.name }}</h3>
-          <p>{{ category.nameEnglish }}</p>
-        </div>
+  <!-- Hero Header -->
+  <div class="hero-header" *ngIf="!selectedCategory && !searchTerm">
+    <div class="hero-content">
+      <div class="hero-icon-wrapper">
+        <ion-icon name="book" class="floating-icon"></ion-icon>
       </div>
-      
-      <div class="category-stats">
-        <ion-chip [style.background-color]="category.color + '20'" [style.color]="category.color">
-          <ion-label>{{ getRuleCount(category.id) }} விதிகள்</ion-label>
+      <h1 class="tamil-text">🔮 ஜோதிட விதிகள்</h1>
+      <p class="subtitle">வாழ்க்கையின் அனைத்து அம்சங்களுக்கான அடிப்படை விதிகள்</p>
+      <div class="meta-chips">
+        <ion-chip color="success" size="small">
+          <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+          <ion-label>ESSENTIAL</ion-label>
+        </ion-chip>
+        <ion-chip color="warning" size="small">
+          <ion-icon name="star" slot="start"></ion-icon>
+          <ion-label>{{ rules.length }} விதிகள்</ion-label>
+        </ion-chip>
+        <ion-chip color="tertiary" size="small">
+          <ion-icon name="shield-checkmark" slot="start"></ion-icon>
+          <ion-label>ஜோதிட அடிப்படை</ion-label>
         </ion-chip>
       </div>
     </div>
   </div>
 
-  <!-- Rules List -->
-  <div *ngIf="!isLoading && (searchTerm || selectedCategory)" class="rules-section">
-    <div class="results-header">
-      <h2 *ngIf="selectedCategory">{{ getCategoryName(selectedCategory) }} விதிகள்</h2>
-      <h2 *ngIf="!selectedCategory && searchTerm">தேடல் முடிவுகள்</h2>
-      <p>{{ filteredRules.length }} விதிகள் கிடைத்தன</p>
+  <!-- Category Grid -->
+  <div class="category-section" *ngIf="!selectedCategory && !searchTerm">
+    <div class="section-header">
+      <ion-icon name="grid" color="primary"></ion-icon>
+      <h2 class="tamil-text section-title">விதி வகைகள்</h2>
     </div>
-
-    <div class="rules-list">
-      <div 
-        *ngFor="let rule of filteredRules" 
-        class="rule-card"
-        [style.border-left-color]="getCategoryColor(rule.category)">
-        
-        <div class="rule-header">
-          <ion-chip 
-            [style.background-color]="getCategoryColor(rule.category) + '20'" 
-            [style.color]="getCategoryColor(rule.category)">
-            <ion-label>{{ getCategoryName(rule.category) }}</ion-label>
-          </ion-chip>
-        </div>
-
-        <div class="rule-content">
-          <h3>{{ rule.rule }}</h3>
-          <p class="rule-english">{{ rule.ruleEnglish }}</p>
-          
-          <div class="rule-details">
-            <div class="condition-result">
-              <div class="condition">
-                <strong>நிபந்தனை:</strong> {{ rule.condition }}
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let category of categories; let i = index">
+          <ion-card class="category-card" (click)="selectCategory(category.id)" [style.animation-delay]="i * 100 + 'ms'">
+            <ion-card-content>
+              <div class="category-icon-wrapper">
+                <ion-icon [name]="category.icon" [style.color]="category.color"></ion-icon>
               </div>
-              <div class="result">
-                <strong>பலன்:</strong> {{ rule.result }}
+              <h3 class="tamil-text category-title">{{ category.name }}</h3>
+              <p class="category-subtitle">{{ category.nameEnglish }}</p>
+              <p class="category-count">
+                <ion-icon name="documents" color="medium"></ion-icon>
+                {{ getRuleCount(category.id) }} விதிகள்
+              </p>
+              <div class="category-arrow">
+                <ion-icon name="arrow-forward-circle" color="primary"></ion-icon>
               </div>
-            </div>
-          </div>
-
-          <div class="planets-tags">
-            <div class="planets" *ngIf="rule.planets.length > 0">
-              <ion-chip 
-                *ngFor="let planet of rule.planets" 
-                color="primary" 
-                outline>
-                <ion-icon name="planet" slot="start"></ion-icon>
-                <ion-label>{{ planet }}</ion-label>
-              </ion-chip>
-            </div>
-            
-            <div class="tags" *ngIf="rule.tags.length > 0">
-              <ion-chip 
-                *ngFor="let tag of rule.tags" 
-                color="medium" 
-                outline>
-                <ion-label>{{ tag }}</ion-label>
-              </ion-chip>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
-  <!-- Empty State -->
-  <div *ngIf="!isLoading && filteredRules.length === 0 && (searchTerm || selectedCategory)" class="empty-state">
-    <ion-icon name="search-outline" color="medium"></ion-icon>
-    <h3>விதிகள் கிடைக்கவில்லை</h3>
-    <p>தேடல் வார்த்தையை மாற்றி மீண்டும் முயற்சிக்கவும்</p>
+  <!-- Search Section -->
+  <div class="search-section" *ngIf="!selectedCategory && !searchTerm">
+    <ion-card>
+      <ion-card-content>
+        <div class="search-header">
+          <ion-icon name="search" class="search-icon"></ion-icon>
+          <h3 class="tamil-text search-title">விதிகள் தேடுங்கள்</h3>
+        </div>
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          placeholder="உதாரணம்: கல்வி, திருமணம், நோய், வேலை, சனி, குரு..."
+          (ionInput)="searchRules()"
+          show-clear-button="focus">
+        </ion-searchbar>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Rules List -->
+  <div *ngIf="filteredRules.length > 0" class="rules-section">
+    <div class="section-header" *ngIf="selectedCategory || searchTerm">
+      <ion-buttons>
+        <ion-button fill="clear" (click)="goBack()">
+          <ion-icon name="arrow-back" slot="start"></ion-icon>
+          <ion-label>பின் செல்லுங்கள்</ion-label>
+        </ion-button>
+      </ion-buttons>
+      <h2 class="tamil-text">
+        <span *ngIf="selectedCategory">{{ getCategoryName(selectedCategory) }} விதிகள்</span>
+        <span *ngIf="searchTerm && !selectedCategory">தேடல் முடிவுகள்</span>
+      </h2>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let rule of filteredRules; let i = index">
+          <ion-card class="rule-card" [style.animation-delay]="i * 50 + 'ms'">
+            <ion-card-content>
+              <div class="rule-category-chip">
+                <ion-chip [color]="getCategoryColor(rule.category)" size="small">
+                  <ion-icon [name]="getCategoryIcon(rule.category)" slot="start"></ion-icon>
+                  <ion-label>{{ getCategoryName(rule.category) }}</ion-label>
+                </ion-chip>
+              </div>
+              
+              <h3 class="tamil-text rule-title">{{ rule.rule }}</h3>
+              <p class="rule-title-english">{{ rule.ruleEnglish }}</p>
+              
+              <div class="rule-details">
+                <div class="planets-section" *ngIf="rule.planets?.length">
+                  <h4 class="detail-header">
+                    <ion-icon name="planet" color="warning"></ion-icon>
+                    சம்பந்தப்பட்ட கிரகங்கள்
+                  </h4>
+                  <div class="planets-list">
+                    <ion-chip *ngFor="let planet of rule.planets" color="warning" size="small">
+                      <ion-label>{{ planet }}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+
+                <div class="condition-section" *ngIf="rule.condition">
+                  <h4 class="detail-header">
+                    <ion-icon name="clipboard" color="primary"></ion-icon>
+                    நிபந்தனை
+                  </h4>
+                  <p class="tamil-text condition-text">{{ rule.condition }}</p>
+                </div>
+
+                <div class="result-section" *ngIf="rule.result">
+                  <h4 class="detail-header">
+                    <ion-icon name="sparkles" color="success"></ion-icon>
+                    பலன்
+                  </h4>
+                  <p class="tamil-text result-text">{{ rule.result }}</p>
+                </div>
+
+                <div class="tags-section" *ngIf="rule.tags?.length">
+                  <div class="tags-wrapper">
+                    <ion-chip *ngFor="let tag of rule.tags" color="tertiary" size="small">
+                      <ion-icon name="pricetag" slot="start"></ion-icon>
+                      <ion-label>{{ tag }}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rule-actions">
+                <ion-button fill="clear" size="small" color="primary" (click)="shareRule(rule)">
+                  <ion-icon name="share-social" slot="start"></ion-icon>
+                  Share
+                </ion-button>
+                <ion-button fill="clear" size="small" color="medium" (click)="copyRule(rule)">
+                  <ion-icon name="copy" slot="start"></ion-icon>
+                  Copy
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="!isLoading && filteredRules.length === 0 && (searchTerm || selectedCategory)" class="no-results">
+    <ion-icon name="search" color="medium"></ion-icon>
+    <h3>முடிவுகள் இல்லை</h3>
+    <p *ngIf="searchTerm">
+      "{{ searchTerm }}" க்கான தேடலில் எதுவும் கிடைக்கவில்லை
+    </p>
+    <p *ngIf="selectedCategory && !searchTerm">
+      இந்த வகையில் இன்னும் விதிகள் சேர்க்கப்படவில்லை
+    </p>
+    <ion-button fill="clear" (click)="clearSearch()">
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      மீண்டும் முயற்சிக்கவும்
+    </ion-button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p class="tamil-text">விதிகளை ஏற்றுகிறது...</p>
   </div>
 
 </ion-content>
