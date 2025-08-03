@@ -33,40 +33,15 @@ export class KiragaSerkaiPage implements OnInit {
 
   private loadKiragaSerkaiData() {
     this.isLoading = true;
-    // Try to load from index first, fallback to hardcoded list
-    this.kiragaSerkaiService.loadAvailableKiragaSerkaiDynamic().subscribe({
+    this.kiragaSerkaiService.loadAvailableKiragaSerkai().subscribe({
       next: (data) => {
-        if (data.length > 0) {
-          this.kiragaSerkaiList = data;
-          this.filteredKiragaSerkai = data;
-        } else {
-          // Fallback to hardcoded method
-          this.kiragaSerkaiService.loadAvailableKiragaSerkai().subscribe({
-            next: (fallbackData) => {
-              this.kiragaSerkaiList = fallbackData;
-              this.filteredKiragaSerkai = fallbackData;
-            },
-            error: (error) => {
-              console.error('Error loading fallback kiraga serkai data:', error);
-            }
-          });
-        }
+        this.kiragaSerkaiList = data;
+        this.filteredKiragaSerkai = data;
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Error loading kiraga serkai data:', error);
-        // Try fallback method
-        this.kiragaSerkaiService.loadAvailableKiragaSerkai().subscribe({
-          next: (fallbackData) => {
-            this.kiragaSerkaiList = fallbackData;
-            this.filteredKiragaSerkai = fallbackData;
-            this.isLoading = false;
-          },
-          error: (fallbackError) => {
-            console.error('Error loading fallback kiraga serkai data:', fallbackError);
-            this.isLoading = false;
-          }
-        });
+        this.isLoading = false;
       }
     });
   }

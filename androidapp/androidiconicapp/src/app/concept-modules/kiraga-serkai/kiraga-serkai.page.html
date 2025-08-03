@@ -31,7 +31,15 @@
   </div>
 
   <div class="content-section">
-    <div class="kiraga-serkai-grid">
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="loading-container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+      <p>கிரக சேர்க்கை தரவுகளை ஏற்றுகிறது...</p>
+      <p><small>மொத்தம் 36 கிரக சேர்க்கைகள் கிடைக்கின்றன</small></p>
+    </div>
+
+    <!-- Kiraga Serkai Grid -->
+    <div *ngIf="!isLoading" class="kiraga-serkai-grid">
       <div
         *ngFor="let kiragaSerkai of filteredKiragaSerkai"
         class="kiraga-serkai-card"
@@ -64,20 +72,9 @@
           <h3>{{ kiragaSerkai.name }}</h3>
           <p class="english-name">{{ kiragaSerkai.englishName }}</p>
           <p class="description">{{ kiragaSerkai.description }}</p>
-
-          <div class="characteristics-preview">
-            <h4>முக்கிய லக்షணங்கள்:</h4>
-            <ul>
-              <li *ngFor="let char of kiragaSerkai.characteristics.slice(0, 2)">{{ char }}</li>
-            </ul>
-          </div>
         </div>
 
         <div class="card-footer">
-          <ion-chip color="primary" outline>
-            <ion-icon name="star"></ion-icon>
-            <ion-label>{{ kiragaSerkai.palangal.length }} பலன்கள்</ion-label>
-          </ion-chip>
           <ion-chip color="success" outline>
             <ion-icon name="leaf"></ion-icon>
             <ion-label>பரிகாரம்</ion-label>
@@ -114,51 +111,11 @@
             <p class="description">{{ selectedKiragaSerkai.description }}</p>
           </div>
 
-          <!-- Characteristics -->
-          <div class="section">
-            <h3><ion-icon name="person"></ion-icon> லக்షணங்கள்</h3>
-            <ion-list>
-              <ion-item *ngFor="let characteristic of selectedKiragaSerkai.characteristics">
-                <ion-icon name="checkmark-circle" color="success" slot="start"></ion-icon>
-                <ion-label>{{ characteristic }}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-
-          <!-- Palangal (Results) -->
-          <div class="section">
-            <h3><ion-icon name="star"></ion-icon> பலன்கள்</h3>
-            <ion-list>
-              <ion-item *ngFor="let palan of selectedKiragaSerkai.palangal">
-                <ion-icon name="trophy" color="warning" slot="start"></ion-icon>
-                <ion-label>{{ palan }}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-
           <!-- Vazhviayal Pariharam -->
           <div class="section">
             <h3><ion-icon name="leaf"></ion-icon> வாழ்வியல் பரிகாரம்</h3>
 
-            <div class="pariharam-subsection">
-              <h4>நடைமுறைகள்:</h4>
-              <ion-list>
-                <ion-item *ngFor="let practice of selectedKiragaSerkai.vazhviayalPariharam.practices">
-                  <ion-icon name="flower" color="success" slot="start"></ion-icon>
-                  <ion-label>{{ practice }}</ion-label>
-                </ion-item>
-              </ion-list>
-            </div>
 
-            <div class="pariharam-subsection">
-              <h4>பொருட்கள்:</h4>
-              <ion-list>
-                <ion-item *ngFor="let material of selectedKiragaSerkai.vazhviayalPariharam.materials">
-                  <ion-icon name="diamond" color="tertiary" slot="start"></ion-icon>
-                  <ion-label>{{ material }}</ion-label>
-                </ion-item>
-              </ion-list>
-            </div>
 
             <div class="pariharam-subsection">
               <h4>நேரங்கள்:</h4>
@@ -185,35 +142,7 @@
               </ion-list>
             </div>
 
-            <div class="pariharam-subsection">
-              <h4>காணிக்கைகள்:</h4>
-              <ion-list>
-                <ion-item *ngFor="let offering of selectedKiragaSerkai.templePariharam.offerings">
-                  <ion-icon name="gift" color="warning" slot="start"></ion-icon>
-                  <ion-label>{{ offering }}</ion-label>
-                </ion-item>
-              </ion-list>
-            </div>
 
-            <div class="pariharam-subsection">
-              <h4>பிரார்த்தனைகள்:</h4>
-              <ion-list>
-                <ion-item *ngFor="let prayer of selectedKiragaSerkai.templePariharam.prayers">
-                  <ion-icon name="book" color="success" slot="start"></ion-icon>
-                  <ion-label>{{ prayer }}</ion-label>
-                </ion-item>
-              </ion-list>
-            </div>
-
-            <div class="pariharam-subsection">
-              <h4>சிறப்பு நாள்கள்:</h4>
-              <ion-list>
-                <ion-item *ngFor="let day of selectedKiragaSerkai.templePariharam.specialDays">
-                  <ion-icon name="calendar" color="tertiary" slot="start"></ion-icon>
-                  <ion-label>{{ day }}</ion-label>
-                </ion-item>
-              </ion-list>
-            </div>
           </div>
 
           <!-- Effects -->
@@ -237,16 +166,6 @@
                   <ion-item *ngFor="let effect of selectedKiragaSerkai.effects.negative">
                     <ion-icon name="remove-circle" color="danger" slot="start"></ion-icon>
                     <ion-label>{{ effect }}</ion-label>
-                  </ion-item>
-                </ion-list>
-              </div>
-
-              <div class="effect-category remedial">
-                <h4>தீர்வுகள்</h4>
-                <ion-list>
-                  <ion-item *ngFor="let remedy of selectedKiragaSerkai.effects.remedial">
-                    <ion-icon name="medical" color="tertiary" slot="start"></ion-icon>
-                    <ion-label>{{ remedy }}</ion-label>
                   </ion-item>
                 </ion-list>
               </div>

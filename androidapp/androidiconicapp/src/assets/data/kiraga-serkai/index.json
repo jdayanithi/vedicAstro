@@ -1,0 +1,256 @@
+{
+  "kiragaSerkaiCombinations": [
+    {
+      "id": "surya-chandra",
+      "name": "சூரிய சந்திர கிரக சேர்க்கை",
+      "englishName": "Sun-Moon Combination",
+      "planets": ["சூரியன்", "சந்திரன்"],
+      "fileName": "surya-chandra.json"
+    },
+    {
+      "id": "surya-mangal",
+      "name": "சூரிய செவ்வாய் கிரக சேர்க்கை",
+      "englishName": "Sun-Mars Combination",
+      "planets": ["சூரியன்", "செவ்வாய்"],
+      "fileName": "surya-mangal.json"
+    },
+    {
+      "id": "surya-budhan",
+      "name": "சூரிய புதன் கிரக சேர்க்கை",
+      "englishName": "Sun-Mercury Combination",
+      "planets": ["சூரியன்", "புதன்"],
+      "fileName": "surya-budhan.json"
+    },
+    {
+      "id": "surya-guru",
+      "name": "சூரிய குரு கிரக சேர்க்கை",
+      "englishName": "Sun-Jupiter Combination",
+      "planets": ["சூரியன்", "குரு"],
+      "fileName": "surya-guru.json"
+    },
+    {
+      "id": "surya-sukran",
+      "name": "சூரிய சுக்ர கிரக சேர்க்கை",
+      "englishName": "Sun-Venus Combination",
+      "planets": ["சூரியன்", "சுக்ரன்"],
+      "fileName": "surya-sukran.json"
+    },
+    {
+      "id": "surya-sani",
+      "name": "சூரிய சனி கிரக சேர்க்கை",
+      "englishName": "Sun-Saturn Combination",
+      "planets": ["சூரியன்", "சனி"],
+      "fileName": "surya-sani.json"
+    },
+    {
+      "id": "chandra-mangal",
+      "name": "சந்திர செவ்வாய் கிரக சேர்க்கை",
+      "englishName": "Moon-Mars Combination",
+      "planets": ["சந்திரன்", "செவ்வாய்"],
+      "fileName": "chandra-mangal.json"
+    },
+    {
+      "id": "chandra-budhan",
+      "name": "சந்திர புதன் கிரக சேர்க்கை",
+      "englishName": "Moon-Mercury Combination",
+      "planets": ["சந்திரன்", "புதன்"],
+      "fileName": "chandra-budhan.json"
+    },
+    {
+      "id": "chandra-guru",
+      "name": "சந்திர குரு கிரக சேர்க்கை",
+      "englishName": "Moon-Jupiter Combination",
+      "planets": ["சந்திரன்", "குரு"],
+      "fileName": "chandra-guru.json"
+    },
+    {
+      "id": "chandra-sukran",
+      "name": "சந்திர சுக்ர கிரக சேர்க்கை",
+      "englishName": "Moon-Venus Combination",
+      "planets": ["சந்திரன்", "சுக்ரன்"],
+      "fileName": "chandra-sukran.json"
+    },
+    {
+      "id": "chandra-sani",
+      "name": "சந்திர சனி கிரக சேர்க்கை",
+      "englishName": "Moon-Saturn Combination",
+      "planets": ["சந்திரன்", "சனி"],
+      "fileName": "chandra-sani.json"
+    },
+    {
+      "id": "mangal-budhan",
+      "name": "செவ்வாய் புதன் கிரக சேர்க்கை",
+      "englishName": "Mars-Mercury Combination",
+      "planets": ["செவ்வாய்", "புதன்"],
+      "fileName": "mangal-budhan.json"
+    },
+    {
+      "id": "mangal-guru",
+      "name": "செவ்வாய் குரு கிரக சேர்க்கை",
+      "englishName": "Mars-Jupiter Combination",
+      "planets": ["செவ்வாய்", "குரு"],
+      "fileName": "mangal-guru.json"
+    },
+    {
+      "id": "mangal-sukran",
+      "name": "செவ்வாய் சுக்ர கிரக சேர்க்கை",
+      "englishName": "Mars-Venus Combination",
+      "planets": ["செவ்வாய்", "சுக்ரன்"],
+      "fileName": "mangal-sukran.json"
+    },
+    {
+      "id": "mangal-sani",
+      "name": "செவ்வாய் சனி கிரக சேர்க்கை",
+      "englishName": "Mars-Saturn Combination",
+      "planets": ["செவ்வாய்", "சனி"],
+      "fileName": "mangal-sani.json"
+    },
+    {
+      "id": "budhan-guru",
+      "name": "புதன் குரு கிரக சேர்க்கை",
+      "englishName": "Mercury-Jupiter Combination",
+      "planets": ["புதன்", "குரு"],
+      "fileName": "budhan-guru.json"
+    },
+    {
+      "id": "budhan-sukran",
+      "name": "புதன் சுக்ர கிரக சேர்க்கை",
+      "englishName": "Mercury-Venus Combination",
+      "planets": ["புதன்", "சுக்ரன்"],
+      "fileName": "budhan-sukran.json"
+    },
+    {
+      "id": "budhan-sani",
+      "name": "புதன் சனி கிரக சேர்க்கை",
+      "englishName": "Mercury-Saturn Combination",
+      "planets": ["புதன்", "சனி"],
+      "fileName": "budhan-sani.json"
+    },
+    {
+      "id": "guru-sukran",
+      "name": "குரு சுக்ர கிரக சேர்க்கை",
+      "englishName": "Jupiter-Venus Combination",
+      "planets": ["குரு", "சுக்ரன்"],
+      "fileName": "guru-sukran.json"
+    },
+    {
+      "id": "guru-sani",
+      "name": "குரு சனி கிரக சேர்க்கை",
+      "englishName": "Jupiter-Saturn Combination",
+      "planets": ["குரு", "சனி"],
+      "fileName": "guru-sani.json"
+    },
+    {
+      "id": "sukran-sani",
+      "name": "சுக்ர சனி கிரக சேர்க்கை",
+      "englishName": "Venus-Saturn Combination",
+      "planets": ["சுக்ரன்", "சனி"],
+      "fileName": "sukran-sani.json"
+    },
+    {
+      "id": "surya-rahu",
+      "name": "சூரிய ராகு கிரக சேர்க்கை",
+      "englishName": "Sun-Rahu Combination",
+      "planets": ["சூரியன்", "ராகு"],
+      "fileName": "surya-rahu.json"
+    },
+    {
+      "id": "chandra-rahu",
+      "name": "சந்திர ராகு கிரக சேர்க்கை",
+      "englishName": "Moon-Rahu Combination",
+      "planets": ["சந்திரன்", "ராகு"],
+      "fileName": "chandra-rahu.json"
+    },
+    {
+      "id": "mangal-rahu",
+      "name": "செவ்வாய் ராகு கிரக சேர்க்கை",
+      "englishName": "Mars-Rahu Combination",
+      "planets": ["செவ்வாய்", "ராகு"],
+      "fileName": "mangal-rahu.json"
+    },
+    {
+      "id": "budhan-rahu",
+      "name": "புதன் ராகு கிரக சேர்க்கை",
+      "englishName": "Mercury-Rahu Combination",
+      "planets": ["புதன்", "ராகு"],
+      "fileName": "budhan-rahu.json"
+    },
+    {
+      "id": "guru-rahu",
+      "name": "குரு ராகு கிரக சேர்க்கை",
+      "englishName": "Jupiter-Rahu Combination",
+      "planets": ["குரு", "ராகு"],
+      "fileName": "guru-rahu.json"
+    },
+    {
+      "id": "sukran-rahu",
+      "name": "சுக்ர ராகு கிரக சேர்க்கை",
+      "englishName": "Venus-Rahu Combination",
+      "planets": ["சுக்ரன்", "ராகு"],
+      "fileName": "sukran-rahu.json"
+    },
+    {
+      "id": "sani-rahu",
+      "name": "சனி ராகு கிரக சேர்க்கை",
+      "englishName": "Saturn-Rahu Combination",
+      "planets": ["சனி", "ராகு"],
+      "fileName": "sani-rahu.json"
+    },
+    {
+      "id": "surya-ketu",
+      "name": "சூரிய கேது கிரக சேர்க்கை",
+      "englishName": "Sun-Ketu Combination",
+      "planets": ["சூரியன்", "கேது"],
+      "fileName": "surya-ketu.json"
+    },
+    {
+      "id": "chandra-ketu",
+      "name": "சந்திர கேது கிரக சேர்க்கை",
+      "englishName": "Moon-Ketu Combination",
+      "planets": ["சந்திரன்", "கேது"],
+      "fileName": "chandra-ketu.json"
+    },
+    {
+      "id": "mangal-ketu",
+      "name": "செவ்வாய் கேது கிரக சேர்க்கை",
+      "englishName": "Mars-Ketu Combination",
+      "planets": ["செவ்வாய்", "கேது"],
+      "fileName": "mangal-ketu.json"
+    },
+    {
+      "id": "budhan-ketu",
+      "name": "புதன் கேது கிரக சேர்க்கை",
+      "englishName": "Mercury-Ketu Combination",
+      "planets": ["புதன்", "கேது"],
+      "fileName": "budhan-ketu.json"
+    },
+    {
+      "id": "guru-ketu",
+      "name": "குரு கேது கிரக சேர்க்கை",
+      "englishName": "Jupiter-Ketu Combination",
+      "planets": ["குரு", "கேது"],
+      "fileName": "guru-ketu.json"
+    },
+    {
+      "id": "sukran-ketu",
+      "name": "சுக்ர கேது கிரக சேர்க்கை",
+      "englishName": "Venus-Ketu Combination",
+      "planets": ["சுக்ரன்", "கேது"],
+      "fileName": "sukran-ketu.json"
+    },
+    {
+      "id": "sani-ketu",
+      "name": "சனி கேது கிரக சேர்க்கை",
+      "englishName": "Saturn-Ketu Combination",
+      "planets": ["சனி", "கேது"],
+      "fileName": "sani-ketu.json"
+    },
+    {
+      "id": "rahu-ketu",
+      "name": "ராகு கேது கிரக சேர்க்கை",
+      "englishName": "Rahu-Ketu Combination",
+      "planets": ["ராகு", "கேது"],
+      "fileName": "rahu-ketu.json"
+    }
+  ]
+}
