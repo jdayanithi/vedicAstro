@@ -1,0 +1,394 @@
+.header-section {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+
+  h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0 0 20px 0;
+    opacity: 0.9;
+    font-size: 16px;
+  }
+}
+
+.progress-card {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 15px;
+  backdrop-filter: blur(10px);
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  ion-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+}
+
+.search-section {
+  padding: 20px;
+  background: #f8f9fa;
+
+  ion-searchbar {
+    --background: white;
+    --border-radius: 25px;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+}
+
+.content-section {
+  padding: 0 20px 20px 20px;
+}
+
+.kiraga-serkai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.kiraga-serkai-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  }
+
+  &.completed {
+    border-color: #28a745;
+    background: linear-gradient(145deg, #f8fff9, #ffffff);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .planet-combination {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .planet {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        backdrop-filter: blur(10px);
+      }
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 5px;
+    }
+  }
+
+  .card-content {
+    padding: 20px;
+
+    h3 {
+      margin: 0 0 8px 0;
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .english-name {
+      color: #666;
+      font-size: 14px;
+      font-style: italic;
+      margin: 0 0 12px 0;
+    }
+
+    .description {
+      color: #555;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0 0 16px 0;
+    }
+
+    .characteristics-preview {
+      h4 {
+        color: #333;
+        font-size: 14px;
+        margin: 0 0 8px 0;
+        font-weight: 600;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 16px;
+
+        li {
+          color: #666;
+          font-size: 13px;
+          margin-bottom: 4px;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  .card-footer {
+    padding: 15px 20px;
+    background: #f8f9fa;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    ion-chip {
+      font-size: 12px;
+    }
+  }
+}
+
+// Modal Styles
+.modal-content {
+  padding: 20px;
+
+  .planet-combination-large {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    .planet {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .section {
+    margin-bottom: 30px;
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin: 0 0 8px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .english-name {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin: 0 0 16px 0;
+    }
+
+    .description {
+      text-align: center;
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 20px 0;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    h3 {
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+
+    ion-list {
+      background: transparent;
+
+      ion-item {
+        --background: transparent;
+        --border-color: rgba(0,0,0,0.1);
+        margin-bottom: 8px;
+
+        ion-label {
+          font-size: 14px;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  .pariharam-subsection {
+    margin-bottom: 25px;
+
+    h4 {
+      color: #555;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 12px 0;
+      padding-left: 8px;
+      border-left: 3px solid #667eea;
+    }
+  }
+
+  .effects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+
+    .effect-category {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+
+      &.positive {
+        border-left: 4px solid #28a745;
+      }
+
+      &.negative {
+        border-left: 4px solid #dc3545;
+      }
+
+      &.remedial {
+        border-left: 4px solid #6f42c1;
+      }
+
+      h4 {
+        color: #333;
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 12px 0;
+        text-align: center;
+      }
+    }
+  }
+
+  .action-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ion-button {
+      height: 50px;
+      font-weight: 600;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .kiraga-serkai-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .effects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-section {
+    padding: 0 15px 15px 15px;
+  }
+
+  .header-section {
+    padding: 15px;
+
+    h1 {
+      font-size: 24px;
+    }
+  }
+}
+
+// Dark theme support
+@media (prefers-color-scheme: dark) {
+  .kiraga-serkai-card {
+    background: #1e1e1e;
+    color: #ffffff;
+
+    .card-content {
+      h3 {
+        color: #ffffff;
+      }
+
+      .english-name {
+        color: #cccccc;
+      }
+
+      .description {
+        color: #dddddd;
+      }
+
+      .characteristics-preview {
+        h4 {
+          color: #ffffff;
+        }
+
+        li {
+          color: #cccccc;
+        }
+      }
+    }
+
+    .card-footer {
+      background: #2a2a2a;
+    }
+  }
+
+  .modal-content {
+    background: #1e1e1e;
+    color: #ffffff;
+
+    .section {
+      h2, h3 {
+        color: #ffffff;
+      }
+
+      .english-name {
+        color: #cccccc;
+      }
+
+      .description {
+        color: #dddddd;
+        background: #2a2a2a;
+      }
+    }
+
+    .pariharam-subsection h4 {
+      color: #dddddd;
+    }
+
+    .effects-grid .effect-category {
+      background: #2a2a2a;
+
+      h4 {
+        color: #ffffff;
+      }
+    }
+  }
+}

@@ -287,6 +287,22 @@
       "content": "விநாயகர் அகவல், சகலகலாவல்லி மாலை, முருகன் சஷ்டி கவசம், திருவாசகம், லலிதா சஹஸ்ரநாமம், விஷ்ணு சஹஸ்ரநாமம், ஹனுமான் சாலீசா போன்ற புனித பாடல்கள் மற்றும் அவற்றின் பலன்கள், பாடும் முறை, சிறந்த நேரம்...",
       "tags": ["பாடல்", "வழிபாடு", "விநாயகர்", "முருகன்", "சிவன்", "அம்மன்", "விஷ்ணு", "ஹனுமான்", "பக்தி"],
       "imageUrl": "/assets/images/theiva-vazhipadu-padalgal.jpg"
+    },
+    {
+      "id": "kiraga_serkai_001",
+      "title": "கிரக சேர்க்கை கோர்ஸ்",
+      "titleEnglish": "Kiraga Serkai Course",
+      "description": "இரண்டு கிரகங்களின் சேர்க்கை பலன்கள், வாழ்வியல் பரிகாரம், கோவில் பரிகாரம், லக்ஷணங்கள் மற்றும் பலன்களின் முழுமையான தொகுப்பு",
+      "descriptionEnglish": "Complete collection of two-planet combinations with results, lifestyle remedies, temple remedies, characteristics and benefits",
+      "category": "கிரக சேர்க்கை ஜோதிடம்",
+      "categoryEnglish": "Planetary Combination Astrology",
+      "price": 349,
+      "isPaid": true,
+      "duration": "180 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "அனைத்து இரண்டு கிரக சேர்க்கைகளின் விரிவான ஆய்வு - சூரிய சந்திர, சூரிய செவ்வாய், சூரிய புதன், சூரிய குரு, சூரிய சுக்ரன், சூரிய சனி, சந்திர செவ்வாய் மற்றும் பல சேர்க்கைகளின் லக்ஷணங்கள், பலன்கள், வாழ்வியல் பரிகாரங்கள், கோவில் பரிகாரங்கள், நேர்மறை எதிர்மறை விளைவுகள் மற்றும் தீர்வுகள்...",
+      "tags": ["கிரக சேர்க்கை", "இரண்டு கிரகம்", "பலன்", "பரிகாரம்", "வாழ்வியல்", "கோவில்", "லக்ஷணம்", "விளைவு"],
+      "imageUrl": "/assets/images/kiraga-serkai.jpg"
     }
   ],
   "categories": [
@@ -424,6 +440,13 @@
       "nameEnglish": "Dosha Remedies",
       "icon": "medical-outline",
       "color": "#dc2626"
+    },
+    {
+      "id": "planetary_combination",
+      "name": "கிரக சேர்க்கை ஜோதிடம்",
+      "nameEnglish": "Planetary Combination Astrology",
+      "icon": "git-merge-outline",
+      "color": "#6366f1"
     }
   ]
 }
