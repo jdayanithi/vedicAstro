@@ -1,47 +1,75 @@
-﻿{
+{
   "id": "parigha",
-  "name": "à®ªà®°à®¿à®•",
+  "name": "பரிக",
   "englishName": "Parigha",
-  "effect": "à®¤à®Ÿà¯à®ªà¯à®ªà¯",
+  "effect": "தடுப்பு",
   "rulingPlanet": "Saturn",
   "element": "Air",
   "quality": "Tamasic",
-  "bestTime": "Night 6-9 PM",
-  "description": "Parigha à®¯à¯‹à®•à®®à¯ à®¤à®Ÿà¯à®ªà¯à®ªà¯ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®¤à®Ÿà¯à®ªà¯à®ªà¯ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "இரவு 6-9 மணி (Night 6-9 PM)",
+  "description": "பரிக யோகம் தடுப்பு மற்றும் பாதுகாப்பிற்கு உகந்த யோகம். இந்த யோகத்தில் பாதுகாப்பு மற்றும் எச்சரிக்கையான செயல்கள் நல்ல பலன் தரும்.",
+  "keyBenefits": [
+    "பாதுகாப்பு மற்றும் பாதுகாவல்",
+    "தீய சக்திகளிலிருந்து பாதுகாப்பு",
+    "நல்ல எச்சரிக்கை உணர்வு",
+    "தடுப்பு சக்தி",
+    "மன உறுதி"
+  ],
+  "favorableActivities": [
+    "பாதுகாப்பு நடவடிக்கைகள்",
+    "எச்சரிக்கையான முடிவுகள்",
+    "தடுப்பு நடவடிக்கைகள்",
+    "ஆன்மீக பாதுகாப்பு",
+    "சனீஸ்வர வழிபாடு"
+  ],
+  "unfavorableActivities": [
+    "முக்கியமான காரியங்கள் தொடங்குதல்",
+    "அவசர முடிவுகள்",
+    "பெரிய முதலீடுகள்",
+    "புதிய திட்டங்கள்",
+    "ஆபத்தான செயல்கள்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் சனீஸ்வர மந்திரம்",
+      "சனிக்கிழமை விரதம்",
+      "நல்ல எண்ணங்கள்",
+      "தியானம் மற்றும் ஜபம்"
+    ],
+    "offerings": [
+      "சனீஸ்வரர்க்கு கருப்பு எள்",
+      "கருப்பு வஸ்திரம்",
+      "எள் எண்ணெய் தீபம்",
+      "தாமிரபரணி நதிக்கு நீர்"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "நீலம் (Blue Sapphire)",
+      "alternative": "அமேதிஸ்ட் (Amethyst)",
+      "keyBenefits": "பாதுகாப்பு மற்றும் மன உறுதி அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "சனீஸ்வர மந்திரம்",
+        "text": "ॐ शं शनैश्चराय नमः",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "மனதை அமைதிப்படுத்துதல்",
+      "details": "பாதுகாப்பான சூழலில் தன்னை தயார்படுத்துதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Parigha"
+      "title": "ஆவாகனம்",
+      "description": "பரிக சக்தியை அழைத்தல்",
+      "details": "பாதுகாப்பு மற்றும் தடுப்பின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "எச்சரிக்கையுடன் செயல்படுதல்",
+      "details": "பாதுகாப்பான மற்றும் எச்சரிக்கையான செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }

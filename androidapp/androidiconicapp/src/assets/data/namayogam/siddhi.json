@@ -1,47 +1,75 @@
-﻿{
+{
   "id": "siddhi",
-  "name": "à®šà®¿à®¤à¯à®¤à®¿",
+  "name": "சித்தி",
   "englishName": "Siddhi",
-  "effect": "à®šà®¾à®¤à®©à¯ˆ",
+  "effect": "சாதனை",
   "rulingPlanet": "Jupiter",
   "element": "Ether",
   "quality": "Satvic",
-  "bestTime": "Morning 9-12 PM",
-  "description": "Siddhi à®¯à¯‹à®•à®®à¯ à®šà®¾à®¤à®©à¯ˆ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®šà®¾à®¤à®©à¯ˆ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "காலை 9-12 மணி (Morning 9-12 AM)",
+  "description": "சித்தி யோகம் சாதனை மற்றும் வெற்றிக்கு மிகவும் உகந்த புனிதமான யோகம். இந்த யோகத்தில் தொடங்கும் அனைத்து செயல்களும் சித்தியடையும்.",
+  "keyBenefits": [
+    "சாதனை மற்றும் வெற்றி",
+    "ஆன்மீக சக்தி அதிகரித்தல்",
+    "இலக்குகள் நிறைவேறுதல்",
+    "தெய்வீக அருள் பெறுதல்",
+    "சித்திகள் வளர்ச்சி"
+  ],
+  "favorableActivities": [
+    "ஆன்மீக சாதனை செய்தல்",
+    "தியானம் மற்றும் யோகா",
+    "முக்கியமான காரியங்கள் தொடங்குதல்",
+    "பூஜை மற்றும் வழிபாடு",
+    "மந்திர ஜபம் செய்தல்"
+  ],
+  "unfavorableActivities": [
+    "தீய செயல்கள்",
+    "பிறரைத் துன்புறுத்துதல்",
+    "அசுத்த எண்ணங்கள்",
+    "அநீதி செய்தல்",
+    "கோபம் மற்றும் வன்முறை"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் குரு கிரக மந்திரம்",
+      "விஷ்ணு சகஸ்ரநாமம்",
+      "தியானம் மற்றும் ப்ராணாயாமம்",
+      "சத் சங்கம் மற்றும் ஞான நூல் வாசித்தல்"
+    ],
+    "offerings": [
+      "குருவிற்கு மஞ்சள் பூக்கள்",
+      "தீபம் ஏற்றுதல்",
+      "ஞான தானம் செய்தல்",
+      "பிராமணர்களுக்கு அன்னதானம்"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "புஷ்பராகம் (Yellow Sapphire)",
+      "alternative": "சித்ரின் (Citrine)",
+      "keyBenefits": "ஆன்மீக சக்தி மற்றும் சாதனை திறன் அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "குரு மந்திரம்",
+        "text": "ॐ गुं गुरवे नमः",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "மனதை சுத்தப்படுத்துதல்",
+      "details": "ஆன்மீக சாதனைக்கு மனம், மொழி, செயல்களை தூய்மைப்படுத்துதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Siddhi"
+      "title": "ஆவாகனம்",
+      "description": "சித்தி சக்தியை அழைத்தல்",
+      "details": "சாதனை மற்றும் வெற்றியின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "ஆன்மீக சாதனை செய்தல்",
+      "details": "சித்தி பெறுவதற்கான நல்ல செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }

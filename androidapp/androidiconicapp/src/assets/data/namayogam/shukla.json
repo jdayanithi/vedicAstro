@@ -1,47 +1,75 @@
-﻿{
+{
   "id": "shukla",
-  "name": "à®¶à¯à®•à¯à®²",
+  "name": "சுக்ல",
   "englishName": "Shukla",
-  "effect": "à®¤à¯‚à®¯à¯à®®à¯ˆ",
+  "effect": "தூய்மை",
   "rulingPlanet": "Venus",
   "element": "Water",
   "quality": "Satvic",
-  "bestTime": "Early Morning 3-6 AM",
-  "description": "Shukla à®¯à¯‹à®•à®®à¯ à®¤à¯‚à®¯à¯à®®à¯ˆ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®¤à¯‚à®¯à¯à®®à¯ˆ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "அதிகாலை 3-6 மணி (Early Morning 3-6 AM)",
+  "description": "சுக்ல யோகம் தூய்மை மற்றும் சுத்தத்திற்கு மிகவும் உகந்த புனிதமான யோகம். இந்த யோகத்தில் செய்யும் அனைத்து செயல்களும் தூய்மையான பலனை அளிக்கும்.",
+  "keyBenefits": [
+    "மன மற்றும் உடல் தூய்மை",
+    "சுத்தமான எண்ணங்கள்",
+    "ஆன்மீக வளர்ச்சி",
+    "அழகு மற்றும் கவர்ச்சி",
+    "நல்ல உறவுகள்"
+  ],
+  "favorableActivities": [
+    "சுத்தம் செய்தல்",
+    "அழகு பராமரிப்பு",
+    "ஆன்மீக சாதனை",
+    "பூஜை மற்றும் வழிபாடு",
+    "கலை மற்றும் இசை"
+  ],
+  "unfavorableActivities": [
+    "அசுத்தமான செயல்கள்",
+    "தீய எண்ணங்கள்",
+    "கோபம் மற்றும் வன்முறை",
+    "பிறரைத் துன்புறுத்துதல்",
+    "அநீதி செய்தல்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் சுக்ர கிரக மந்திரம்",
+      "லக்ஷ்மி அஷ்டோத்தரம்",
+      "தூய்மையான உணவு",
+      "தியானம் மற்றும் யோகா"
+    ],
+    "offerings": [
+      "லக்ஷ்மிக்கு வெள்ளை பூக்கள்",
+      "வெள்ளை வஸ்திரம்",
+      "பால் மற்றும் தேன்",
+      "வெள்ளி நகைகள் தானம்"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "வைரம் (Diamond)",
+      "alternative": "வெள்ளை சபையர் (White Sapphire)",
+      "keyBenefits": "தூய்மை மற்றும் அழகு அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "சுக்ர மந்திரம்",
+        "text": "ॐ शुं शुक्राय नमः",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "தூய்மைப்படுத்துதல்",
+      "details": "மனம், உடல் மற்றும் சுற்றுப்புறத்தை தூய்மைப்படுத்துதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Shukla"
+      "title": "ஆவாகனம்",
+      "description": "சுக்ல சக்தியை அழைத்தல்",
+      "details": "தூய்மை மற்றும் அழகின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "தூய்மையான செயல்கள்",
+      "details": "சுத்தமான மற்றும் புனிதமான செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }

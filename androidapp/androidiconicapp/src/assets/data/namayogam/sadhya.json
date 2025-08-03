@@ -1,47 +1,75 @@
-﻿{
+{
   "id": "sadhya",
-  "name": "à®šà®¾à®¤à¯à®¯",
+  "name": "சாத்ய",
   "englishName": "Sadhya",
-  "effect": "à®šà®¾à®¤à®©à®®à¯",
+  "effect": "சாதனம்",
   "rulingPlanet": "Mars",
   "element": "Fire",
   "quality": "Rajasic",
-  "bestTime": "Afternoon 12-3 PM",
-  "description": "Sadhya à®¯à¯‹à®•à®®à¯ à®šà®¾à®¤à®©à®®à¯ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®šà®¾à®¤à®©à®®à¯ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "மதியம் 12-3 மணி (Afternoon 12-3 PM)",
+  "description": "சாத்ய யோகம் சாதனம் மற்றும் நிறைவேற்றுதலுக்கு மிகவும் உகந்த சக்தி வாய்ந்த யோகம். இந்த யோகத்தில் தொடங்கும் செயல்கள் வெற்றிகரமாக நிறைவேறும்.",
+  "keyBenefits": [
+    "இலக்குகள் நிறைவேறுதல்",
+    "சாதனை மற்றும் வெற்றி",
+    "தைரியம் மற்றும் வீரம்",
+    "தடைகளை நீக்குதல்",
+    "தலைமைத்துவ திறன்"
+  ],
+  "favorableActivities": [
+    "முக்கியமான காரியங்கள் தொடங்குதல்",
+    "போட்டிகளில் பங்கேற்றல்",
+    "வணிக முயற்சிகள்",
+    "உடற்பயிற்சி மற்றும் விளையாட்டு",
+    "தடைகளை நீக்குதல்"
+  ],
+  "unfavorableActivities": [
+    "கோபம் மற்றும் வன்முறை",
+    "பிறருடன் சண்டை",
+    "அவசர முடிவுகள்",
+    "ஆபத்தான செயல்கள்",
+    "அதிக ஆக்ரோஷம்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் செவ்வாய் கிரக மந்திரம்",
+      "ஹனுமான் சாலீசா",
+      "உடற்பயிற்சி மற்றும் யோகா",
+      "தைரியமான செயல்கள்"
+    ],
+    "offerings": [
+      "ஹனுமானுக்கு சிவப்பு பூக்கள்",
+      "செவ்வந்தி மாலை",
+      "வெல்லம் மற்றும் சந்தன பூச்சு",
+      "அனுமார் கோவிலில் வழிபாடு"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "பவளம் (Red Coral)",
+      "alternative": "கார்னெட் (Garnet)",
+      "keyBenefits": "தைரியம் மற்றும் சாதனை திறன் அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "செவ்வாய் மந்திரம்",
+        "text": "ॐ अं अंगारकाय नमः",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "மனதை வலிமைப்படுத்துதல்",
+      "details": "சாதனையை நோக்கி மன உறுதியுடன் தயாராகுதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Sadhya"
+      "title": "ஆவாகனம்",
+      "description": "சாத்ய சக்தியை அழைத்தல்",
+      "details": "நிறைவேற்றுதல் மற்றும் வெற்றியின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "உறுதியுடன் செயல்படுதல்",
+      "details": "இலக்குகளை அடைவதற்கான வலுவான செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }
