@@ -62,10 +62,6 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/mudaku-pariharangal/mudaku-pariharangal.module').then( m => m.MudakuPariharangalPageModule)
   },
   {
-    path: 'muthuniali-astrology',
-    loadChildren: () => import('./concept-modules/muthuniali-astrology/muthuniali-astrology.module').then( m => m.MuthuniliAstrologyPageModule)
-  },
-  {
     path: 'mudhunilai-astrology',
     loadChildren: () => import('./concept-modules/mudhunilai-astrology/mudhunilai-astrology.module').then( m => m.MudhunilaiAstrologyPageModule)
   },

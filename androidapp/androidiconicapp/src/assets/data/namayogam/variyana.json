@@ -1,47 +1,75 @@
-﻿{
+{
   "id": "variyana",
-  "name": "à®µà®°à®¿à®¯à®¾à®©à¯",
+  "name": "வரியான்",
   "englishName": "Variyana",
-  "effect": "à®¤à¯‡à®°à¯à®µà¯",
+  "effect": "தேர்வு",
   "rulingPlanet": "Mercury",
   "element": "Earth",
   "quality": "Rajasic",
-  "bestTime": "Evening 3-6 PM",
-  "description": "Variyana à®¯à¯‹à®•à®®à¯ à®¤à¯‡à®°à¯à®µà¯ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®¤à¯‡à®°à¯à®µà¯ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "மாலை 3-6 மணி (Evening 3-6 PM)",
+  "description": "வரியான் யோகம் தேர்வு மற்றும் முடிவெடுக்கும் திறனுக்கு உகந்த யோகம். இந்த யோகத்தில் எடுக்கும் முடிவுகள் நல்ல பலனை அளிக்கும்.",
+  "keyBenefits": [
+    "சரியான தேர்வுகள் செய்தல்",
+    "புத்திசாலித்தனம் அதிகரித்தல்",
+    "நல்ல முடிவுகள் எடுத்தல்",
+    "வணிக வெற்றி",
+    "அறிவு வளர்ச்சி"
+  ],
+  "favorableActivities": [
+    "முக்கியமான முடிவுகள் எடுத்தல்",
+    "வணிக ஒப்பந்தங்கள்",
+    "கல்வி தொடர்பான செயல்கள்",
+    "ஆராய்ச்சி மற்றும் அறிவு பெறுதல்",
+    "திட்டமிடல் மற்றும் ஏற்பாடுகள்"
+  ],
+  "unfavorableActivities": [
+    "அவசர முடிவுகள்",
+    "ஆலோசனையின்றி செயல்படுதல்",
+    "சந்தேகத்துடன் இருத்தல்",
+    "குழப்பமான சிந்தனை",
+    "பிறரை ஏமாற்றுதல்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் புத்தன் கிரக மந்திரம்",
+      "சரஸ்வதி வந்தனம்",
+      "நல்ல புத்தகங்கள் வாசித்தல்",
+      "தியானம் மற்றும் சிந்தனை"
+    ],
+    "offerings": [
+      "விநாயகருக்கு மோதகம்",
+      "பச்சை நிற பூக்கள்",
+      "புத்தகங்கள் தானம்",
+      "பசுமைக் கல்லூரியில் வழிபாடு"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "மரகதம் (Emerald)",
+      "alternative": "பைரோஜ் (Peridot)",
+      "keyBenefits": "புத்திசாலித்தனம் மற்றும் தேர்வு திறன் அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "புத்தன் மந்திரம்",
+        "text": "ॐ बुं बुधाय नमः",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "மனதை தெளிவுபடுத்துதல்",
+      "details": "சரியான தேர்வுகளுக்கு மனதை தயார்படுத்துதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Variyana"
+      "title": "ஆவாகனம்",
+      "description": "வரியான் சக்தியை அழைத்தல்",
+      "details": "தேர்வு மற்றும் அறிவின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "சிறந்த முடிவுகள் எடுத்தல்",
+      "details": "நல்ல தேர்வுகளுடன் செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }

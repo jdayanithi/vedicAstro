@@ -1,47 +1,75 @@
 ﻿{
   "id": "vriddhi",
-  "name": "à®µà¯à®°à¯à®¤à¯à®¤à®¿",
+  "name": "வ்ரித்தி",
   "englishName": "Vriddhi",
-  "effect": "à®µà®³à®°à¯à®šà¯à®šà®¿",
+  "effect": "வளர்ச்சி",
   "rulingPlanet": "Jupiter",
   "element": "Water",
   "quality": "Satvic",
-  "bestTime": "Morning 9-12 PM",
-  "description": "Vriddhi à®¯à¯‹à®•à®®à¯ à®µà®³à®°à¯à®šà¯à®šà®¿ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®µà®³à®°à¯à®šà¯à®šà®¿ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "bestTime": "காலை 9-12 மணி (Morning 9-12 AM)",
+  "description": "வ்ரித்தி யோகம் வளர்ச்சி மற்றும் முன்னேற்றத்திற்கு மிகவும் உகந்த யோகம். இந்த யோகத்தில் தொடங்கும் அனைத்து செயல்களும் வெற்றியடையும்.",
+  "keyBenefits": [
+    "வளர்ச்சி மற்றும் முன்னேற்றம்",
+    "பொருளாதார லாபம்",
+    "சாதகமான விளைவுகள்",
+    "நல்ல பலன்கள்",
+    "வெற்றி அடைதல்"
+  ],
+  "favorableActivities": [
+    "புதிய திட்டங்கள் தொடங்குதல்",
+    "வணிக செயல்கள்",
+    "கல்வி மற்றும் அறிவு பெறுதல்",
+    "முதலீடு செய்தல்",
+    "நல்ல காரியங்கள்"
+  ],
+  "unfavorableActivities": [
+    "தீய செயல்கள்",
+    "பிறரைத் துன்புறுத்துதல்",
+    "அவசர முடிவுகள்",
+    "அநீதி செய்தல்",
+    "கோபம் மற்றும் வன்முறை"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "தினமும் விஷ்ணு பூஜை",
+      "நல்ல எண்ணங்கள்",
+      "தானம் செய்தல்",
+      "தியானம் மற்றும் யோகா"
+    ],
+    "offerings": [
+      "விஷ்ணுவிற்கு பூ மாலை",
+      "தீபம் ஏற்றுதல்",
+      "அன்னதானம்",
+      "திருப்பதி சென்று வழிபாடு"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "புஷ்பராகம் (Yellow Sapphire)",
+      "alternative": "சித்ரின் (Citrine)",
+      "keyBenefits": "வளர்ச்சி மற்றும் செல்வம் அதிகரிக்கும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "விஷ்ணு மந்திரம்",
+        "text": "ॐ नमो नारायणाय",
+        "count": "108 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "மனதை தயார்படுத்துதல்",
+      "details": "சுத்தமான மனநிலையுடன் யோகத்தை வரவேற்கத் தயாராகுதல்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Vriddhi"
+      "title": "ஆவாகனம்",
+      "description": "வ்ரித்தி சக்தியை அழைத்தல்",
+      "details": "வளர்ச்சியின் சக்தியை மனதில் இருத்துதல்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்தல்",
+      "description": "நல்ல காரியங்களைச் செய்தல்",
+      "details": "வளர்ச்சிக்கான செயல்களை மேற்கொள்ளுதல்"
     }
   ]
 }

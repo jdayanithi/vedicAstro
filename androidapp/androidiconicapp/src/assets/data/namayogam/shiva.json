@@ -1,47 +1,80 @@
 ﻿{
   "id": "shiva",
-  "name": "à®¶à®¿à®µ",
+  "name": "ஶிவ",
   "englishName": "Shiva",
-  "effect": "à®®à®™à¯à®•à®³à®®à¯",
+  "effect": "மங்களம்",
   "rulingPlanet": "Jupiter",
   "element": "Ether",
-  "quality": "Satvic",
-  "bestTime": "Early Morning 3-6 AM",
-  "description": "Shiva à®¯à¯‹à®•à®®à¯ à®®à®™à¯à®•à®³à®®à¯ à®šà®®à¯à®ªà®¨à¯à®¤à®®à®¾à®© à®µà®¿à®·à®¯à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®®à®¿à®•à®µà¯à®®à¯ à®‰à®•à®¨à¯à®¤ à®¯à¯‹à®•à®®à¯.",
-  "keyBenefits": ["à®®à®™à¯à®•à®³à®®à¯ à®…à®¤à®¿à®•à®°à®¿à®ªà¯à®ªà¯", "à®¨à®²à¯à®² à®ªà®²à®©à¯à®•à®³à¯", "à®šà®¾à®¤à®• à®µà®¿à®³à¯ˆà®µà¯à®•à®³à¯", "à®µà¯†à®±à¯à®±à®¿"],
-  "favorableActivities": ["Beneficial activities", "Positive actions", "Good works", "Spiritual practices"],
-  "unfavorableActivities": ["Negative activities", "Harmful actions", "Bad habits", "Destructive behavior"],
+  "quality": "Sattvic",
+  "bestTime": "அதிகாலை 3-6 மணி (Early Morning 3-6 AM)",
+  "description": "ஶிவ யோகம் மங்களம் மற்றும் ஆன்மீக வளர்ச்சிக்கு மிகவும் உகந்த புனிதமான யோகம். இந்த யோகத்தில் தொடங்கும் அனைத்து செயல்களும் சிவனின் அருளுடன் நிறைவேறும்.",
+  "keyBenefits": [
+    "ஆன்மீக வளர்ச்சி",
+    "மன அமைதி",
+    "சாதகமான விளைவுகள்",
+    "தெய்வீக அருள்",
+    "புனித எண்ணங்கள்"
+  ],
+  "favorableActivities": [
+    "ஆன்மீக செயல்கள்",
+    "நன்மை செய்தல்",
+    "பூஜை மற்றும் வழிபாடு",
+    "தியானம் மற்றும் யோகா",
+    "தர்ம காரியங்கள்"
+  ],
+  "unfavorableActivities": [
+    "தீய செயல்கள்",
+    "பிறரைத் துன்புறுத்துதல்",
+    "கோபம் மற்றும் வன்முறை",
+    "அநீதி செய்தல்",
+    "அசுத்த எண்ணங்கள்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily meditation", "Positive thinking", "Good deeds", "Spiritual practices"],
-    "offerings": ["Flowers to deity", "Food offerings", "Charitable donations", "Temple visits"],
+    "dailyPractices": [
+      "சிவ பூஜை செய்வது",
+      "ஓம் நமசிவாய ஜபம்",
+      "தர்ம காரியங்கள்",
+      "தியானம் மற்றும் யோகா"
+    ],
+    "offerings": [
+      "சிவனுக்கு பிலவ இலைகள்",
+      "வெண்ணீறு மற்றும் ருத்ராக்ஷம்",
+      "பால் மற்றும் தேன்",
+      "ஆலய சேவைகள்"
+    ],
     "gems": {
-      "primary": "Suitable gemstone",
-      "alternative": "Alternative gem",
-      "keyBenefits": "Enhances positive effects"
+      "primary": "ருத்ராக்ஷம் (Rudraksha)",
+      "alternative": "மாணிக்கம் (Ruby)",
+      "benefits": "ஆன்மீக வளர்ச்சி மற்றும் மன அமைதியை தரும்"
     },
     "mantras": [
       {
-        "name": "Primary Mantra",
-        "text": "à¥ à¤¨à¤®à¤ƒ à¤¶à¤¿à¤µà¤¾à¤¯",
-        "count": "108 times"
+        "name": "ஓம் நமசிவாய",
+        "text": "ॐ नमः शिवाय",
+        "count": "108 முறை"
+      },
+      {
+        "name": "மஹாம்ருத்யுஞ்ஜய மந்திரம்",
+        "text": "ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्",
+        "count": "21 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Preparation",
-      "description": "Prepare yourself",
-      "details": "Get ready for the practice"
+      "title": "தயாரிப்பு",
+      "description": "அதிகாலையில் குளித்து சுத்தமான வெள்ளை ஆடைகள் அணியவும்",
+      "details": "வெண்ணீறு பூசிக்கொண்டு சிவ பூஜைக்கு தயாராகவும்"
     },
     {
-      "title": "Invocation",
-      "description": "Invoke the energy",
-      "details": "Call upon the power of Shiva"
+      "title": "ஆவாஹனம்",
+      "description": "சிவ பெருமானை ஆவாஹனம் செய்து பூஜை செய்யவும்",
+      "details": "ஓம் நமசிவாய மந்திரத்தை பக்தியுடன் ஜபிக்கவும்"
     },
     {
-      "title": "Implementation",
-      "description": "Take action",
-      "details": "Execute your plans"
+      "title": "செயல்படுத்துதல்",
+      "description": "ஆன்மீக முன்னேற்றத்திற்கான திட்டங்களை நடைமுறைப்படுத்தவும்",
+      "details": "சிவனின் அருளுடன் அனைத்து செயல்களையும் மேற்கொள்ளவும்"
     }
   ]
 }

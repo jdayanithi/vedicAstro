@@ -161,22 +161,6 @@
       "imageUrl": "/assets/images/mudhunilai-astrology.jpg"
     },
     {
-      "id": "muthuniali_astrology_001",
-      "title": "முத்துநிலை ஜோதிடம்",
-      "titleEnglish": "Muthuniali Astrology",
-      "description": "முத்து போன்ற மதிப்புமிக்க ஜோதிட ரகசியங்கள் மற்றும் சிறப்பு கணிப்பு முறைகள்",
-      "descriptionEnglish": "Pearl-like valuable astrological secrets and special prediction methods",
-      "category": "விலைமதிப்பற்ற ஜோதிடம்",
-      "categoryEnglish": "Precious Astrology",
-      "price": 449,
-      "isPaid": true,
-      "duration": "165 நிமிடங்கள்",
-      "level": "மேம்பட்ட",
-      "content": "முத்து போன்ற மதிப்புமிக்க ஜோதிட ரகசியங்கள், சிறப்பு கணிப்பு முறைகள், மற்றும் அரிய ஜோதிட நுட்பங்கள்...",
-      "tags": ["முத்து", "மதிப்புமிக்க", "ரகசியம்", "சிறப்பு", "அரிய"],
-      "imageUrl": "/assets/images/muthuniali-astrology.jpg"
-    },
-    {
       "id": "thithi_course_001",
       "title": "திதி பாடநெறி",
       "titleEnglish": "Thithi Course",
