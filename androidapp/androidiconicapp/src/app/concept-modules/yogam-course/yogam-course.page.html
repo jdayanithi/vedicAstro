@@ -1,0 +1,491 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>யோகம் Course</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareContent()">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-overlay">
+      <h1>யோகம் Course</h1>
+      <p>Discover the Divine Yogas of Vedic Astrology</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <ion-icon name="star-outline"></ion-icon>
+          <span>{{yogamList.length}} Yogas</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="trophy-outline"></ion-icon>
+          <span>Divine Powers</span>
+        </div>
+        <div class="stat">
+          <ion-icon name="flash-outline"></ion-icon>
+          <span>Life Benefits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterYogam($event)"
+      placeholder="Search Yogam..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="progress-section" *ngIf="completedYogam.length > 0">
+    <h3>Your Progress</h3>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getCompletionPercentage()"></div>
+      </div>
+      <span class="progress-text">{{getCompletionPercentage()}}% Complete ({{completedYogam.length}}/{{yogamList.length}})</span>
+    </div>
+  </div>
+
+  <!-- Introduction Section -->
+  <div class="intro-section">
+    <div class="intro-card">
+      <ion-icon name="library-outline" class="intro-icon"></ion-icon>
+      <h2>யோகம் பற்றிய அறிமுகம்</h2>
+      <p>வேத ஜோதிடத்தில் யோகம் என்பது கிரகங்களின் சிறப்பு நிலைகள் மற்றும் சேர்க்கைகளால் உண்டாகும் அபூர்வமான அமைப்புகள். இவை மனிதர்களின் வாழ்க்கையில் சிறப்பான பலன்களையும் அருட்கொடைகளையும் அளிக்கின்றன.</p>
+      
+      <div class="intro-features">
+        <div class="feature">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>விரிவான விதிகள்</span>
+        </div>
+        <div class="feature">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>குண லக்ஷணங்கள்</span>
+        </div>
+        <div class="feature">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>வாழ்வியல் பரிகாரங்கள்</span>
+        </div>
+        <div class="feature">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>கோவில் பரிகாரங்கள்</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Yogam List -->
+  <div class="yogam-list">
+    <div class="section-header">
+      <h2>{{filteredYogam.length}} யோகம் வகைகள்</h2>
+      <p>ஒவ்வொரு யோகத்தின் சிறப்புகளையும் பரிகாரங்களையும் கற்றுக்கொள்ளுங்கள்</p>
+    </div>
+
+    <div class="yogam-grid">
+      <div class="yogam-card" 
+           *ngFor="let yogam of filteredYogam; let i = index"
+           (click)="openYogamDetails(yogam)"
+           [class.completed]="isCompleted(yogam.id)">
+        
+        <!-- Status Badges -->
+        <div class="card-badges">
+          <ion-badge color="success" *ngIf="isCompleted(yogam.id)">
+            <ion-icon name="checkmark"></ion-icon>
+            Completed
+          </ion-badge>
+          <ion-button 
+            fill="clear" 
+            size="small"
+            [color]="isFavorite(yogam.id) ? 'danger' : 'medium'"
+            (click)="toggleFavorite(yogam.id); $event.stopPropagation()">
+            <ion-icon [name]="isFavorite(yogam.id) ? 'heart' : 'heart-outline'"></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Yogam Header -->
+        <div class="yogam-header">
+          <div class="yogam-icon" [style.background]="yogam.color">
+            <ion-icon [name]="yogam.icon" color="light"></ion-icon>
+          </div>
+          <div class="yogam-info">
+            <h3>{{yogam.name}}</h3>
+            <p class="english-name">{{yogam.englishName}}</p>
+            <p class="deity">Deity: {{yogam.deity}}</p>
+          </div>
+        </div>
+
+        <!-- Yogam Meta -->
+        <div class="yogam-meta">
+          <div class="meta-item">
+            <ion-icon name="flash-outline"></ion-icon>
+            <span>{{yogam.energyType}}</span>
+          </div>
+          <div class="meta-item">
+            <ion-icon name="color-palette-outline"></ion-icon>
+            <span>{{yogam.element}}</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="yogam-description">
+          <p>{{yogam.description | slice:0:120}}{{yogam.description.length > 120 ? '...' : ''}}</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+          <div class="stat">
+            <ion-icon name="list-outline"></ion-icon>
+            <span>{{yogam.rules.length}} Rules</span>
+          </div>
+          <div class="stat">
+            <ion-icon name="business-outline"></ion-icon>
+            <span>{{yogam.templePariharam.primaryTemples.length}} Temples</span>
+          </div>
+          <div class="stat">
+            <ion-icon name="leaf-outline"></ion-icon>
+            <span>{{yogam.vazhviyalPariharam.dailyPractices.length}} Practices</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <ion-button 
+          expand="block" 
+          fill="solid" 
+          [color]="isCompleted(yogam.id) ? 'success' : 'primary'"
+          class="learn-button">
+          <ion-icon [name]="isCompleted(yogam.id) ? 'checkmark-circle' : 'play'" slot="start"></ion-icon>
+          {{isCompleted(yogam.id) ? 'Completed' : 'Learn More'}}
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results -->
+  <div class="no-results" *ngIf="filteredYogam.length === 0">
+    <ion-icon name="search" size="large" color="medium"></ion-icon>
+    <h3>No Yogam Found</h3>
+    <p>Try adjusting your search criteria</p>
+  </div>
+
+  <!-- Yogam Details Modal -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{selectedYogam?.name}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content" *ngIf="selectedYogam">
+        <!-- Modal Header -->
+        <div class="modal-header" [style.background]="selectedYogam.color">
+          <div class="modal-icon">
+            <ion-icon [name]="selectedYogam.icon" size="large" color="light"></ion-icon>
+          </div>
+          <div class="modal-title-section">
+            <h1>{{selectedYogam.name}}</h1>
+            <h2>{{selectedYogam.englishName}}</h2>
+            <p>Deity: {{selectedYogam.deity}}</p>
+            <p>{{selectedYogam.planetaryCombination}}</p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="content-section">
+          <h3><ion-icon name="information-circle"></ion-icon> விளக்கம்</h3>
+          <p>{{selectedYogam.description}}</p>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="content-section">
+          <h3><ion-icon name="list"></ion-icon> விதிகள் (Rules)</h3>
+          <div class="rules-container">
+            <div class="rule-card" *ngFor="let rule of selectedYogam.rules">
+              <h4>{{rule.title}}</h4>
+              <p>{{rule.description}}</p>
+              <ul>
+                <li *ngFor="let condition of rule.conditions">{{condition}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Characteristics Section -->
+        <div class="content-section">
+          <h3><ion-icon name="person"></ion-icon> குண லக்ஷணங்கள் (Characteristics)</h3>
+          <ion-accordion-group>
+            <ion-accordion value="physical">
+              <ion-item slot="header">
+                <ion-icon name="body" slot="start"></ion-icon>
+                <ion-label>உடல் ரீதியான லக்ஷணங்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let char of selectedYogam.characteristics.physical">{{char}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="mental">
+              <ion-item slot="header">
+                <ion-icon name="brain" slot="start"></ion-icon>
+                <ion-label>மன ரீதியான லக்ஷணங்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let char of selectedYogam.characteristics.mental">{{char}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="spiritual">
+              <ion-item slot="header">
+                <ion-icon name="star" slot="start"></ion-icon>
+                <ion-label>ஆன்மீக லக்ஷணங்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let char of selectedYogam.characteristics.spiritual">{{char}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="career">
+              <ion-item slot="header">
+                <ion-icon name="briefcase" slot="start"></ion-icon>
+                <ion-label>தொழில் துறைகள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let char of selectedYogam.characteristics.career">{{char}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="relationships">
+              <ion-item slot="header">
+                <ion-icon name="people" slot="start"></ion-icon>
+                <ion-label>உறவுகள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let char of selectedYogam.characteristics.relationships">{{char}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="content-section">
+          <h3><ion-icon name="trophy"></ion-icon> பலன்கள் (Benefits)</h3>
+          <ion-accordion-group>
+            <ion-accordion value="immediate">
+              <ion-item slot="header">
+                <ion-icon name="flash" slot="start" color="warning"></ion-icon>
+                <ion-label>உடனடி பலன்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let benefit of selectedYogam.benefits.immediate">{{benefit}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="longterm">
+              <ion-item slot="header">
+                <ion-icon name="trending-up" slot="start" color="success"></ion-icon>
+                <ion-label>நீண்ட கால பலன்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let benefit of selectedYogam.benefits.longTerm">{{benefit}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="spiritual-benefits">
+              <ion-item slot="header">
+                <ion-icon name="star" slot="start" color="secondary"></ion-icon>
+                <ion-label>ஆன்மீக பலன்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let benefit of selectedYogam.benefits.spiritual">{{benefit}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="material">
+              <ion-item slot="header">
+                <ion-icon name="diamond" slot="start" color="warning"></ion-icon>
+                <ion-label>பொருள் சார்ந்த பலன்கள்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let benefit of selectedYogam.benefits.material">{{benefit}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
+
+        <!-- Vazhviyal Pariharam Section -->
+        <div class="content-section">
+          <h3><ion-icon name="leaf"></ion-icon> {{selectedYogam.vazhviyalPariharam.title}}</h3>
+          <ion-accordion-group>
+            <ion-accordion value="daily">
+              <ion-item slot="header">
+                <ion-icon name="sunny" slot="start" color="warning"></ion-icon>
+                <ion-label>தினசரி கடைப்பிடிக்க வேண்டியவை</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let practice of selectedYogam.vazhviyalPariharam.dailyPractices">{{practice}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="lifestyle">
+              <ion-item slot="header">
+                <ion-icon name="home" slot="start" color="primary"></ion-icon>
+                <ion-label>வாழ்க்கை முறை</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let lifestyle of selectedYogam.vazhviyalPariharam.lifestyle">{{lifestyle}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="diet">
+              <ion-item slot="header">
+                <ion-icon name="restaurant" slot="start" color="success"></ion-icon>
+                <ion-label>உணவு முறை</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let diet of selectedYogam.vazhviyalPariharam.diet">{{diet}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="meditation">
+              <ion-item slot="header">
+                <ion-icon name="flower" slot="start" color="secondary"></ion-icon>
+                <ion-label>தியானம்</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let meditation of selectedYogam.vazhviyalPariharam.meditation">{{meditation}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+
+            <ion-accordion value="yoga">
+              <ion-item slot="header">
+                <ion-icon name="fitness" slot="start" color="tertiary"></ion-icon>
+                <ion-label>யோகா</ion-label>
+              </ion-item>
+              <div class="accordion-content" slot="content">
+                <ul>
+                  <li *ngFor="let yoga of selectedYogam.vazhviyalPariharam.yoga">{{yoga}}</li>
+                </ul>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
+
+        <!-- Temple Pariharam Section -->
+        <div class="content-section">
+          <h3><ion-icon name="business"></ion-icon> {{selectedYogam.templePariharam.title}}</h3>
+          
+          <!-- Primary Temples -->
+          <div class="temples-section">
+            <h4>முக்கிய கோவில்கள்</h4>
+            <div class="temple-card" *ngFor="let temple of selectedYogam.templePariharam.primaryTemples">
+              <div class="temple-header">
+                <ion-icon name="business" color="primary"></ion-icon>
+                <div class="temple-info">
+                  <h5>{{temple.name}}</h5>
+                  <p><ion-icon name="location"></ion-icon> {{temple.location}}</p>
+                  <p><ion-icon name="star"></ion-icon> {{temple.deity}}</p>
+                </div>
+              </div>
+              
+              <div class="temple-details">
+                <div class="temple-detail">
+                  <h6>சிறப்பு நாட்கள்:</h6>
+                  <ion-chip *ngFor="let day of temple.specialDays" color="primary" outline="true">
+                    {{day}}
+                  </ion-chip>
+                </div>
+                
+                <div class="temple-detail">
+                  <h6>நிவேதனங்கள்:</h6>
+                  <ul>
+                    <li *ngFor="let offering of temple.offerings">{{offering}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rituals -->
+          <div class="rituals-section">
+            <h4>சடங்குகள்</h4>
+            <ul>
+              <li *ngFor="let ritual of selectedYogam.templePariharam.rituals">{{ritual}}</li>
+            </ul>
+          </div>
+
+          <!-- Mantras -->
+          <div class="mantras-section">
+            <h4>மந்திரங்கள்</h4>
+            <div class="mantra-card" *ngFor="let mantra of selectedYogam.templePariharam.mantras">
+              <h5>{{mantra.name}}</h5>
+              <div class="mantra-text">{{mantra.text}}</div>
+              <p><strong>எண்ணிக்கை:</strong> {{mantra.count}}</p>
+              <p><strong>பலன்:</strong> {{mantra.benefits}}</p>
+            </div>
+          </div>
+
+          <!-- Donations -->
+          <div class="donations-section">
+            <h4>தானங்கள்</h4>
+            <ul>
+              <li *ngFor="let donation of selectedYogam.templePariharam.donations">{{donation}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <ion-button 
+            expand="block" 
+            fill="solid" 
+            color="success"
+            (click)="markAsCompleted(selectedYogam.id)">
+            <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+            Mark as Completed
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

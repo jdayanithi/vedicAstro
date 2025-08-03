@@ -193,6 +193,22 @@
       "imageUrl": "/assets/images/thithi-course.jpg"
     },
     {
+      "id": "yogam_course_001",
+      "title": "யோகம் பாடநெறி",
+      "titleEnglish": "Yogam Course",
+      "description": "வேத ஜோதிடத்தின் அபூர்வமான யோகங்கள் - சுனபா, தர்மகர்மாதிபதி, மாலவிகா யோகங்களின் விதிகள், குணங்கள், பலன்கள், வாழ்வியல் மற்றும் கோவில் பரிகாரங்கள்",
+      "descriptionEnglish": "Rare Yogas of Vedic Astrology - Rules, characteristics, benefits, lifestyle and temple remedies for Sunabha, Dharmakarmadipati, and Malavika Yogas",
+      "category": "யோக ஜோதிடம்",
+      "categoryEnglish": "Yoga Astrology",
+      "price": 399,
+      "isPaid": true,
+      "duration": "150 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "வேத ஜோதிடத்தின் சிறப்பான யோகங்களின் விரிவான ஆய்வு - சுனபா யோகம் (சந்திரனுக்கு இரண்டாம் வீட்டில் கிரகங்கள்), தர்மகர்மாதிபதி யோகம் (9, 10ம் அதிபதிகள் சேர்க்கை), மாலவிகா யோகம் (புதன் உச்சம்/சுகஸ்தானம்) - ஒவ்வொரு யோகத்தின் உருவாக்க விதிகள், குண லக்ஷணங்கள், பலன்கள், தினசரி வாழ்வியல் பரிகாரங்கள், கோவில் வழிபாடு, மந்திரங்கள், தானங்கள்...",
+      "tags": ["யோகம்", "சுனபா", "தர்மகர்மாதிபதி", "மாலவிகா", "கிரக சேர்க்கை", "பலன்", "பரிகாரம்", "கோவில்", "மந்திரம்"],
+      "imageUrl": "/assets/images/yogam-course.jpg"
+    },
+    {
       "id": "karnam_course_001",
       "title": "கரணம் பாடநெறி",
       "titleEnglish": "Karnam Course",
@@ -456,6 +472,13 @@
       "nameEnglish": "Dosha Remedies",
       "icon": "medical-outline",
       "color": "#dc2626"
+    },
+    {
+      "id": "yoga_astrology",
+      "name": "யோக ஜோதிடம்",
+      "nameEnglish": "Yoga Astrology",
+      "icon": "star",
+      "color": "#9c27b0"
     },
     {
       "id": "planetary_combination",

@@ -90,6 +90,10 @@ const routes: Routes = [
     loadChildren: () => import('./concept-modules/kiraga-serkai/kiraga-serkai.module').then( m => m.KiragaSerkaiPageModule)
   },
   {
+    path: 'yogam-course',
+    loadChildren: () => import('./concept-modules/yogam-course/yogam-course.module').then( m => m.YogamCoursePageModule)
+  },
+  {
     path: 'temple-vazhipadu-sthalangal',
     loadChildren: () => import('./concept-modules/temple-vazhipadu-sthalangal/temple-vazhipadu-sthalangal.module').then( m => m.TempleVazhipaduSthalalangalPageModule)
   }
