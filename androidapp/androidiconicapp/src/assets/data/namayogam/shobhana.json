@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "shobhana",
   "name": "ஶோபன",
   "englishName": "Shobhana",
@@ -9,21 +9,21 @@
   "bestTime": "மாலை 3-6 மணி (Evening 3-6 PM)",
   "description": "ஶோபன யோகம் அழகு, கருணை மற்றும் கலைக்கு சிறந்த யோகம். இந்த யோகத்தில் கலை, அழகு மற்றும் படைப்பு சார்ந்த செயல்கள் மிகவும் வெற்றிகரமாக முடியும்.",
   "keyBenefits": ["அழகு அதிகரிப்பு", "கலைத்திறன்", "கருணை வளர்ச்சி", "படைப்பாற்றல்"],
-  "favorableActivities": ["Artistic creation", "Beauty treatments", "Cultural activities", "Fashion design", "Decorative arts"],
-  "unfavorableActivities": ["Destructive activities", "Ugly behavior", "Harsh criticism", "Neglecting appearance"],
+  "favorableActivities": ["கலை படைப்பு", "அழகு சிகிச்சைகள்", "கலாச்சார செயல்கள்", "ஃபேஷன் டிசைன்", "அலங்கார கலைகள்"],
+  "unfavorableActivities": ["அழிவுகரமான செயல்கள்", "அசிங்கமான நடத்தை", "கடுமையான விமர்சனம்", "தோற்றத்தை புறக்கணித்தல்"],
   "pariharam": {
-    "dailyPractices": ["Beauty care routines", "Artistic activities", "Kind acts", "Aesthetic appreciation"],
-    "offerings": ["Beautiful flowers to Venus", "Artistic offerings", "Colorful items to temples", "Beauty products to women"],
+    "dailyPractices": ["அழகு பராமரிப்பு வழக்கங்கள்", "கலை செயல்கள்", "கருணையான செயல்கள்", "அழகியல் பாராட்டு"],
+    "offerings": ["சுக்ரனுக்கு அழகான பூக்கள்", "கலை படையல்கள்", "கோவில்களில் வண்ணமயமான பொருட்கள்", "பெண்களுக்கு அழகு சாதன பொருட்கள்"],
     "gems": {
-      "primary": "Diamond",
-      "alternative": "Rose Quartz",
-      "keyBenefits": "Enhances beauty and artistic abilities"
+      "primary": "வைரம் (Diamond)",
+      "alternative": "ரோஸ் குவார்ட்ஸ் (Rose Quartz)",
+      "keyBenefits": "அழகு மற்றும் கலை திறன்களை மேம்படுத்துகிறது"
     },
     "mantras": [
       {
         "name": "Beauty Mantra",
         "text": "ॐ शोभनाय नमः",
-        "count": "108 times"
+        "count": "108 முறை"
       }
     ]
   },
@@ -36,7 +36,7 @@
     {
       "title": "Artistic Expression",
       "description": "Express your creativity",
-      "details": "Engage in artistic and creative activities"
+      "details": "கலை மற்றும் படைப்பு செயல்களில் ஈடுபடுங்கள்"
     },
     {
       "title": "Grace Development",

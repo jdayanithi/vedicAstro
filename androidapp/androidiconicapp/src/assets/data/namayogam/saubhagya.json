@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "saubhagya",
   "name": "சௌபாக்யம்",
   "englishName": "Saubhagya",
@@ -9,26 +9,26 @@
   "bestTime": "மதியம் 12-3 மணி (Afternoon 12-3 PM)",
   "description": "சௌபாக்யம் யோகம் செல்வம், அதிர்ஷ்டம் மற்றும் ஐச்வர்யத்திற்கு உகந்த யோகம். இந்த யோகத்தில் தொழில் மற்றும் முதலீடுகள் மிகவும் பலனளிக்கும்.",
   "keyBenefits": ["செல்வ அதிகரிப்பு", "அதிர்ஷ்டம்", "தொழில் வெற்றி", "ஐச்வர்யம்"],
-  "favorableActivities": ["Business ventures", "Investments", "Wealth creation", "Property purchase", "Financial planning"],
-  "unfavorableActivities": ["Unnecessary spending", "Risky investments", "Gambling", "Debt taking"],
+  "favorableActivities": ["வணிக முயற்சிகள்", "முதலீடுகள்", "செல்வ உருவாக்கம்", "சொத்து வாங்குதல்", "நிதி திட்டமிடல்"],
+  "unfavorableActivities": ["தேவையற்ற செலவுகள்", "ஆபத்தான முதலீடுகள்", "சூதாட்டம்", "கடன் எடுத்தல்"],
   "pariharam": {
-    "dailyPractices": ["Wealth creation activities", "Generous donations", "Lakshmi worship", "Financial planning"],
+    "dailyPractices": ["Wealth creation activities", "Generous donations", "Lakshmi worship", "நிதி திட்டமிடல்"],
     "offerings": ["Gold and silver to temples", "Food to the needy", "Yellow flowers to Jupiter", "Sweets to Lakshmi"],
     "gems": {
-      "primary": "Yellow Sapphire",
-      "alternative": "Citrine",
+      "primary": "புஷ்பராகம் (Yellow Sapphire)",
+      "alternative": "சித்ரின் (Citrine)",
       "keyBenefits": "Attracts wealth and prosperity"
     },
     "mantras": [
       {
         "name": "Lakshmi Mantra",
         "text": "ॐ श्रीं महालक्ष्म्यै नमः",
-        "count": "108 times"
+        "count": "108 முறை"
       },
       {
         "name": "Prosperity Mantra",
         "text": "ॐ सौभाग्याय नमः",
-        "count": "21 times"
+        "count": "21 முறை"
       }
     ]
   },

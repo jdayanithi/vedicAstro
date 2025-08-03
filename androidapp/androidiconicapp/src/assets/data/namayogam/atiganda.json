@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "atiganda",
   "name": "அதிகண்ட",
   "englishName": "Atiganda",
@@ -9,44 +9,66 @@
   "bestTime": "மாலை 6-9 மணி (Evening 6-9 PM)",
   "description": "அதிகண்ட யோகம் தடைகள் மற்றும் சிக்கல்களை நீக்குவதற்கு சிறந்த யோகம். இந்த யோகத்தில் பிரச்சினை தீர்க்கும் செயல்கள் மிகவும் பலனளிக்கும்.",
   "keyBenefits": ["தடை நீக்கம்", "சிக்கல் தீர்வு", "வலிமை பெருக்கம்", "வெற்றி சாதனம்"],
-  "favorableActivities": ["Problem solving", "Obstacle removal", "Challenging tasks", "Breakthrough activities", "Court cases"],
-  "unfavorableActivities": ["Creating obstacles", "Avoiding challenges", "Giving up easily", "Passive behavior"],
+  "favorableActivities": [
+    "பிரச்சினை தீர்த்தல்",
+    "தடைகளை நீக்குதல்",
+    "சவாலான பணிகள்",
+    "முன்னேற்ற செயல்கள்",
+    "நீதிமன்ற வழக்குகள்"
+  ],
+  "unfavorableActivities": [
+    "தடைகளை உருவாக்குதல்",
+    "சவால்களை தவிர்த்தல்",
+    "எளிதில் விட்டுக் கொடுத்தல்",
+    "செயலற்ற நடத்தை",
+    "மோதல்களை தூண்டுதல்"
+  ],
   "pariharam": {
-    "dailyPractices": ["Face challenges bravely", "Help others overcome obstacles", "Practice persistence", "Develop problem-solving skills"],
-    "offerings": ["Red flowers to Mars", "Spicy offerings", "Iron items to temples", "Help to struggling people"],
+    "dailyPractices": [
+      "தைரியமாக சவால்களை எதிர்கொள்ளுதல்",
+      "பிறருக்கு தடைகளை நீக்க உதவுதல்",
+      "விடாமுயற்சியை கடைப்பிடித்தல்",
+      "பிரச்சினை தீர்க்கும் திறனை வளர்த்தல்"
+    ],
+    "offerings": [
+      "செவ்வாய்க்கு சிவப்பு பூக்கள்",
+      "காரமான படையல்கள்",
+      "கோவில்களில் இரும்பு பொருட்கள்",
+      "துன்பத்தில் உள்ளோருக்கு உதவி"
+    ],
     "gems": {
-      "primary": "Red Coral",
-      "alternative": "Carnelian",
-      "keyBenefits": "Provides courage and obstacle-removing power"
+      "primary": "பவளம் (Red Coral)",
+      "alternative": "கார்னெலியன் (Carnelian)",
+      "keyBenefits": "தைரியம் மற்றும் தடை நீக்கும் சக்தியை வழங்குகிறது"
     },
     "mantras": [
       {
-        "name": "Mars Mantra",
+        "name": "செவ்வாய் மந்திரம்",
         "text": "ॐ मंगलाय नमः",
-        "count": "108 times"
+        "count": "108 முறை"
       },
       {
-        "name": "Obstacle Removal Mantra",
+        "name": "தடை நீக்க மந்திரம்",
         "text": "ॐ अतिगण्डाय नमः",
-        "count": "21 times"
+        "count": "21 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Problem Identification",
-      "description": "Identify the obstacles",
-      "details": "Clearly understand what blocks your path"
+      "title": "பிரச்சினை அடையாளம்",
+      "description": "தடைகளை கண்டறிதல்",
+      "details": "உங்கள் பாதையில் உள்ள தடைகளை தெளிவாக புரிந்துகொள்ளுதல்"
     },
     {
-      "title": "Solution Strategy",
-      "description": "Develop removal strategies",
-      "details": "Plan systematic approach to overcome blocks"
+      "title": "தீர்வு உத்தி",
+      "description": "நீக்கும் உத்திகளை உருவாக்குதல்",
+      "details": "தடைகளை கடக்க முறையான அணுகுமுறையை திட்டமிடுதல்"
     },
     {
-      "title": "Action Execution",
-      "description": "Take decisive action",
-      "details": "Implement solutions with determination"
+      "title": "செயல் நிறைவேற்றம்",
+      "description": "தீர்மானமான நடவடிக்கை எடுத்தல்",
+      "details": "உறுதியுடன் தீர்வுகளை செயல்படுத்துதல்"
     }
   ]
 }

@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "ayushmana",
   "name": "ஆயுஷ்மான்",
   "englishName": "Ayushmana",
@@ -9,39 +9,60 @@
   "bestTime": "காலை 9-12 மணி (Morning 9-12 PM)",
   "description": "ஆயுஷ்மான் யோகம் நீண்ட ஆயுள், ஆரோக்கியம் மற்றும் வலிமைக்கு உகந்த யோகம. இந்த யோகத்தில் மருத்துவ சிகிச்சைகள் மிகவும் பலனளிக்கும்.",
   "keyBenefits": ["நீண்ட வாழ்க்கை", "நல்ல ஆரோக்கியம்", "வலிமை அதிகரிப்பு", "நோய் நிவாரணம்"],
-  "favorableActivities": ["Health treatments", "Medical procedures", "Fitness activities", "Longevity practices", "Healing ceremonies"],
-  "unfavorableActivities": ["Risky behaviors", "Unhealthy habits", "Dangerous activities", "Stress-inducing work"],
+  "favorableActivities": [
+    "மருத்துவ சிகிச்சைகள்",
+    "மருத்துவ முறைகள்",
+    "உடற்பயிற்சி செயல்கள்",
+    "நீண்ட வாழ்க்கை பயிற்சிகள்",
+    "குணப்படுத்தும் சடங்குகள்"
+  ],
+  "unfavorableActivities": [
+    "ஆபத்தான நடத்தைகள்",
+    "ஆரோக்கியமற்ற பழக்கங்கள்",
+    "ஆபத்தான செயல்கள்",
+    "மன அழுத்தம் தரும் வேலை"
+  ],
   "pariharam": {
-    "dailyPractices": ["Daily health practices", "Yoga and meditation", "Healthy eating", "Regular exercise"],
-    "offerings": ["Healthy food offerings", "Green vegetables to temples", "Medicinal herbs", "Health donations"],
+    "dailyPractices": [
+      "தினசரி ஆரோக்கிய பயிற்சிகள்",
+      "யோகா மற்றும் தியானம்",
+      "ஆரோக்கியமான உணவு",
+      "தொடர்ச்சியான உடற்பயிற்சி"
+    ],
+    "offerings": [
+      "ஆரோக்கியமான உணவு படையல்கள்",
+      "கோவில்களில் பச்சை காய்கறிகள்",
+      "மருத்துவ மூலிகைகள்",
+      "ஆரோக்கிய தானங்கள்"
+    ],
     "gems": {
-      "primary": "Emerald",
-      "alternative": "Green Jade",
-      "keyBenefits": "Promotes health, longevity and vitality"
+      "primary": "மரகதம் (Emerald)",
+      "alternative": "பச்சை ஜேட் (Green Jade)",
+      "keyBenefits": "ஆரோக்கியம், நீண்ட வாழ்க்கை மற்றும் உயிர்ச்சக்தியை ஊக்குவிக்கிறது"
     },
     "mantras": [
       {
-        "name": "Health Mantra",
+        "name": "ஆரோக்கிய மந்திரம்",
         "text": "ॐ आयुष्मते नमः",
-        "count": "108 times"
+        "count": "108 முறை"
       },
       {
-        "name": "Longevity Mantra",
+        "name": "நீண்ட வாழ்க்கை மந்திரம்",
         "text": "ॐ जीवनाय नमः",
-        "count": "21 times"
+        "count": "21 முறை"
       }
     ]
   },
   "activationProcess": [
     {
-      "title": "Health Assessment",
-      "description": "Assess your current health",
-      "details": "Understand your body and mind state"
+      "title": "ஆரோக்கிய மதிப்பீடு",
+      "description": "உங்கள் தற்போதைய ஆரோக்கியத்தை மதிப்பிடுங்கள்",
+      "details": "உங்கள் உடல் மற்றும் மன நிலையை புரிந்துகொள்ளுங்கள்"
     },
     {
       "title": "Vitality Boost",
       "description": "Boost your life energy",
-      "details": "Practice energizing activities"
+      "details": "ஆற்றல் பெருக்கும் செயல்களை பயிலுங்கள்"
     },
     {
       "title": "Longevity Plan",

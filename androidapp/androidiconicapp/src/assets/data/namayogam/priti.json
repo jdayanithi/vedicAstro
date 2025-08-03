@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "priti",
   "name": "பிரீதி",
   "englishName": "Priti",
@@ -9,26 +9,26 @@
   "bestTime": "மாலை 6-9 மணி (Evening 6-9 PM)",
   "description": "பிரீதி யோகம் அன்பு, மகிழ்ச்சி மற்றும் உறவுகளுக்கு சிறந்த யோகம். இந்த யோகத்தில் காதல் மற்றும் குடும்ப விஷயங்கள் சாதகமாக முடியும்.",
   "keyBenefits": ["அன்பு பெருக்கம்", "மகிழ்ச்சி அதிகரிப்பு", "உறவு நல்லிணக்கம்", "மன அமைதி"],
-  "favorableActivities": ["Expressing love", "Family bonding", "Artistic creation", "Celebration", "Gift giving"],
-  "unfavorableActivities": ["Conflicts", "Harsh words", "Breaking relationships", "Anger expression"],
+  "favorableActivities": ["அன்பை வெளிப்படுத்துதல்", "குடும்ப பந்தம்", "கலை படைப்பு", "கொண்டாட்டம்", "பரிசு கொடுத்தல்"],
+  "unfavorableActivities": ["மோதல்கள்", "கடுமையான வார்த்தைகள்", "உறவுகளை முறித்தல்", "கோபத்தை வெளிப்படுத்துதல்"],
   "pariharam": {
-    "dailyPractices": ["Express love to family", "Practice gratitude", "Share joy with others", "Create beautiful things"],
-    "offerings": ["Pink and white flowers to Venus", "Sweet offerings", "Beautiful ornaments", "Gifts to loved ones"],
+    "dailyPractices": ["குடும்பத்திடம் அன்பை வெளிப்படுத்துதல்", "நன்றியை பயிலுதல்", "பிறருடன் மகிழ்ச்சியை பகிர்தல்", "அழகான பொருட்களை உருவாக்குதல்"],
+    "offerings": ["சுக்ரனுக்கு இளஞ்சிவப்பு மற்றும் வெள்ளை பூக்கள்", "இனிப்பு படையல்கள்", "அழகான ஆபரணங்கள்", "அன்புக்குரியவர்களுக்கு பரிசுகள்"],
     "gems": {
-      "primary": "Diamond",
-      "alternative": "White Sapphire",
-      "keyBenefits": "Brings love, joy and harmonious relationships"
+      "primary": "வைரம் (Diamond)",
+      "alternative": "வெள்ளை சபையர் (White Sapphire)",
+      "keyBenefits": "அன்பு, மகிழ்ச்சி மற்றும் இணக்கமான உறவுகளை கொண்டு வருகிறது"
     },
     "mantras": [
       {
-        "name": "Shukra Mantra",
+        "name": "சுக்ர மந்திரம்",
         "text": "ॐ शुक्राय नमः",
-        "count": "108 times"
+        "count": "108 முறை"
       },
       {
-        "name": "Love Mantra",
+        "name": "அன்பு மந்திரம்",
         "text": "ॐ प्रीत्यै नमः",
-        "count": "21 times"
+        "count": "21 முறை"
       }
     ]
   },
