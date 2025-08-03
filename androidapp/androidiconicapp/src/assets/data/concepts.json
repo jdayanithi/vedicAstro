@@ -1,38 +1,6 @@
 {
   "concepts": [
     {
-      "id": "tantrik_001",
-      "title": "Tantrik Pariharam",
-      "titleEnglish": "Tantrik Pariharam",
-      "description": "தந்திர பரிகாரங்களுக்கான முழுமையான பலன்கள் மற்றும் பரிகாரங்கள்",
-      "descriptionEnglish": "Complete predictions and remedies for Tantrik Pariharam",
-      "category": "தந்திர பரிகாரம்",
-      "categoryEnglish": "Tantrik Pariharam",
-      "price": 0,
-      "isPaid": false,
-      "duration": "30 நிமிடங்கள்",
-      "level": "ஆரம்பம்",
-      "content": "தந்திர பரிகாரம் பற்றிய விரிவான தகவல்கள்...",
-      "tags": ["தந்திரம்", "பரிகாரம்", "பலன்"],
-      "imageUrl": "/assets/images/tantrik-pariharam.jpg"
-    },
-    {
-      "id": "dna_astrology_001",
-      "title": "DNA ஜோதிடம்",
-      "titleEnglish": "DNA Astrology",
-      "description": "மரபணு அறிவியலுடன் இணைந்த நவீன ஜோதிட ஆராய்ச்சி மற்றும் கணிப்புகள்",
-      "descriptionEnglish": "Modern astrological research and predictions integrated with genetic science",
-      "category": "நவீன ஜோதிடம்",
-      "categoryEnglish": "Modern Astrology",
-      "price": 299,
-      "isPaid": true,
-      "duration": "45 நிமிடங்கள்",
-      "level": "மேம்பட்ட",
-      "content": "உங்கள் மரபணு வரிசையின் அடிப்படையில் ஜோதிஷ் கணிப்புகள், பூர்வ ஜென்ม கர்ம தோஷங்கள், மற்றும் அறிவியல் பூர்வமான பரிகாரங்கள்...",
-      "tags": ["DNA", "மரபணு", "ஜோதிடம்", "அறிவியல்", "நவீனம்", "கணிப்பு"],
-      "imageUrl": "/assets/images/dna-astrology.jpg"
-    },
-    {
       "id": "bhava_karathuvam_001",
       "title": "பாவ கராத்துவம்",
       "titleEnglish": "Bhava Karathuvam",
@@ -97,22 +65,6 @@
       "imageUrl": "/assets/images/rasi-karakathuvam.jpg"
     },
     {
-      "id": "gayathri_manthirangal_001",
-      "title": "காயத்ரி மந்திரங்கள்",
-      "titleEnglish": "Gayathri Manthirangal",
-      "description": "தெய்வங்கள், கிரகங்கள், நட்சத்திரங்கள் மற்றும் பீஜ மந்திரங்களின் முழுமையான தொகுப்பு",
-      "descriptionEnglish": "Complete collection of Gayathri mantras for deities, planets, nakshatras and beejam mantras",
-      "category": "மந்திர ஜோதிடம்",
-      "categoryEnglish": "Mantra Astrology",
-      "price": 0,
-      "isPaid": false,
-      "duration": "வரம்பில்லாத",
-      "level": "எல்லா நிலைகள்",
-      "content": "தெய்வ காயத்ரிகள், நவ கிரக மந்திரங்கள், 27 நட்சத்திர மந்திரங்கள், சக்திவாய்ந்த பீஜ மந்திரங்கள் மற்றும் அவற்றின் பலன்கள், சொல்லும் முறை, சிறந்த நேரம் உள்ளிட்ட முழுமையான தகவல்கள்...",
-      "tags": ["காயத்ரி", "மந்திரம்", "தெ���்வம்", "கிரகம்", "நட்சத்திரம்", "பீஜம்", "பலன்", "வழிபாடு"],
-      "imageUrl": "/assets/images/gayathri-manthirangal.jpg"
-    },
-    {
       "id": "adipadai_astrology_001",
       "title": "அடிப்படை ஜோதிடம்",
       "titleEnglish": "Adipadai Astrology",
@@ -159,6 +111,71 @@
       "content": "சிறப்பு ஜோதிட ரத்ன நிலை கருத்துக்கள், முத்து போன்ற அரிய ஜோதிட உண்மைகள், மற்றும் உயர்தர ஜோதிட நுட்பங்கள்...",
       "tags": ["முதுநிலை", "ரத்னம்", "அரிய", "உயர்தர", "நிபுணர்"],
       "imageUrl": "/assets/images/mudhunilai-astrology.jpg"
+    },
+    {
+      "id": "tantrik_001",
+      "title": "Tantrik Pariharam",
+      "titleEnglish": "Tantrik Pariharam",
+      "description": "தந்திர பரிகாரங்களுக்கான முழுமையான பலன்கள் மற்றும் பரிகாரங்கள்",
+      "descriptionEnglish": "Complete predictions and remedies for Tantrik Pariharam",
+      "category": "தந்திர பரிகாரம்",
+      "categoryEnglish": "Tantrik Pariharam",
+      "price": 0,
+      "isPaid": false,
+      "duration": "30 நிமிடங்கள்",
+      "level": "ஆரம்பம்",
+      "content": "தந்திர பரிகாரம் பற்றிய விரிவான தகவல்கள்...",
+      "tags": ["தந்திரம்", "பரிகாரம்", "பலன்"],
+      "imageUrl": "/assets/images/tantrik-pariharam.jpg"
+    },
+    {
+      "id": "jothida_vithigal_001",
+      "title": "ஜோதிட விதிகள்",
+      "titleEnglish": "Jothida Vithigal",
+      "description": "ஜோதிட சாஸ்திரத்தின் அடிப்படை விதிகள் - கல்வி, நோய், திருமணம், வேலை உள்ளிட்ட வாழ்க்கையின் அனைத்து அம்சங்களுக்கான விதிகள்",
+      "descriptionEnglish": "Basic rules of astrology - rules for all aspects of life including education, disease, marriage, job",
+      "category": "ஜோதிட விதிகள்",
+      "categoryEnglish": "Astrological Rules",
+      "price": 199,
+      "isPaid": true,
+      "duration": "120 நிமிடங்கள்",
+      "level": "நடுத்தர",
+      "content": "ஜோதிட சாஸ்திரத்தின் முக்கியமான விதிகள் - கல்வி துறையில் வெற்றி பெற, நோய் நிவர்த்திக்கு, திருமண வாழ்க்கைக்கு, வேலை வாய்ப்புகளுக்கு உள்ள கிரக சேர்க்கைகள் மற்றும் விதிகள்...",
+      "tags": ["விதிகள்", "கல்வி", "நோய்", "திருமணம்", "வேலை", "கிரக சேர்க்கை", "ஜோதிடம்"],
+      "imageUrl": "/assets/images/jothida-vithigal.jpg"
+    },
+    {
+      "id": "dna_astrology_001",
+      "title": "DNA ஜோதிடம்",
+      "titleEnglish": "DNA Astrology",
+      "description": "மரபணு அறிவியலுடன் இணைந்த நவீன ஜோதிட ஆராய்ச்சி மற்றும் கணிப்புகள்",
+      "descriptionEnglish": "Modern astrological research and predictions integrated with genetic science",
+      "category": "நவீன ஜோதிடம்",
+      "categoryEnglish": "Modern Astrology",
+      "price": 299,
+      "isPaid": true,
+      "duration": "45 நிமிடங்கள்",
+      "level": "மேம்பட்ட",
+      "content": "உங்கள் மரபணு வரிசையின் அடிப்படையில் ஜோதிஷ் கணிப்புகள், பூர்வ ஜென்ม கர்ம தோஷங்கள், மற்றும் அறிவியல் பூர்வமான பரிகாரங்கள்...",
+      "tags": ["DNA", "மரபணு", "ஜோதிடம்", "அறிவியல்", "நவீனம்", "கணிப்பு"],
+      "imageUrl": "/assets/images/dna-astrology.jpg"
+    },
+    
+    {
+      "id": "gayathri_manthirangal_001",
+      "title": "காயத்ரி மந்திரங்கள்",
+      "titleEnglish": "Gayathri Manthirangal",
+      "description": "தெய்வங்கள், கிரகங்கள், நட்சத்திரங்கள் மற்றும் பீஜ மந்திரங்களின் முழுமையான தொகுப்பு",
+      "descriptionEnglish": "Complete collection of Gayathri mantras for deities, planets, nakshatras and beejam mantras",
+      "category": "மந்திர ஜோதிடம்",
+      "categoryEnglish": "Mantra Astrology",
+      "price": 0,
+      "isPaid": false,
+      "duration": "வரம்பில்லாத",
+      "level": "எல்லா நிலைகள்",
+      "content": "தெய்வ காயத்ரிகள், நவ கிரக மந்திரங்கள், 27 நட்சத்திர மந்திரங்கள், சக்திவாய்ந்த பீஜ மந்திரங்கள் மற்றும் அவற்றின் பலன்கள், சொல்லும் முறை, சிறந்த நேரம் உள்ளிட்ட முழுமையான தகவல்கள்...",
+      "tags": ["காயத்ரி", "மந்திரம்", "தெ���்வம்", "கிரகம்", "நட்சத்திரம்", "பீஜம்", "பலன்", "வழிபாடு"],
+      "imageUrl": "/assets/images/gayathri-manthirangal.jpg"
     },
     {
       "id": "thithi_course_001",
@@ -319,22 +336,6 @@
       "content": "பல்வேறு நோக்கங்களுக்கான புனித கோவில்களின் விரிவான தொகுப்பு - நவ திருப்பதி ஸ்தலங்கள், 51 சக்தி பீடங்கள், நவகிரக கோவில்கள், கடன் நிவர்த்தி கோவில்கள், திருமண வரம் கோவில்கள், சந்தான பிராப்தி கோவில்கள், கல்வி வளர்ச்சி கோவில்கள், ஆரோக்கிய வளர்ச்சி கோவில்கள் - ஒவ்வொரு கோவிலின் சிறப்புகள், பரிகாரங்கள், திருவிழாக்கள், பயண விவரங்கள், தங்கும் இடங்கள், சிறப்பு நிவேதனங்கள்...",
       "tags": ["கோவில்", "வழிபாடு", "திருப்பதி", "சக்தி பீடம்", "நவகிரகம்", "பரிகாரம்", "திருமணம்", "கடன் நிவர்த்தி", "சந்தானம்", "ஸ்தலங்கள்"],
       "imageUrl": "/assets/images/temple-vazhipadu-sthalangal.jpg"
-    },
-    {
-      "id": "jothida_vithigal_001",
-      "title": "ஜோதிட விதிகள்",
-      "titleEnglish": "Jothida Vithigal",
-      "description": "ஜோதிட சாஸ்திரத்தின் அடிப்படை விதிகள் - கல்வி, நோய், திருமணம், வேலை உள்ளிட்ட வாழ்க்கையின் அனைத்து அம்சங்களுக்கான விதிகள்",
-      "descriptionEnglish": "Basic rules of astrology - rules for all aspects of life including education, disease, marriage, job",
-      "category": "ஜோதிட விதிகள்",
-      "categoryEnglish": "Astrological Rules",
-      "price": 199,
-      "isPaid": true,
-      "duration": "120 நிமிடங்கள்",
-      "level": "நடுத்தர",
-      "content": "ஜோதிட சாஸ்திரத்தின் முக்கியமான விதிகள் - கல்வி துறையில் வெற்றி பெற, நோய் நிவர்த்திக்கு, திருமண வாழ்க்கைக்கு, வேலை வாய்ப்புகளுக்கு உள்ள கிரக சேர்க்கைகள் மற்றும் விதிகள்...",
-      "tags": ["விதிகள்", "கல்வி", "நோய்", "திருமணம்", "வேலை", "கிரக சேர்க்கை", "ஜோதிடம்"],
-      "imageUrl": "/assets/images/jothida-vithigal.jpg"
     }
   ],
   "categories": [

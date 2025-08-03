@@ -1,0 +1,193 @@
+{
+  "nakshatras": [
+    {
+      "id": "nakshatra_1",
+      "number": 1,
+      "name": "அசுவினி",
+      "nameEnglish": "Ashwini",
+      "filename": "ashwini.json"
+    },
+    {
+      "id": "nakshatra_2",
+      "number": 2,
+      "name": "பரணி",
+      "nameEnglish": "Bharani",
+      "filename": "bharani.json"
+    },
+    {
+      "id": "nakshatra_3",
+      "number": 3,
+      "name": "கார்த்திகை",
+      "nameEnglish": "Krittika",
+      "filename": "krittika.json"
+    },
+    {
+      "id": "nakshatra_4",
+      "number": 4,
+      "name": "ரோகிணி",
+      "nameEnglish": "Rohini",
+      "filename": "rohini.json"
+    },
+    {
+      "id": "nakshatra_5",
+      "number": 5,
+      "name": "மிருகசீர்ஷம்",
+      "nameEnglish": "Mrigashira",
+      "filename": "mrigashira.json"
+    },
+    {
+      "id": "nakshatra_6",
+      "number": 6,
+      "name": "ஆருத்ரா",
+      "nameEnglish": "Ardra",
+      "filename": "ardra.json"
+    },
+    {
+      "id": "nakshatra_7",
+      "number": 7,
+      "name": "புனர்வசு",
+      "nameEnglish": "Punarvasu",
+      "filename": "punarvasu.json"
+    },
+    {
+      "id": "nakshatra_8",
+      "number": 8,
+      "name": "பூசம்",
+      "nameEnglish": "Pushya",
+      "filename": "pushya.json"
+    },
+    {
+      "id": "nakshatra_9",
+      "number": 9,
+      "name": "ஆயில்யம்",
+      "nameEnglish": "Ashlesha",
+      "filename": "ashlesha.json"
+    },
+    {
+      "id": "nakshatra_10",
+      "number": 10,
+      "name": "மகம்",
+      "nameEnglish": "Magha",
+      "filename": "magha.json"
+    },
+    {
+      "id": "nakshatra_11",
+      "number": 11,
+      "name": "பூரம்",
+      "nameEnglish": "Purva Phalguni",
+      "filename": "purva-phalguni.json"
+    },
+    {
+      "id": "nakshatra_12",
+      "number": 12,
+      "name": "உத்திரம்",
+      "nameEnglish": "Uttara Phalguni",
+      "filename": "uttara-phalguni.json"
+    },
+    {
+      "id": "nakshatra_13",
+      "number": 13,
+      "name": "அஸ்தம்",
+      "nameEnglish": "Hasta",
+      "filename": "hasta.json"
+    },
+    {
+      "id": "nakshatra_14",
+      "number": 14,
+      "name": "சித்திரை",
+      "nameEnglish": "Chitra",
+      "filename": "chitra.json"
+    },
+    {
+      "id": "nakshatra_15",
+      "number": 15,
+      "name": "சுவாதி",
+      "nameEnglish": "Swati",
+      "filename": "swati.json"
+    },
+    {
+      "id": "nakshatra_16",
+      "number": 16,
+      "name": "விசாகம்",
+      "nameEnglish": "Vishakha",
+      "filename": "vishakha.json"
+    },
+    {
+      "id": "nakshatra_17",
+      "number": 17,
+      "name": "அனுராதம்",
+      "nameEnglish": "Anuradha",
+      "filename": "anuradha.json"
+    },
+    {
+      "id": "nakshatra_18",
+      "number": 18,
+      "name": "கேட்டை",
+      "nameEnglish": "Jyeshtha",
+      "filename": "jyeshtha.json"
+    },
+    {
+      "id": "nakshatra_19",
+      "number": 19,
+      "name": "மூலம்",
+      "nameEnglish": "Mula",
+      "filename": "mula.json"
+    },
+    {
+      "id": "nakshatra_20",
+      "number": 20,
+      "name": "பூராடம்",
+      "nameEnglish": "Purva Ashadha",
+      "filename": "purva-ashadha.json"
+    },
+    {
+      "id": "nakshatra_21",
+      "number": 21,
+      "name": "உத்திராடம்",
+      "nameEnglish": "Uttara Ashadha",
+      "filename": "uttara-ashadha.json"
+    },
+    {
+      "id": "nakshatra_22",
+      "number": 22,
+      "name": "திருவோணம்",
+      "nameEnglish": "Shravana",
+      "filename": "shravana.json"
+    },
+    {
+      "id": "nakshatra_23",
+      "number": 23,
+      "name": "அவிட்டம்",
+      "nameEnglish": "Dhanishta",
+      "filename": "dhanishta.json"
+    },
+    {
+      "id": "nakshatra_24",
+      "number": 24,
+      "name": "சதயம்",
+      "nameEnglish": "Shatabhisha",
+      "filename": "shatabhisha.json"
+    },
+    {
+      "id": "nakshatra_25",
+      "number": 25,
+      "name": "பூரட்டாதி",
+      "nameEnglish": "Purva Bhadrapada",
+      "filename": "purva-bhadrapada.json"
+    },
+    {
+      "id": "nakshatra_26",
+      "number": 26,
+      "name": "உத்திரட்டாதி",
+      "nameEnglish": "Uttara Bhadrapada",
+      "filename": "uttara-bhadrapada.json"
+    },
+    {
+      "id": "nakshatra_27",
+      "number": 27,
+      "name": "ரேவதி",
+      "nameEnglish": "Revati",
+      "filename": "revati.json"
+    }
+  ]
+}
