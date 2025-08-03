@@ -1,7 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="warning">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/concepts"></ion-back-button>
+        <div class="pariharam-intro">
+          <p class="description-text">
+            <strong>லக்ன புள்ளி இருப்பது முதல் பாவமாகும்.</strong> ஒவ்வொரு பாவமும் 'வீடு' என்றும் குறிப்பிடுவார். ஒவ்வொரு வீட்டுக்கும் ஒரு அதிபதி இருப்பார்.
+          </p>
+          <ion-chip color="warning">
+            <ion-icon name="flash" slot="start"></ion-icon>
+            <ion-label><strong>பரிகாரம் மூன்று பிரிவாக கொடுக்க வேண்டும்</strong></ion-label>
+          </ion-chip>
+        </div><ion-back-button defaultHref="/concepts"></ion-back-button>
     </ion-buttons>
     <ion-title class="tamil-text">🏠 பாவ கராத்துவம்</ion-title>
     <ion-buttons slot="end">
@@ -52,37 +60,172 @@
 
   <!-- Overview Content -->
   <div *ngIf="selectedSegment === 'overview'" class="content-section">
-    <ion-card class="info-card">
+    <!-- Introduction Card -->
+    <ion-card class="intro-card">
       <ion-card-header>
-        <ion-card-title class="tamil-text">📚 பாடப்பிரிவு பற்றி</ion-card-title>
+        <ion-card-title class="tamil-text">🏠 சோதிடத்தில் பாவங்களின் விளக்கம்</ion-card-title>
+        <ion-card-subtitle>Significations of Bhavas in Astrology</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <p class="description-text">
-          ஜோதிஷ சாஸ்திரத்தில் 12 பாவங்கள் ஒரு முக்கியமான அம்சமாகும். ஒவ்வொரு பாவமும் வாழ்க்கையின்
-          வெவ்வேறு பகுதிகளைக் குறிக்கிறது. இந்த பாடப்பிரிவில் நீங்கள் கற்றுக்கொள்வது:
+          சோதிடத்தில், ஒவ்வொரு பாவமும் (வீடும்) ஒருவரின் வாழ்க்கையின் பல்வேறு அம்சங்களை விளக்குகிறது. இந்தப் பாவங்களின் காரகத்துவங்களை மூன்று முக்கியப் பிரிவுகளாகப் பிரிக்கலாம்:
         </p>
-        <ion-list class="feature-list">
+        <ion-list class="classification-list">
           <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">12 பாவங்களின் விரிவான கராத்துவம்</ion-label>
+            <ion-icon name="person" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h3><strong>உயிர் உள்ள / உயிர் உடல் (Living / Animate):</strong></h3>
+              <p>இது ஒருவரின் வாழ்க்கையில் இருக்கும் மனிதர்கள், உறவுகள், மற்றும் உயிருள்ள தொடர்புகளைக் குறிக்கும்.</p>
+            </ion-label>
           </ion-item>
           <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">ஒவ்வொரு பாவத்தின் சிறப்பு அம்சங்கள்</ion-label>
+            <ion-icon name="cube" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <h3><strong>உயிர் அற்ற (Non-living):</strong></h3>
+              <p>இது பொருட்கள், சொத்துக்கள், நிகழ்வுகள், மற்றும் உணர்வுபூர்வமான கருத்துகள் போன்ற உயிரற்ற விஷயங்களைக் குறிக்கும்.</p>
+            </ion-label>
           </ion-item>
           <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">கிரகங்களின் பாவ நிலை பலன்கள்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">பாவ பலம் மற்றும் பலவீனம்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">பாவ சார்ந்த பரிகாரங்கள்</ion-label>
+            <ion-icon name="body" slot="start" color="warning"></ion-icon>
+            <ion-label>
+              <h3><strong>உடல் உறுப்புகள் (Body Parts):</strong></h3>
+              <p>இது ஒவ்வொரு பாவமும் உடலின் எந்தப் பகுதியைக் குறிக்கிறது என்பதை விளக்குகிறது.</p>
+            </ion-label>
           </ion-item>
         </ion-list>
+        <p class="description-text">
+          இந்த மூன்று பிரிவுகளின் கீழ் 12 பாவங்களின் முழுமையான விளக்கம் கீழே கொடுக்கப்பட்டுள்ளது.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Pariharam Section -->
+    <ion-card class="pariharam-card">
+      <ion-card-header>
+        <ion-card-title class="tamil-text">🔮 பரிகாரம் எடுத்தல்</ion-card-title>
+        <ion-card-subtitle>மூன்று வகையான பரிகார முறைகள்</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="description-text">
+          <strong>லக்ன புள்ளி இருப்பது முதல் பாவமாகும்.</strong> ஒவ்வொரு பாவமும் 'வீடு' என்றும் குறிப்பிடுவார். ஒவ்வொரு வீட்டுக்கும் ஒரு அதிபதி இருப்பார்.
+        </p>
+        <p class="description-text">
+          <strong>பரிகாரம் மூன்று பிரிவாக கொடுக்க வேண்டும்:</strong>
+        </p>
+        
+        <!-- Three Types of Remedies -->
+        <div class="remedy-types-section">
+          <!-- Base Example -->
+          <div class="base-example">
+            <h4 class="example-title">� அடிப்படை உதாரணம்:</h4>
+            <ion-list lines="none" class="base-list">
+              <ion-item>
+                <ion-icon name="arrow-forward" slot="start" color="primary"></ion-icon>
+                <ion-label><strong>லக்ன புள்ளி:</strong> மேஷம்</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="arrow-forward" slot="start" color="primary"></ion-icon>
+                <ion-label><strong>4வது பாவம்:</strong> கடகம்</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="arrow-forward" slot="start" color="primary"></ion-icon>
+                <ion-label><strong>வீட்டு அதிபதி:</strong> சந்திரன்</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- First Type: Uyir Attra Karagathuvam -->
+          <div class="remedy-type">
+            <h4 class="remedy-type-title">🎯 1. உயிர் அற்ற கராகத்துவம்</h4>
+            <ion-list lines="none" class="remedy-list">
+              <ion-item>
+                <ion-icon name="cube" slot="start" color="tertiary"></ion-icon>
+                <ion-label><strong>4வது பாவ கராகத்துவம்:</strong> உடைகள்</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+                <ion-label><strong>பரிகாரம்:</strong> திங்கட்கிழமை உடைகள் தானம் செய்யவும்</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Second Type: Udal Karagathuvam -->
+          <div class="remedy-type">
+            <h4 class="remedy-type-title">👤 2. உடல் கராகத்துவம்</h4>
+            <ion-list lines="none" class="remedy-list">
+              <ion-item>
+                <ion-icon name="body" slot="start" color="warning"></ion-icon>
+                <ion-label><strong>4வது பாவ உடல் பாகம்:</strong> மார்பு</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+                <ion-label><strong>பரிகாரம்:</strong> திங்கட்கிழமை இதய நோயாளிகளுக்கு பணம் வழங்கவும்</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Third Type: Uyir Karagathuvam -->
+          <div class="remedy-type">
+            <h4 class="remedy-type-title">👥 3. உயிர் கராகத்துவம் (மிக சக்திவாய்ந்தது)</h4>
+            <ion-list lines="none" class="remedy-list">
+              <ion-item>
+                <ion-icon name="person" slot="start" color="primary"></ion-icon>
+                <ion-label><strong>4வது பாவ உறவு:</strong> தாய்</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
+                <ion-label><strong>பரிகாரம்:</strong> திங்கட்கிழமை எந்த தாயின் தேவைகளையும் (உடை அல்லது உதவி) பூர்த்தி செய்யவும்</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <!-- Power Ranking -->
+          <div class="power-note">
+            <ion-chip color="primary" size="small">
+              <ion-icon name="star" slot="start"></ion-icon>
+              <ion-label><strong>மூன்றில் உறவு மிக சக்திவாய்ந்தது</strong></ion-label>
+            </ion-chip>
+            
+            <!-- Detailed Power Note -->
+            <div class="detailed-power-explanation">
+              <h5 class="power-explanation-title">🔥 சக்தி விளக்கம்:</h5>
+              <ion-list lines="none" class="power-explanation-list">
+                <ion-item>
+                  <ion-icon name="people" slot="start" color="primary"></ion-icon>
+                  <ion-label>
+                    <strong>உறவு கராகத்துவம்:</strong> தசை புக்தி அன்று உறவு கராகத்துவம் நன்று
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="body" slot="start" color="warning"></ion-icon>
+                  <ion-label>
+                    <strong>உடல் கராகத்துவம்:</strong> புண்ணியம் செய்ய உடல் கராகத்துவம் எப்போது வேண்டுமானாலும் செய்யும்
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="time" slot="start" color="success"></ion-icon>
+                  <ion-label>
+                    <strong>முன்கூட்டியே:</strong> 5 வருடம் மூன்று கூட்டியே வரும் தசை புக்திக்கு இப்போழுதே செய்து புண்ணியம் செய்கலாம்
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-icon name="heart" slot="start" color="tertiary"></ion-icon>
+                  <ion-label>
+                    <strong>உயிர் அற்ற கராகத்துவம்:</strong> ஒருவர் மனம் மகிழும் படி செய்தால் நன்று
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Important Note -->
+        <div class="note-section">
+          <ion-icon name="information-circle" color="primary" class="note-icon"></ion-icon>
+          <div class="note-text">
+            <strong>குறிப்பு:</strong> அதிபதி/Lord எடுக்கும் விரிவான விளக்கம் ஆதிப்படை வகுப்பில் உள்ளது. நீங்கள் கராகத்துவம் படிப்பது நல்லது.
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
 
@@ -110,7 +253,6 @@
             <div class="bhava-number">{{ bhava.number }}</div>
             <div class="bhava-info">
               <ion-card-title class="tamil-text">{{ bhava.name }}</ion-card-title>
-              <ion-card-subtitle>{{ bhava.nameEnglish }}</ion-card-subtitle>
             </div>
             <ion-icon
               [name]="bhava.expanded ? 'chevron-up' : 'chevron-down'"
@@ -141,32 +283,12 @@
             </div>
           </div>
 
-          <!-- Karakatva -->
+          <!-- Relationships -->
           <div class="detail-section">
-            <h4 class="section-title">🌟 கரகத்துவம்</h4>
+            <h4 class="section-title">👥 உறவுகள்</h4>
             <div class="tags-container">
-              <ion-chip *ngFor="let karaka of bhava.karakatva" color="success" size="small">
-                <ion-label>{{ karaka }}</ion-label>
-              </ion-chip>
-            </div>
-          </div>
-
-          <!-- Good Planets -->
-          <div class="detail-section">
-            <h4 class="section-title">✅ நல்ல கிரகங்கள்</h4>
-            <div class="tags-container">
-              <ion-chip *ngFor="let planet of bhava.goodPlanets" color="success" size="small">
-                <ion-label>{{ planet }}</ion-label>
-              </ion-chip>
-            </div>
-          </div>
-
-          <!-- Bad Planets -->
-          <div class="detail-section">
-            <h4 class="section-title">⚠️ பாதக கிரகங்கள்</h4>
-            <div class="tags-container">
-              <ion-chip *ngFor="let planet of bhava.badPlanets" color="danger" size="small">
-                <ion-label>{{ planet }}</ion-label>
+              <ion-chip *ngFor="let relationship of bhava.relationships" color="secondary" size="small">
+                <ion-label>{{ relationship }}</ion-label>
               </ion-chip>
             </div>
           </div>

@@ -37,6 +37,27 @@ export class BhavaKarathuvamPage implements OnInit {
   searchTerm = '';
   filteredBhavas: Bhava[] = [];
 
+  // Detailed introduction content
+  introduction = {
+    title: 'சோதிடத்தில் பாவங்களின் விளக்கம்',
+    subtitle: 'Significations of Bhavas in Astrology',
+    description: 'சோதிடத்தில், ஒவ்வொரு பாவமும் (வீடும்) ஒருவரின் வாழ்க்கையின் பல்வேறு அம்சங்களை விளக்குகிறது.',
+    classifications: [
+      {
+        type: 'உயிர் உள்ள / உயிர் உடல் (Living / Animate)',
+        description: 'இது ஒருவரின் வாழ்க்கையில் இருக்கும் மனிதர்கள், உறவுகள், மற்றும் உயிருள்ள தொடர்புகளைக் குறிக்கும்.'
+      },
+      {
+        type: 'உயிர் அற்ற (Non-living)',
+        description: 'இது பொருட்கள், சொத்துக்கள், நிகழ்வுகள், மற்றும் உணர்வுபூர்வமான கருத்துகள் போன்ற உயிரற்ற விஷயங்களைக் குறிக்கும்.'
+      },
+      {
+        type: 'உடல் உறுப்புகள் (Body Parts)',
+        description: 'இது ஒவ்வொரு பாவமும் உடலின் எந்தப் பகுதியைக் குறிக்கிறது என்பதை விளக்குகிறது.'
+      }
+    ]
+  };
+
   bhavas: Bhava[] = [
     {
       id: 'bhava_1',
@@ -52,9 +73,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['தலை', 'முகம்', 'மூளை'],
       relationships: ['தனிப்பட்ட அடையாளம்', 'சுய வெளிப்பாடு'],
       remedies: [
-        'சூரிய நமஸ்காரம் தினமும்',
-        'மஞ்சள் வஸ்திரம் அணியவும்',
-        'ஞாயிற்றுக்கிழமை சூரிய வழிபாடு'
       ]
     },
     {
@@ -71,9 +89,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['முகம்', 'கண்கள்', 'வாய்', 'கழுத்து'],
       relationships: ['குடும்ப உறுப்பினர்கள்', 'பேச்சு திறமை'],
       remedies: [
-        'லக்ஷ்மி ஸ்தோத்திரம் பாராயணம்',
-        'வெள்ளிக்கிழமை சுக்கிர வழிபாடு',
-        'குபேர மந்திரம் ஜபம்'
       ]
     },
     {
@@ -90,9 +105,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['கைகள்', 'தோள்கள்', 'மார்பு'],
       relationships: ['சகோதரர்கள்', 'நண்பர்கள்'],
       remedies: [
-        'ஹனுமான் சாலிசா பாராயணம்',
-        'செவ்வாய்க்கிழமை ஹனுமான் வழிபாடு',
-        'சிவந்த பூக்களால் அர்ச்சனை'
       ]
     },
     {
@@ -109,9 +121,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['மார்பு', 'இதயம்', 'நுரையீரல்'],
       relationships: ['தாய்', 'உறவினர்கள்'],
       remedies: [
-        'சந்திர மந்திரம் ஜபம்',
-        'திங்கட்கிழமை சிவ வழிபாடு',
-        'வெள்ளை வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -128,9 +137,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['வயிறு', 'குடல்', 'கல்லீரல்'],
       relationships: ['மக்கள்', 'மாணவர்கள்'],
       remedies: [
-        'சரஸ்வதி வந்தனை',
-        'வியாழக்கிழமை குரு வழிபாடு',
-        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -147,9 +153,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['குடல்', 'சிறுநீரகம்', 'இடுப்பு'],
       relationships: ['எதிரிகள்', 'சேவகர்கள்'],
       remedies: [
-        'ஹனுமான் சாலிசா தினமும்',
-        'செவ்வாய்க்கிழமை முருகன் வழிபாடு',
-        'சிவந்த பூக்களால் அர்ச்சனை'
       ]
     },
     {
@@ -165,10 +168,7 @@ export class BhavaKarathuvamPage implements OnInit {
       ],
       bodyParts: ['சிறுநீரக வழி', 'இனப்பெருக்க உறுப்புகள்'],
       relationships: ['கணவர்/மனைவி', 'கூட்டாளிகள்'],
-      remedies: [
-        'சிவ பார்வதி வழிபாடு',
-        'வெள்ளிக்கிழமை சுக்கிர வழிபாடு',
-        'வெள்ளை வஸ்திरம் அணியவும்'
+     remedies: [
       ]
     },
     {
@@ -185,9 +185,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['இனப்பெருக்க உறுப்புகள்', 'குதம்'],
       relationships: ['மர்ம நண்பர்கள்', 'குரு'],
       remedies: [
-        'மகா மிருத்யுஞ்சய மந்திரம்',
-        'சனிக்கிழமை சனீஸ்வர வழிபாடு',
-        'கருப்பு எள் தானம்'
       ]
     },
     {
@@ -204,9 +201,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['தொடை', 'இடுப்பு'],
       relationships: ['தந்தை', 'குரு', 'ஆசான்'],
       remedies: [
-        'விஷ்ணு ஸஹஸ்ரநாமம்',
-        'வியாழக்கிழமை குரு வழிபாடு',
-        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -223,9 +217,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['முழங்கால்', 'எலும்புகள்'],
       relationships: ['முதலாளி', 'அரசு அதிகாரிகள்'],
       remedies: [
-        'சூரிய கவசம் பாராயணம்',
-        'ஞாயிற்றுக்கிழமை சூரிய வழிபாடு',
-        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -242,9 +233,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['கணுக்கால்', 'கால்கள்'],
       relationships: ['நண்பர்கள்', 'மூத்த சகோதரர்கள்'],
       remedies: [
-        'கணபதி ஸ்தோத்திরம்',
-        'வியாழக்கிழமை குரு வழிபாடு',
-        'மஞ்சள் வஸ்திரம் அணியவும்'
       ]
     },
     {
@@ -261,9 +249,6 @@ export class BhavaKarathuvamPage implements OnInit {
       bodyParts: ['பாதங்கள்', 'கண்கள்'],
       relationships: ['வெளிநாட்டு நண்பர்கள்', 'ஆன்மீக குரு'],
       remedies: [
-        'விஷ்ணு ஸஹஸ்ரநாமம்',
-        'சனிக்கிழமை விஷ்ணு வழிபாடு',
-        'நீல வஸ்திரம் அணியவும்'
       ]
     }
   ];
