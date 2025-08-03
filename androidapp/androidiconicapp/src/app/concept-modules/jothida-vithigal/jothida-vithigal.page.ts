@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 interface JothidaVithigalCategory {
   id: string;
@@ -7,6 +8,7 @@ interface JothidaVithigalCategory {
   nameEnglish: string;
   icon: string;
   color: string;
+  ruleCount: number;
 }
 
 interface JothidaVithigalRule {
@@ -22,6 +24,10 @@ interface JothidaVithigalRule {
 
 interface JothidaVithigalData {
   categories: JothidaVithigalCategory[];
+}
+
+interface CategoryRuleData {
+  category: string;
   rules: JothidaVithigalRule[];
 }
 
@@ -46,15 +52,52 @@ export class JothidaVithigalPage implements OnInit {
   }
 
   loadData() {
-    this.http.get<JothidaVithigalData>('/assets/data/jothida-vithigal.json').subscribe({
+    // Only load categories initially
+    const categoriesData$ = this.http.get<JothidaVithigalData>('/assets/data/jothida-vithigal.json');
+    
+    categoriesData$.subscribe({
       next: (data) => {
         this.categories = data.categories;
-        this.rules = data.rules;
+        this.isLoading = false; // Stop loading after categories are loaded
+      },
+      error: (error) => {
+        console.error('Error loading jothida vithigal categories:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadAllRules() {
+    // Load rules from all category files
+    const categoryRuleRequests = this.categories.map(category => 
+      this.http.get<CategoryRuleData>(`/assets/data/jothida-vithigal/${category.id}.json`)
+    );
+
+    forkJoin(categoryRuleRequests).subscribe({
+      next: (categoryDataArray) => {
+        this.rules = [];
+        categoryDataArray.forEach(categoryData => {
+          this.rules.push(...categoryData.rules);
+        });
         this.filteredRules = [...this.rules];
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error loading jothida vithigal data:', error);
+        console.error('Error loading jothida vithigal rules:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  loadCategoryRules(categoryId: string) {
+    this.isLoading = true;
+    this.http.get<CategoryRuleData>(`/assets/data/jothida-vithigal/${categoryId}.json`).subscribe({
+      next: (data) => {
+        this.filteredRules = data.rules;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error(`Error loading ${categoryId} rules:`, error);
         this.isLoading = false;
       }
     });
@@ -62,35 +105,61 @@ export class JothidaVithigalPage implements OnInit {
 
   selectCategory(categoryId: string | null) {
     this.selectedCategory = categoryId;
-    this.filterRules();
+    this.searchTerm = ''; // Clear search when selecting category
+    
+    if (categoryId) {
+      this.loadCategoryRules(categoryId);
+    } else {
+      // If no category selected, clear rules and go back to category view
+      this.filteredRules = [];
+      this.rules = [];
+    }
   }
 
   searchRules() {
-    this.filterRules();
+    if (this.searchTerm.trim() && this.rules.length === 0) {
+      // Load all rules first if searching and no rules are loaded
+      this.loadAllRules();
+    } else {
+      this.filterRules();
+    }
   }
 
   filterRules() {
-    let filtered = [...this.rules];
-
-    // Filter by category
-    if (this.selectedCategory) {
-      filtered = filtered.filter(rule => rule.category === this.selectedCategory);
-    }
-
-    // Filter by search term
-    if (this.searchTerm.trim()) {
+    if (this.selectedCategory && this.filteredRules.length > 0) {
+      // Filter within current category rules
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(rule =>
-        rule.rule.toLowerCase().includes(term) ||
-        rule.ruleEnglish.toLowerCase().includes(term) ||
-        rule.tags.some(tag => tag.toLowerCase().includes(term)) ||
-        rule.planets.some(planet => planet.toLowerCase().includes(term)) ||
-        rule.condition.toLowerCase().includes(term) ||
-        rule.result.toLowerCase().includes(term)
-      );
-    }
+      if (term.trim()) {
+        this.filteredRules = this.filteredRules.filter(rule =>
+          rule.rule.toLowerCase().includes(term) ||
+          rule.ruleEnglish.toLowerCase().includes(term) ||
+          rule.tags.some(tag => tag.toLowerCase().includes(term)) ||
+          rule.planets.some(planet => planet.toLowerCase().includes(term)) ||
+          rule.condition.toLowerCase().includes(term) ||
+          rule.result.toLowerCase().includes(term)
+        );
+      } else {
+        // Reload category rules if search is cleared
+        this.loadCategoryRules(this.selectedCategory);
+      }
+    } else if (this.rules.length > 0) {
+      // Filter all rules if they are loaded
+      let filtered = [...this.rules];
 
-    this.filteredRules = filtered;
+      if (this.searchTerm.trim()) {
+        const term = this.searchTerm.toLowerCase();
+        filtered = filtered.filter(rule =>
+          rule.rule.toLowerCase().includes(term) ||
+          rule.ruleEnglish.toLowerCase().includes(term) ||
+          rule.tags.some(tag => tag.toLowerCase().includes(term)) ||
+          rule.planets.some(planet => planet.toLowerCase().includes(term)) ||
+          rule.condition.toLowerCase().includes(term) ||
+          rule.result.toLowerCase().includes(term)
+        );
+      }
+
+      this.filteredRules = filtered;
+    }
   }
 
   getCategoryName(categoryId: string): string {
@@ -109,19 +178,28 @@ export class JothidaVithigalPage implements OnInit {
   }
 
   getRuleCount(categoryId: string): number {
-    return this.rules.filter(rule => rule.category === categoryId).length;
+    const category = this.categories.find(cat => cat.id === categoryId);
+    return category ? category.ruleCount : 0;
   }
 
   goBack() {
     this.selectedCategory = null;
     this.searchTerm = '';
-    this.filteredRules = [...this.rules];
+    this.filteredRules = [];
+    this.rules = [];
   }
 
   clearSearch() {
     this.searchTerm = '';
-    this.selectedCategory = null;
-    this.filteredRules = [...this.rules];
+    if (this.selectedCategory) {
+      // Reload current category rules
+      this.loadCategoryRules(this.selectedCategory);
+    } else {
+      // Clear everything and go back to categories
+      this.selectedCategory = null;
+      this.filteredRules = [];
+      this.rules = [];
+    }
   }
 
   toggleBookmark() {

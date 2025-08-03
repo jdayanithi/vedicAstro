@@ -1,0 +1,45 @@
+{
+  "category": "marriage",
+  "rules": [
+    {
+      "id": "marriage_001",
+      "category": "marriage",
+      "rule": "சுக்ரன் மற்றும் சந்திரன் சேர்க்கை இருந்தால் அழகான வாழ்க்கைத் துணை கிடைக்கும்",
+      "ruleEnglish": "If Venus and Moon conjunction exists, beautiful life partner will be obtained",
+      "planets": ["சுக்ரன்", "சந்திரன்"],
+      "tags": ["திருமணம்", "அழகு", "சுக்ரன்", "சந்திரன்", "வாழ்க்கைத் துணை"],
+      "condition": "சுக்ரன் சந்திரன் சேர்க்கை",
+      "result": "அழகான வாழ்க்கைத் துணை"
+    },
+    {
+      "id": "marriage_002",
+      "category": "marriage",
+      "rule": "7ம் வீட்டில் சுக்ரன் இருந்தால் சீக்கிரம் திருமணம் நடக்கும்",
+      "ruleEnglish": "If Venus is in 7th house, marriage will happen soon",
+      "planets": ["சுக்ரன்"],
+      "tags": ["திருமணம்", "7ம் வீடு", "சுக்ரன்", "சீக்கிரம்"],
+      "condition": "7ம் வீட்டில் சுக்ரன்",
+      "result": "சீக்கிரம் திருமணம்"
+    },
+    {
+      "id": "marriage_003",
+      "category": "marriage",
+      "rule": "செவ்வாய் தோஷம் இருந்தால் திருமணம் தாமதமாகும்",
+      "ruleEnglish": "If Mangal dosha exists, marriage will be delayed",
+      "planets": ["செவ்வாய்"],
+      "tags": ["செவ்வாய் தோஷம்", "திருமண தாமதம்"],
+      "condition": "செவ்வாய் தோஷம்",
+      "result": "திருமண தாமதம்"
+    },
+    {
+      "id": "marriage_004",
+      "category": "marriage",
+      "rule": "குரு 7ம் வீட்டைப் பார்த்தால் நல்ல திருமண வாழ்க்கை",
+      "ruleEnglish": "If Jupiter aspects 7th house, good married life",
+      "planets": ["குரு"],
+      "tags": ["குரு பார்வை", "7ம் வீடு", "நல்ல திருமணம்"],
+      "condition": "குரு 7ம் வீட்டு பார்வை",
+      "result": "நல்ல திருமண வாழ்க்கை"
+    }
+  ]
+}

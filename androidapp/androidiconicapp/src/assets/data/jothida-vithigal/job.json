@@ -1,0 +1,45 @@
+{
+  "category": "job",
+  "rules": [
+    {
+      "id": "job_001",
+      "category": "job",
+      "rule": "செவ்வாய் மற்றும் சூரியன் சேர்க்கை இருந்தால் அரசு வேலை வாய்ப்பு உண்டு",
+      "ruleEnglish": "If Mars and Sun conjunction exists, government job opportunity exists",
+      "planets": ["செவ்வாய்", "சூரியன்"],
+      "tags": ["அரசு வேலை", "செவ்வாய்", "சூரியன்", "வாய்ப்பு"],
+      "condition": "செவ்வாய் சூரியன் சேர்க்கை",
+      "result": "அரசு வேலை வாய்ப்பு"
+    },
+    {
+      "id": "job_002",
+      "category": "job",
+      "rule": "10ம் வீட்டில் குரு இருந்தால் ஆசிரியர் பணி கிடைக்கும்",
+      "ruleEnglish": "If Jupiter is in 10th house, teaching job will be obtained",
+      "planets": ["குரு"],
+      "tags": ["ஆசிரியர்", "10ம் வீடு", "குரு", "பணி"],
+      "condition": "10ம் வீட்டில் குரு",
+      "result": "ஆசிரியர் பணி"
+    },  
+    {
+      "id": "job_003",
+      "category": "job",
+      "rule": "புதன் மற்றும் சுக்ரன் சேர்க்கை இருந்தால் வியாபார வெற்றி",
+      "ruleEnglish": "If Mercury and Venus conjunction exists, business success",
+      "planets": ["புதன்", "சுக்ரன்"],
+      "tags": ["வியாபாரம்", "வெற்றி", "புதன்", "சுக்ரன்"],
+      "condition": "புதன் சுக்ரன் சேர்க்கை",
+      "result": "வியாபார வெற்றி"
+    },
+    {
+      "id": "job_004",
+      "category": "job",
+      "rule": "10ம் வீட்டில் சனி இருந்தால் கடின உழைப்பால் உயர்வு",
+      "ruleEnglish": "If Saturn is in 10th house, promotion through hard work",
+      "planets": ["சனி"],
+      "tags": ["கடின உழைப்பு", "உயர்வு", "10ம் வீடு", "சனி"],
+      "condition": "10ம் வீட்டில் சனி",
+      "result": "கடின உழைப்பால் உயர்வு"
+    }
+  ]
+}

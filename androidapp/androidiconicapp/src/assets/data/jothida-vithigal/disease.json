@@ -1,0 +1,45 @@
+{
+  "category": "disease",
+  "rules": [
+    {
+      "id": "disease_001",
+      "category": "disease",
+      "rule": "சனி மற்றும் சூரியன் சேர்க்கை இருந்தால் எலும்பு முறிவு வாய்ப்பு உண்டு",
+      "ruleEnglish": "If Saturn and Sun conjunction exists, there is possibility of bone fracture",
+      "planets": ["சனி", "சூரியன்"],
+      "tags": ["எலும்பு", "முறிவு", "சனி", "சூரியன்", "சேர்க்கை"],
+      "condition": "சனி சூரியன் சேர்க்கை",
+      "result": "எலும்பு முறிவு வாய்ப்பு"
+    },
+    {
+      "id": "disease_002",
+      "category": "disease",
+      "rule": "சந்திரன் மற்றும் ராகு சேர்க்கை இருந்தால் மன அழுத்தம் ஏற்படும்",
+      "ruleEnglish": "If Moon and Rahu conjunction exists, mental stress will occur",
+      "planets": ["சந்திரன்", "ராகு"],
+      "tags": ["மன அழுத்தம்", "சந்திரன்", "ராகு", "மனநலம்"],
+      "condition": "சந்திரன் ராகு சேர்க்கை",
+      "result": "மன அழுத்தம்"
+    },
+    {
+      "id": "disease_003",
+      "category": "disease",
+      "rule": "செவ்வாய் மற்றும் சனி பார்வை இருந்தால் விபத்து ஆபத்து",
+      "ruleEnglish": "If Mars and Saturn aspect exists, accident danger",
+      "planets": ["செவ்வாய்", "சனி"],
+      "tags": ["விபத்து", "ஆபத்து", "செவ்வாய்", "சனி", "பார்வை"],
+      "condition": "செவ்வாய் சனி பார்வை",
+      "result": "விபத்து ஆபத்து"
+    },
+    {
+      "id": "disease_004",
+      "category": "disease",
+      "rule": "6ம் வீட்டில் ராகு இருந்தால் தோல் நோய் வாய்ப்பு",
+      "ruleEnglish": "If Rahu is in 6th house, skin disease possibility",
+      "planets": ["ராகு"],
+      "tags": ["தோல் நோய்", "6ம் வீடு", "ராகு"],
+      "condition": "6ம் வீட்டில் ராகு",
+      "result": "தோல் நோய் வாய்ப்பு"
+    }
+  ]
+}

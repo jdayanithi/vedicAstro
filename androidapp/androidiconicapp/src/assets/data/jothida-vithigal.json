@@ -5,227 +5,48 @@
       "name": "கல்வி",
       "nameEnglish": "Studies",
       "icon": "school-outline",
-      "color": "#059669"
+      "color": "#059669",
+      "ruleCount": 4
     },
     {
       "id": "disease",
       "name": "நோய்",
       "nameEnglish": "Disease", 
       "icon": "medical-outline",
-      "color": "#dc2626"
+      "color": "#dc2626",
+      "ruleCount": 4
     },
     {
       "id": "marriage",
       "name": "திருமணம்",
       "nameEnglish": "Marriage",
       "icon": "heart-outline",
-      "color": "#ec4899"
+      "color": "#ec4899",
+      "ruleCount": 4
     },
     {
       "id": "job",
       "name": "வேலை",
       "nameEnglish": "Job",
       "icon": "briefcase-outline",
-      "color": "#7c3aed"
+      "color": "#7c3aed",
+      "ruleCount": 4
     },
     {
       "id": "karma",
       "name": "கர்மா",
       "nameEnglish": "Karma",
       "icon": "infinite-outline",
-      "color": "#f59e0b"
-    }
-  ],
-  "rules": [
-    {
-      "id": "disease_001",
-      "category": "disease",
-      "rule": "சனி மற்றும் சூரியன் சேர்க்கை இருந்தால் எலும்பு முறிவு வாய்ப்பு உண்டு",
-      "ruleEnglish": "If Saturn and Sun conjunction exists, there is possibility of bone fracture",
-      "planets": ["சனி", "சூரியன்"],
-      "tags": ["எலும்பு", "முறிவு", "சனி", "சூரியன்", "சேர்க்கை"],
-      "condition": "சனி சூரியன் சேர்க்கை",
-      "result": "எலும்பு முறிவு வாய்ப்பு"
+      "color": "#f59e0b",
+      "ruleCount": 3
     },
     {
-      "id": "disease_002",
-      "category": "disease",
-      "rule": "சந்திரன் மற்றும் ராகு சேர்க்கை இருந்தால் மன அழுத்தம் ஏற்படும்",
-      "ruleEnglish": "If Moon and Rahu conjunction exists, mental stress will occur",
-      "planets": ["சந்திரன்", "ராகு"],
-      "tags": ["மன அழுத்தம்", "சந்திரன்", "ராகு", "மனநலம்"],
-      "condition": "சந்திரன் ராகு சேர்க்கை",
-      "result": "மன அழுத்தம்"
-    },
-    {
-      "id": "disease_003",
-      "category": "disease",
-      "rule": "செவ்வாய் மற்றும் சனி பார்வை இருந்தால் விபத்து ஆபத்து",
-      "ruleEnglish": "If Mars and Saturn aspect exists, accident danger",
-      "planets": ["செவ்வாய்", "சனி"],
-      "tags": ["விபத்து", "ஆபத்து", "செவ்வாய்", "சனி", "பார்வை"],
-      "condition": "செவ்வாய் சனி பார்வை",
-      "result": "விபத்து ஆபத்து"
-    },
-    {
-      "id": "disease_004",
-      "category": "disease",
-      "rule": "6ம் வீட்டில் ராகு இருந்தால் தோல் நோய் வாய்ப்பு",
-      "ruleEnglish": "If Rahu is in 6th house, skin disease possibility",
-      "planets": ["ராகு"],
-      "tags": ["தோல் நோய்", "6ம் வீடு", "ராகு"],
-      "condition": "6ம் வீட்டில் ராகு",
-      "result": "தோல் நோய் வாய்ப்பு"
-    },
-    {
-      "id": "studies_001",
-      "category": "studies", 
-      "rule": "புதன் மற்றும் குரு சேர்க்கை இருந்தால் உயர் கல்வியில் வெற்றி கிடைக்கும்",
-      "ruleEnglish": "If Mercury and Jupiter conjunction exists, success in higher education will be achieved",
-      "planets": ["புதன்", "குரு"],
-      "tags": ["கல்வி", "வெற்றி", "புதன்", "குரு", "உயர் கல்வி"],
-      "condition": "புதன் குரு சேர்க்கை",
-      "result": "உயர் கல்வியில் வெற்றி"
-    },
-    {
-      "id": "studies_002",
-      "category": "studies",
-      "rule": "புதன் உச்சம் பெற்றிருந்தால் தொழில்நுட்ப கல்வியில் சிறப்பு",
-      "ruleEnglish": "If Mercury is exalted, excellence in technical education",
-      "planets": ["புதன்"],
-      "tags": ["தொழில்நுட்பம்", "புதன்", "உச்சம்", "கல்வி"],
-      "condition": "புதன் உச்சம்",
-      "result": "தொழில்நுட்ப கல்வியில் சிறப்பு"
-    },
-    {
-      "id": "studies_003",
-      "category": "studies",
-      "rule": "5ம் வீட்டில் குரு இருந்தால் மேம்பட்ட கல்வி பெறுவார்",
-      "ruleEnglish": "If Jupiter is in 5th house, will get advanced education",
-      "planets": ["குரு"],
-      "tags": ["5ம் வீடு", "குரு", "மேம்பட்ட கல்வி"],
-      "condition": "5ம் வீட்டில் குரு",
-      "result": "மேம்பட்ட கல்வி"
-    },
-    {
-      "id": "studies_004",
-      "category": "studies",
-      "rule": "சரஸ்வதி யோகம் இருந்தால் கல்வியில் சிறந்து விளங்குவார்",
-      "ruleEnglish": "If Saraswati Yoga exists, will excel in education",
-      "planets": ["புதன்", "குரு", "சுக்ரன்"],
-      "tags": ["சரஸ்வதி யோகம்", "கல்வி", "சிறப்பு"],
-      "condition": "சரஸ்வதி யோகம்",
-      "result": "கல்வியில் சிறப்பு"
-    },
-    {
-      "id": "marriage_001",
-      "category": "marriage",
-      "rule": "சுக்ரன் மற்றும் சந்திரன் சேர்க்கை இருந்தால் அழகான வாழ்க்கைத் துணை கிடைக்கும்",
-      "ruleEnglish": "If Venus and Moon conjunction exists, beautiful life partner will be obtained",
-      "planets": ["சுக்ரன்", "சந்திரன்"],
-      "tags": ["திருமணம்", "அழகு", "சுக்ரன்", "சந்திரன்", "வாழ்க்கைத் துணை"],
-      "condition": "சுக்ரன் சந்திரன் சேர்க்கை",
-      "result": "அழகான வாழ்க்கைத் துணை"
-    },
-    {
-      "id": "marriage_002",
-      "category": "marriage",
-      "rule": "7ம் வீட்டில் சுக்ரன் இருந்தால் சீக்கிரம் திருமணம் நடக்கும்",
-      "ruleEnglish": "If Venus is in 7th house, marriage will happen soon",
-      "planets": ["சுக்ரன்"],
-      "tags": ["திருமணம்", "7ம் வீடு", "சுக்ரன்", "சீக்கிரம்"],
-      "condition": "7ம் வீட்டில் சுக்ரன்",
-      "result": "சீக்கிரம் திருமணம்"
-    },
-    {
-      "id": "marriage_003",
-      "category": "marriage",
-      "rule": "செவ்வாய் தோஷம் இருந்தால் திருமணம் தாமதமாகும்",
-      "ruleEnglish": "If Mangal dosha exists, marriage will be delayed",
-      "planets": ["செவ்வாய்"],
-      "tags": ["செவ்வாய் தோஷம்", "திருமண தாமதம்"],
-      "condition": "செவ்வாய் தோஷம்",
-      "result": "திருமண தாமதம்"
-    },
-    {
-      "id": "marriage_004",
-      "category": "marriage",
-      "rule": "குரு 7ம் வீட்டைப் பார்த்தால் நல்ல திருமண வாழ்க்கை",
-      "ruleEnglish": "If Jupiter aspects 7th house, good married life",
-      "planets": ["குரு"],
-      "tags": ["குரு பார்வை", "7ம் வீடு", "நல்ல திருமணம்"],
-      "condition": "குரு 7ம் வீட்டு பார்வை",
-      "result": "நல்ல திருமண வாழ்க்கை"
-    },
-    {
-      "id": "job_001",
-      "category": "job",
-      "rule": "செவ்வாய் மற்றும் சூரியன் சேர்க்கை இருந்தால் அரசு வேலை வாய்ப்பு உண்டு",
-      "ruleEnglish": "If Mars and Sun conjunction exists, government job opportunity exists",
-      "planets": ["செவ்வாய்", "சூரியன்"],
-      "tags": ["அரசு வேலை", "செவ்வாய்", "சூரியன்", "வாய்ப்பு"],
-      "condition": "செவ்வாய் சூரியன் சேர்க்கை",
-      "result": "அரசு வேலை வாய்ப்பு"
-    },
-    {
-      "id": "job_002",
-      "category": "job",
-      "rule": "10ம் வீட்டில் குரு இருந்தால் ஆசிரியர் பணி கிடைக்கும்",
-      "ruleEnglish": "If Jupiter is in 10th house, teaching job will be obtained",
-      "planets": ["குரு"],
-      "tags": ["ஆசிரியர்", "10ம் வீடு", "குரு", "பணி"],
-      "condition": "10ம் வீட்டில் குரு",
-      "result": "ஆசிரியர் பணி"
-    },  
-    {
-      "id": "job_003",
-      "category": "job",
-      "rule": "புதன் மற்றும் சுக்ரன் சேர்க்கை இருந்தால் வியாபார வெற்றி",
-      "ruleEnglish": "If Mercury and Venus conjunction exists, business success",
-      "planets": ["புதன்", "சுக்ரன்"],
-      "tags": ["வியாபாரம்", "வெற்றி", "புதன்", "சுக்ரன்"],
-      "condition": "புதன் சுக்ரன் சேர்க்கை",
-      "result": "வியாபார வெற்றி"
-    },
-    {
-      "id": "job_004",
-      "category": "job",
-      "rule": "10ம் வீட்டில் சனி இருந்தால் கடின உழைப்பால் உயர்வு",
-      "ruleEnglish": "If Saturn is in 10th house, promotion through hard work",
-      "planets": ["சனி"],
-      "tags": ["கடின உழைப்பு", "உயர்வு", "10ம் வீடு", "சனி"],
-      "condition": "10ம் வீட்டில் சனி",
-      "result": "கடின உழைப்பால் உயர்வு"
-    },
-    {
-      "id": "karma_001",
-      "category": "karma",
-      "rule": "கேது இருக்கும் பாவத்தில் அதிகம் எதிர்பார்க்க வேண்டாம், அந்த பாவ அதிபதி வலுத்து இருந்தால், அனைத்தும் பிரச்சனைக்குள் ஆகுவர்", 
-      "ruleEnglish": "Don't expect much in the bhavam where Ketu sits, if that bhava athipathi is strong, everything will become problematic",
-      "planets": ["கேது"],
-      "tags": ["கேது", "பாவம்", "அதிபதி", "பிரச்சனை", "கர்மா"],
-      "condition": "கேது இருக்கும் பாவத்தில் அதிபதி வலுவு",
-      "result": "எதிர்பார்ப்பு குறைவு, பிரச்சனைகள்"
-    },
-    {
-      "id": "karma_002", 
-      "category": "karma",
-      "rule": "ராகு இருக்கும் பாவத்தில் வீடு கொடுத்தவன் வலுவாக இருந்தால், அனைத்தும் கிடைக்கும், ஆனால் அதிக ஆசைப்பட்டால் கர்ம வினை பெருகும் ஏமாற்றம் நடக்கலாம்",
-      "ruleEnglish": "If Rahu sits in one bhavam where house lord is strong, everything will be available, but excessive desires may increase karmic consequences and deception may occur",
-      "planets": ["ராகு"],
-      "tags": ["ராகு", "பாவம்", "அதிபதி", "ஆசை", "கர்ம வினை", "ஏமாற்றம்"],
-      "condition": "ராகு இருக்கும் பாவ அதிபதி வலுவு",
-      "result": "அனைத்தும் கிடைக்கும், ஆனால் அதிக ஆசை ஆபத்து"
-    },
-    {
-      "id": "karma_003",
-      "category": "karma", 
-      "rule": "சனி பகவான் அனைத்து பாவங்களுக்கும் தீர்ப்பு வழங்குவார், கர்மாவின் அடிப்படையில் நல்லது கெட்டது இரண்டையும் அறுவடை செய்வார், எனவே ஏற்றுக்கொள்ளுங்கள்",
-      "ruleEnglish": "Saturn bhagavan will give judgement for all the sins and reap both good and bad based on karma, so accept",
-      "planets": ["சனி"],
-      "tags": ["சனி", "தீர்ப்பு", "கர்மா", "பாவம்", "நல்லது", "கெட்டது", "ஏற்றுக்கொள்ளுதல்"],
-      "condition": "சனியின் கர்ம தீர்ப்பு",
-      "result": "கர்மாவின் அடிப்படையில் பலன்"
+      "id": "people_characters",
+      "name": "மக்களின் குணாதிசயங்கள்",
+      "nameEnglish": "People Characters",
+      "icon": "people-outline",
+      "color": "#8b5cf6",
+      "ruleCount": 1
     }
   ]
 }

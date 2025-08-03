@@ -1,0 +1,45 @@
+{
+  "category": "studies",
+  "rules": [
+    {
+      "id": "studies_001",
+      "category": "studies", 
+      "rule": "புதன் மற்றும் குரு சேர்க்கை இருந்தால் உயர் கல்வியில் வெற்றி கிடைக்கும்",
+      "ruleEnglish": "If Mercury and Jupiter conjunction exists, success in higher education will be achieved",
+      "planets": ["புதன்", "குரு"],
+      "tags": ["கல்வி", "வெற்றி", "புதன்", "குரு", "உயர் கல்வி"],
+      "condition": "புதன் குரு சேர்க்கை",
+      "result": "உயர் கல்வியில் வெற்றி"
+    },
+    {
+      "id": "studies_002",
+      "category": "studies",
+      "rule": "புதன் உச்சம் பெற்றிருந்தால் தொழில்நுட்ப கல்வியில் சிறப்பு",
+      "ruleEnglish": "If Mercury is exalted, excellence in technical education",
+      "planets": ["புதன்"],
+      "tags": ["தொழில்நுட்பம்", "புதன்", "உச்சம்", "கல்வி"],
+      "condition": "புதன் உச்சம்",
+      "result": "தொழில்நுட்ப கல்வியில் சிறப்பு"
+    },
+    {
+      "id": "studies_003",
+      "category": "studies",
+      "rule": "5ம் வீட்டில் குரு இருந்தால் மேம்பட்ட கல்வி பெறுவார்",
+      "ruleEnglish": "If Jupiter is in 5th house, will get advanced education",
+      "planets": ["குரு"],
+      "tags": ["5ம் வீடு", "குரு", "மேம்பட்ட கல்வி"],
+      "condition": "5ம் வீட்டில் குரு",
+      "result": "மேம்பட்ட கல்வி"
+    },
+    {
+      "id": "studies_004",
+      "category": "studies",
+      "rule": "சரஸ்வதி யோகம் இருந்தால் கல்வியில் சிறந்து விளங்குவார்",
+      "ruleEnglish": "If Saraswati Yoga exists, will excel in education",
+      "planets": ["புதன்", "குரு", "சுக்ரன்"],
+      "tags": ["சரஸ்வதி யோகம்", "கல்வி", "சிறப்பு"],
+      "condition": "சரஸ்வதி யோகம்",
+      "result": "கல்வியில் சிறப்பு"
+    }
+  ]
+}

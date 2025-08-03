@@ -1,0 +1,15 @@
+{
+  "category": "people_characters",
+  "rules": [
+    {
+      "id": "people_characters_001",
+      "category": "people_characters",
+      "rule": "லக்ன புள்ளி கேது சாரத்தில் (அஸ்வினி, மகம், மூலம்) இருந்தால், அவர்கள் அமைதியான கொலையாளிகள், அவர்களுக்கு தீமை நடந்தால், காலம் பார்த்து பழி வாங்குவார்கள்",
+      "ruleEnglish": "If Lagna pulli is in Ketu saram (Aswini, Magam, Moolam), they will be silent killers, if bad happened to them, they will wait for time and then attack, they will take revenge",
+      "planets": ["கேது", "லக்னம்"],
+      "tags": ["லக்னம்", "கேது", "அஸ்வினி", "மகம்", "மூலம்", "அமைதி", "பழிவாங்குதல்", "குணம்"],
+      "condition": "லக்ன புள்ளி கேது சாரத்தில் (அஸ்வினி, மகம், மூலம்)",
+      "result": "அமைதியான கொலையாளி குணம், காலம் பார்த்து பழி வாங்குதல்"
+    }
+  ]
+}
