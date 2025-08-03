@@ -277,14 +277,11 @@ export class ConceptsPage implements OnInit, OnDestroy {
         case 'modaku_pariharangal_001':
           this.router.navigate(['/modaku-pariharangal']);
           break;
-        case 'manthi_pariharangal_001':
-          this.router.navigate(['/manthi-pariharangal']);
-          break;
         case 'maanthi_pariharangal_001':
           this.router.navigate(['/maanthi-pariharangal']);
           break;
-        case 'uyarnillai_astrology_001':
-          this.router.navigate(['/uyarnillai-astrology']);
+        case 'uyarnilai_astrology_001':
+          this.router.navigate(['/uyarnilai-astrology']);
           break;
         case 'theiva_vazhipadu_padalgal_001':
           this.router.navigate(['/theiva-vazhipadu-padalgal']);

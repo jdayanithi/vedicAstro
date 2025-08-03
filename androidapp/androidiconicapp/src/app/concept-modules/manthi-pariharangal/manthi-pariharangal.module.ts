@@ -18,3 +18,4 @@ import { ManthiPariharangalPage } from './manthi-pariharangal.page';
   declarations: [ManthiPariharangalPage]
 })
 export class ManthiPariharangalPageModule {}
+

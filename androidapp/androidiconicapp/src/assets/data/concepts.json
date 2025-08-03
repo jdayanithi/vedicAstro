@@ -241,20 +241,20 @@
       "imageUrl": "/assets/images/namayogam-course.jpg"
     },
     {
-      "id": "manthi_pariharangal_001",
-      "title": "மந்தி பரிகாரங்கள்",
-      "titleEnglish": "Manthi Pariharangal",
-      "description": "மந்தி தோஷம் மற்றும் அதன் பரிகார முறைகள் - சனியின் மறைவான தாக்கம் மற்றும் நிவர்த்தி வழிகள்",
-      "descriptionEnglish": "Manthi dosha and remedial methods - hidden influence of Saturn and ways to overcome",
+      "id": "maanthi_pariharangal_001",
+      "title": "மாந்தி பரிகாரங்கள்",
+      "titleEnglish": "Maanthi Pariharangal",
+      "description": "மாந்தி தோஷம் மற்றும் அதன் பரிகார முறைகள் - சனியின் மறைவான தாக்கம் மற்றும் நிவர்த்தி வழிகள்",
+      "descriptionEnglish": "Maanthi dosha and remedial methods - hidden influence of Saturn and ways to overcome",
       "category": "கிரக பரிகாரம்",
       "categoryEnglish": "Planetary Remedies",
       "price": 229,
       "isPaid": true,
       "duration": "85 நிமிடங்கள்",
       "level": "நடுத்தர",
-      "content": "மந்தி தோஷத்தின் விரிவான ஆய்வு, சனியின் மறைவான தாக்கம், மந்தி காலம், அதன் பலன்கள், பரிகார முறைகள், சிறப்பு பூஜைகள்...",
-      "tags": ["மந்தி", "சனி", "தோஷம்", "பரிகாரம்", "காலம்", "பூஜை"],
-      "imageUrl": "/assets/images/manthi-pariharangal.jpg"
+      "content": "மாந்தி தோஷத்தின் விரிவான ஆய்வு, சனியின் மறைவான தாக்கம், மாந்தி காலம், அதன் பலன்கள், பரிகார முறைகள், சிறப்பு பூஜைகள்...",
+      "tags": ["மாந்தி", "சனி", "தோஷம்", "பரிகாரம்", "காலம்", "பூஜை"],
+      "imageUrl": "/assets/images/maanthi-pariharangal.jpg"
     },
     {
       "id": "uyarnilai_astrology_001",
