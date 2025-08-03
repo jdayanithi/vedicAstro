@@ -42,15 +42,11 @@
   <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="warning" class="segment-control">
     <ion-segment-button value="overview">
       <ion-icon name="list-outline"></ion-icon>
-      <ion-label>பண்ணம்</ion-label>
+      <ion-label>Introduction</ion-label>
     </ion-segment-button>
     <ion-segment-button value="bhavas">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>பாவங்கள்</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="analysis">
-      <ion-icon name="analytics-outline"></ion-icon>
-      <ion-label>ஆய்வு</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -106,14 +102,6 @@
 
   <!-- Bhavas Content -->
   <div *ngIf="selectedSegment === 'bhavas'" class="content-section">
-    <!-- Search Bar -->
-    <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ionInput)="searchBhavas()"
-      placeholder="பாவம் தேடுங்கள்..."
-      show-clear-button="focus">
-    </ion-searchbar>
-
     <!-- Bhavas List -->
     <ion-list class="bhavas-list">
       <ion-card *ngFor="let bhava of filteredBhavas" class="bhava-card">
@@ -123,14 +111,6 @@
             <div class="bhava-info">
               <ion-card-title class="tamil-text">{{ bhava.name }}</ion-card-title>
               <ion-card-subtitle>{{ bhava.nameEnglish }}</ion-card-subtitle>
-              <div class="bhava-meta">
-                <ion-chip size="small" color="warning">
-                  <ion-label>{{ bhava.nature }}</ion-label>
-                </ion-chip>
-                <ion-chip size="small" color="medium">
-                  <ion-label>{{ bhava.element }}</ion-label>
-                </ion-chip>
-              </div>
             </div>
             <ion-icon
               [name]="bhava.expanded ? 'chevron-up' : 'chevron-down'"
@@ -209,54 +189,5 @@
         </ion-card-content>
       </ion-card>
     </ion-list>
-  </div>
-
-  <!-- Analysis Content -->
-  <div *ngIf="selectedSegment === 'analysis'" class="content-section">
-    <ion-card class="analysis-card">
-      <ion-card-header>
-        <ion-card-title class="tamil-text">📊 பாவ ஆய்வு</ion-card-title>
-        <ion-card-subtitle>விரிவான ஜாதக பாவ பகுப்பாய்வு</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="analysis-content">
-          <div class="current-bhava">
-            <h3 class="tamil-text">{{ getCurrentBhava().number }}. {{ getCurrentBhava().name }}</h3>
-            <p class="subtitle">{{ getCurrentBhava().nameEnglish }}</p>
-
-            <div class="bhava-details">
-              <p><strong>சமஸ்கிருத பெயர்:</strong> {{ getCurrentBhava().sanskritName }}</p>
-              <p><strong>இயல்பு:</strong> {{ getCurrentBhava().nature }}</p>
-              <p><strong>தத்துவம்:</strong> {{ getCurrentBhava().element }}</p>
-            </div>
-
-            <div class="navigation-buttons">
-              <ion-button fill="outline" color="warning" (click)="previousBhava()" [disabled]="currentBhavaIndex === 0">
-                <ion-icon name="chevron-back" slot="start"></ion-icon>
-                முந்தைய
-              </ion-button>
-              <ion-button fill="outline" color="warning" (click)="nextBhava()" [disabled]="currentBhavaIndex === bhavas.length - 1">
-                அடுத்த
-                <ion-icon name="chevron-forward" slot="end"></ion-icon>
-              </ion-button>
-            </div>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="premium-feature">
-      <ion-card-content>
-        <div class="premium-content">
-          <ion-icon name="diamond" color="warning" size="large"></ion-icon>
-          <h3 class="tamil-text">🔒 மேம்பட்ட அம்சங்கள்</h3>
-          <p>முழு பாவ ஆய்வு மற்றும் தனிப்பயனாக்கப்பட்ட பரிகாரங்களுக்கு கோர்ஸை வாங்குங்கள்</p>
-          <ion-button expand="block" fill="solid" color="warning">
-            <ion-icon name="card" slot="start"></ion-icon>
-            ₹199 இல் வாங்குங்கள்
-          </ion-button>
-        </div>
-      </ion-card-content>
-    </ion-card>
   </div>
 </ion-content>
