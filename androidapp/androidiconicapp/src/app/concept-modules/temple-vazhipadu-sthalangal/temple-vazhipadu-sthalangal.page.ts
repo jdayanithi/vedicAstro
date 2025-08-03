@@ -395,13 +395,57 @@ export class TempleVazhipaduSthalalangalPage implements OnInit {
           pariharams: ['புஸ்தக பூஜை', 'எழுத்து வழிபாடு', 'சரஸ்வதி மந்திர'],
           benefits: ['கல்வி வளர்ச்சி', 'அறிவு வளர்ச்சி', 'தேர்வு வெற்றி'],
           howToReach: 'தஞ்சாவூர் வழியாக',
-          nearestStation: 'திருவார்ல் ரயில் நிலையம்',
+          nearestStation: 'திருவாரூர் ரயில் நிலையம்',
           accommodation: ['கோவில் விடுதி'],
-          offeringsRecommended: ['புஸ்தகங்கள்', 'பாட பேனா', 'பச்சை வஸ்திரம்', 'வெள்ளை பூ'],
-          googleMapsLink: 'https://goo.gl/maps/hij678',
+          offeringsRecommended: ['புஸ்தகங்கள்', 'பேனா', 'பச்சை வஸ்திரம்', 'வெள்ளை பூ'],
+          googleMapsLink: 'https://maps.app.goo.gl/mJc3jYkXbE4kZfA9A',
           coordinates: {
-            latitude: 10.7905,
-            longitude: 79.1373
+            latitude: 10.6667,
+            longitude: 79.4417
+          }
+        },
+        {
+          id: 'madurai-meenakshi-education',
+          name: 'மதுரை மீனாக்ஷி அம்மன் கோவில்',
+          englishName: 'Madurai Meenakshi Amman Temple',
+          location: 'மதுரை, தமிழ்நாடு',
+          deity: 'சரஸ்வதி தேவி சன்னதி',
+          significance: 'மீனாக்ஷி அம்மன் கோவிலில் உள்ள சரஸ்வதி சன்னதி கல்வி வளர்ச்சிக்கு மிகவும் உகந்தது.',
+          speciality: ['சகலகலாவல்லி மாலை பாராயணம்', 'கல்வி உபகரணங்கள் வைத்து வழிபாடு'],
+          timings: 'காலை 5:00 - மதியம் 12:30, மாலை 4:00 - இரவு 9:30',
+          festivals: ['நவராத்திரி', 'சரஸ்வதி பூஜை'],
+          pariharams: ['சகலகலாவல்லி மாலை பாராயணம்', 'வெள்ளை தாமரை பூ அர்ச்சனை'],
+          benefits: ['தேர்வில் வெற்றி', 'கூர்மையான அறிவு', 'கலைகளில் தேர்ச்சி'],
+          howToReach: 'மதுரை விமான/ரயில் நிலையம் வழியாக எளிதில் அடையலாம்',
+          nearestStation: 'மதுரை ரயில் நிலையம்',
+          accommodation: ['மதுரையில் பல தனியார் ஹோட்டல்கள் உள்ளன', 'கோவில் தேவஸ்தான விடுதிகள்'],
+          offeringsRecommended: ['புத்தகங்கள்', 'பேனா', 'வெள்ளை வஸ்திரம்'],
+          googleMapsLink: 'https://maps.app.goo.gl/abL54b3tV6yTf2xZA',
+          coordinates: {
+            latitude: 9.9195,
+            longitude: 78.1193
+          }
+        },
+        {
+          id: 'namakkal-namagiri',
+          name: 'நாமக்கல் நாமகிரித்தாயார்',
+          englishName: 'Namakkal Namagiri Thayar',
+          location: 'நாமக்கல், தமிழ்நாடு',
+          deity: 'நாமகிரித்தாயார் (லக்ஷ்மி)',
+          significance: 'கணித மேதை ராமானுஜர் வழிபட்ட தலம். கல்வி மற்றும் கணிதத்தில் சிறந்து விளங்க அருள் புரிகிறார்.',
+          speciality: ['கணித பிரச்சனைகளுக்கு தீர்வு', 'மாணவர்கள் சிறப்பு வழிபாடு'],
+          timings: 'காலை 6:30 - மதியம் 1:00, மாலை 4:30 - இரவு 9:00',
+          festivals: ['நவராத்திரி', 'வைகுண்ட ஏகாதசி'],
+          pariharams: ['நெய் தீபம் ஏற்றுதல்', 'ஸ்ரீ லக்ஷ்மி ஸ்தோத்திரம் பாராயணம்'],
+          benefits: ['கணிதத்தில் மேன்மை', 'கல்வித் தடைகள் நீங்குதல்', 'தெளிவான சிந்தனை'],
+          howToReach: 'சேலம் அல்லது கரூரிலிருந்து பேருந்து மூலம் எளிதில் அடையலாம்',
+          nearestStation: 'சேலம் ரயில் நிலையம்',
+          accommodation: ['நாமக்கல்லில் தனியார் ஹோட்டல்கள் உள்ளன'],
+          offeringsRecommended: ['தாமரை பூ', 'தேன்', 'நெய்'],
+          googleMapsLink: 'https://maps.app.goo.gl/hE4ZgYxVp8sA2bCq7',
+          coordinates: {
+            latitude: 11.2267,
+            longitude: 78.1634
           }
         }
         // Additional education temples would be added here...
