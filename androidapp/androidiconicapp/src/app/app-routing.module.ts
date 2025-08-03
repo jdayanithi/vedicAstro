@@ -75,7 +75,7 @@ const routes: Routes = [
   },
   {
     path: 'manthi-pariharangal',
-    loadChildren: () => import('./concept-modules/manthi-pariharangal/manthi-pariharangal.module').then( m => m.ManthiPariharangalPageModule)
+    loadChildren: () => import('./concept-modules/maanthi-pariharangal/maanthi-pariharangal.module').then( m => m.MaanthiPariharangalPageModule)
   },
   {
     path: 'pathigam',
