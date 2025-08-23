@@ -1,45 +1,63 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="warning">
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/concepts"></ion-back-button>
+      <div class="app-logo" style="margin-left:8px; display:flex; align-items:center;">
+        <img src="assets/icon/logo.svg" alt="LDML" width="28" height="28">
+      </div>
     </ion-buttons>
-    <ion-title class="tamil-text">🏠 பாவ கராத்துவம்</ion-title>
+
+    <ion-title>🏠 பாவ கராத்துவம்</ion-title>
+
     <ion-buttons slot="end">
-      <ion-button (click)="toggleBookmark()">
+      <ion-button (click)="toggleBookmark()" fill="clear" title="Bookmark">
         <ion-icon [name]="isBookmarked ? 'bookmark' : 'bookmark-outline'" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="navigateToAnalysis()" fill="clear" title="Start Analysis">
+        <ion-icon name="analytics" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Hero Header -->
-  <div class="hero-header" *ngIf="selectedSegment === 'overview'">
-    <div class="hero-content">
-      <div class="hero-icon-wrapper">
+  <!-- Welcome Section -->
+  <div class="welcome-section" *ngIf="selectedSegment === 'overview'">
+    <div class="concept-hero-wrapper">
+      <div class="concept-icon">
         <ion-icon name="home" class="floating-icon"></ion-icon>
       </div>
-      <h1 class="tamil-text">🏠 பாவ கராத்துவம்</h1>
-      <p class="subtitle">12 பாவங்களின் முழுமையான ஆய்வு மற்றும் பலன்கள்</p>
-      <div class="meta-chips">
-        <ion-chip color="warning" size="small">
+      <h2 class="concept-title">🏠 பாவ கராத்துவம்</h2>
+      <p class="concept-description h4">12 பாவங்களின் முழுமையான ஆய்வு மற்றும் பரிகாரங்கள்</p>
+      
+      <!-- Metadata Chips -->
+      <div class="concept-meta">
+        <ion-chip color="primary" outline="true" size="small">
           <ion-icon name="star" slot="start"></ion-icon>
           <ion-label>₹199</ion-label>
         </ion-chip>
-        <ion-chip color="success" size="small">
+        <ion-chip color="success" outline="true" size="small">
           <ion-icon name="time" slot="start"></ion-icon>
           <ion-label>60 நிமிடங்கள்</ion-label>
         </ion-chip>
-        <ion-chip color="primary" size="small">
+        <ion-chip color="tertiary" outline="true" size="small">
           <ion-icon name="school" slot="start"></ion-icon>
           <ion-label>நடுத்தர நிலை</ion-label>
         </ion-chip>
+      </div>
+
+      <!-- Action Button -->
+      <div class="concept-actions">
+        <ion-button expand="block" color="primary" (click)="navigateToAnalysis()">
+          <ion-icon name="analytics" slot="start"></ion-icon>
+          Start Analysis
+        </ion-button>
       </div>
     </div>
   </div>
 
   <!-- Segment Control -->
-  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="warning" class="segment-control">
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" class="segment-control">
     <ion-segment-button value="overview">
       <ion-icon name="list-outline"></ion-icon>
       <ion-label>Introduction</ion-label>
@@ -59,7 +77,7 @@
     <!-- Basic Introduction Card -->
     <ion-card class="intro-card">
       <ion-card-header>
-        <ion-card-title class="tamil-text">{{ introduction.basicIntro.title }}</ion-card-title>
+        <ion-card-title>{{ introduction.basicIntro.title }}</ion-card-title>
         <ion-card-subtitle>Basic Introduction to Bhava, House & Lord</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
@@ -69,18 +87,18 @@
         
         <!-- Basic Introduction Sections -->
         <div *ngFor="let section of introduction.basicIntro.sections" class="intro-section">
-          <h4 class="section-title tamil-text">{{ section.title }}</h4>
+          <h4 class="h4">{{ section.title }}</h4>
           <div *ngFor="let content of section.content" class="content-paragraph">
             <p class="description-text">{{ content }}</p>
           </div>
           
           <!-- Rasi Athipathi List for 3rd section -->
           <div *ngIf="section.rasiAthipathi" class="concept-card">
-            <h5 class="subsection-title tamil-text">📋 ராசியும் அதிபதியும்:</h5>
+                        <h5 class="h5">📋 ராசியும் அதிபதியும்:</h5>
             <ion-list lines="none" class="concept-list">
               <ion-item *ngFor="let rasi of section.rasiAthipathi">
                 <ion-icon name="arrow-forward" slot="start" color="secondary"></ion-icon>
-                <ion-label class="tamil-text">{{ rasi }}</ion-label>
+                <ion-label>{{ rasi }}</ion-label>
               </ion-item>
             </ion-list>
           </div>
@@ -88,11 +106,11 @@
         
         <!-- Summary Section -->
         <div class="summary-section">
-          <h4 class="section-title tamil-text">{{ introduction.basicIntro.summary.title }}</h4>
+          <h4 class="h4">{{ introduction.basicIntro.summary.title }}</h4>
           <ion-list lines="none" class="summary-list">
             <ion-item *ngFor="let point of introduction.basicIntro.summary.points">
               <ion-icon name="arrow-forward" slot="start" color="primary"></ion-icon>
-              <ion-label class="tamil-text">{{ point }}</ion-label>
+              <ion-label>{{ point }}</ion-label>
             </ion-item>
           </ion-list>
           <p class="description-text conclusion-text">
@@ -105,7 +123,7 @@
     <!-- Main Introduction Card -->
     <ion-card class="intro-card">
       <ion-card-header>
-        <ion-card-title class="tamil-text">🏠 பாவங்களின் வகைப்பாடு</ion-card-title>
+        <ion-card-title>🏠 பாவங்களின் வகைப்பாடு</ion-card-title>
         <ion-card-subtitle>Classification of Bhavas in Astrology</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
@@ -116,22 +134,22 @@
           <ion-item lines="none">
             <ion-icon name="person" slot="start" color="primary"></ion-icon>
             <ion-label>
-              <h3><strong>உயிர் உள்ள (Living / Animate):</strong></h3>
-              <p>இது ஒருவரின் வாழ்க்கையில் இருக்கும் மனிதர்கள், உறவுகள், மற்றும் உயிருள்ள தொடர்புகளைக் குறிக்கும்.</p>
+              <div class="description-text"><strong>உயிர் உள்ள (Living / Animate):</strong></div>
+              <p class="description-text">இது ஒருவரின் வாழ்க்கையில் இருக்கும் மனிதர்கள், உறவுகள், மற்றும் உயிருள்ள தொடர்புகளைக் குறிக்கும்.</p>
             </ion-label>
           </ion-item>
           <ion-item lines="none">
             <ion-icon name="cube" slot="start" color="success"></ion-icon>
             <ion-label>
-              <h3><strong>உயிர் அற்ற (Non-living):</strong></h3>
-              <p>இது பொருட்கள், சொத்துக்கள், நிகழ்வுகள், மற்றும் உணர்வுபூர்வமான கருத்துகள் போன்ற உயிரற்ற விஷயங்களைக் குறிக்கும்.</p>
+              <div class="description-text"><strong>உயிர் அற்ற (Non-living):</strong></div>
+              <p class="description-text">இது பொருட்கள், சொத்துக்கள், நிகழ்வுகள், மற்றும் உணர்வுபூர்வமான கருத்துகள் போன்ற உயிரற்ற விஷயங்களைக் குறிக்கும்.</p>
             </ion-label>
           </ion-item>
           <ion-item lines="none">
             <ion-icon name="body" slot="start" color="warning"></ion-icon>
             <ion-label>
-              <h3><strong>உடல் உறுப்புகள் (Body Parts):</strong></h3>
-              <p>இது ஒவ்வொரு பாவமும் உடலின் எந்தப் பகுதியைக் குறிக்கிறது என்பதை விளக்குகிறது.</p>
+              <div class="description-text"><strong>உடல் உறுப்புகள் (Body Parts):</strong></div>
+              <p class="description-text">இது ஒவ்வொரு பாவமும் உடலின் எந்தப் பகுதியைக் குறிக்கிறது என்பதை விளக்குகிறது.</p>
             </ion-label>
           </ion-item>
         </ion-list>
@@ -144,8 +162,8 @@
     <ion-card class="action-card">
       <ion-card-content>
         <div class="action-content">
-          <h3 class="tamil-text">🚀 ஆய்வு துவங்குங்கள்</h3>
-          <p>உங்கள் ஜாதகத்தின் பாவ பலன்களை அறிய தயாரா?</p>
+          <h3 class="h3">🚀 ஆய்வு துவங்குங்கள்</h3>
+          <p class="description-text">உங்கள் ஜாதகத்தின் பாவ பலன்களை அறிய தயாரா?</p>
           <ion-button expand="block" fill="solid" color="warning" (click)="navigateToAnalysis()">
             <ion-icon name="analytics" slot="start"></ion-icon>
             பாவ ஆய்வு துவங்கு
@@ -164,7 +182,7 @@
           <div class="bhava-header">
             <div class="bhava-number">{{ bhava.number }}</div>
             <div class="bhava-info">
-              <ion-card-title class="tamil-text">{{ bhava.name }}</ion-card-title>
+              <ion-card-title>{{ bhava.name }}</ion-card-title>
             </div>
             <ion-icon
               [name]="bhava.expanded ? 'chevron-up' : 'chevron-down'"
@@ -176,7 +194,7 @@
         <ion-card-content *ngIf="bhava.expanded" class="expanded-content">
           <!-- Significances -->
           <div class="detail-section">
-            <h4 class="section-title">🎯 கராத்துவம்</h4>
+            <h4 class="h4">🎯 கராத்துவம்</h4>
             <ion-list>
               <ion-item *ngFor="let significance of bhava.significances" lines="none">
                 <ion-icon name="arrow-forward" slot="start" color="warning"></ion-icon>
@@ -187,7 +205,7 @@
 
           <!-- Body Parts -->
           <div class="detail-section">
-            <h4 class="section-title">👤 உடல் அங்கங்கள்</h4>
+            <h4 class="h4">👤 உடல் அங்கங்கள்</h4>
             <div class="tags-container">
               <ion-chip *ngFor="let part of bhava.bodyParts" color="tertiary" size="small">
                 <ion-label>{{ part }}</ion-label>
@@ -197,7 +215,7 @@
 
           <!-- Relationships -->
           <div class="detail-section">
-            <h4 class="section-title">👥 உறவுகள்</h4>
+            <h4 class="h4">👥 உறவுகள்</h4>
             <div class="tags-container">
               <ion-chip *ngFor="let relationship of bhava.relationships" color="secondary" size="small">
                 <ion-label>{{ relationship }}</ion-label>
@@ -207,7 +225,7 @@
 
           <!-- Remedies -->
           <div class="detail-section">
-            <h4 class="section-title">🙏 பரிகாரங்கள்</h4>
+            <h4 class="h4">🙏 பரிகாரங்கள்</h4>
             <ion-list>
               <ion-item *ngFor="let remedy of bhava.remedies" lines="none">
                 <ion-icon name="leaf" slot="start" color="success"></ion-icon>
@@ -230,13 +248,13 @@
     <!-- Pariharam Section -->
     <ion-card class="pariharam-card">
       <ion-card-header>
-        <ion-card-title class="tamil-text">🔮 பரிகாரம் எடுத்தல்</ion-card-title>
+        <ion-card-title>🔮 பரிகாரம் எடுத்தல்</ion-card-title>
         <ion-card-subtitle>மூன்று வகையான பரிகார முறைகள்</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <!-- Introduction -->
         <div class="pariharam-intro">
-          <h3 class="tamil-text">எளிய முறையில் பரிகாரம் செய்வது எப்படி?</h3>
+          <h3 class="h3">எளிய முறையில் பரிகாரம் செய்வது எப்படி?</h3>
           <p class="description-text">
             ஜோதிடத்தில், நமது வாழ்க்கையின் சில சிக்கல்களைத் தீர்க்க பரிகாரங்கள் செய்யப்படுகின்றன. இந்தப் பரிகாரங்களை மூன்று பிரிவுகளாகப் பிரித்துச் செய்வதன் மூலம் அதிக பலனைப் பெறலாம்.
           </p>
@@ -252,7 +270,7 @@
         <div class="remedy-types-section">
           <!-- Base Example -->
           <div class="base-example">
-            <h4 class="example-title">📋 அடிப்படை உதாரணம்:</h4>
+            <h4 class="h4">📋 அடிப்படை உதாரணம்:</h4>
             <ion-list lines="none" class="base-list">
               <ion-item>
                 <ion-icon name="arrow-forward" slot="start" color="primary"></ion-icon>
@@ -271,7 +289,7 @@
 
           <!-- First Type: Uyir Attra Karagathuvam -->
           <div class="remedy-type">
-            <h4 class="remedy-type-title">🎯 1. உயிர் அற்ற கராகத்துவம்</h4>
+            <h4 class="h4">🎯 1. உயிர் அற்ற கராகத்துவம்</h4>
             <ion-list lines="none" class="remedy-list">
               <ion-item>
                 <ion-icon name="cube" slot="start" color="tertiary"></ion-icon>
@@ -286,7 +304,7 @@
 
           <!-- Second Type: Udal Karagathuvam -->
           <div class="remedy-type">
-            <h4 class="remedy-type-title">👤 2. உடல் கராகத்துவம்</h4>
+            <h4 class="h4">👤 2. உடல் கராகத்துவம்</h4>
             <ion-list lines="none" class="remedy-list">
               <ion-item>
                 <ion-icon name="body" slot="start" color="warning"></ion-icon>
@@ -301,7 +319,7 @@
 
           <!-- Third Type: Uyir Karagathuvam -->
           <div class="remedy-type">
-            <h4 class="remedy-type-title">👥 3. உயிர் கராகத்துவம் (மிக சக்திவாய்ந்தது)</h4>
+            <h4 class="h4">👥 3. உயிர் கராகத்துவம் (மிக சக்திவாய்ந்தது)</h4>
             <ion-list lines="none" class="remedy-list">
               <ion-item>
                 <ion-icon name="person" slot="start" color="primary"></ion-icon>
