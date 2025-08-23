@@ -50,6 +50,218 @@
   100% { transform: scale(1); }
 }
 
+/* Enhanced Introduction Section Styles */
+.intro-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-radius: 15px;
+  border-left: 5px solid #f59e0b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  animation: slideInUp 0.6s ease-out;
+  
+  &:nth-child(even) {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-left-color: #10b981;
+  }
+  
+  &:nth-child(odd) {
+    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+    border-left-color: #8b5cf6;
+  }
+}
+
+.section-title {
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  color: #1f2937 !important;
+  margin-bottom: 1.2rem !important;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #f59e0b;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, #f59e0b, #d97706);
+    border-radius: 2px;
+  }
+}
+
+.content-paragraph {
+  margin: 1rem 0;
+  
+  p {
+    font-size: 1.1rem !important;
+    line-height: 1.7 !important;
+    color: #374151 !important;
+    margin-bottom: 1rem !important;
+    padding: 0.5rem 0;
+    text-align: justify;
+  }
+}
+
+.rasi-athipathi-section {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e5e7eb;
+}
+
+.subsection-title {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+  margin-bottom: 1rem !important;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white !important;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+}
+
+.rasi-list {
+  background: transparent;
+  
+  ion-item {
+    --background: rgba(255, 255, 255, 0.7);
+    --border-radius: 8px;
+    margin: 0.5rem 0;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    
+    ion-label {
+      font-size: 1rem !important;
+      font-weight: 500 !important;
+      color: #374151 !important;
+    }
+    
+    ion-icon {
+      color: #f59e0b !important;
+    }
+  }
+}
+
+.summary-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border-radius: 15px;
+  border: 2px solid #10b981;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
+  
+  .section-title {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white !important;
+    text-align: center;
+    
+    &::before {
+      background: linear-gradient(to bottom, #10b981, #059669);
+    }
+  }
+}
+
+.summary-list {
+  background: transparent;
+  
+  ion-item {
+    --background: rgba(255, 255, 255, 0.8);
+    --border-radius: 10px;
+    margin: 0.8rem 0;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d1fae5;
+    
+    ion-label {
+      font-size: 1.1rem !important;
+      font-weight: 600 !important;
+      color: #065f46 !important;
+    }
+    
+    ion-icon {
+      color: #10b981 !important;
+      font-size: 1.2rem !important;
+    }
+  }
+}
+
+.conclusion-text {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  color: #065f46 !important;
+  text-align: center !important;
+  margin-top: 1.5rem !important;
+  padding: 1.5rem !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-radius: 12px !important;
+  border: 2px dashed #10b981 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Enhanced typography for description text */
+.description-text {
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  color: #374151 !important;
+  text-align: justify !important;
+  margin-bottom: 1.2rem !important;
+  
+  &:first-of-type {
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    color: #1f2937 !important;
+    background: rgba(249, 250, 251, 0.8);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid #6366f1;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Card enhancements */
+.intro-card {
+  margin-bottom: 2rem;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  
+  ion-card-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    
+    ion-card-title {
+      font-size: 1.5rem !important;
+      font-weight: 700 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    
+    ion-card-subtitle {
+      font-size: 1rem !important;
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-weight: 400 !important;
+    }
+  }
+  
+  ion-card-content {
+    padding: 2rem !important;
+    background: linear-gradient(135deg, #fefefe, #f9fafb);
+  }
+}
+
 /* Card animations */
 .intro-card, .pariharam-card, .action-card {
   animation: slideInUp 0.6s ease-out;
