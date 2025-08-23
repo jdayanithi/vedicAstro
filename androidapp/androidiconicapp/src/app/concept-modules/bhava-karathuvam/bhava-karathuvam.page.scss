@@ -1,190 +1,101 @@
-/* Bhava Karathuvam Styles */
+/* Import shared concept page styles */
+@import '../shared/concept-page.scss';
 
-.hero-header {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  padding: 2rem 1rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  border-radius: 0 0 20px 20px;
+/* Bhava Karathuvam specific styles */
+.content-section {
+  @extend .concept-content;
 }
 
-.hero-content {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.hero-icon-wrapper {
-  margin-bottom: 1rem;
-}
-
-.floating-icon {
-  font-size: 3rem;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* Enhanced Introduction Section Styles */
 .intro-section {
+  @extend .concept-card;
   margin: 2rem 0;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  border-radius: 15px;
-  border-left: 5px solid #f59e0b;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   animation: slideInUp 0.6s ease-out;
-  
-  &:nth-child(even) {
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    border-left-color: #10b981;
-  }
-  
-  &:nth-child(odd) {
-    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-    border-left-color: #8b5cf6;
-  }
+  border-left: 5px solid var(--accent-start);
 }
 
-.section-title {
-  font-size: 1.4rem !important;
-  font-weight: 700 !important;
-  color: #1f2937 !important;
-  margin-bottom: 1.2rem !important;
-  padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #f59e0b;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: 0;
-    height: 100%;
-    width: 4px;
-    background: linear-gradient(to bottom, #f59e0b, #d97706);
-    border-radius: 2px;
-  }
+/* Keep same accent for both even and odd sections */
+.intro-section:nth-child(even),
+.intro-section:nth-child(odd) {
+  border-left-color: var(--accent-start);
 }
 
-.content-paragraph {
-  margin: 1rem 0;
-  
-  p {
-    font-size: 1.1rem !important;
-    line-height: 1.7 !important;
-    color: #374151 !important;
-    margin-bottom: 1rem !important;
-    padding: 0.5rem 0;
-    text-align: justify;
-  }
-}
-
-.rasi-athipathi-section {
-  margin-top: 1.5rem;
+/* Unified Introduction Section Styles */
+.intro-section {
+  @extend .concept-card;
+  margin: 2rem 0;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #e5e7eb;
+  animation: slideInUp 0.6s ease-out;
+  border-left: 5px solid var(--accent-start);
 }
 
-.subsection-title {
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  color: #1f2937 !important;
-  margin-bottom: 1rem !important;
-  padding: 0.8rem 1rem;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  color: white !important;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+/* Remove alternating colors - keep same accent */
+.intro-section:nth-child(even),
+.intro-section:nth-child(odd) {
+  border-left-color: var(--accent-start);
 }
 
-.rasi-list {
-  background: transparent;
+/* Extended styles for specific sections */
+.rasi-athipathi-section {
+  @extend .concept-card;
+  margin-top: 1.5rem;
+  border: 2px solid rgba(217,119,6,0.12);
+}
+
+.summary-list {
+  @extend .concept-list;
   
   ion-item {
-    --background: rgba(255, 255, 255, 0.7);
-    --border-radius: 8px;
-    margin: 0.5rem 0;
-    --padding-start: 16px;
-    --padding-end: 16px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e5e7eb;
-    
     ion-label {
-      font-size: 1rem !important;
-      font-weight: 500 !important;
-      color: #374151 !important;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #065f46;
     }
     
     ion-icon {
-      color: #f59e0b !important;
+      color: #10b981;
+      font-size: 1.2rem;
     }
   }
 }
 
+/* Section Extensions */
+.rasi-athipathi-section {
+  @extend .concept-card;
+  margin-top: 1.5rem;
+  border: 2px solid rgba(217,119,6,0.12);
+}
+
+.subsection-title {
+  @extend .section-title;
+  font-size: 1.2rem !important;
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent-mid), var(--accent-start));
+  color: var(--accent-contrast) !important;
+}
+
+.rasi-list {
+  @extend .concept-list;
+}
+
 .summary-section {
+  @extend .concept-card;
   margin-top: 2rem;
   padding: 2rem;
-  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-  border-radius: 15px;
-  border: 2px solid #10b981;
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
-  
+  border: 2px solid rgba(217,119,6,0.12);
+  background: linear-gradient(135deg, rgba(249,158,11,0.05), rgba(217,119,6,0.04));
+
   .section-title {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white !important;
+    background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    color: var(--accent-contrast) !important;
     text-align: center;
-    
-    &::before {
-      background: linear-gradient(to bottom, #10b981, #059669);
-    }
   }
 }
 
 .summary-list {
-  background: transparent;
+  @extend .concept-list;
   
   ion-item {
-    --background: rgba(255, 255, 255, 0.8);
-    --border-radius: 10px;
-    margin: 0.8rem 0;
-    --padding-start: 20px;
-    --padding-end: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #d1fae5;
-    
     ion-label {
       font-size: 1.1rem !important;
       font-weight: 600 !important;
@@ -199,89 +110,36 @@
 }
 
 .conclusion-text {
-  font-size: 1.2rem !important;
-  font-weight: 600 !important;
-  color: #065f46 !important;
-  text-align: center !important;
-  margin-top: 1.5rem !important;
-  padding: 1.5rem !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  border-radius: 12px !important;
-  border: 2px dashed #10b981 !important;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15) !important;
+  @extend .content-paragraph;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 1.5rem;
+  border: 2px dashed rgba(217,119,6,0.12);
 }
 
-/* Enhanced typography for description text */
+/* Bhava-specific Typography */
 .description-text {
-  font-size: 1.1rem !important;
-  line-height: 1.8 !important;
-  color: #374151 !important;
-  text-align: justify !important;
-  margin-bottom: 1.2rem !important;
+  @extend .content-paragraph;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
   
   &:first-of-type {
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-    color: #1f2937 !important;
-    background: rgba(249, 250, 251, 0.8);
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #1f2937;
     border-left: 4px solid #6366f1;
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.5rem;
   }
 }
 
-/* Card enhancements */
-.intro-card {
-  margin-bottom: 2rem;
-  border-radius: 20px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  
-  ion-card-header {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    
-    ion-card-title {
-      font-size: 1.5rem !important;
-      font-weight: 700 !important;
-      margin-bottom: 0.5rem !important;
-    }
-    
-    ion-card-subtitle {
-      font-size: 1rem !important;
-      color: rgba(255, 255, 255, 0.9) !important;
-      font-weight: 400 !important;
-    }
-  }
-  
-  ion-card-content {
-    padding: 2rem !important;
-    background: linear-gradient(135deg, #fefefe, #f9fafb);
-  }
-}
-
-/* Card animations */
-.intro-card, .pariharam-card, .action-card {
-  animation: slideInUp 0.6s ease-out;
-  
+/* Card hover effects */
+.pariharam-card,
+.action-card {
   &:hover {
     transform: translateY(-5px);
     transition: transform 0.3s ease;
   }
-}
-
-.intro-card {
-  animation-delay: 0.1s;
-}
-
-.pariharam-card {
-  animation-delay: 0.2s;
-}
-
-.action-card {
-  animation-delay: 0.3s;
 }
 
 /* Icon animations */
@@ -293,43 +151,104 @@
   animation: pulse 0.6s ease-in-out;
 }
 
-.tamil-text {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin: 0.5rem 0;
+/* Icon Animation Extensions */
+.classification-list ion-item ion-icon {
+  animation: pulse 2s infinite;
 }
 
-.subtitle {
-  font-size: 1rem;
-  opacity: 0.9;
-  margin: 0.5rem 0;
-}
-
-.meta-chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-
-  ion-chip {
-    font-weight: 600;
-    font-size: 0.9rem;
-    
-    ion-label {
-      color: white !important;
-      font-weight: 600;
-    }
-    
-    ion-icon {
-      color: white !important;
-    }
-  }
+.action-content ion-button:hover {
+  animation: pulse 0.6s ease-in-out;
 }
 
 .segment-control {
   margin: 1rem;
+  border-radius: 12px;
+  padding: 6px;
+  background: linear-gradient(90deg, rgba(124,58,237,0.06), rgba(245,158,11,0.04), rgba(245,150,200,0.03));
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 22px rgba(15,23,42,0.04);
+  backdrop-filter: blur(6px);
+}
+
+/* Base look for segment buttons */
+.segment-control ion-segment-button {
+  --background: rgba(255,255,255,0.92);
+  color: #0f1724; /* dark text */
   border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 220ms ease, color 220ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+.segment-control ion-segment-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.08);
+}
+
+/* Per-tab colored active styles (use value attribute to target each tab) */
+.segment-control ion-segment-button[aria-pressed="true"] {
+  color: var(--accent-contrast) !important;
+  transform: translateY(-4px);
+}
+
+/* Overview tab - purple-blue theme */
+.segment-control ion-segment-button[value="overview"][aria-pressed="true"] {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 60%);
+  box-shadow: 0 12px 30px rgba(99,102,241,0.18);
+}
+
+/* Bhavas tab - amber theme */
+.segment-control ion-segment-button[value="bhavas"][aria-pressed="true"] {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 70%);
+  box-shadow: 0 12px 30px rgba(245,158,11,0.18);
+}
+
+/* Pariharam tab - pink/orange theme */
+.segment-control ion-segment-button[value="pariharam"][aria-pressed="true"] {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 70%);
+  box-shadow: 0 12px 30px rgba(240,115,146,0.16);
+}
+
+/* Give icons a soft glow when active */
+.segment-control ion-segment-button[aria-pressed="true"] ion-icon {
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.12));
+  color: inherit !important;
+}
+
+/* Unselected tab accent outlines to hint color */
+.segment-control ion-segment-button[value="overview"] {
+  border: 1px solid rgba(124,58,237,0.10);
+}
+.segment-control ion-segment-button[value="bhavas"] {
+  border: 1px solid rgba(245,158,11,0.10);
+}
+.segment-control ion-segment-button[value="pariharam"] {
+  border: 1px solid rgba(240,115,146,0.08);
+}
+
+/* Accessibility: ensure focus state is visible */
+.segment-control ion-segment-button:focus {
+  outline: 3px solid rgba(99,102,241,0.12);
+  outline-offset: 2px;
+}
+
+/* Mobile adjustments: slightly tighter spacing */
+@media (max-width: 480px) {
+  .segment-control { padding: 4px; gap: 6px; }
+  .segment-control ion-segment-button { padding: 6px 10px; font-size: 0.95rem; }
+}
+
+/* Dark-mode friendly fallbacks */
+@media (prefers-color-scheme: dark) {
+  .segment-control { background: linear-gradient(90deg, rgba(17,24,39,0.06), rgba(17,24,39,0.04)); }
+  .segment-control ion-segment-button { --background: rgba(255,255,255,0.03); color: #e6edf3; border: 1px solid rgba(255,255,255,0.04); }
 }
 
 .content-section {
@@ -875,4 +794,204 @@ ion-chip {
       font-weight: 700;
     }
   }
+}
+
+/* Improve relationship chips (Uravugal) contrast and readability */
+.tags-container ion-chip {
+  --background: var(--accent-start) !important; /* use unified accent */
+  color: var(--accent-contrast) !important;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(217,119,6,0.12);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.tags-container ion-chip ion-label,
+.tags-container ion-chip .chip-inner {
+  color: var(--accent-contrast) !important;
+}
+
+/* Ensure secondary-coloured chips used elsewhere are still readable */
+ion-chip[color="secondary"] {
+  --background: var(--accent-start) !important;
+  ion-label {
+    color: var(--accent-contrast) !important;
+    font-weight: 700;
+  }
+  ion-icon {
+    color: rgba(255,255,255,0.95) !important;
+  }
+}
+
+/* Small chips spacing fix */
+ion-chip[size="small"] {
+  height: 32px;
+  line-height: 32px;
+}
+
+/* Improve clarity for price, duration and plan-level badges */
+.meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Price badge - make the rupee and amount dominant */
+.meta-chips ion-chip.price {
+  background: linear-gradient(90deg, var(--accent-end), var(--accent-start)) !important;
+  color: var(--accent-contrast) !important;
+  font-size: 1.25rem !important;
+  font-weight: 900 !important;
+  padding: 0 16px !important;
+  height: 44px !important;
+  min-width: 92px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 30px rgba(217,119,6,0.25) !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  letter-spacing: 0.2px !important;
+  text-transform: none !important;
+}
+
+/* Ensure label part inside chip is larger */
+.meta-chips ion-chip.price ion-label,
+.meta-chips ion-chip.price .chip-inner {
+  font-size: 1.25rem !important;
+  font-weight: 900 !important;
+  color: var(--accent-contrast) !important;
+}
+
+/* Duration badge - subtle, high-contrast text on white */
+.meta-chips ion-chip.duration {
+  background: #ffffff !important;
+  color: #111827 !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  padding: 0 12px !important;
+  height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(217,119,6,0.16) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+}
+
+.meta-chips ion-chip.duration ion-icon,
+.meta-chips ion-chip.duration ion-label { color: #374151 !important; }
+
+/* Plan badge - clear label with amber outline */
+.meta-chips ion-chip.plan {
+  background: rgba(255,255,255,0.98) !important;
+  color: #111827 !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  padding: 0 12px !important;
+  height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  border-radius: 999px !important;
+  border: 2px solid var(--accent-start) !important;
+  box-shadow: 0 5px 14px rgba(217,119,6,0.08) !important;
+}
+
+/* Add subtle visual separator between price and other chips */
+.meta-chips ion-chip.price + ion-chip {
+  margin-left: 8px;
+}
+
+/* Mobile scaling */
+@media (max-width: 480px) {
+  .meta-chips ion-chip.price {
+    font-size: 1.05rem !important;
+    height: 40px !important;
+    min-width: 84px !important;
+    padding: 0 12px !important;
+  }
+
+  .meta-chips ion-chip.duration,
+  .meta-chips ion-chip.plan {
+    font-size: 0.92rem !important;
+    height: 32px !important;
+    padding: 0 8px !important;
+  }
+}
+
+/* Dark mode adjustments so chips remain legible */
+@media (prefers-color-scheme: dark) {
+  .meta-chips ion-chip.duration,
+  .meta-chips ion-chip.plan {
+    background: rgba(255,255,255,0.03) !important;
+    color: #e6e6e6 !important;
+    border-color: rgba(255,255,255,0.06) !important;
+    box-shadow: none !important;
+  }
+
+  .meta-chips ion-chip.price {
+    box-shadow: 0 8px 22px rgba(0,0,0,0.5) !important;
+    border-color: rgba(255,255,255,0.04) !important;
+  }
+}
+
+/* Make non-price meta chips high-contrast and readable */
+.meta-chips ion-chip:not(.price) {
+  --background: #ffffff !important;
+  background: #ffffff !important;
+  color: #0f1724 !important; /* very dark text */
+  font-weight: 700 !important;
+  border: 1px solid rgba(217,119,6,0.18) !important;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06) !important;
+  padding: 0 12px !important;
+  min-height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 999px !important;
+}
+
+.meta-chips ion-chip:not(.price) ion-label,
+.meta-chips ion-chip:not(.price) .chip-inner {
+  color: #0f1724 !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+}
+
+/* Make icons inside meta chips use accent for clarity */
+.meta-chips ion-chip ion-icon {
+  color: var(--accent-start) !important;
+  font-size: 1.05rem !important;
+  margin-right: 6px !important;
+}
+
+/* Ensure price chip retains prominence (re-apply if needed) */
+.meta-chips ion-chip.price {
+  background: linear-gradient(90deg, var(--accent-end), var(--accent-start)) !important;
+  color: var(--accent-contrast) !important;
+  box-shadow: 0 10px 30px rgba(217,119,6,0.25) !important;
+}
+
+/* Dark mode: keep contrast for non-price chips */
+@media (prefers-color-scheme: dark) {
+  .meta-chips ion-chip:not(.price) {
+    background: rgba(255,255,255,0.04) !important;
+    color: #e6e6e6 !important;
+    border-color: rgba(255,255,255,0.06) !important;
+    box-shadow: none !important;
+  }
+
+  .meta-chips ion-chip:not(.price) ion-label,
+  .meta-chips ion-chip:not(.price) .chip-inner {
+    color: #e6e6e6 !important;
+  }
+}
+
+/* Compatibility alias: ensure old/other views using .common use same styles as .bhavas-list */
+.common {
+  @extend .bhavas-list;
 }

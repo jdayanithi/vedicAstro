@@ -31,6 +31,11 @@ interface Graha {
   remedies: string[];
   mantras: string[];
   expanded?: boolean;
+  symbol?: string;
+  karakathuvam?: string;
+  benefits?: string;
+  karakan?: string;
+  explanation?: string;
 }
 
 @Component({
@@ -39,8 +44,7 @@ interface Graha {
   styleUrls: ['./kiraga-karakathuvam.page.scss'],
 })
 export class KiragaKarakathuvamPage implements OnInit {
-
-  selectedSegment = 'overview';
+  selectedSegment = 'grahakarakathuvam';
   isBookmarked = false;
   showAnalysisView = false;
   currentGrahaIndex = 0;
@@ -51,6 +55,7 @@ export class KiragaKarakathuvamPage implements OnInit {
     {
       id: 'surya',
       name: 'சூரியன்',
+      symbol: '☉',
       nameEnglish: 'Sun',
       sanskritName: 'सूर्य',
       type: 'malefic',
@@ -87,7 +92,11 @@ export class KiragaKarakathuvamPage implements OnInit {
       ownSigns: ['சிம்மம்'],
       moolaTrikona: 'சிம்மம் 0°-20°',
       remedies: ['சூரிய நமஸ்கார்', 'சிவப்பு பூ அர்ப்பணம்', 'தங்க நகை அணிதல்'],
-      mantras: ['ॐ सूर्याय नमः', 'आदित्य हृदय स्तोत्रम्']
+      mantras: ['ॐ सूर्याय नमः', 'आदित्य हृदय स्तोत्रम्'],
+      karakathuvam: 'ஆத்மகாரகன் - Soul signification',
+      benefits: 'தன்னம்பிக்கை, வலிமை, தலைமை பண்புகள்',
+      karakan: 'தந்தை, அரசாங்கம், அதிகாரம்',
+      explanation: 'சூரியன் ஜாதகத்தில் தந்தை, அரசாங்கம், அதிகாரம் ஆகியவற்றின் காரகனாக செயல்படுகிறது'
     }
   ];
 
@@ -95,110 +104,33 @@ export class KiragaKarakathuvamPage implements OnInit {
     private toastController: ToastController,
     private alertController: AlertController,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.filteredGrahas = [...this.grahas];
+    this.filteredGrahas = this.grahas;
   }
 
-  onSegmentChange(event: any) {
+  segmentChanged(event: CustomEvent) {
     this.selectedSegment = event.detail.value;
   }
 
   toggleBookmark() {
     this.isBookmarked = !this.isBookmarked;
-    this.showToast(this.isBookmarked ? 'புத்தகக்குறிக்கு சேர்க்கப்பட்டது' : 'புத்தகக்குறியிலிருந்து நீக்கப்பட்டது');
+    // Implement bookmark logic
   }
 
-  async showToast(message: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2000,
-      position: 'bottom',
-      color: 'success'
-    });
-    toast.present();
+  async shareContent() {
+    // Implement share logic
   }
 
-  searchGrahas() {
-    if (!this.searchTerm) {
-      this.filteredGrahas = [...this.grahas];
-      return;
-    }
-
-    this.filteredGrahas = this.grahas.filter(graha =>
-      graha.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      graha.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      graha.significances.some(sig => sig.toLowerCase().includes(this.searchTerm.toLowerCase()))
-    );
-  }
-
-  toggleGrahaExpansion(graha: Graha) {
-    graha.expanded = !graha.expanded;
-  }
-
-  async showGrahaDetails(graha: Graha) {
-    const alert = await this.alertController.create({
-      header: `${graha.name} (${graha.nameEnglish})`,
-      subHeader: graha.sanskritName,
-      message: `
-        <strong>प्रकृति:</strong> ${graha.type}<br>
-        <strong>तत्व:</strong> ${graha.element}<br>
-        <strong>நாள்:</strong> ${graha.day}<br>
-        <strong>நிறம்:</strong> ${graha.color}<br>
-        <strong>ரத்னம்:</strong> ${graha.gemstone}
-      `,
-      buttons: ['மூடு']
-    });
-
-    await alert.present();
-  }
-
-  navigateToAnalysis() {
-    this.showAnalysisView = true;
-    this.selectedSegment = 'analysis';
-  }
-
-  goBack() {
-    if (this.showAnalysisView) {
-      this.showAnalysisView = false;
-      this.selectedSegment = 'overview';
+  filterGrahas() {
+    if (this.searchTerm.trim() === '') {
+      this.filteredGrahas = this.grahas;
     } else {
-      this.router.navigate(['/concepts']);
-    }
-  }
-
-  nextGraha() {
-    if (this.currentGrahaIndex < this.grahas.length - 1) {
-      this.currentGrahaIndex++;
-    }
-  }
-
-  previousGraha() {
-    if (this.currentGrahaIndex > 0) {
-      this.currentGrahaIndex--;
-    }
-  }
-
-  getCurrentGraha(): Graha {
-    return this.grahas[this.currentGrahaIndex];
-  }
-
-  getGrahaTypeColor(type: string): string {
-    switch(type) {
-      case 'benefic': return 'success';
-      case 'malefic': return 'danger';
-      case 'neutral': return 'warning';
-      default: return 'medium';
-    }
-  }
-
-  getGrahaTypeIcon(type: string): string {
-    switch(type) {
-      case 'benefic': return 'happy';
-      case 'malefic': return 'warning';
-      case 'neutral': return 'remove-circle';
-      default: return 'help-circle';
+      this.filteredGrahas = this.grahas.filter(graha =>
+        graha.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        graha.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     }
   }
 }

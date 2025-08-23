@@ -1,0 +1,347 @@
+/* Base Typography */
+:root {
+  --accent-start: #f59e0b;
+  --accent-mid: #d97706;
+  --accent-end: #92400e;
+  --accent-contrast: #ffffff;
+}
+
+/* Hero Section */
+.concept-hero {
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+  color: var(--accent-contrast);
+  text-align: center;
+}
+
+.concept-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--accent-contrast);
+  }
+}
+
+.concept-icon-wrapper {
+  margin-bottom: 1rem;
+}
+
+.concept-floating-icon {
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.concept-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Content Layout */
+.concept-content {
+  padding: 1rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+  min-height: 100vh;
+}
+
+.concept-list {
+  background: transparent;
+}
+
+/* Card Styles */
+.concept-card {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  
+  ion-card-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    
+    ion-card-title {
+      color: var(--accent-contrast);
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+    
+    ion-card-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+    }
+  }
+  
+  ion-card-content {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+  }
+}
+
+/* Item Card Style */
+.concept-item-card {
+  margin-bottom: 1rem;
+  border-radius: 15px;
+  border-left: 4px solid var(--accent-start);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 1rem;
+}
+
+.concept-item-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.concept-item-symbol {
+  background: var(--accent-start);
+  color: var(--accent-contrast);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(217,119,6,0.2);
+}
+
+.concept-item-info {
+  flex-grow: 1;
+}
+
+.concept-item-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.concept-item-meta {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.concept-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1rem 0;
+}
+
+/* Typography */
+.content-paragraph {
+  p {
+    margin: 0 0 0.95rem 0;
+    color: inherit;
+    font-size: 1.04rem;
+    line-height: 1.9;
+  }
+
+  p:first-of-type {
+    margin-top: 0;
+  }
+
+  ul, ol {
+    margin: 0.5rem 0 0.75rem 1.15rem;
+    padding-left: 0.5rem;
+  }
+
+  li {
+    margin: 0.45rem 0;
+    font-size: 1.02rem;
+    line-height: 1.8;
+  }
+
+  strong {
+    font-weight: 800;
+    color: #111827;
+  }
+
+  em {
+    font-style: italic;
+    color: #374151;
+  }
+
+  blockquote {
+    margin: 0.6rem 0 0.8rem 0;
+    padding: 0.8rem 1rem;
+    background: rgba(246,246,247,0.95);
+    border-left: 4px solid var(--accent-end);
+    color: #334155;
+    border-radius: 6px;
+  }
+}
+
+/* Section Styles */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-start);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subsection-title {
+  @extend .section-title;
+  font-size: 1.2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent-mid), var(--accent-start));
+  color: var(--accent-contrast) !important;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  border: 2px solid rgba(217,119,6,0.12);
+  background: linear-gradient(135deg, rgba(249,158,11,0.05), rgba(217,119,6,0.04));
+
+  .section-title {
+    background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+    color: var(--accent-contrast) !important;
+    text-align: center;
+  }
+}
+
+/* Chip Styles */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.tags-container ion-chip {
+  --background: var(--accent-start) !important;
+  color: var(--accent-contrast) !important;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(217,119,6,0.12);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.tags-container ion-chip ion-label,
+.tags-container ion-chip .chip-inner {
+  color: var(--accent-contrast) !important;
+}
+
+/* Note Section */
+.note-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fef3c7;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--accent-start);
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+
+  .note-icon {
+    font-size: 1.5rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .note-text {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #92400e;
+    
+    strong {
+      color: #78350f;
+      font-weight: 700;
+    }
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .concept-content {
+    background: linear-gradient(180deg, #1a1a1a 0%, #262626 100%);
+  }
+
+  .concept-item-card {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .concept-card ion-card-content {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+  }
+
+  .note-section {
+    background: rgba(254, 243, 199, 0.1);
+    .note-text {
+      color: #fcd34d;
+      strong {
+        color: #fbbf24;
+      }
+    }
+  }
+
+  .tags-container ion-chip {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .concept-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .concept-subtitle {
+    font-size: 1rem;
+  }
+
+  .concept-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .concept-item-symbol {
+    margin-bottom: 0.5rem;
+  }
+
+  .tags-container {
+    justify-content: flex-start;
+  }
+}

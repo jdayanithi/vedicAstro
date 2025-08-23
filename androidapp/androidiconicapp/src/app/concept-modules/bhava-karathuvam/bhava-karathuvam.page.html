@@ -75,9 +75,9 @@
           </div>
           
           <!-- Rasi Athipathi List for 3rd section -->
-          <div *ngIf="section.rasiAthipathi" class="rasi-athipathi-section">
+          <div *ngIf="section.rasiAthipathi" class="concept-card">
             <h5 class="subsection-title tamil-text">📋 ராசியும் அதிபதியும்:</h5>
-            <ion-list lines="none" class="rasi-list">
+            <ion-list lines="none" class="concept-list">
               <ion-item *ngFor="let rasi of section.rasiAthipathi">
                 <ion-icon name="arrow-forward" slot="start" color="secondary"></ion-icon>
                 <ion-label class="tamil-text">{{ rasi }}</ion-label>

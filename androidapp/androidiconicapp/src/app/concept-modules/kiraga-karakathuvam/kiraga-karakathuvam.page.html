@@ -12,321 +12,74 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Hero Header -->
-  <div class="hero-header" *ngIf="selectedSegment === 'overview'">
-    <div class="hero-content">
-      <div class="hero-icon-wrapper">
-        <ion-icon name="planet" class="floating-icon"></ion-icon>
+<ion-content>
+  <!-- Hero Section -->
+  <div class="concept-hero">
+    <div class="concept-hero-content">
+      <div class="concept-icon-wrapper">
+        <ion-icon name="planet" class="concept-floating-icon"></ion-icon>
       </div>
-      <h1 class="tamil-text">🪐 கிரக கராத்துவம்</h1>
-      <p class="subtitle">நவக்ரகங்களின் முழுமையான ஆய்வு மற்றும் பலன்கள்</p>
-      <div class="meta-chips">
-        <ion-chip color="secondary" size="small">
-          <ion-icon name="star" slot="start"></ion-icon>
-          <ion-label>₹249</ion-label>
-        </ion-chip>
-        <ion-chip color="success" size="small">
-          <ion-icon name="time" slot="start"></ion-icon>
-          <ion-label>75 நிமிடங்கள்</ion-label>
-        </ion-chip>
-        <ion-chip color="primary" size="small">
-          <ion-icon name="school" slot="start"></ion-icon>
-          <ion-label>நடுத்தர நிலை</ion-label>
-        </ion-chip>
-      </div>
+      <h1>கிரக காரகத்துவம்</h1>
+      <p class="concept-subtitle">Learn about the characteristics and influences of each planet in Vedic astrology</p>
     </div>
   </div>
 
-  <!-- Segment Control -->
-  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" color="secondary" class="segment-control">
-    <ion-segment-button value="overview">
-      <ion-icon name="list-outline"></ion-icon>
-      <ion-label>மேலோட்டம்</ion-label>
+  <!-- Introduction Section -->
+  <ion-card class="concept-card">
+    <ion-card-header>
+      <ion-card-title>Understanding Planetary Influences</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Explore the intricate relationships between planets and their influences on various aspects of life in Vedic astrology. Each planet carries unique characteristics and energies that shape our destiny.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Navigation Segment -->
+  <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)" class="concept-segment">
+    <ion-segment-button value="grahakarakathuvam">
+      <ion-label>கிரக காரகத்துவம்</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="grahas">
-      <ion-icon name="planet-outline"></ion-icon>
-      <ion-label>கிரகங்கள்</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="analysis">
-      <ion-icon name="analytics-outline"></ion-icon>
-      <ion-label>ஆய்வு</ion-label>
+    <ion-segment-button value="grahakarakan">
+      <ion-label>கிரக காரகன்</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <!-- Overview Content -->
-  <div *ngIf="selectedSegment === 'overview'" class="content-section">
-    <ion-card class="info-card">
-      <ion-card-header>
-        <ion-card-title class="tamil-text">📚 பாடப்பிரிவு பற்றி</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p class="description-text">
-          ஜோதிஷ சாஸ்திரத்தில் நவக்ரகங்கள் மிக முக்கியமான பங்கு வகிக்கின்றன. ஒவ்வொரு கிரகமும்
-          வெவ்வேறு விஷயங்களைக் குறிக்கிறது. இந்த பாடப்பிரிவில் நீங்கள் கற்றுக்கொள்வது:
-        </p>
-        <ion-list class="feature-list">
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">9 கிரகங்களின் விரிவான கராத்துவம்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">கிரகங்களின் நட்பு-பகை உறவுகள்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">உச்சம்-நீசம் மற்றும் ஸ்வக்ஷேத்திரம்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">தசாபுக்தி காலங்கள் மற்றும் பலன்கள்</ion-label>
-          </ion-item>
-          <ion-item lines="none">
-            <ion-icon name="checkmark-circle" slot="start" color="success"></ion-icon>
-            <ion-label class="feature-text">கிரக சார்ந்த பரிகாரங்கள் மற்றும் மந்திரங்கள்</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card class="action-card">
-      <ion-card-content>
-        <div class="action-content">
-          <h3 class="tamil-text">🚀 ஆய்வு துவங்குங்கள்</h3>
-          <p>உங்கள் ஜாதகத்தின் கிரக நிலைகளை அறிய தயாரா?</p>
-          <ion-button expand="block" fill="solid" color="secondary" (click)="navigateToAnalysis()">
-            <ion-icon name="planet" slot="start"></ion-icon>
-            கிரக ஆய்வு துவங்கு
-          </ion-button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
-  <!-- Grahas Content -->
-  <div *ngIf="selectedSegment === 'grahas'" class="content-section">
-    <!-- Search Bar -->
-    <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ionInput)="searchGrahas()"
-      placeholder="கிரகம் தேடுங்கள்..."
-      show-clear-button="focus">
-    </ion-searchbar>
-
-    <!-- Grahas List -->
-    <ion-list class="grahas-list">
-      <ion-card *ngFor="let graha of filteredGrahas" class="graha-card">
-        <ion-card-header (click)="toggleGrahaExpansion(graha)" class="clickable">
-          <div class="graha-header">
-            <div class="graha-icon" [style.background]="graha.color">
-              <ion-icon name="planet" color="light"></ion-icon>
-            </div>
-            <div class="graha-info">
-              <ion-card-title class="tamil-text">{{ graha.name }}</ion-card-title>
-              <ion-card-subtitle>{{ graha.nameEnglish }}</ion-card-subtitle>
-              <div class="graha-meta">
-                <ion-chip size="small" [color]="getGrahaTypeColor(graha.type)">
-                  <ion-icon [name]="getGrahaTypeIcon(graha.type)" slot="start"></ion-icon>
-                  <ion-label>{{ graha.type }}</ion-label>
-                </ion-chip>
-                <ion-chip size="small" color="medium">
-                  <ion-label>{{ graha.day }}</ion-label>
-                </ion-chip>
-              </div>
-            </div>
-            <ion-icon
-              [name]="graha.expanded ? 'chevron-up' : 'chevron-down'"
-              class="expand-icon">
-            </ion-icon>
-          </div>
-        </ion-card-header>
-
-        <ion-card-content *ngIf="graha.expanded" class="expanded-content">
-          <!-- Basic Info -->
-          <div class="detail-section">
-            <h4 class="section-title">📋 அடிப்படை தகவல்கள்</h4>
-            <div class="info-grid">
-              <div class="info-item">
-                <strong>சமஸ்கிருத பெயர்:</strong> {{ graha.sanskritName }}
-              </div>
-              <div class="info-item">
-                <strong>तत्व:</strong> {{ graha.element }}
-              </div>
-              <div class="info-item">
-                <strong>நிறம்:</strong> {{ graha.color }}
-              </div>
-              <div class="info-item">
-                <strong>ரத்னம்:</strong> {{ graha.gemstone }}
-              </div>
-              <div class="info-item">
-                <strong>धातु:</strong> {{ graha.metal }}
-              </div>
-              <div class="info-item">
-                <strong>திசை:</strong> {{ graha.direction }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Significances -->
-          <div class="detail-section">
-            <h4 class="section-title">🎯 கராகத்துவம்</h4>
-            <ion-list>
-              <ion-item *ngFor="let significance of graha.significances" lines="none">
-                <ion-icon name="arrow-forward" slot="start" color="secondary"></ion-icon>
-                <ion-label>{{ significance }}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-
-          <!-- Body Parts -->
-          <div class="detail-section">
-            <h4 class="section-title">👤 உடல் உறுப்புகள்</h4>
-            <div class="tags-container">
-              <ion-chip *ngFor="let part of graha.bodyParts" color="tertiary" size="small">
-                <ion-label>{{ part }}</ion-label>
-              </ion-chip>
-            </div>
-          </div>
-
-          <!-- Professions -->
-          <div class="detail-section">
-            <h4 class="section-title">💼 व्यवसाय</h4>
-            <div class="tags-container">
-              <ion-chip *ngFor="let profession of graha.professions" color="primary" size="small">
-                <ion-label>{{ profession }}</ion-label>
-              </ion-chip>
-            </div>
-          </div>
-
-          <!-- Planetary Relationships -->
-          <div class="detail-section">
-            <h4 class="section-title">🤝 கிரக உறவுகள்</h4>
-            <div class="relationship-section">
-              <div class="relationship-item">
-                <strong style="color: #22c55e;">मित्र:</strong>
-                <div class="tags-container">
-                  <ion-chip *ngFor="let friend of graha.friendlyPlanets" color="success" size="small">
-                    <ion-label>{{ friend }}</ion-label>
-                  </ion-chip>
-                </div>
-              </div>
-              <div class="relationship-item">
-                <strong style="color: #ef4444;">शत्रु:</strong>
-                <div class="tags-container">
-                  <ion-chip *ngFor="let enemy of graha.enemyPlanets" color="danger" size="small">
-                    <ion-label>{{ enemy }}</ion-label>
-                  </ion-chip>
-                </div>
-              </div>
-              <div class="relationship-item">
-                <strong style="color: #f59e0b;">तट्स्थ:</strong>
-                <div class="tags-container">
-                  <ion-chip *ngFor="let neutral of graha.neutralPlanets" color="warning" size="small">
-                    <ion-label>{{ neutral }}</ion-label>
-                  </ion-chip>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Zodiac Positions -->
-          <div class="detail-section">
-            <h4 class="section-title">♈ ராசி நிலைகள்</h4>
-            <div class="zodiac-info">
-              <div class="zodiac-item">
-                <strong style="color: #22c55e;">उच्च:</strong> {{ graha.exaltationSign }}
-              </div>
-              <div class="zodiac-item">
-                <strong style="color: #ef4444;">नीच:</strong> {{ graha.debilitationSign }}
-              </div>
-              <div class="zodiac-item">
-                <strong style="color: #3b82f6;">स्वक्षेत्र:</strong> {{ graha.ownSigns.join(', ') }}
-              </div>
-              <div class="zodiac-item">
-                <strong style="color: #8b5cf6;">மூலத்ரிகோணம்:</strong> {{ graha.moolaTrikona }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Remedies -->
-          <div class="detail-section">
-            <h4 class="section-title">🙏 பரிகாரங்கள்</h4>
-            <ion-list>
-              <ion-item *ngFor="let remedy of graha.remedies" lines="none">
-                <ion-icon name="leaf" slot="start" color="success"></ion-icon>
-                <ion-label class="remedy-text">{{ remedy }}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-
-          <!-- Mantras -->
-          <div class="detail-section">
-            <h4 class="section-title">🕉️ மந்திரம்</h4>
-            <ion-list>
-              <ion-item *ngFor="let mantra of graha.mantras" lines="none">
-                <ion-icon name="musical-notes" slot="start" color="tertiary"></ion-icon>
-                <ion-label class="mantra-text">{{ mantra }}</ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-
-          <ion-button expand="block" fill="outline" color="secondary" (click)="showGrahaDetails(graha)">
-            <ion-icon name="information-circle" slot="start"></ion-icon>
-            மேலும் தகவल்
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
-    </ion-list>
-  </div>
-
-  <!-- Analysis Content -->
-  <div *ngIf="selectedSegment === 'analysis'" class="content-section">
-    <ion-card class="analysis-card">
-      <ion-card-header>
-        <ion-card-title class="tamil-text">📊 किरक ऑनालिसिस</ion-card-title>
-        <ion-card-subtitle>விரிவான ஜனனேந்திர கிரக பகுப்பாய்வு</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="analysis-content">
-          <div class="current-graha">
-            <h3 class="tamil-text">{{ getCurrentGraha().name }}</h3>
-            <p class="subtitle">{{ getCurrentGraha().nameEnglish }}</p>
-
-            <div class="graha-details">
-              <p><strong>संस्कृत नाम:</strong> {{ getCurrentGraha().sanskritName }}</p>
-              <p><strong>प्रकृति:</strong> {{ getCurrentGraha().type }}</p>
-              <p><strong>தசா காலம்:</strong> {{ getCurrentGraha().dasaPeriod }}</p>
-              <p><strong>ரத்னம்:</strong> {{ getCurrentGraha().gemstone }}</p>
-            </div>
-
-            <div class="navigation-buttons">
-              <ion-button fill="outline" color="secondary" (click)="previousGraha()" [disabled]="currentGrahaIndex === 0">
-                <ion-icon name="chevron-back" slot="start"></ion-icon>
-                पिछला
-              </ion-button>
-              <ion-button fill="outline" color="secondary" (click)="nextGraha()" [disabled]="currentGrahaIndex === grahas.length - 1">
-                अगला
-                <ion-icon name="chevron-forward" slot="end"></ion-icon>
-              </ion-button>
+  <!-- Content Sections -->
+  <div [ngSwitch]="selectedSegment" class="concept-content">
+    <!-- Graha Karakathuvam Section -->
+    <div *ngSwitchCase="'grahakarakathuvam'" class="concept-list">
+      <div class="concept-item-card" *ngFor="let graha of grahas">
+        <div class="concept-item-header">
+          <div class="concept-item-symbol">{{graha.symbol}}</div>
+          <div class="concept-item-info">
+            <h3 class="concept-item-title">{{graha.name}}</h3>
+            <div class="concept-item-meta">
+              <ion-badge color="primary">காரகத்துவம்</ion-badge>
             </div>
           </div>
         </div>
-      </ion-card-content>
-    </ion-card>
+        <div class="concept-divider"></div>
+        <p><strong>காரகத்துவம்:</strong> {{graha.karakathuvam}}</p>
+        <p><strong>பலன்கள்:</strong> {{graha.benefits}}</p>
+      </div>
+    </div>
 
-    <ion-card class="premium-feature">
-      <ion-card-content>
-        <div class="premium-content">
-          <ion-icon name="diamond" color="secondary" size="large"></ion-icon>
-          <h3 class="tamil-text">🔒 उन्नत सुविधाएं</h3>
-          <p>முழுமையான கிரக பகுப்பாய்வு மற்றும் தனிப்பட்ட பரிகாரங்களுக்கு பாடப்பகுதியை வாங்கவும்</p>
-          <ion-button expand="block" fill="solid" color="secondary">
-            <ion-icon name="card" slot="start"></ion-icon>
-            ₹249 இல் வாங்கவும்
-          </ion-button>
+    <!-- Graha Karakan Section -->
+    <div *ngSwitchCase="'grahakarakan'" class="concept-list">
+      <div class="concept-item-card" *ngFor="let graha of grahas">
+        <div class="concept-item-header">
+          <div class="concept-item-symbol">{{graha.symbol}}</div>
+          <div class="concept-item-info">
+            <h3 class="concept-item-title">{{graha.name}}</h3>
+            <div class="concept-item-meta">
+              <ion-badge color="secondary">காரகன்</ion-badge>
+            </div>
+          </div>
         </div>
-      </ion-card-content>
-    </ion-card>
+        <div class="concept-divider"></div>
+        <p><strong>காரகன்:</strong> {{graha.karakan}}</p>
+        <p><strong>விளக்கம்:</strong> {{graha.explanation}}</p>
+      </div>
+    </div>
   </div>
 </ion-content>
