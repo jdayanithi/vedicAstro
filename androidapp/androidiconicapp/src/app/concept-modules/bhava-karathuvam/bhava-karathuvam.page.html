@@ -176,12 +176,12 @@
   <!-- Bhavas Content -->
   <div *ngIf="selectedSegment === 'bhavas'" class="content-section">
     <!-- Bhavas List -->
-    <ion-list class="bhavas-list">
+  <ion-list class="card-list">
       <ion-card *ngFor="let bhava of filteredBhavas" class="bhava-card">
         <ion-card-header (click)="toggleBhavaExpansion(bhava)" class="clickable">
-          <div class="bhava-header">
-            <div class="bhava-number">{{ bhava.number }}</div>
-            <div class="bhava-info">
+          <div class="card-header-content">
+            <div class="number-badge">{{ bhava.number }}</div>
+            <div class="header-info">
               <ion-card-title>{{ bhava.name }}</ion-card-title>
             </div>
             <ion-icon

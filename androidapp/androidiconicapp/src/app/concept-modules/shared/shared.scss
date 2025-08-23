@@ -240,6 +240,64 @@ h5, .h5 {
   }
 }
 
+// Bhava / Card List Styles
+.card-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+
+  @media (min-width: 720px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  ion-card {
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), #fff);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    transition: transform 240ms ease, box-shadow 240ms ease;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+    }
+  }
+
+  .card-header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .number-badge {
+    min-width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--ion-color-tertiary), var(--ion-color-tertiary-tint));
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(20,30,60,0.08);
+  }
+
+  .header-info {
+    flex: 1 1 auto;
+  }
+
+  .expand-icon {
+    font-size: 1.25rem;
+    color: var(--ion-color-medium);
+  }
+
+  .expanded-content {
+    padding: 0.75rem 1rem 1rem;
+  }
+}
+
 
 
 
