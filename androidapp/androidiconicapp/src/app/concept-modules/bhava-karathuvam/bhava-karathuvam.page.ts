@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { TextUtilsService } from '../shared/text-utils.service';
 
 interface Bhava {
   id: string;
@@ -306,10 +307,16 @@ export class BhavaKarathuvamPage implements OnInit {
     }
   ];
 
+  // Function to highlight words ending with colon
+  highlightColonWords(content: string): string {
+    return this.textUtils.highlightColonWords(content);
+  }
+
   constructor(
     private toastController: ToastController,
     private alertController: AlertController,
-    private router: Router
+    private router: Router,
+    private textUtils: TextUtilsService
   ) { }
 
   ngOnInit() {

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Indian Astrology Chart - Zodiac Signs & Rulers</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 15px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Tab Navigation Styles */
+        .tab-container {
+            display: flex;
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: inherit;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-button span {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .tab-button small {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* Tab Content Styles */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chart-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chart-subtitle {
+            text-align: center;
+            font-size: 1rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .south-indian-chart {
+            width: 100%;
+            max-width: 450px;
+            height: 450px;
+            margin: 0 auto;
+            position: relative;
+            background: #fff;
+            border: 3px solid #2d3748;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr 1fr;
+        }
+
+        .house {
+            border: 1.5px solid #4a5568;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            font-size: 0.75rem;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            transition: all 0.3s ease;
+        }
+
+        .house:hover {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* House positions in South Indian style - starting House 1 at top center-left */
+        .house-1 { grid-area: 1 / 2 / 2 / 3; } /* House 1 - Top center-left */
+        .house-2 { grid-area: 1 / 3 / 2 / 4; } /* House 2 - Top center-right */
+        .house-3 { grid-area: 1 / 4 / 2 / 5; } /* House 3 - Top right */
+        .house-4 { grid-area: 2 / 4 / 3 / 5; } /* House 4 - Right middle */
+        .house-5 { grid-area: 3 / 4 / 4 / 5; } /* House 5 - Right bottom-middle */
+        .house-6 { grid-area: 4 / 4 / 5 / 5; } /* House 6 - Bottom right */
+        .house-7 { grid-area: 4 / 3 / 5 / 4; } /* House 7 - Bottom center-right */
+        .house-8 { grid-area: 4 / 2 / 5 / 3; } /* House 8 - Bottom center-left */
+        .house-9 { grid-area: 4 / 1 / 5 / 2; } /* House 9 - Bottom left */
+        .house-10 { grid-area: 3 / 1 / 4 / 2; } /* House 10 - Left bottom-middle */
+        .house-11 { grid-area: 2 / 1 / 3 / 2; } /* House 11 - Left middle */
+        .house-12 { grid-area: 1 / 1 / 2 / 2; } /* House 12 - Top left */
+
+        /* Center diamond for chart identification */
+        .center-diamond {
+            grid-area: 2 / 2 / 3.5 / 4;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 0.8rem;
+            border: 2px solid #2d3748;
+            margin: 20% 10%;
+        }
+
+        .center-content {
+            transform: rotate(-45deg);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .sign-name {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+        }
+
+        .sign-english {
+            font-size: 0.65rem;
+            color: #4a5568;
+            font-style: italic;
+            margin-bottom: 3px;
+        }
+
+        .ruler {
+            font-weight: 600;
+            color: #e53e3e;
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+
+        .ruler-english {
+            font-size: 0.6rem;
+            color: #e53e3e;
+            font-style: italic;
+        }
+
+        .house-number {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: #667eea;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zodiac-symbol {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 4px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
+            line-height: 1;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(248, 250, 252, 0.8);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .legend-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+        }
+
+        .legend-sign {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .legend-ruler {
+            font-weight: 600;
+            color: #e53e3e;
+        }
+
+        @media (max-width: 600px) {
+            .south-indian-chart {
+                width: 100%;
+                max-width: 350px;
+                height: 350px;
+            }
+            
+            .house {
+                font-size: 0.65rem;
+                padding: 4px;
+            }
+            
+            .zodiac-symbol {
+                font-size: 1.4rem;
+            }
+            
+            .chart-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <button class="tab-button active" onclick="showTab('chart')">
+                <span>📊 அட்டவணை</span>
+                <small>Chart</small>
+            </button>
+            <button class="tab-button" onclick="showTab('legend')">
+                <span>📋 விளக்கம்</span>
+                <small>Legend</small>
+            </button>
+        </div>
+
+        <!-- Chart Tab Content -->
+        <div id="chart-tab" class="tab-content active">
+            <div class="south-indian-chart">
+            <!-- Position 1: Aries (மேஷம்) -->
+            <div class="house house-1">
+                <div class="house-number">1</div>
+                <div class="zodiac-symbol">♈</div>
+                <div class="sign-name">மேஷம்</div>
+                <div class="sign-english">Aries</div>
+                <div class="ruler">செவ்வாய்</div>
+                <div class="ruler-english">Mars</div>
+            </div>
+            
+            <!-- Position 2: Taurus (ரிஷபம்) -->
+            <div class="house house-2">
+                <div class="house-number">2</div>
+                <div class="zodiac-symbol">♉</div>
+                <div class="sign-name">ரிஷபம்</div>
+                <div class="sign-english">Taurus</div>
+                <div class="ruler">சுக்கிரன்</div>
+                <div class="ruler-english">Venus</div>
+            </div>
+            
+            <!-- Position 3: Gemini (மிதுனம்) -->
+            <div class="house house-3">
+                <div class="house-number">3</div>
+                <div class="zodiac-symbol">♊</div>
+                <div class="sign-name">மிதுனம்</div>
+                <div class="sign-english">Gemini</div>
+                <div class="ruler">புதன்</div>
+                <div class="ruler-english">Mercury</div>
+            </div>
+            
+            <!-- Position 4: Cancer (கடகம்) -->
+            <div class="house house-4">
+                <div class="house-number">4</div>
+                <div class="zodiac-symbol">♋</div>
+                <div class="sign-name">கடகம்</div>
+                <div class="sign-english">Cancer</div>
+                <div class="ruler">சந்திரன்</div>
+                <div class="ruler-english">Moon</div>
+            </div>
+            
+            <!-- Position 5: Leo (சிம்மம்) -->
+            <div class="house house-5">
+                <div class="house-number">5</div>
+                <div class="zodiac-symbol">♌</div>
+                <div class="sign-name">சிம்மம்</div>
+                <div class="sign-english">Leo</div>
+                <div class="ruler">சூரியன்</div>
+                <div class="ruler-english">Sun</div>
+            </div>
+            
+            <!-- Position 6: Virgo (கன்னி) -->
+            <div class="house house-6">
+                <div class="house-number">6</div>
+                <div class="zodiac-symbol">♍</div>
+                <div class="sign-name">கன்னி</div>
+                <div class="sign-english">Virgo</div>
+                <div class="ruler">புதன்</div>
+                <div class="ruler-english">Mercury</div>
+            </div>
+            
+            <!-- Position 7: Libra (துலாம்) -->
+            <div class="house house-7">
+                <div class="house-number">7</div>
+                <div class="zodiac-symbol">♎</div>
+                <div class="sign-name">துலாம்</div>
+                <div class="sign-english">Libra</div>
+                <div class="ruler">சுக்கிரன்</div>
+                <div class="ruler-english">Venus</div>
+            </div>
+            
+            <!-- Position 8: Scorpio (விருச்சிகம்) -->
+            <div class="house house-8">
+                <div class="house-number">8</div>
+                <div class="zodiac-symbol">♏</div>
+                <div class="sign-name">விருச்சிகம்</div>
+                <div class="sign-english">Scorpio</div>
+                <div class="ruler">செவ்வாய்</div>
+                <div class="ruler-english">Mars</div>
+            </div>
+            
+            <!-- Position 9: Sagittarius (தனுசு) -->
+            <div class="house house-9">
+                <div class="house-number">9</div>
+                <div class="zodiac-symbol">♐</div>
+                <div class="sign-name">தனுசு</div>
+                <div class="sign-english">Sagittarius</div>
+                <div class="ruler">குரு</div>
+                <div class="ruler-english">Jupiter</div>
+            </div>
+            
+            <!-- Position 10: Capricorn (மகரம்) -->
+            <div class="house house-10">
+                <div class="house-number">10</div>
+                <div class="zodiac-symbol">♑</div>
+                <div class="sign-name">மகரம்</div>
+                <div class="sign-english">Capricorn</div>
+                <div class="ruler">சனி</div>
+                <div class="ruler-english">Saturn</div>
+            </div>
+            
+            <!-- Position 11: Aquarius (கும்பம்) -->
+            <div class="house house-11">
+                <div class="house-number">11</div>
+                <div class="zodiac-symbol">♒</div>
+                <div class="sign-name">கும்பம்</div>
+                <div class="sign-english">Aquarius</div>
+                <div class="ruler">சனி</div>
+                <div class="ruler-english">Saturn</div>
+            </div>
+            
+            <!-- Position 12: Pisces (மீனம்) -->
+            <div class="house house-12">
+                <div class="house-number">12</div>
+                <div class="zodiac-symbol">♓</div>
+                <div class="sign-name">மீனம்</div>
+                <div class="sign-english">Pisces</div>
+                <div class="ruler">குரு</div>
+                <div class="ruler-english">Jupiter</div>
+            </div>
+            
+            <!-- Center Diamond -->
+            <div class="center-diamond">
+                <div class="center-content">
+                    <div>ராசி</div>
+                    <div>அட்டவணை</div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Legend Tab Content -->
+        <div id="legend-tab" class="tab-content">
+            <div class="legend">
+            <h3 class="legend-title">🌟 ராசி மற்றும் அதிபதிகள் (Zodiac Signs & Rulers)</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-sign">♈ மேஷம் (Aries)</span>
+                    <span class="legend-ruler">செவ்வாய் (Mars)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♉ ரிஷபம் (Taurus)</span>
+                    <span class="legend-ruler">சுக்கிரன் (Venus)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♊ மிதுனம் (Gemini)</span>
+                    <span class="legend-ruler">புதன் (Mercury)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♋ கடகம் (Cancer)</span>
+                    <span class="legend-ruler">சந்திரன் (Moon)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♌ சிம்மம் (Leo)</span>
+                    <span class="legend-ruler">சூரியன் (Sun)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♍ கன்னி (Virgo)</span>
+                    <span class="legend-ruler">புதன் (Mercury)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♎ துலாம் (Libra)</span>
+                    <span class="legend-ruler">சுக்கிரன் (Venus)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♏ விருச்சிகம் (Scorpio)</span>
+                    <span class="legend-ruler">செவ்வாய் (Mars)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♐ தனுசு (Sagittarius)</span>
+                    <span class="legend-ruler">குரு (Jupiter)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♑ மகரம் (Capricorn)</span>
+                    <span class="legend-ruler">சனி (Saturn)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♒ கும்பம் (Aquarius)</span>
+                    <span class="legend-ruler">சனி (Saturn)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-sign">♓ மீனம் (Pisces)</span>
+                    <span class="legend-ruler">குரு (Jupiter)</span>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked tab button
+            event.target.closest('.tab-button').classList.add('active');
+        }
+    </script>
+</body>
+</html>

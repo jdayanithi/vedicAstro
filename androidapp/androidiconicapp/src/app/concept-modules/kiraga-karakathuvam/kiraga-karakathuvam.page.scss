@@ -1,103 +1,628 @@
 /* Import shared styles */
 @import '../shared/shared.scss';
 
-/* Page specific overrides */
-.hero-icon-wrapper {
-  margin-bottom: 1rem;
+/* Hero Section using shared styles */
+.concept-hero.gradient-bg {
+  @extend .hero-banner;
+  
+  .concept-hero-content {
+    @extend .hero-content-wrapper;
+  }
+  
+  .floating-planets {
+    @extend .hero-icon-container;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: auto;
+    height: auto;
+    border-radius: 16px;
+    
+    .planet-icon {
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      animation: planetFloat 3s ease-in-out infinite;
+      
+      &:nth-child(1) { animation-delay: 0s; }
+      &:nth-child(2) { animation-delay: 0.5s; }
+      &:nth-child(3) { animation-delay: 1s; }
+      &:nth-child(4) { animation-delay: 1.5s; }
+      &:nth-child(5) { animation-delay: 2s; }
+    }
+  }
+  
+  .hero-title {
+    @extend .hero-title;
+  }
+  
+  .concept-subtitle {
+    @extend .hero-subtitle;
+  }
+  
+  .hero-stats {
+    @extend .course-meta-grid !optional;
+    gap: 2rem;
+    
+    .stat-item {
+      @extend .meta-item !optional;
+      text-align: center;
+      
+      .stat-number {
+        @extend .meta-label !optional;
+        display: block;
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
+      
+      .stat-label {
+        @extend .meta-label;
+        font-size: 0.85rem;
+      }
+    }
+  }
 }
 
-.floating-icon {
-  font-size: 3rem;
-  animation: float 3s ease-in-out infinite;
+/* Search Section */
+.search-section {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  
+  ion-searchbar {
+    --background: rgba(248, 250, 252, 0.8);
+    --border-radius: 12px;
+    --box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
 }
 
-/* Card Extensions */
+/* Introduction Card */
 .intro-card {
   @extend .content-card;
-  margin-bottom: 2rem;
-  animation: slideInUp 0.6s ease-out;
-  animation-delay: 0.1s;
   
-  &:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease;
-  }
-  
-  ion-card-header {
+  .card-header-content {
     @extend .card-header;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    .header-icon {
+      font-size: 2rem;
+      color: var(--ion-color-primary);
+    }
   }
   
-  ion-card-content {
-    @extend .card-content;
+  .intro-text {
+    @extend .description-text;
   }
-}
-
-/* Animation Extensions */
-.graha-card {
-  animation: slideInUp 0.6s ease-out;
-  animation-delay: 0.2s;
   
-  &:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease;
+  .info-chips {
+    @extend .tags-grid;
   }
 }
 
-/* Content Extensions */
-.info-section {
-  @extend .content-card;
-  margin: 2rem 0;
-  padding: 1.5rem;
-  animation: slideInUp 0.6s ease-out;
-  border-left: 5px solid var(--accent-start);
-}
-
-.graha-list {
-  @extend .content-list;
-}
-
-.graha-card {
-  @extend .content-card;
-  border-left: 4px solid var(--accent-start);
+/* Modern Segment */
+.modern-segment {
+  @extend .modern-segment;
   margin: 1rem;
+  
+  .segment-btn {
+    --color-checked: var(--ion-color-primary);
+    --indicator-color: var(--ion-color-primary);
+    
+    ion-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+/* Content Grid and Cards */
+.planets-grid {
+  @extend .content-list-grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   padding: 1rem;
 }
 
-.graha-header {
+.planet-card {
+  @extend .content-card;
+  padding: 1.5rem;
+  border-left: 4px solid var(--ion-color-primary);
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Planet-specific colors using shared color variables */
+  &[data-planet="surya"] { border-left-color: var(--ion-color-danger); }
+  &[data-planet="chandra"] { border-left-color: var(--ion-color-light-shade); }
+  &[data-planet="mangal"] { border-left-color: var(--ion-color-danger-shade); }
+  &[data-planet="budha"] { border-left-color: var(--ion-color-success); }
+  &[data-planet="guru"] { border-left-color: var(--ion-color-warning); }
+  &[data-planet="sukra"] { border-left-color: var(--ion-color-tertiary); }
+  &[data-planet="sani"] { border-left-color: var(--ion-color-dark); }
+  &[data-planet="rahu"] { border-left-color: var(--ion-color-secondary); }
+  &[data-planet="ketu"] { border-left-color: var(--ion-color-warning-shade); }
+}
+
+.planet-header {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  
+  .planet-symbol {
+    @extend .section-icon !optional;
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+    color: white;
+    border-radius: 50%;
+    margin-right: 1rem;
+  }
+  
+  .planet-info {
+    flex: 1;
+    
+    .planet-name {
+      @extend .section-heading;
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .planet-english {
+      color: var(--ion-color-medium);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .planet-meta {
+      @extend .tags-grid;
+      gap: 0.5rem;
+    }
+  }
 }
 
-.graha-symbol {
-  background: var(--accent-start);
-  color: var(--accent-contrast);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-right: 1rem;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(217,119,6,0.2);
+.planet-content {
+  .section-title {
+    @extend .section-heading;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+  
+  .significance-section,
+  .benefits-section {
+    margin-bottom: 1.5rem;
+    
+    p {
+      @extend .description-text;
+      margin-bottom: 0;
+    }
+  }
+  
+  .quick-info {
+    @extend .content-list-grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+    
+    .info-item {
+      @extend .content-tag;
+      background: var(--ion-color-light);
+      padding: 0.75rem;
+      border-radius: 8px;
+      
+      .info-label {
+        font-weight: 600;
+        color: var(--ion-color-dark);
+        display: block;
+        font-size: 0.85rem;
+      }
+      
+      .info-value {
+        color: var(--ion-color-dark-shade);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        display: block;
+      }
+    }
+  }
 }
 
-.graha-info {
-  flex-grow: 1;
+/* Karakan Section */
+.karakan-section {
+  @extend .content-section;
 }
 
-.graha-name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.25rem;
+.karakan-card {
+  @extend .content-card;
+  margin-bottom: 1rem;
+  
+  .karakan-header {
+    @extend .card-header;
+    background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-secondary-shade));
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    .graha-symbol-large {
+      @extend .section-icon !optional;
+      font-size: 2.5rem;
+      background: rgba(255,255,255,0.2);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .karakan-title h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+      color: white;
+    }
+  }
+  
+  .karakan-content {
+    padding: 1.5rem;
+    
+    .karakan-main {
+      margin-bottom: 1.5rem;
+      
+      .karakan-label {
+        @extend .section-heading;
+        color: var(--ion-color-primary);
+      }
+      
+      .karakan-value {
+        @extend .description-text;
+        font-size: 1.1rem;
+      }
+    }
+    
+    .karakan-explanation {
+      margin-bottom: 1.5rem;
+      
+      .explanation-label {
+        @extend .section-heading;
+        color: var(--ion-color-secondary);
+      }
+      
+      .explanation-text {
+        @extend .description-text;
+      }
+    }
+    
+    .relationships-grid {
+      .relationship-item h5 {
+        @extend .section-heading;
+      }
+      
+      .relationship-tags {
+        @extend .tags-grid;
+        
+        .relationship-tag {
+          @extend .relationship-tag;
+        }
+      }
+    }
+  }
 }
 
-.graha-meta {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+/* Detailed Section */
+.detailed-section {
+  @extend .content-section;
+}
+
+.detailed-card {
+  @extend .content-card;
+  margin-bottom: 1rem;
+  
+  .detailed-header {
+    @extend .card-header;
+    background: var(--ion-color-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      
+      .planet-symbol-detailed {
+        @extend .section-icon !optional;
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .planet-title-detailed h3 {
+        @extend .section-heading;
+        font-size: 1.3rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      .planet-title-detailed p {
+        color: var(--ion-color-medium);
+        font-size: 0.9rem;
+      }
+    }
+    
+    .expand-icon {
+      font-size: 1.5rem;
+      color: var(--ion-color-medium);
+      transition: transform 0.3s ease;
+    }
+  }
+  
+  &.expanded .expand-icon {
+    transform: rotate(180deg);
+  }
+  
+  .detailed-content {
+    padding: 1.5rem;
+    border-top: 1px solid var(--ion-color-light-shade);
+  }
+  
+  .details-grid {
+    @extend .content-list;
+    gap: 2rem;
+  }
+  
+  .detail-section {
+    .detail-title {
+      @extend .section-heading;
+      font-size: 1.1rem;
+      color: var(--ion-color-primary);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--ion-color-primary-tint);
+    }
+    
+    .detail-grid {
+      @extend .content-list-grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      
+      .detail-item {
+        @extend .content-tag;
+        background: var(--ion-color-light);
+        
+        .detail-label {
+          font-weight: 600;
+          color: var(--ion-color-dark);
+          font-size: 0.85rem;
+        }
+        
+        .detail-value {
+          color: var(--ion-color-dark-shade);
+          margin-top: 0.25rem;
+          display: block;
+        }
+      }
+    }
+    
+    .significance-list {
+      @extend .content-list;
+      
+      .significance-item {
+        @extend .content-list-item;
+        background: var(--ion-color-light);
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        
+        ion-icon {
+          @extend .list-bullet;
+          flex-shrink: 0;
+        }
+      }
+    }
+    
+    .body-health-grid {
+      @extend .content-list-grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+      
+      h5 {
+        @extend .section-heading;
+        margin-bottom: 0.75rem;
+      }
+      
+      .tags-container {
+        @extend .tags-grid;
+        
+        .body-tag {
+          @extend .body-tag;
+        }
+        
+        .disease-tag {
+          @extend .content-tag;
+          background: rgba(var(--ion-color-danger-rgb), 0.1);
+          color: var(--ion-color-danger-shade);
+          border-color: rgba(var(--ion-color-danger-rgb), 0.2);
+        }
+      }
+    }
+    
+    .astro-grid {
+      @extend .content-list-grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      
+      .astro-item {
+        @extend .content-tag;
+        background: var(--ion-color-light);
+        
+        .astro-label {
+          font-weight: 600;
+          color: var(--ion-color-dark);
+          font-size: 0.85rem;
+        }
+        
+        .astro-value {
+          color: var(--ion-color-primary);
+          font-weight: 500;
+          margin-top: 0.25rem;
+          display: block;
+        }
+      }
+    }
+    
+    .relationship-section {
+      @extend .content-list;
+      gap: 1.5rem;
+      
+      h5 {
+        @extend .section-heading;
+        margin-bottom: 0.75rem;
+      }
+      
+      .planet-relationship-tags {
+        @extend .tags-grid;
+        
+        .friend-tag {
+          @extend .content-tag;
+          background: rgba(var(--ion-color-success-rgb), 0.1);
+          color: var(--ion-color-success-shade);
+          border-color: rgba(var(--ion-color-success-rgb), 0.2);
+        }
+        
+        .enemy-tag {
+          @extend .content-tag;
+          background: rgba(var(--ion-color-danger-rgb), 0.1);
+          color: var(--ion-color-danger-shade);
+          border-color: rgba(var(--ion-color-danger-rgb), 0.2);
+        }
+        
+        .neutral-tag {
+          @extend .content-tag;
+          background: rgba(var(--ion-color-warning-rgb), 0.1);
+          color: var(--ion-color-warning-shade);
+          border-color: rgba(var(--ion-color-warning-rgb), 0.2);
+        }
+      }
+    }
+    
+    .remedies-section {
+      @extend .content-list;
+      gap: 1.5rem;
+      
+      h5 {
+        @extend .section-heading;
+        margin-bottom: 0.75rem;
+      }
+      
+      .remedy-list,
+      .mantra-list {
+        @extend .content-list;
+        
+        .remedy-item,
+        .mantra-item {
+          @extend .content-list-item;
+          background: rgba(var(--ion-color-success-rgb), 0.05);
+          border-radius: 8px;
+          padding: 0.75rem;
+          margin-bottom: 0.5rem;
+          
+          ion-icon {
+            @extend .remedy-bullet;
+            flex-shrink: 0;
+          }
+          
+          .mantra-text {
+            @extend .list-text;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Reference Card */
+.reference-card {
+  @extend .content-card;
+  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+  color: white;
+  
+  ion-card-header {
+    @extend .card-header;
+    background: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    
+    ion-card-title {
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+  
+  ion-card-content {
+    p {
+      @extend .description-text;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 0.75rem;
+      
+      strong {
+        color: white;
+      }
+    }
+  }
+}
+
+/* Animations */
+@keyframes planetFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .planets-grid {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
+  
+  .hero-stats {
+    gap: 1rem;
+    
+    .stat-item .stat-number {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .planet-header {
+    flex-direction: column;
+    text-align: center;
+    
+    .planet-symbol {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .quick-info {
+    grid-template-columns: 1fr !important;
+  }
 }
