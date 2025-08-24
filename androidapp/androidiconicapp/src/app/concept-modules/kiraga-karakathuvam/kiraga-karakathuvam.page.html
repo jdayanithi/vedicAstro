@@ -362,14 +362,14 @@
                       <ion-icon name="trending-up" [color]="getCategoryColor(selectedCategory)"></ion-icon>
                       <div class="exaltation-details">
                         <span class="exaltation-label">உச்சம்:</span>
-                        <span class="exaltation-value">{{graha.exaltationSign}}</span>
+                        <span class="exaltation-value">{{graha.exaltationSign}} - {{graha.exaltationDegree}}</span>
                       </div>
                     </div>
                     <div class="debilitation-item">
                       <ion-icon name="trending-down" color="danger"></ion-icon>
                       <div class="debilitation-details">
                         <span class="debilitation-label">நீசம்:</span>
-                        <span class="debilitation-value">{{graha.debilitationSign}}</span>
+                        <span class="debilitation-value">{{graha.debilitationSign}} - {{graha.debilitationDegree}}</span>
                       </div>
                     </div>
                   </div>
@@ -498,13 +498,13 @@
                 <div class="astro-item exaltation-highlight">
                   <ion-icon name="trending-up" color="success" slot="start"></ion-icon>
                   <span class="astro-label">உச்ச ராசி:</span>
-                  <span class="astro-value highlight-success">{{graha.exaltationSign}}</span>
+                  <span class="astro-value highlight-success">{{graha.exaltationSign}} - {{graha.exaltationDegree}}</span>
                 </div>
                 <!-- Debilitation with enhanced display -->
                 <div class="astro-item debilitation-highlight">
                   <ion-icon name="trending-down" color="danger" slot="start"></ion-icon>
                   <span class="astro-label">நீச ராசி:</span>
-                  <span class="astro-value highlight-danger">{{graha.debilitationSign}}</span>
+                  <span class="astro-value highlight-danger">{{graha.debilitationSign}} - {{graha.debilitationDegree}}</span>
                 </div>
                 <div class="astro-item">
                   <ion-icon name="home" color="primary" slot="start"></ion-icon>
@@ -525,8 +525,8 @@
                   <ion-card-content>
                     <p class="astro-summary-text">
                       <strong>{{graha.name}}</strong> கிரகம் 
-                      <span class="highlight-success">{{graha.exaltationSign}}</span> ராசியில் உச்சம் பெற்று, 
-                      <span class="highlight-danger">{{graha.debilitationSign}}</span> ராசியில் நீசம் அடைகிறது. 
+                      <span class="highlight-success">{{graha.exaltationSign}} {{graha.exaltationDegree}}</span> இல் உச்சம் பெற்று, 
+                      <span class="highlight-danger">{{graha.debilitationSign}} {{graha.debilitationDegree}}</span> இல் நீசம் அடைகிறது. 
                       <span class="highlight-tertiary">{{graha.moolaTrikona}}</span> இதன் மூல திரிகோண நிலையாகும்.
                     </p>
                   </ion-card-content>
