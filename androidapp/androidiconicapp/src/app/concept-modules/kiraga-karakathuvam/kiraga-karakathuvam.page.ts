@@ -45,7 +45,7 @@ interface Graha {
   styleUrls: ['./kiraga-karakathuvam.page.scss'],
 })
 export class KiragaKarakathuvamPage implements OnInit {
-  selectedSegment = 'grahakarakathuvam';
+  selectedSegment = 'detailed';
   isBookmarked = false;
   showAnalysisView = false;
   currentGrahaIndex = 0;
