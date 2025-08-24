@@ -1,22 +1,31 @@
-/* Import shared styles */
-@import '../shared/shared.scss';
+/* Kiraga Karakathuvam Category-Based Page Styles */
 
-/* Hero Section using shared styles */
+/* Hero Section */
 .concept-hero.gradient-bg {
-  @extend .hero-banner;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
   
   .concept-hero-content {
-    @extend .hero-content-wrapper;
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .concept-icon-wrapper {
+    margin-bottom: 1rem;
   }
   
   .floating-planets {
-    @extend .hero-icon-container;
     display: flex;
     justify-content: center;
     gap: 1rem;
-    width: auto;
-    height: auto;
-    border-radius: 16px;
+    margin-bottom: 1rem;
     
     .planet-icon {
       font-size: 1.5rem;
@@ -32,55 +41,73 @@
   }
   
   .hero-title {
-    @extend .hero-title;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
   
   .concept-subtitle {
-    @extend .hero-subtitle;
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
   }
   
   .hero-stats {
-    @extend .course-meta-grid !optional;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+    margin-top: 1.5rem;
     
     .stat-item {
-      @extend .meta-item !optional;
       text-align: center;
       
       .stat-number {
-        @extend .meta-label !optional;
-        display: block;
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
+        display: block;
+        margin-bottom: 0.25rem;
       }
       
       .stat-label {
-        @extend .meta-label;
-        font-size: 0.85rem;
+        font-size: 0.875rem;
+        opacity: 0.8;
       }
     }
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    z-index: 1;
+    animation: starTwinkle 4s ease-in-out infinite;
   }
 }
 
 /* Search Section */
 .search-section {
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: var(--ion-color-light);
   
   ion-searchbar {
-    --background: rgba(248, 250, 252, 0.8);
+    --background: white;
     --border-radius: 12px;
-    --box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }
 
 /* Introduction Card */
 .intro-card {
-  @extend .content-card;
+  margin: 1rem;
+  border-radius: 16px;
   
   .card-header-content {
-    @extend .card-header;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -92,226 +119,384 @@
   }
   
   .intro-text {
-    @extend .description-text;
+    line-height: 1.6;
+    color: var(--ion-color-medium-shade);
+    margin-bottom: 1rem;
   }
   
   .info-chips {
-    @extend .tags-grid;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    ion-chip {
+      --background: var(--ion-color-light);
+      --color: var(--ion-color-dark);
+    }
   }
 }
 
-/* Modern Segment */
-.modern-segment {
-  @extend .modern-segment;
+/* Segment Navigation */
+.concept-segment.modern-segment {
   margin: 1rem;
+  background: var(--ion-color-light);
+  border-radius: 12px;
   
   .segment-btn {
-    --color-checked: var(--ion-color-primary);
-    --indicator-color: var(--ion-color-primary);
+    border-radius: 8px;
+    margin: 4px;
     
-    ion-icon {
-      margin-right: 0.5rem;
-    }
-  }
-}
-
-/* Content Grid and Cards */
-.planets-grid {
-  @extend .content-list-grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  padding: 1rem;
-}
-
-.planet-card {
-  @extend .content-card;
-  padding: 1.5rem;
-  border-left: 4px solid var(--ion-color-primary);
-  
-  &:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Planet-specific colors using shared color variables */
-  &[data-planet="surya"] { border-left-color: var(--ion-color-danger); }
-  &[data-planet="chandra"] { border-left-color: var(--ion-color-light-shade); }
-  &[data-planet="mangal"] { border-left-color: var(--ion-color-danger-shade); }
-  &[data-planet="budha"] { border-left-color: var(--ion-color-success); }
-  &[data-planet="guru"] { border-left-color: var(--ion-color-warning); }
-  &[data-planet="sukra"] { border-left-color: var(--ion-color-tertiary); }
-  &[data-planet="sani"] { border-left-color: var(--ion-color-dark); }
-  &[data-planet="rahu"] { border-left-color: var(--ion-color-secondary); }
-  &[data-planet="ketu"] { border-left-color: var(--ion-color-warning-shade); }
-}
-
-.planet-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  
-  .planet-symbol {
-    @extend .section-icon !optional;
-    font-size: 2.5rem;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
-    color: white;
-    border-radius: 50%;
-    margin-right: 1rem;
-  }
-  
-  .planet-info {
-    flex: 1;
-    
-    .planet-name {
-      @extend .section-heading;
-      font-size: 1.4rem;
-      margin-bottom: 0.25rem;
-    }
-    
-    .planet-english {
-      color: var(--ion-color-medium);
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .planet-meta {
-      @extend .tags-grid;
-      gap: 0.5rem;
-    }
-  }
-}
-
-.planet-content {
-  .section-title {
-    @extend .section-heading;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    
-    ion-icon {
-      font-size: 1.2rem;
-    }
-  }
-  
-  .significance-section,
-  .benefits-section {
-    margin-bottom: 1.5rem;
-    
-    p {
-      @extend .description-text;
-      margin-bottom: 0;
-    }
-  }
-  
-  .quick-info {
-    @extend .content-list-grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1rem;
-    
-    .info-item {
-      @extend .content-tag;
-      background: var(--ion-color-light);
-      padding: 0.75rem;
-      border-radius: 8px;
-      
-      .info-label {
-        font-weight: 600;
-        color: var(--ion-color-dark);
-        display: block;
-        font-size: 0.85rem;
-      }
-      
-      .info-value {
-        color: var(--ion-color-dark-shade);
-        font-size: 0.9rem;
-        margin-top: 0.25rem;
-        display: block;
-      }
-    }
-  }
-}
-
-/* Karakan Section */
-.karakan-section {
-  @extend .content-section;
-}
-
-.karakan-card {
-  @extend .content-card;
-  margin-bottom: 1rem;
-  
-  .karakan-header {
-    @extend .card-header;
-    background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-secondary-shade));
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    
-    .graha-symbol-large {
-      @extend .section-icon !optional;
-      font-size: 2.5rem;
-      background: rgba(255,255,255,0.2);
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .karakan-title h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.3rem;
+    &.segment-button-checked {
+      background: var(--ion-color-primary);
       color: white;
     }
   }
+}
+
+/* Planets Grid - Graha Karakathuvam Section */
+.planets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
   
-  .karakan-content {
+  .planet-card {
+    background: white;
+    border-radius: 16px;
     padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--ion-color-light-shade);
     
-    .karakan-main {
-      margin-bottom: 1.5rem;
-      
-      .karakan-label {
-        @extend .section-heading;
-        color: var(--ion-color-primary);
-      }
-      
-      .karakan-value {
-        @extend .description-text;
-        font-size: 1.1rem;
-      }
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
     
-    .karakan-explanation {
+    .planet-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
       margin-bottom: 1.5rem;
       
-      .explanation-label {
-        @extend .section-heading;
-        color: var(--ion-color-secondary);
+      .planet-symbol {
+        font-size: 2.5rem;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border: 2px solid currentColor;
       }
       
-      .explanation-text {
-        @extend .description-text;
-      }
-    }
-    
-    .relationships-grid {
-      .relationship-item h5 {
-        @extend .section-heading;
-      }
-      
-      .relationship-tags {
-        @extend .tags-grid;
+      .planet-info {
+        flex: 1;
         
-        .relationship-tag {
-          @extend .relationship-tag;
+        .planet-name {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: var(--ion-color-dark);
+          margin-bottom: 0.25rem;
+        }
+        
+        .planet-english {
+          font-size: 0.875rem;
+          color: var(--ion-color-medium);
+          margin-bottom: 0.75rem;
+        }
+        
+        .planet-meta {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+      }
+    }
+    
+    .planet-content {
+      .significance-section,
+      .benefits-section {
+        margin-bottom: 1rem;
+        
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--ion-color-dark);
+          margin-bottom: 0.5rem;
+        }
+        
+        .karakathuvam-text,
+        .benefits-text {
+          font-size: 0.875rem;
+          line-height: 1.5;
+          color: var(--ion-color-medium-shade);
+        }
+      }
+      
+      .quick-info {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        background: var(--ion-color-light);
+        padding: 1rem;
+        border-radius: 8px;
+        
+        .info-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          
+          .info-label {
+            font-weight: 600;
+            color: var(--ion-color-medium);
+            font-size: 0.8rem;
+          }
+          
+          .info-value {
+            font-weight: 500;
+            color: var(--ion-color-dark);
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Categories Section */
+.categories-section {
+  .category-header {
+    padding: 1rem;
+    text-align: center;
+    
+    .category-main-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ion-color-dark);
+      margin-bottom: 0.5rem;
+    }
+    
+    .category-subtitle {
+      color: var(--ion-color-medium);
+      line-height: 1.5;
+    }
+  }
+  
+  .category-selector {
+    padding: 1rem;
+    
+    .category-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      
+      .category-chip {
+        border-radius: 12px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        
+        &[color="primary"] {
+          --background: var(--ion-color-primary);
+          --color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+        }
+      }
+    }
+  }
+  
+  .category-info-banner {
+    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+    color: white;
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 16px;
+    
+    .category-info-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      
+      ion-icon {
+        font-size: 2rem;
+      }
+      
+      .category-info-text {
+        h3 {
+          font-size: 1.25rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+        
+        p {
+          opacity: 0.9;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+  
+  .category-content {
+    padding: 1rem;
+    
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      
+      .category-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .category-card-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1rem;
+          
+          .planet-symbol {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(var(--ion-color-primary-rgb), 0.1);
+          }
+          
+          .planet-info {
+            h4 {
+              font-size: 1rem;
+              font-weight: 600;
+              margin-bottom: 0.25rem;
+            }
+            
+            p {
+              font-size: 0.8rem;
+              color: var(--ion-color-medium);
+            }
+          }
+        }
+        
+        .category-card-content {
+          .category-info {
+            .gem-info,
+            .metal-info,
+            .direction-info {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+              
+              ion-icon {
+                font-size: 1.5rem;
+              }
+              
+              .gem-details,
+              .metal-details,
+              .direction-details {
+                .gem-name,
+                .metal-name,
+                .direction-name {
+                  font-weight: 600;
+                  color: var(--ion-color-dark);
+                  display: block;
+                  margin-bottom: 0.25rem;
+                }
+                
+                .gem-benefit,
+                .metal-benefit,
+                .direction-benefit {
+                  font-size: 0.8rem;
+                  color: var(--ion-color-medium);
+                }
+              }
+            }
+            
+            .bodyparts-list,
+            .diseases-list,
+            .professions-list,
+            .relationships-list,
+            .remedies-list {
+              .bodypart-item,
+              .disease-item,
+              .profession-item,
+              .relationship-item,
+              .remedy-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+                padding: 0.5rem;
+                background: var(--ion-color-light);
+                border-radius: 8px;
+                
+                ion-icon {
+                  font-size: 1rem;
+                }
+                
+                .bodypart-text,
+                .disease-text,
+                .profession-text,
+                .relationship-text,
+                .remedy-text {
+                  font-size: 0.875rem;
+                  color: var(--ion-color-dark);
+                }
+              }
+            }
+          }
+        }
+        
+        .category-card-actions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--ion-color-light-shade);
+        }
+      }
+    }
+  }
+  
+  .category-summary {
+    margin: 1rem;
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      
+      .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--ion-color-light);
+        border-radius: 8px;
+        
+        .summary-planet {
+          font-weight: 600;
+          color: var(--ion-color-dark);
+        }
+        
+        .summary-value {
+          color: var(--ion-color-medium-shade);
+          font-size: 0.875rem;
         }
       }
     }
@@ -320,238 +505,282 @@
 
 /* Detailed Section */
 .detailed-section {
-  @extend .content-section;
-}
-
-.detailed-card {
-  @extend .content-card;
-  margin-bottom: 1rem;
+  padding: 1rem;
   
-  .detailed-header {
-    @extend .card-header;
-    background: var(--ion-color-light);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+  .detailed-card {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     
-    .header-left {
+    .detailed-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      justify-content: space-between;
+      padding: 1rem;
+      cursor: pointer;
+      background: var(--ion-color-light);
+      transition: background 0.3s ease;
       
-      .planet-symbol-detailed {
-        @extend .section-icon !optional;
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
-        color: white;
-        border-radius: 50%;
+      &:hover {
+        background: var(--ion-color-light-shade);
+      }
+      
+      .header-left {
         display: flex;
         align-items: center;
-        justify-content: center;
-      }
-      
-      .planet-title-detailed h3 {
-        @extend .section-heading;
-        font-size: 1.3rem;
-        margin-bottom: 0.25rem;
-      }
-      
-      .planet-title-detailed p {
-        color: var(--ion-color-medium);
-        font-size: 0.9rem;
-      }
-    }
-    
-    .expand-icon {
-      font-size: 1.5rem;
-      color: var(--ion-color-medium);
-      transition: transform 0.3s ease;
-    }
-  }
-  
-  &.expanded .expand-icon {
-    transform: rotate(180deg);
-  }
-  
-  .detailed-content {
-    padding: 1.5rem;
-    border-top: 1px solid var(--ion-color-light-shade);
-  }
-  
-  .details-grid {
-    @extend .content-list;
-    gap: 2rem;
-  }
-  
-  .detail-section {
-    .detail-title {
-      @extend .section-heading;
-      font-size: 1.1rem;
-      color: var(--ion-color-primary);
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--ion-color-primary-tint);
-    }
-    
-    .detail-grid {
-      @extend .content-list-grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      
-      .detail-item {
-        @extend .content-tag;
-        background: var(--ion-color-light);
+        gap: 1rem;
         
-        .detail-label {
-          font-weight: 600;
-          color: var(--ion-color-dark);
-          font-size: 0.85rem;
+        .planet-symbol-detailed {
+          font-size: 2rem;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background: white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .detail-value {
-          color: var(--ion-color-dark-shade);
-          margin-top: 0.25rem;
-          display: block;
-        }
-      }
-    }
-    
-    .significance-list {
-      @extend .content-list;
-      
-      .significance-item {
-        @extend .content-list-item;
-        background: var(--ion-color-light);
-        border-radius: 8px;
-        padding: 0.75rem;
-        margin-bottom: 0.5rem;
-        
-        ion-icon {
-          @extend .list-bullet;
-          flex-shrink: 0;
-        }
-      }
-    }
-    
-    .body-health-grid {
-      @extend .content-list-grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-      }
-      
-      h5 {
-        @extend .section-heading;
-        margin-bottom: 0.75rem;
-      }
-      
-      .tags-container {
-        @extend .tags-grid;
-        
-        .body-tag {
-          @extend .body-tag;
-        }
-        
-        .disease-tag {
-          @extend .content-tag;
-          background: rgba(var(--ion-color-danger-rgb), 0.1);
-          color: var(--ion-color-danger-shade);
-          border-color: rgba(var(--ion-color-danger-rgb), 0.2);
-        }
-      }
-    }
-    
-    .astro-grid {
-      @extend .content-list-grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      
-      .astro-item {
-        @extend .content-tag;
-        background: var(--ion-color-light);
-        
-        .astro-label {
-          font-weight: 600;
-          color: var(--ion-color-dark);
-          font-size: 0.85rem;
-        }
-        
-        .astro-value {
-          color: var(--ion-color-primary);
-          font-weight: 500;
-          margin-top: 0.25rem;
-          display: block;
-        }
-      }
-    }
-    
-    .relationship-section {
-      @extend .content-list;
-      gap: 1.5rem;
-      
-      h5 {
-        @extend .section-heading;
-        margin-bottom: 0.75rem;
-      }
-      
-      .planet-relationship-tags {
-        @extend .tags-grid;
-        
-        .friend-tag {
-          @extend .content-tag;
-          background: rgba(var(--ion-color-success-rgb), 0.1);
-          color: var(--ion-color-success-shade);
-          border-color: rgba(var(--ion-color-success-rgb), 0.2);
-        }
-        
-        .enemy-tag {
-          @extend .content-tag;
-          background: rgba(var(--ion-color-danger-rgb), 0.1);
-          color: var(--ion-color-danger-shade);
-          border-color: rgba(var(--ion-color-danger-rgb), 0.2);
-        }
-        
-        .neutral-tag {
-          @extend .content-tag;
-          background: rgba(var(--ion-color-warning-rgb), 0.1);
-          color: var(--ion-color-warning-shade);
-          border-color: rgba(var(--ion-color-warning-rgb), 0.2);
-        }
-      }
-    }
-    
-    .remedies-section {
-      @extend .content-list;
-      gap: 1.5rem;
-      
-      h5 {
-        @extend .section-heading;
-        margin-bottom: 0.75rem;
-      }
-      
-      .remedy-list,
-      .mantra-list {
-        @extend .content-list;
-        
-        .remedy-item,
-        .mantra-item {
-          @extend .content-list-item;
-          background: rgba(var(--ion-color-success-rgb), 0.05);
-          border-radius: 8px;
-          padding: 0.75rem;
-          margin-bottom: 0.5rem;
-          
-          ion-icon {
-            @extend .remedy-bullet;
-            flex-shrink: 0;
+        .planet-title-detailed {
+          h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
           }
           
-          .mantra-text {
-            @extend .list-text;
-            font-family: 'Noto Sans Devanagari', sans-serif;
+          p {
+            font-size: 0.875rem;
+            color: var(--ion-color-medium);
+          }
+        }
+      }
+      
+      .expand-icon {
+        font-size: 1.5rem;
+        color: var(--ion-color-medium);
+        transition: transform 0.3s ease;
+      }
+    }
+    
+    &.expanded .detailed-header .expand-icon {
+      transform: rotate(180deg);
+    }
+    
+    .detailed-content {
+      padding: 1rem;
+      
+      .details-grid {
+        display: grid;
+        gap: 2rem;
+        
+        .detail-section {
+          .detail-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--ion-color-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--ion-color-light);
+          }
+          
+          .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            
+            .detail-item {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.75rem;
+              background: var(--ion-color-light);
+              border-radius: 8px;
+              
+              .detail-label {
+                font-weight: 600;
+                color: var(--ion-color-medium);
+                font-size: 0.875rem;
+              }
+              
+              .detail-value {
+                font-weight: 500;
+                color: var(--ion-color-dark);
+                font-size: 0.875rem;
+                text-align: right;
+              }
+            }
+          }
+          
+          .significance-list {
+            .significance-item {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+              margin-bottom: 0.5rem;
+              padding: 0.75rem;
+              background: var(--ion-color-light);
+              border-radius: 8px;
+              
+              ion-icon {
+                font-size: 1rem;
+              }
+              
+              span {
+                font-size: 0.875rem;
+                line-height: 1.4;
+              }
+            }
+          }
+          
+          .body-health-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            
+            .body-parts,
+            .diseases {
+              h5 {
+                font-weight: 600;
+                color: var(--ion-color-dark);
+                margin-bottom: 0.75rem;
+              }
+              
+              .tags-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                
+                .body-tag,
+                .disease-tag {
+                  background: var(--ion-color-primary);
+                  color: white;
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 16px;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                }
+                
+                .disease-tag {
+                  background: var(--ion-color-warning);
+                }
+              }
+            }
+          }
+          
+          .astro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            
+            .astro-item {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.75rem;
+              background: var(--ion-color-light);
+              border-radius: 8px;
+              
+              .astro-label {
+                font-weight: 600;
+                color: var(--ion-color-medium);
+                font-size: 0.875rem;
+              }
+              
+              .astro-value {
+                font-weight: 500;
+                color: var(--ion-color-dark);
+                font-size: 0.875rem;
+              }
+            }
+          }
+          
+          .relationship-section {
+            .friend-planets,
+            .enemy-planets,
+            .neutral-planets {
+              margin-bottom: 1rem;
+              
+              h5 {
+                font-weight: 600;
+                color: var(--ion-color-dark);
+                margin-bottom: 0.75rem;
+              }
+              
+              .planet-relationship-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                
+                .friend-tag,
+                .enemy-tag,
+                .neutral-tag {
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 16px;
+                  font-size: 0.75rem;
+                  font-weight: 500;
+                }
+                
+                .friend-tag {
+                  background: var(--ion-color-success);
+                  color: white;
+                }
+                
+                .enemy-tag {
+                  background: var(--ion-color-danger);
+                  color: white;
+                }
+                
+                .neutral-tag {
+                  background: var(--ion-color-warning);
+                  color: white;
+                }
+              }
+            }
+          }
+          
+          .remedies-section {
+            .remedy-practices,
+            .mantras {
+              margin-bottom: 1rem;
+              
+              h5 {
+                font-weight: 600;
+                color: var(--ion-color-dark);
+                margin-bottom: 0.75rem;
+              }
+              
+              .remedy-list,
+              .mantra-list {
+                .remedy-item,
+                .mantra-item {
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 0.75rem;
+                  margin-bottom: 0.75rem;
+                  padding: 0.75rem;
+                  background: var(--ion-color-light);
+                  border-radius: 8px;
+                  
+                  ion-icon {
+                    font-size: 1rem;
+                    margin-top: 0.25rem;
+                  }
+                  
+                  span {
+                    font-size: 0.875rem;
+                    line-height: 1.4;
+                  }
+                  
+                  .mantra-text {
+                    font-style: italic;
+                    color: var(--ion-color-tertiary);
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -561,31 +790,28 @@
 
 /* Reference Card */
 .reference-card {
-  @extend .content-card;
-  background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
-  color: white;
+  margin: 1rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(var(--ion-color-primary-rgb), 0.05), rgba(var(--ion-color-secondary-rgb), 0.05));
   
-  ion-card-header {
-    @extend .card-header;
-    background: transparent;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    
-    ion-card-title {
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+  ion-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
   }
   
   ion-card-content {
     p {
-      @extend .description-text;
-      color: rgba(255,255,255,0.9);
       margin-bottom: 0.75rem;
+      line-height: 1.5;
       
       strong {
-        color: white;
+        color: var(--ion-color-primary);
+      }
+      
+      &:last-child {
+        margin-bottom: 0;
       }
     }
   }
@@ -593,36 +819,93 @@
 
 /* Animations */
 @keyframes planetFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(180deg);
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .planets-grid {
     grid-template-columns: 1fr;
-    padding: 0.5rem;
+    padding: 0.75rem;
   }
   
-  .hero-stats {
-    gap: 1rem;
+  .category-selector .category-chips {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .detailed-section .detailed-card .detailed-content .details-grid .detail-section .body-health-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .concept-hero.gradient-bg {
+    padding: 1.5rem 1rem;
     
-    .stat-item .stat-number {
+    .hero-title {
       font-size: 1.5rem;
     }
-  }
-  
-  .planet-header {
-    flex-direction: column;
-    text-align: center;
     
-    .planet-symbol {
-      margin-right: 0;
-      margin-bottom: 1rem;
+    .concept-subtitle {
+      font-size: 0.9rem;
+    }
+    
+    .hero-stats {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
   }
+}
+
+@media (max-width: 480px) {
+  .category-selector .category-chips {
+    grid-template-columns: 1fr;
+  }
   
-  .quick-info {
-    grid-template-columns: 1fr !important;
+  .concept-hero.gradient-bg .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .planets-grid .planet-card .planet-content .quick-info {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .planet-card,
+  .category-card,
+  .detailed-card {
+    background: var(--ion-color-dark);
+    border-color: var(--ion-color-medium);
+  }
+  
+  .planet-card .planet-header .planet-info .planet-name,
+  .category-card .category-card-header .planet-info h4,
+  .detailed-card .detailed-header .header-left .planet-title-detailed h3 {
+    color: var(--ion-color-light);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

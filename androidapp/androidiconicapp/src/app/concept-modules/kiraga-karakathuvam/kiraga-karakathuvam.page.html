@@ -102,9 +102,9 @@
       <ion-icon name="planet" slot="start"></ion-icon>
       <ion-label>கிரக காரகத்துவம்</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="grahakarakan" class="segment-btn">
-      <ion-icon name="analytics" slot="start"></ion-icon>
-      <ion-label>கிரக காரகன்</ion-label>
+    <ion-segment-button value="categories" class="segment-btn">
+      <ion-icon name="grid" slot="start"></ion-icon>
+      <ion-label>வகைப்படுத்தல்</ion-label>
     </ion-segment-button>
     <ion-segment-button value="detailed" class="segment-btn">
       <ion-icon name="list" slot="start"></ion-icon>
@@ -167,38 +167,170 @@
       </div>
     </div>
 
-    <!-- Graha Karakan Section -->
-    <div *ngSwitchCase="'grahakarakan'" class="karakan-section">
-      <div class="karakan-card" *ngFor="let graha of filteredGrahas">
-        <div class="karakan-header">
-          <div class="graha-symbol-large">{{graha.symbol}}</div>
-          <div class="karakan-title">
-            <h3>{{graha.name}} - {{graha.nameEnglish}}</h3>
-            <ion-badge color="secondary">காரகன்</ion-badge>
+    <!-- Categories Section -->
+    <div *ngSwitchCase="'categories'" class="categories-section">
+      <!-- Category Selection Header -->
+      <div class="category-header">
+        <h2 class="category-main-title">வகைப்படுத்தல் தேர்வு</h2>
+        <p class="category-subtitle">கிரகங்களை வெவ்வேறு பண்புகளின் அடிப்படையில் ஒப்பிட்டு பார்க்கவும்</p>
+      </div>
+
+      <!-- Category Selection Chips -->
+      <div class="category-selector">
+        <div class="category-chips">
+          <ion-chip 
+            *ngFor="let category of categories" 
+            [color]="selectedCategory === category.key ? 'primary' : 'medium'"
+            (click)="selectCategory(category.key)"
+            class="category-chip">
+            <ion-icon [name]="category.icon" slot="start"></ion-icon>
+            <ion-label>{{category.name}}</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+
+      <!-- Selected Category Info -->
+      <div class="category-info-banner" *ngIf="selectedCategory">
+        <div class="category-info-content">
+          <ion-icon [name]="getCategoryIcon(selectedCategory)" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+          <div class="category-info-text">
+            <h3>{{getCategoryInfo(selectedCategory)?.name}}</h3>
+            <p>{{getCategoryInfo(selectedCategory)?.description}}</p>
           </div>
         </div>
-        
-        <div class="karakan-content">
-          <div class="karakan-main">
-            <h4 class="karakan-label">முக்கிய காரகன்:</h4>
-            <p class="karakan-value">{{graha.karakan}}</p>
-          </div>
-          
-          <div class="karakan-explanation">
-            <h4 class="explanation-label">விளக்கம்:</h4>
-            <p class="explanation-text">{{graha.explanation}}</p>
-          </div>
-          
-          <div class="relationships-grid">
-            <div class="relationship-item">
-              <h5>உறவுகள்:</h5>
-              <div class="relationship-tags">
-                <span class="relationship-tag" *ngFor="let rel of graha.relationships">{{rel}}</span>
+      </div>
+
+      <!-- Category Content Grid -->
+      <div class="category-content" *ngIf="selectedCategory">
+        <div class="category-grid">
+          <div class="category-card" *ngFor="let graha of filteredGrahas" 
+               [attr.data-category]="selectedCategory"
+               [attr.data-planet]="graha.id">
+            <div class="category-card-header">
+              <div class="planet-symbol" [style.color]="graha.color">{{graha.symbol}}</div>
+              <div class="planet-info">
+                <h4>{{graha.name}}</h4>
+                <p>{{graha.nameEnglish}}</p>
               </div>
+            </div>
+            
+            <div class="category-card-content">
+              <!-- Gemstone Category -->
+              <div *ngIf="selectedCategory === 'gem'" class="category-info">
+                <div class="gem-info">
+                  <ion-icon name="diamond" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                  <div class="gem-details">
+                    <span class="gem-name">{{graha.gemstone}}</span>
+                    <p class="gem-benefit">பலம் மற்றும் நன்மைகளை அதிகரிக்கும்</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Metal Category -->
+              <div *ngIf="selectedCategory === 'metal'" class="category-info">
+                <div class="metal-info">
+                  <ion-icon name="hardware-chip" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                  <div class="metal-details">
+                    <span class="metal-name">{{graha.metal}}</span>
+                    <p class="metal-benefit">நாகரிகங்கள் மற்றும் பயன்பாடுகள்</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Direction Category -->
+              <div *ngIf="selectedCategory === 'direction'" class="category-info">
+                <div class="direction-info">
+                  <ion-icon name="compass" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                  <div class="direction-details">
+                    <span class="direction-name">{{graha.direction}}</span>
+                    <p class="direction-benefit">வாஸ்து மற்றும் திசைகளின் தாக்கம்</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Body Parts Category -->
+              <div *ngIf="selectedCategory === 'bodyparts'" class="category-info">
+                <div class="bodyparts-list">
+                  <div class="bodypart-item" *ngFor="let part of graha.bodyParts">
+                    <ion-icon name="body" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                    <span class="bodypart-text">{{part}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Diseases Category -->
+              <div *ngIf="selectedCategory === 'diseases'" class="category-info">
+                <div class="diseases-list">
+                  <div class="disease-item" *ngFor="let disease of graha.diseases">
+                    <ion-icon name="medical" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                    <span class="disease-text">{{disease}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Professions Category -->
+              <div *ngIf="selectedCategory === 'professions'" class="category-info">
+                <div class="professions-list">
+                  <div class="profession-item" *ngFor="let profession of graha.professions">
+                    <ion-icon name="briefcase" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                    <span class="profession-text">{{profession}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Relationships Category -->
+              <div *ngIf="selectedCategory === 'relationships'" class="category-info">
+                <div class="relationships-list">
+                  <div class="relationship-item" *ngFor="let relationship of graha.relationships">
+                    <ion-icon name="people" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                    <span class="relationship-text">{{relationship}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Remedies Category -->
+              <div *ngIf="selectedCategory === 'remedies'" class="category-info">
+                <div class="remedies-list">
+                  <div class="remedy-item" *ngFor="let remedy of graha.remedies">
+                    <ion-icon name="leaf" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                    <span class="remedy-text">{{remedy}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="category-card-actions">
+              <ion-button fill="clear" size="small" (click)="shareGrahaInfo(graha)">
+                <ion-icon name="share-outline" slot="start"></ion-icon>
+                பகிர்
+              </ion-button>
+              <ion-button fill="clear" size="small" (click)="expandGrahaDetails(graha)">
+                <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+                விளக்கம்
+              </ion-button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Category Summary -->
+      <ion-card class="category-summary" *ngIf="selectedCategory">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon [name]="getCategoryIcon(selectedCategory)" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+            {{getCategoryInfo(selectedCategory)?.name}} - சுருக்கம்
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="summary-grid">
+            <div class="summary-item" *ngFor="let graha of filteredGrahas">
+              <span class="summary-planet">{{graha.name}}</span>
+              <span class="summary-value">{{formatCategoryData(getCategoryData(graha, selectedCategory))}}</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
     </div>
 
     <!-- Detailed Information Section -->

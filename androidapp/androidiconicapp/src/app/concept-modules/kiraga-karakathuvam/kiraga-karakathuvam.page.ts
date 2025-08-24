@@ -469,6 +469,61 @@ export class KiragaKarakathuvamPage implements OnInit {
     }
   ];
 
+  // Category structure for organized access
+  categories = [
+    {
+      key: 'gem',
+      name: 'ரத்தினங்கள்',
+      icon: 'diamond-outline',
+      description: 'ஒவ்வொரு கிரகத்தின் ரத்தினங்கள்'
+    },
+    {
+      key: 'metal',
+      name: 'உலோகங்கள்',
+      icon: 'hardware-chip-outline',
+      description: 'கிரகங்களின் உலோகங்கள்'
+    },
+    {
+      key: 'direction',
+      name: 'திசைகள்',
+      icon: 'compass-outline',
+      description: 'கிரகங்களின் திசைகள்'
+    },
+    {
+      key: 'bodyparts',
+      name: 'உடல் பாகங்கள்',
+      icon: 'body-outline',
+      description: 'கிரகங்கள் ஆளும் உடல் பாகங்கள்'
+    },
+    {
+      key: 'diseases',
+      name: 'நோய்கள்',
+      icon: 'medical-outline',
+      description: 'கிரகங்கள் சார்ந்த நோய்கள்'
+    },
+    {
+      key: 'professions',
+      name: 'தொழில்கள்',
+      icon: 'briefcase-outline',
+      description: 'கிரகங்கள் சார்ந்த தொழில்கள்'
+    },
+    {
+      key: 'relationships',
+      name: 'உறவுகள்',
+      icon: 'people-outline',
+      description: 'கிரகங்கள் குறிக்கும் உறவுகள்'
+    },
+    {
+      key: 'remedies',
+      name: 'பரிகாரங்கள்',
+      icon: 'leaf-outline',
+      description: 'கிரக பரிகாரங்கள்'
+    }
+  ];
+
+  selectedCategory = 'gem';
+  showCategoryFilter = false;
+
   constructor(
     private toastController: ToastController,
     private alertController: AlertController,
@@ -482,6 +537,79 @@ export class KiragaKarakathuvamPage implements OnInit {
 
   segmentChanged(event: CustomEvent) {
     this.selectedSegment = event.detail.value;
+    // Reset category selection when switching segments
+    if (this.selectedSegment === 'categories') {
+      this.selectedCategory = 'gem';
+    }
+  }
+
+  // Category management methods
+  selectCategory(categoryKey: string) {
+    this.selectedCategory = categoryKey;
+  }
+
+  getCategoryData(graha: Graha, categoryKey: string): any {
+    switch (categoryKey) {
+      case 'gem':
+        return graha.gemstone;
+      case 'metal':
+        return graha.metal;
+      case 'direction':
+        return graha.direction;
+      case 'bodyparts':
+        return graha.bodyParts;
+      case 'diseases':
+        return graha.diseases;
+      case 'professions':
+        return graha.professions;
+      case 'relationships':
+        return graha.relationships;
+      case 'remedies':
+        return graha.remedies;
+      default:
+        return '';
+    }
+  }
+
+  getCategoryIcon(categoryKey: string): string {
+    const category = this.categories.find(cat => cat.key === categoryKey);
+    return category ? category.icon : 'help-outline';
+  }
+
+  getCategoryColor(categoryKey: string): string {
+    const colors: { [key: string]: string } = {
+      'gem': 'secondary',
+      'metal': 'tertiary',
+      'direction': 'warning',
+      'bodyparts': 'danger',
+      'diseases': 'dark',
+      'professions': 'success',
+      'relationships': 'primary',
+      'remedies': 'medium'
+    };
+    return colors[categoryKey] || 'medium';
+  }
+
+  // Additional helper methods for category organization
+  expandGrahaDetails(graha: Graha) {
+    graha.expanded = !graha.expanded;
+  }
+
+  formatCategoryData(data: any): string {
+    if (Array.isArray(data)) {
+      return data.join(', ');
+    }
+    return data || '';
+  }
+
+  // Method to get category title and description
+  getCategoryInfo(categoryKey: string) {
+    return this.categories.find(cat => cat.key === categoryKey);
+  }
+
+  // Alias for existing method to match template usage
+  shareGrahaInfo(graha: Graha) {
+    this.shareGraha(graha);
   }
 
   toggleBookmark() {
