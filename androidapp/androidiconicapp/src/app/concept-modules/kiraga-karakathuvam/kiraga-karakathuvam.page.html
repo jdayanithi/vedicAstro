@@ -98,75 +98,21 @@
     [(ngModel)]="selectedSegment" 
     (ionChange)="segmentChanged($event)" 
     class="concept-segment modern-segment">
-    <ion-segment-button value="grahakarakathuvam" class="segment-btn">
-      <ion-icon name="planet" slot="start"></ion-icon>
+    <ion-segment-button value="detailed" class="segment-btn">
+      <ion-icon name="list" slot="start"></ion-icon>
       <ion-label>கிரக காரகத்துவம்</ion-label>
     </ion-segment-button>
     <ion-segment-button value="categories" class="segment-btn">
       <ion-icon name="grid" slot="start"></ion-icon>
       <ion-label>வகைப்படுத்தல்</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="detailed" class="segment-btn">
-      <ion-icon name="list" slot="start"></ion-icon>
-      <ion-label>விரிவான தகவல்</ion-label>
-    </ion-segment-button>
+   
   </ion-segment>
 
   <!-- Content Sections -->
   <div [ngSwitch]="selectedSegment" class="concept-content">
     
-    <!-- Graha Karakathuvam Section -->
-    <div *ngSwitchCase="'grahakarakathuvam'" class="planets-grid">
-      <div class="planet-card" *ngFor="let graha of filteredGrahas; let i = index" [attr.data-planet]="graha.id">
-        <div class="planet-header">
-          <div class="planet-symbol" [style.color]="graha.color">{{graha.symbol}}</div>
-          <div class="planet-info">
-            <h3 class="planet-name">{{graha.name}}</h3>
-            <p class="planet-english">{{graha.nameEnglish}}</p>
-            <div class="planet-meta">
-              <ion-badge [color]="graha.type === 'benefic' ? 'success' : graha.type === 'malefic' ? 'danger' : 'warning'">
-                {{graha.type === 'benefic' ? 'நன்மை' : graha.type === 'malefic' ? 'தீமை' : 'நடுநிலை'}}
-              </ion-badge>
-              <ion-badge color="medium">{{graha.day}}</ion-badge>
-            </div>
-          </div>
-        </div>
-        
-        <div class="planet-content">
-          <div class="significance-section">
-            <h4 class="section-title">
-              <ion-icon name="star" color="primary"></ion-icon>
-              காரகத்துவம்
-            </h4>
-            <p class="karakathuvam-text">{{graha.karakathuvam}}</p>
-          </div>
-          
-          <div class="benefits-section">
-            <h4 class="section-title">
-              <ion-icon name="checkmark-circle" color="success"></ion-icon>
-              பலன்கள்
-            </h4>
-            <p class="benefits-text">{{graha.benefits}}</p>
-          </div>
-          
-          <div class="quick-info">
-            <div class="info-item">
-              <span class="info-label">கல்:</span>
-              <span class="info-value">{{graha.gemstone}}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">உலோகம்:</span>
-              <span class="info-value">{{graha.metal}}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">திசை:</span>
-              <span class="info-value">{{graha.direction}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+  
     <!-- Categories Section -->
     <div *ngSwitchCase="'categories'" class="categories-section">
       <!-- Category Selection Header -->
