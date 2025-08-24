@@ -51,6 +51,7 @@ export class KiragaKarakathuvamPage implements OnInit {
   currentGrahaIndex = 0;
   searchTerm = '';
   filteredGrahas: Graha[] = [];
+  categoryExpandedState: { [key: string]: boolean } = {};
 
   grahas: Graha[] = [
     {
@@ -518,6 +519,18 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'பரிகாரங்கள்',
       icon: 'leaf-outline',
       description: 'கிரக பரிகாரங்கள்'
+    },
+    {
+      key: 'exaltation',
+      name: 'உச்சம்/நீசம்',
+      icon: 'trending-up-outline',
+      description: 'கிரகங்களின் உச்ச மற்றும் நீச ராசிகள்'
+    },
+    {
+      key: 'moolatrikona',
+      name: 'மூலத்ரிகோணம்',
+      icon: 'triangle-outline',
+      description: 'கிரகங்களின் மூலத்ரிகோண ராசிகள்'
     }
   ];
 
@@ -566,6 +579,13 @@ export class KiragaKarakathuvamPage implements OnInit {
         return graha.relationships;
       case 'remedies':
         return graha.remedies;
+      case 'exaltation':
+        return {
+          exaltation: graha.exaltationSign,
+          debilitation: graha.debilitationSign
+        };
+      case 'moolatrikona':
+        return graha.moolaTrikona;
       default:
         return '';
     }
@@ -585,7 +605,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       'diseases': 'dark',
       'professions': 'success',
       'relationships': 'primary',
-      'remedies': 'medium'
+      'remedies': 'medium',
+      'exaltation': 'success',
+      'moolatrikona': 'tertiary'
     };
     return colors[categoryKey] || 'medium';
   }
@@ -600,6 +622,54 @@ export class KiragaKarakathuvamPage implements OnInit {
       return data.join(', ');
     }
     return data || '';
+  }
+
+  // Method to determine if content should be shown in detail or short form
+  shouldShowDetailedView(data: any, maxShortItems: number = 3): boolean {
+    if (Array.isArray(data)) {
+      return data.length > maxShortItems;
+    }
+    if (typeof data === 'string') {
+      return data.length > 50; // Show detailed if text is longer than 50 characters
+    }
+    return false;
+  }
+
+  // Get truncated data for short view
+  getTruncatedData(data: any, maxItems: number = 3): any {
+    if (Array.isArray(data)) {
+      return data.slice(0, maxItems);
+    }
+    if (typeof data === 'string') {
+      return data.length > 50 ? data.substring(0, 47) + '...' : data;
+    }
+    return data;
+  }
+
+  // Get remaining count for "show more" functionality
+  getRemainingCount(data: any, maxItems: number = 3): number {
+    if (Array.isArray(data)) {
+      return Math.max(0, data.length - maxItems);
+    }
+    return 0;
+  }
+
+  // Check if category has lengthy content
+  categoryHasLengthyContent(categoryKey: string): boolean {
+    const lengthyCategories = ['bodyparts', 'diseases', 'professions', 'relationships', 'remedies'];
+    return lengthyCategories.includes(categoryKey);
+  }
+
+  // Toggle expansion for category items
+  toggleCategoryExpansion(grahaId: string, categoryKey: string) {
+    const key = `${grahaId}_${categoryKey}`;
+    this.categoryExpandedState[key] = !this.categoryExpandedState[key];
+  }
+
+  // Check if category item is expanded
+  isCategoryExpanded(grahaId: string, categoryKey: string): boolean {
+    const key = `${grahaId}_${categoryKey}`;
+    return this.categoryExpandedState[key] || false;
   }
 
   // Method to get category title and description

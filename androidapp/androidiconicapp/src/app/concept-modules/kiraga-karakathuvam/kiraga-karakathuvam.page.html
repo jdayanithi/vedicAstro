@@ -197,9 +197,31 @@
               <!-- Body Parts Category -->
               <div *ngIf="selectedCategory === 'bodyparts'" class="category-info">
                 <div class="bodyparts-list">
-                  <div class="bodypart-item" *ngFor="let part of graha.bodyParts">
-                    <ion-icon name="body" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-                    <span class="bodypart-text">{{part}}</span>
+                  <!-- Show short view if content is lengthy -->
+                  <div *ngIf="shouldShowDetailedView(graha.bodyParts) && !isCategoryExpanded(graha.id, 'bodyparts')">
+                    <div class="bodypart-item" *ngFor="let part of getTruncatedData(graha.bodyParts)">
+                      <ion-icon name="body" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="bodypart-text">{{part}}</span>
+                    </div>
+                    <ion-button fill="clear" size="small" class="show-more-btn" 
+                                (click)="toggleCategoryExpansion(graha.id, 'bodyparts')">
+                      <ion-icon name="chevron-down" slot="start"></ion-icon>
+                      +{{getRemainingCount(graha.bodyParts)}} மேலும் காட்டு
+                    </ion-button>
+                  </div>
+                  
+                  <!-- Show full view if expanded or content is short -->
+                  <div *ngIf="!shouldShowDetailedView(graha.bodyParts) || isCategoryExpanded(graha.id, 'bodyparts')">
+                    <div class="bodypart-item" *ngFor="let part of graha.bodyParts">
+                      <ion-icon name="body" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="bodypart-text">{{part}}</span>
+                    </div>
+                    <ion-button *ngIf="shouldShowDetailedView(graha.bodyParts) && isCategoryExpanded(graha.id, 'bodyparts')" 
+                                fill="clear" size="small" class="show-less-btn"
+                                (click)="toggleCategoryExpansion(graha.id, 'bodyparts')">
+                      <ion-icon name="chevron-up" slot="start"></ion-icon>
+                      குறைவாக காட்டு
+                    </ion-button>
                   </div>
                 </div>
               </div>
@@ -207,9 +229,31 @@
               <!-- Diseases Category -->
               <div *ngIf="selectedCategory === 'diseases'" class="category-info">
                 <div class="diseases-list">
-                  <div class="disease-item" *ngFor="let disease of graha.diseases">
-                    <ion-icon name="medical" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-                    <span class="disease-text">{{disease}}</span>
+                  <!-- Show short view if content is lengthy -->
+                  <div *ngIf="shouldShowDetailedView(graha.diseases) && !isCategoryExpanded(graha.id, 'diseases')">
+                    <div class="disease-item" *ngFor="let disease of getTruncatedData(graha.diseases)">
+                      <ion-icon name="medical" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="disease-text">{{disease}}</span>
+                    </div>
+                    <ion-button fill="clear" size="small" class="show-more-btn" 
+                                (click)="toggleCategoryExpansion(graha.id, 'diseases')">
+                      <ion-icon name="chevron-down" slot="start"></ion-icon>
+                      +{{getRemainingCount(graha.diseases)}} மேலும் காட்டு
+                    </ion-button>
+                  </div>
+                  
+                  <!-- Show full view if expanded or content is short -->
+                  <div *ngIf="!shouldShowDetailedView(graha.diseases) || isCategoryExpanded(graha.id, 'diseases')">
+                    <div class="disease-item" *ngFor="let disease of graha.diseases">
+                      <ion-icon name="medical" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="disease-text">{{disease}}</span>
+                    </div>
+                    <ion-button *ngIf="shouldShowDetailedView(graha.diseases) && isCategoryExpanded(graha.id, 'diseases')" 
+                                fill="clear" size="small" class="show-less-btn"
+                                (click)="toggleCategoryExpansion(graha.id, 'diseases')">
+                      <ion-icon name="chevron-up" slot="start"></ion-icon>
+                      குறைவாக காட்டு
+                    </ion-button>
                   </div>
                 </div>
               </div>
@@ -217,9 +261,31 @@
               <!-- Professions Category -->
               <div *ngIf="selectedCategory === 'professions'" class="category-info">
                 <div class="professions-list">
-                  <div class="profession-item" *ngFor="let profession of graha.professions">
-                    <ion-icon name="briefcase" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-                    <span class="profession-text">{{profession}}</span>
+                  <!-- Show short view if content is lengthy -->
+                  <div *ngIf="shouldShowDetailedView(graha.professions) && !isCategoryExpanded(graha.id, 'professions')">
+                    <div class="profession-item" *ngFor="let profession of getTruncatedData(graha.professions)">
+                      <ion-icon name="briefcase" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="profession-text">{{profession}}</span>
+                    </div>
+                    <ion-button fill="clear" size="small" class="show-more-btn" 
+                                (click)="toggleCategoryExpansion(graha.id, 'professions')">
+                      <ion-icon name="chevron-down" slot="start"></ion-icon>
+                      +{{getRemainingCount(graha.professions)}} மேலும் காட்டு
+                    </ion-button>
+                  </div>
+                  
+                  <!-- Show full view if expanded or content is short -->
+                  <div *ngIf="!shouldShowDetailedView(graha.professions) || isCategoryExpanded(graha.id, 'professions')">
+                    <div class="profession-item" *ngFor="let profession of graha.professions">
+                      <ion-icon name="briefcase" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="profession-text">{{profession}}</span>
+                    </div>
+                    <ion-button *ngIf="shouldShowDetailedView(graha.professions) && isCategoryExpanded(graha.id, 'professions')" 
+                                fill="clear" size="small" class="show-less-btn"
+                                (click)="toggleCategoryExpansion(graha.id, 'professions')">
+                      <ion-icon name="chevron-up" slot="start"></ion-icon>
+                      குறைவாக காட்டு
+                    </ion-button>
                   </div>
                 </div>
               </div>
@@ -227,9 +293,31 @@
               <!-- Relationships Category -->
               <div *ngIf="selectedCategory === 'relationships'" class="category-info">
                 <div class="relationships-list">
-                  <div class="relationship-item" *ngFor="let relationship of graha.relationships">
-                    <ion-icon name="people" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-                    <span class="relationship-text">{{relationship}}</span>
+                  <!-- Show short view if content is lengthy -->
+                  <div *ngIf="shouldShowDetailedView(graha.relationships) && !isCategoryExpanded(graha.id, 'relationships')">
+                    <div class="relationship-item" *ngFor="let relationship of getTruncatedData(graha.relationships)">
+                      <ion-icon name="people" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="relationship-text">{{relationship}}</span>
+                    </div>
+                    <ion-button fill="clear" size="small" class="show-more-btn" 
+                                (click)="toggleCategoryExpansion(graha.id, 'relationships')">
+                      <ion-icon name="chevron-down" slot="start"></ion-icon>
+                      +{{getRemainingCount(graha.relationships)}} மேலும் காட்டு
+                    </ion-button>
+                  </div>
+                  
+                  <!-- Show full view if expanded or content is short -->
+                  <div *ngIf="!shouldShowDetailedView(graha.relationships) || isCategoryExpanded(graha.id, 'relationships')">
+                    <div class="relationship-item" *ngFor="let relationship of graha.relationships">
+                      <ion-icon name="people" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="relationship-text">{{relationship}}</span>
+                    </div>
+                    <ion-button *ngIf="shouldShowDetailedView(graha.relationships) && isCategoryExpanded(graha.id, 'relationships')" 
+                                fill="clear" size="small" class="show-less-btn"
+                                (click)="toggleCategoryExpansion(graha.id, 'relationships')">
+                      <ion-icon name="chevron-up" slot="start"></ion-icon>
+                      குறைவாக காட்டு
+                    </ion-button>
                   </div>
                 </div>
               </div>
@@ -237,9 +325,65 @@
               <!-- Remedies Category -->
               <div *ngIf="selectedCategory === 'remedies'" class="category-info">
                 <div class="remedies-list">
-                  <div class="remedy-item" *ngFor="let remedy of graha.remedies">
-                    <ion-icon name="leaf" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-                    <span class="remedy-text">{{remedy}}</span>
+                  <!-- Show short view if content is lengthy -->
+                  <div *ngIf="shouldShowDetailedView(graha.remedies) && !isCategoryExpanded(graha.id, 'remedies')">
+                    <div class="remedy-item" *ngFor="let remedy of getTruncatedData(graha.remedies)">
+                      <ion-icon name="leaf" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="remedy-text">{{remedy}}</span>
+                    </div>
+                    <ion-button fill="clear" size="small" class="show-more-btn" 
+                                (click)="toggleCategoryExpansion(graha.id, 'remedies')">
+                      <ion-icon name="chevron-down" slot="start"></ion-icon>
+                      +{{getRemainingCount(graha.remedies)}} மேலும் காட்டு
+                    </ion-button>
+                  </div>
+                  
+                  <!-- Show full view if expanded or content is short -->
+                  <div *ngIf="!shouldShowDetailedView(graha.remedies) || isCategoryExpanded(graha.id, 'remedies')">
+                    <div class="remedy-item" *ngFor="let remedy of graha.remedies">
+                      <ion-icon name="leaf" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <span class="remedy-text">{{remedy}}</span>
+                    </div>
+                    <ion-button *ngIf="shouldShowDetailedView(graha.remedies) && isCategoryExpanded(graha.id, 'remedies')" 
+                                fill="clear" size="small" class="show-less-btn"
+                                (click)="toggleCategoryExpansion(graha.id, 'remedies')">
+                      <ion-icon name="chevron-up" slot="start"></ion-icon>
+                      குறைவாக காட்டு
+                    </ion-button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Exaltation/Debilitation Category -->
+              <div *ngIf="selectedCategory === 'exaltation'" class="category-info">
+                <div class="exaltation-info">
+                  <div class="astro-details">
+                    <div class="exaltation-item">
+                      <ion-icon name="trending-up" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                      <div class="exaltation-details">
+                        <span class="exaltation-label">உச்சம்:</span>
+                        <span class="exaltation-value">{{graha.exaltationSign}}</span>
+                      </div>
+                    </div>
+                    <div class="debilitation-item">
+                      <ion-icon name="trending-down" color="danger"></ion-icon>
+                      <div class="debilitation-details">
+                        <span class="debilitation-label">நீசம்:</span>
+                        <span class="debilitation-value">{{graha.debilitationSign}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="astro-benefit">கிரகத்தின் வலிமை மற்றும் பலவீனம்</p>
+                </div>
+              </div>
+
+              <!-- Moolatrikona Category -->
+              <div *ngIf="selectedCategory === 'moolatrikona'" class="category-info">
+                <div class="moolatrikona-info">
+                  <ion-icon name="triangle" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                  <div class="moolatrikona-details">
+                    <span class="moolatrikona-name">{{graha.moolaTrikona}}</span>
+                    <p class="moolatrikona-benefit">கிரகத்தின் சிறப்பு ராசி மற்றும் அம்சம்</p>
                   </div>
                 </div>
               </div>
@@ -259,24 +403,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Category Summary -->
-      <ion-card class="category-summary" *ngIf="selectedCategory">
-        <ion-card-header>
-          <ion-card-title>
-            <ion-icon [name]="getCategoryIcon(selectedCategory)" [color]="getCategoryColor(selectedCategory)"></ion-icon>
-            {{getCategoryInfo(selectedCategory)?.name}} - சுருக்கம்
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <div class="summary-grid">
-            <div class="summary-item" *ngFor="let graha of filteredGrahas">
-              <span class="summary-planet">{{graha.name}}</span>
-              <span class="summary-value">{{formatCategoryData(getCategoryData(graha, selectedCategory))}}</span>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
     </div>
 
     <!-- Detailed Information Section -->
@@ -368,22 +494,43 @@
             <div class="detail-section">
               <h4 class="detail-title">ஜோதிட தகவல்கள்</h4>
               <div class="astro-grid">
-                <div class="astro-item">
+                <!-- Exaltation with enhanced display -->
+                <div class="astro-item exaltation-highlight">
+                  <ion-icon name="trending-up" color="success" slot="start"></ion-icon>
                   <span class="astro-label">உச்ச ராசி:</span>
-                  <span class="astro-value">{{graha.exaltationSign}}</span>
+                  <span class="astro-value highlight-success">{{graha.exaltationSign}}</span>
                 </div>
-                <div class="astro-item">
+                <!-- Debilitation with enhanced display -->
+                <div class="astro-item debilitation-highlight">
+                  <ion-icon name="trending-down" color="danger" slot="start"></ion-icon>
                   <span class="astro-label">நீச ராசி:</span>
-                  <span class="astro-value">{{graha.debilitationSign}}</span>
+                  <span class="astro-value highlight-danger">{{graha.debilitationSign}}</span>
                 </div>
                 <div class="astro-item">
+                  <ion-icon name="home" color="primary" slot="start"></ion-icon>
                   <span class="astro-label">சொந்த ராசி:</span>
                   <span class="astro-value">{{graha.ownSigns.join(', ')}}</span>
                 </div>
-                <div class="astro-item" *ngIf="graha.moolaTrikona">
+                <!-- Moolatrikona with enhanced display -->
+                <div class="astro-item moolatrikona-highlight" *ngIf="graha.moolaTrikona">
+                  <ion-icon name="triangle" color="tertiary" slot="start"></ion-icon>
                   <span class="astro-label">மூல திரிகோணம்:</span>
-                  <span class="astro-value">{{graha.moolaTrikona}}</span>
+                  <span class="astro-value highlight-tertiary">{{graha.moolaTrikona}}</span>
                 </div>
+              </div>
+              
+              <!-- Additional astrological details -->
+              <div class="astro-info-summary" *ngIf="graha.moolaTrikona">
+                <ion-card class="astro-summary-card">
+                  <ion-card-content>
+                    <p class="astro-summary-text">
+                      <strong>{{graha.name}}</strong> கிரகம் 
+                      <span class="highlight-success">{{graha.exaltationSign}}</span> ராசியில் உச்சம் பெற்று, 
+                      <span class="highlight-danger">{{graha.debilitationSign}}</span> ராசியில் நீசம் அடைகிறது. 
+                      <span class="highlight-tertiary">{{graha.moolaTrikona}}</span> இதன் மூல திரிகோண நிலையாகும்.
+                    </p>
+                  </ion-card-content>
+                </ion-card>
               </div>
             </div>
 

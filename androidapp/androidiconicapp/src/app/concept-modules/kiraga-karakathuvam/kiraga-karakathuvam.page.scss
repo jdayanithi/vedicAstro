@@ -631,3 +631,164 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Show More/Less Buttons for Category View */
+.show-more-btn,
+.show-less-btn {
+  --color: var(--ion-color-medium);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  justify-content: flex-start;
+  
+  ion-icon {
+    font-size: 1rem;
+  }
+  
+  &:hover {
+    --color: var(--ion-color-primary);
+  }
+}
+
+.show-more-btn {
+  --color: var(--ion-color-success);
+}
+
+.show-less-btn {
+  --color: var(--ion-color-warning);
+}
+
+/* Exaltation/Debilitation and Moolatrikona Category Styles */
+.exaltation-info,
+.moolatrikona-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  .astro-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    
+    .exaltation-item,
+    .debilitation-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: var(--ion-color-light);
+      
+      .exaltation-details,
+      .debilitation-details {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        
+        .exaltation-label,
+        .debilitation-label {
+          font-weight: 600;
+          font-size: 0.8rem;
+          color: var(--ion-color-medium);
+        }
+        
+        .exaltation-value,
+        .debilitation-value {
+          font-weight: 500;
+          font-size: 0.9rem;
+          color: var(--ion-color-dark);
+        }
+      }
+    }
+    
+    .exaltation-item {
+      border-left: 3px solid var(--ion-color-success);
+    }
+    
+    .debilitation-item {
+      border-left: 3px solid var(--ion-color-danger);
+    }
+  }
+  
+  .moolatrikona-details {
+    .moolatrikona-name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ion-color-dark);
+    }
+    
+    .moolatrikona-benefit {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      margin-top: 0.25rem;
+      margin-bottom: 0;
+    }
+  }
+  
+  .astro-benefit {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-style: italic;
+  }
+}
+
+/* Enhanced Astrological Information Styles */
+.astro-grid {
+  .astro-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    &.exaltation-highlight {
+      background: linear-gradient(90deg, rgba(var(--ion-color-success-rgb), 0.1), transparent);
+      border-left: 3px solid var(--ion-color-success);
+    }
+    
+    &.debilitation-highlight {
+      background: linear-gradient(90deg, rgba(var(--ion-color-danger-rgb), 0.1), transparent);
+      border-left: 3px solid var(--ion-color-danger);
+    }
+    
+    &.moolatrikona-highlight {
+      background: linear-gradient(90deg, rgba(var(--ion-color-tertiary-rgb), 0.1), transparent);
+      border-left: 3px solid var(--ion-color-tertiary);
+    }
+    
+    .highlight-success {
+      font-weight: 600;
+      color: var(--ion-color-success);
+    }
+    
+    .highlight-danger {
+      font-weight: 600;
+      color: var(--ion-color-danger);
+    }
+    
+    .highlight-tertiary {
+      font-weight: 600;
+      color: var(--ion-color-tertiary);
+    }
+  }
+}
+
+.astro-info-summary {
+  margin-top: 1rem;
+  
+  .astro-summary-card {
+    margin: 0;
+    
+    .astro-summary-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 0;
+      text-align: justify;
+      
+      strong {
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+}
