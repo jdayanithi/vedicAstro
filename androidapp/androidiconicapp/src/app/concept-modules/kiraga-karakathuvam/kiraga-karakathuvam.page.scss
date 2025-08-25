@@ -747,6 +747,21 @@ ion-chip[color="primary"] {
     }
   }
   
+  .natchithram-details {
+    .natchithram-list {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ion-color-dark);
+    }
+    
+    .natchithram-benefit {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      margin-top: 0.25rem;
+      margin-bottom: 0;
+    }
+  }
+  
   .astro-benefit {
     font-size: 0.8rem;
     color: var(--ion-color-medium);
@@ -796,6 +811,11 @@ ion-chip[color="primary"] {
     .highlight-warning {
       font-weight: 600;
       color: var(--ion-color-warning);
+    }
+    
+    .highlight-secondary {
+      font-weight: 600;
+      color: var(--ion-color-secondary);
     }
   }
 }

@@ -620,6 +620,8 @@ export class KiragaKarakathuvamPage implements OnInit {
         return graha.moolaTrikona;
       case 'dasa':
         return graha.dasaPeriod;
+      case 'natchithram':
+        return graha.natchithram;
       default:
         return '';
     }
@@ -642,7 +644,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       'remedies': 'medium',
       'exaltation': 'success',
       'moolatrikona': 'tertiary',
-      'dasa': 'warning'
+      'dasa': 'warning',
+      'natchithram': 'secondary'
     };
     return colors[categoryKey] || 'medium';
   }
