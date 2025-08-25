@@ -7,7 +7,6 @@ interface Graha {
   id: string;
   name: string;
   nameEnglish: string;
-  sanskritName: string;
   type: 'benefic' | 'malefic' | 'neutral';
   element: string;
   day: string;
@@ -31,6 +30,7 @@ interface Graha {
   debilitationDegree: string;
   ownSigns: string[];
   moolaTrikona: string;
+  natchithram: string[];
   remedies: string[];
   mantras: string[];
   expanded?: boolean;
@@ -61,9 +61,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'சூரியன்',
       symbol: '☉',
       nameEnglish: 'Sun',
-      sanskritName: 'सूर्य',
       type: 'malefic',
-      element: 'अग्नि (Fire)',
+      element: 'Fire',
       day: 'ஞாயிறு',
       color: 'சிவப்பு',
       gemstone: 'மாணிக்கம்',
@@ -97,8 +96,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '10°',
       ownSigns: ['சிம்மம்'],
       moolaTrikona: 'சிம்மம் 0°-20°',
+      natchithram: ['கிருத்திகை', 'உத்திராடம்', 'உத்திராபால்குனி'],
       remedies: ['சூரிய நமஸ்கார்', 'சிவப்பு பூ அர்ப்பணம்', 'தங்க நகை அணிதல்'],
-      mantras: ['ॐ सूर्याय नमः', 'आदित्य हृदय स्तोत्रम्'],
+      mantras: ['ஓம் சூர்யாய நம:', 'ஆதித்ய ஹ்ருதய ஸ்தோத்ரம்'],
       karakathuvam: 'ஆத்மகாரகன் - ஆன்மீக வளர்ச்சி, தன்னம்பிக்கை, தலைமைத்துவம், அதிகாரம், பிதாவின் சுகம்',
       benefits: 'தன்னம்பிக்கை, வலிமை, தலைமை பண்புகள், அரசியல் வெற்றி, ஆரோக்யம்',
       karakan: 'தந்தை, அரசாங்கம், அதிகாரம், ஆத்மா',
@@ -109,9 +109,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'சந்திரன்',
       symbol: '☽',
       nameEnglish: 'Moon',
-      sanskritName: 'चन्द्र',
       type: 'benefic',
-      element: 'जल (Water)',
+      element: 'Water',
       day: 'திங்கள்',
       color: 'வெள்ளை',
       gemstone: 'முத்து',
@@ -145,8 +144,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '3°',
       ownSigns: ['கடகம்'],
       moolaTrikona: 'கடகம் 3°-30°',
+      natchithram: ['ரோகிணி', 'ஹஸ்தம்', 'ஸ்ரவணம்'],
       remedies: ['வெள்ளி கிழமை விரதம்', 'முத்து அணிதல்', 'பால் தானம்'],
-      mantras: ['ॐ चन्द्राय नमः', 'चन्द्र गायत्री मन्त्र'],
+      mantras: ['ஓம் சந்த்ராய நம:', 'சந்த்ர காயத்ரி மந்த்ரம்'],
       karakathuvam: 'மனோகாரகன் - மன நிலை, உணர்ச்சிகள், தாய்மை, நீர் கூறுகள், மன அமைதி',
       benefits: 'மன அமைதி, உணர்ச்சி நிலைத்தன்மை, கற்பனை திறன், தாய்மை சுகம்',
       karakan: 'தாய், மனம், உணர்ச்சிகள், நீர்',
@@ -157,9 +157,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'செவ்வாய்',
       symbol: '♂',
       nameEnglish: 'Mars',
-      sanskritName: 'मंगल',
       type: 'malefic',
-      element: 'अग्नि (Fire)',
+      element: 'Fire',
       day: 'செவ்வாய்',
       color: 'சிவப்பு',
       gemstone: 'பவளம்',
@@ -193,8 +192,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '28°',
       ownSigns: ['மேஷம்', 'விருச்சிகம்'],
       moolaTrikona: 'மேஷம் 0°-12°',
+      natchithram: ['மிருகசீர்ஷம்', 'சித்திரை', 'தனிஷ்டா'],
       remedies: ['ஹனுமான் பூஜை', 'பவளம் அணிதல்', 'செவ்வாய் விரதம்'],
-      mantras: ['ॐ मंगलाय नमः', 'हनुमान चालीसा'],
+      mantras: ['ஓம் மங்களாய நம:', 'ஹனுமான் சாலீசா'],
       karakathuvam: 'பௌமாகாரகன் - வீரம், சகோதரர்கள், நிலம், சக்தி, செயல்திறன்',
       benefits: 'வீரம், தலைமைத்துவம், உடல் வலிமை, சகோதர சுகம், நில சொத்து',
       karakan: 'சகோதரர்கள், நிலம், வீரம், சக்தி',
@@ -205,9 +205,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'புதன்',
       symbol: '☿',
       nameEnglish: 'Mercury',
-      sanskritName: 'बुध',
       type: 'neutral',
-      element: 'पृथ्वी (Earth)',
+      element: 'Earth',
       day: 'புதன்',
       color: 'பச்சை',
       gemstone: 'மரகதம்',
@@ -241,8 +240,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '15°',
       ownSigns: ['மிதுனம்', 'கன்னி'],
       moolaTrikona: 'கன்னி 15°-20°',
+      natchithram: ['அசுவினி', 'ஆயில்யம்', 'ஜ்யேஷ்டா'],
       remedies: ['சரஸ்வதி பூஜை', 'மரகதம் அணிதல்', 'புதன் கிரக மந்திரம்'],
-      mantras: ['ॐ बुधाय नमः', 'बुध गायत्री मन्त्र'],
+      mantras: ['ஓம் புதாய நம:', 'புத காயத்ரி மந்த்ரம்'],
       karakathuvam: 'ஜ்ஞானகாரகன் - புத்தி, கல்வி, வணிகம், தொடர்பு, எழுத்து திறன்',
       benefits: 'அறிவுத்திறன், வணிக வெற்றி, தொடர்பு திறன், கல்வி வெற்றி',
       karakan: 'புத்தி, கல்வி, வணிகம், தொடர்பு',
@@ -253,9 +253,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'குரு',
       symbol: '♃',
       nameEnglish: 'Jupiter',
-      sanskritName: 'गुरु',
       type: 'benefic',
-      element: 'आकाश (Space)',
+      element: 'Space',
       day: 'வியாழன்',
       color: 'மஞ்சள்',
       gemstone: 'புஷ்பராகம்',
@@ -289,8 +288,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '5°',
       ownSigns: ['தனுசு', 'மீனம்'],
       moolaTrikona: 'தனுசு 0°-10°',
+      natchithram: ['புனர்வசு', 'விசாகம்', 'பூராடம்'],
       remedies: ['குரு பூஜை', 'புஷ்பராகம் அணிதல்', 'வியாழன் விரதம்'],
-      mantras: ['ॐ गुरवे नमः', 'गुरु गायत्री मन्त्र'],
+      mantras: ['ஓம் குரவே நம:', 'குரு காயத்ரி மந்த்ரம்'],
       karakathuvam: 'ஜீவகாரகன் - ஞானம், கல்வி, குருவின் அருள், தர்மம், ஆன்மீக வளர்ச்சி',
       benefits: 'ஞானம், கல்வி வெற்றி, ஆன்மீக வளர்ச்சி, செல்வம், நல்ல ஆலோசனை',
       karakan: 'ஞானம், கல்வி, குரு, தர்மம்',
@@ -301,9 +301,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'சுக்கிரன்',
       symbol: '♀',
       nameEnglish: 'Venus',
-      sanskritName: 'शुक्र',
       type: 'benefic',
-      element: 'जल (Water)',
+      element: 'Water',
       day: 'வெள்ளி',
       color: 'வெள்ளை',
       gemstone: 'வைரம்',
@@ -337,8 +336,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '27°',
       ownSigns: ['ரிஷபம்', 'துலாம்'],
       moolaTrikona: 'துலாம் 0°-15°',
+      natchithram: ['பரணி', 'பூரம்', 'பூராடம்'],
       remedies: ['லட்சுமி பூஜை', 'வைரம் அணிதல்', 'வெள்ளி விரதம்'],
-      mantras: ['ॐ शुक्राय नमः', 'शुक्र गायत्री मन्त्र'],
+      mantras: ['ஓம் சுக்ராய நம:', 'சுக்ர காயத்ரி மந்த்ரம்'],
       karakathuvam: 'காலத்ரகாரகன் - காதல், திருமணம், அழகு, கலை, இன்பம், செல்வம்',
       benefits: 'அன்பு வாழ்க்கை, அழகு, கலை திறன், செல்வம், மணவாழ்க்கை சுகம்',
       karakan: 'மனைவி, அழகு, கலை, காதல்',
@@ -349,9 +349,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'சனி',
       symbol: '♄',
       nameEnglish: 'Saturn',
-      sanskritName: 'शनि',
       type: 'malefic',
-      element: 'वायु (Air)',
+      element: 'Air',
       day: 'சனி',
       color: 'கருப்பு',
       gemstone: 'நீலம்',
@@ -385,8 +384,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '20°',
       ownSigns: ['மகரம்', 'கும்பம்'],
       moolaTrikona: 'கும்பம் 0°-20°',
+      natchithram: ['புஷ்யம்', 'அனுஷம்', 'உத்திரட்டாதி'],
       remedies: ['சனி பூஜை', 'நீலம் அணிதல்', 'சனி விரதம்'],
-      mantras: ['ॐ शनैश्चराय नमः', 'शनि गायत्री मन्त्र'],
+      mantras: ['ஓம் சனைச்சராய நம:', 'சனி காயத்ரி மந்த்ரம்'],
       karakathuvam: 'தீர்க்காயுஸ்காரகன் - கர்மா, நீதி, பொறுமை, கடின உழைப்பு, ஆயுள்',
       benefits: 'பொறுமை, நீதிமான் வாழ்க்கை, கடின உழைப்பு பலன், ஆன்மீக வளர்ச்சி',
       karakan: 'கர்மா, நீதி, பொறுமை, ஆயுள்',
@@ -397,9 +397,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'ராகு',
       symbol: '☊',
       nameEnglish: 'Rahu',
-      sanskritName: 'राहु',
       type: 'malefic',
-      element: 'वायु (Air)',
+      element: 'Air',
       day: 'சனி',
       color: 'புகை நிறம்',
       gemstone: 'கோமேதகம்',
@@ -433,8 +432,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '20°',
       ownSigns: [],
       moolaTrikona: '',
+      natchithram: ['ஆர்த்ரா', 'சுவாதி', 'சதயம்'],
       remedies: ['ராகு பூஜை', 'கோமேதகம் அணிதல்', 'சர்ப்ப தோஷ பரிகாரம்'],
-      mantras: ['ॐ राहवे नमः', 'राहु गायत्री मन्त्र'],
+      mantras: ['ஓம் ராஹவே நம:', 'ராஹு காயத்ரி மந்த்ரம்'],
       karakathuvam: 'மாயாகாரகன் - மாயை, அன்னிய கலாச்சாரம், தொழில்நுட்பம், திடீர் மாற்றங்கள்',
       benefits: 'தொழில்நுட்ப திறன், அன்னிய பயன்கள், ஆராய்ச்சி திறன், புதுமை',
       karakan: 'மாயை, அன்னியம், தொழில்நுட்பம்',
@@ -445,9 +445,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'கேது',
       symbol: '☋',
       nameEnglish: 'Ketu',
-      sanskritName: 'केतु',
       type: 'malefic',
-      element: 'अग्नि (Fire)',
+      element: 'Fire',
       day: 'செவ்வாய்',
       color: 'பழுப்பு',
       gemstone: 'லஹசுனியா',
@@ -481,8 +480,9 @@ export class KiragaKarakathuvamPage implements OnInit {
       debilitationDegree: '20°',
       ownSigns: [],
       moolaTrikona: '',
+      natchithram: ['அசுவினி', 'மகம்', 'மூலம்'],
       remedies: ['கேது பூஜை', 'லஹசுனியா அணிதல்', 'ஆன்மீக பயிற்சி'],
-      mantras: ['ॐ केतवे नमः', 'केतु गायत्री मन्त्र'],
+      mantras: ['ஓம் கேதவே நம:', 'கேது காயத்ரி மந்த்ரம்'],
       karakathuvam: 'மோட்சகாரகன் - ஆன்மீக வளர்ச்சி, முக்தி, ஞானம், தனிமை, கர்ம விமோசனம்',
       benefits: 'ஆன்மீக ஞானம், முக்தி நிலை, தியான திறன், கர்ம பரிகாரம்',
       karakan: 'ஆன்மீகம், முக்தி, ஞானம்',
@@ -551,6 +551,18 @@ export class KiragaKarakathuvamPage implements OnInit {
       name: 'மூலத்ரிகோணம்',
       icon: 'triangle-outline',
       description: 'கிரகங்களின் மூலத்ரிகோண ராசிகள்'
+    },
+    {
+      key: 'dasa',
+      name: 'தசா வருடங்கள்',
+      icon: 'time-outline',
+      description: 'கிரகங்களின் தசா காலங்கள்'
+    },
+    {
+      key: 'natchithram',
+      name: 'நட்சத்திரங்கள்',
+      icon: 'star-outline',
+      description: 'கிரகங்கள் ஆளும் நட்சத்திரங்கள்'
     }
   ];
 
@@ -606,6 +618,8 @@ export class KiragaKarakathuvamPage implements OnInit {
         };
       case 'moolatrikona':
         return graha.moolaTrikona;
+      case 'dasa':
+        return graha.dasaPeriod;
       default:
         return '';
     }
@@ -627,7 +641,8 @@ export class KiragaKarakathuvamPage implements OnInit {
       'relationships': 'primary',
       'remedies': 'medium',
       'exaltation': 'success',
-      'moolatrikona': 'tertiary'
+      'moolatrikona': 'tertiary',
+      'dasa': 'warning'
     };
     return colors[categoryKey] || 'medium';
   }
@@ -717,8 +732,7 @@ export class KiragaKarakathuvamPage implements OnInit {
     } else {
       this.filteredGrahas = this.grahas.filter(graha =>
         graha.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        graha.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        graha.sanskritName.toLowerCase().includes(this.searchTerm.toLowerCase())
+        graha.nameEnglish.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
   }

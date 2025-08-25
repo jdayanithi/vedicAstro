@@ -387,6 +387,17 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Dasa Category -->
+              <div *ngIf="selectedCategory === 'dasa'" class="category-info">
+                <div class="dasa-info">
+                  <ion-icon name="time" [color]="getCategoryColor(selectedCategory)"></ion-icon>
+                  <div class="dasa-details">
+                    <span class="dasa-name">{{graha.dasaPeriod}}</span>
+                    <p class="dasa-benefit">கிரகத்தின் மகாதசா காலம்</p>
+                  </div>
+                </div>
+              </div>
             </div>
             
             <!-- Quick Actions -->
@@ -413,7 +424,7 @@
             <div class="planet-symbol-detailed">{{graha.symbol}}</div>
             <div class="planet-title-detailed">
               <h3>{{graha.name}}</h3>
-              <p>{{graha.sanskritName}} - {{graha.nameEnglish}}</p>
+              <p>{{graha.nameEnglish}}</p>
             </div>
           </div>
           <ion-icon [name]="graha.expanded ? 'chevron-up' : 'chevron-down'" class="expand-icon"></ion-icon>
@@ -517,17 +528,24 @@
                   <span class="astro-label">மூல திரிகோணம்:</span>
                   <span class="astro-value highlight-tertiary">{{graha.moolaTrikona}}</span>
                 </div>
+                <!-- Dasa Period with enhanced display -->
+                <div class="astro-item dasa-highlight" *ngIf="graha.dasaPeriod">
+                  <ion-icon name="time" color="warning" slot="start"></ion-icon>
+                  <span class="astro-label">மகாதசா காலம்:</span>
+                  <span class="astro-value highlight-warning">{{graha.dasaPeriod}}</span>
+                </div>
               </div>
               
               <!-- Additional astrological details -->
-              <div class="astro-info-summary" *ngIf="graha.moolaTrikona">
+              <div class="astro-info-summary" *ngIf="graha.moolaTrikona || graha.dasaPeriod">
                 <ion-card class="astro-summary-card">
                   <ion-card-content>
                     <p class="astro-summary-text">
                       <strong>{{graha.name}}</strong> கிரகம் 
                       <span class="highlight-success">{{graha.exaltationSign}} {{graha.exaltationDegree}}</span> இல் உச்சம் பெற்று, 
                       <span class="highlight-danger">{{graha.debilitationSign}} {{graha.debilitationDegree}}</span> இல் நீசம் அடைகிறது. 
-                      <span class="highlight-tertiary">{{graha.moolaTrikona}}</span> இதன் மூல திரிகோண நிலையாகும்.
+                      <span class="highlight-tertiary" *ngIf="graha.moolaTrikona">{{graha.moolaTrikona}}</span> <span *ngIf="graha.moolaTrikona">இதன் மூல திரிகோண நிலையாகும்.</span>
+                      <span class="highlight-warning" *ngIf="graha.dasaPeriod">{{graha.dasaPeriod}}</span> <span *ngIf="graha.dasaPeriod">இதன் மகாதசா காலமாகும்.</span>
                     </p>
                   </ion-card-content>
                 </ion-card>

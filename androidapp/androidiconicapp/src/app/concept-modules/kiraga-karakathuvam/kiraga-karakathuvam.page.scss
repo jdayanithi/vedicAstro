@@ -1,6 +1,11 @@
 /* Kiraga Karakathuvam Category-Based Page Styles */
 @import '../shared/shared.scss';
 
+/* Ensure proper contrast for ion-chip primary color */
+ion-chip[color="primary"] {
+  --color: var(--ion-color-primary-contrast);
+}
+
 /* Hero Section - Using shared styles */
 .concept-hero.gradient-bg {
   @extend .hero-banner;
@@ -217,6 +222,7 @@
         &[color="primary"] {
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+          --color: var(--ion-color-primary-contrast);
         }
       }
     }
@@ -726,6 +732,21 @@
     }
   }
   
+  .dasa-details {
+    .dasa-name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--ion-color-dark);
+    }
+    
+    .dasa-benefit {
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      margin-top: 0.25rem;
+      margin-bottom: 0;
+    }
+  }
+  
   .astro-benefit {
     font-size: 0.8rem;
     color: var(--ion-color-medium);
@@ -770,6 +791,11 @@
     .highlight-tertiary {
       font-weight: 600;
       color: var(--ion-color-tertiary);
+    }
+    
+    .highlight-warning {
+      font-weight: 600;
+      color: var(--ion-color-warning);
     }
   }
 }
