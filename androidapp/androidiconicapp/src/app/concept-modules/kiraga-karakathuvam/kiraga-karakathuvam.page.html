@@ -13,10 +13,11 @@
 </ion-header>
 
 <ion-content>
-  <!-- Hero Section -->
-  <div class="concept-hero gradient-bg">
-    <div class="concept-hero-content">
-      <div class="concept-icon-wrapper">
+  <!-- Hero Banner -->
+  <div class="hero-banner" *ngIf="selectedSegment === 'overview'">
+    <div class="hero-background"></div>
+    <div class="hero-content-wrapper">
+      <div class="hero-icon-container">
         <div class="floating-planets">
           <span class="planet-icon">☉</span>
           <span class="planet-icon">☽</span>
@@ -25,93 +26,113 @@
           <span class="planet-icon">♃</span>
         </div>
       </div>
-      <h1 class="hero-title">கிரக காரகத்துவம்</h1>
-      <p class="concept-subtitle">வேத ஜோதிடத்தில் ஒவ்வொரு கிரகத்தின் தனித்துவமான பண்புகள் மற்றும் தாக்கங்களைப் பற்றி அறிந்து கொள்ளுங்கள்</p>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <span class="stat-number">9</span>
-          <span class="stat-label">கிரகங்கள்</span>
+      <h1 class="hero-title">🪐 கிரக காரகத்துவம்</h1>
+      <p class="hero-subtitle">9 கிரகங்களின் முழுமையான ஆய்வு மற்றும் காரகத்துவ பண்புகள்</p>
+      
+      <!-- Course Meta Information -->
+      <div class="course-meta-grid">
+        <div class="meta-item">
+          <ion-icon name="star" class="meta-icon"></ion-icon>
+          <span class="meta-label">₹299</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">27</span>
-          <span class="stat-label">நட்சத்திரங்கள்</span>
+        <div class="meta-item">
+          <ion-icon name="time" class="meta-icon"></ion-icon>
+          <span class="meta-label">90 நிமிடங்கள்</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-number">12</span>
-          <span class="stat-label">ராசிகள்</span>
+        <div class="meta-item">
+          <ion-icon name="school" class="meta-icon"></ion-icon>
+          <span class="meta-label">மேல்நிலை</span>
         </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <div class="hero-actions">
+        <ion-button expand="block" class="primary-cta-button" (click)="navigateToAnalysis()">
+          <ion-icon name="analytics" slot="start"></ion-icon>
+          கிரக ஆய்வு துவங்கு
+        </ion-button>
       </div>
     </div>
   </div>
 
-  <!-- Search and Filter Section -->
-  <div class="search-section">
-    <ion-searchbar 
-      placeholder="கிரகங்களைத் தேடுங்கள்..." 
-      [(ngModel)]="searchTerm" 
-      (ionInput)="filterGrahas()"
-      show-clear-button="focus">
-    </ion-searchbar>
-  </div>
-
-  <!-- Introduction Card -->
-  <ion-card class="intro-card">
-    <ion-card-header>
-      <div class="card-header-content">
-        <ion-icon name="library-outline" class="header-icon"></ion-icon>
-        <div>
-          <ion-card-title>கிரக காரகத்துவ அறிமுகம்</ion-card-title>
-          <ion-card-subtitle>Planetary Significances Introduction</ion-card-subtitle>
+  <!-- Navigation Tabs -->
+  <div class="course-navigation">
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="onSegmentChange($event)" class="modern-segment">
+      <ion-segment-button value="overview" class="nav-tab">
+        <div class="tab-content">
+          <ion-icon name="list-outline" class="tab-icon"></ion-icon>
+          <ion-label class="tab-label">Introduction</ion-label>
         </div>
-      </div>
-    </ion-card-header>
-    <ion-card-content>
-      <p class="intro-text">
-        வேத ஜோதிடத்தில் ஒவ்வொரு கிரகமும் குறிப்பிட்ட விஷயங்களின் காரகனாக (குறிப்பான்) செயல்படுகிறது. 
-        இந்த காரகத்துவங்கள் நமது வாழ்க்கையின் பல்வேறு அம்சங்களை பாதிக்கின்றன. 
-        ஒவ்வொரு கிரகத்தின் காரகத்துவத்தையும் புரிந்து கொள்வதன் மூலம், 
-        நமது ஜாதகத்தை சிறப்பாக விளக்கிக் கொள்ள முடியும்.
-      </p>
-      <div class="info-chips">
-        <ion-chip color="primary">
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-label>காரகத்துவம்</ion-label>
-        </ion-chip>
-        <ion-chip color="secondary">
-          <ion-icon name="people-outline"></ion-icon>
-          <ion-label>உறவுகள்</ion-label>
-        </ion-chip>
-        <ion-chip color="tertiary">
-          <ion-icon name="fitness-outline"></ion-icon>
-          <ion-label>உடல் பாகங்கள்</ion-label>
-        </ion-chip>
-        <ion-chip color="success">
-          <ion-icon name="leaf-outline"></ion-icon>
-          <ion-label>பரிகாரங்கள்</ion-label>
-        </ion-chip>
-      </div>
-    </ion-card-content>
-  </ion-card>
-
-  <!-- Navigation Segment -->
-  <ion-segment 
-    [(ngModel)]="selectedSegment" 
-    (ionChange)="segmentChanged($event)" 
-    class="concept-segment modern-segment">
-    <ion-segment-button value="detailed" class="segment-btn">
-      <ion-icon name="list" slot="start"></ion-icon>
-      <ion-label>கிரக காரகத்துவம்</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="categories" class="segment-btn">
-      <ion-icon name="grid" slot="start"></ion-icon>
-      <ion-label>வகைப்படுத்தல்</ion-label>
-    </ion-segment-button>
-   
-  </ion-segment>
+      </ion-segment-button>
+      <ion-segment-button value="detailed" class="nav-tab">
+        <div class="tab-content">
+          <ion-icon name="planet-outline" class="tab-icon"></ion-icon>
+          <ion-label class="tab-label">கிரகங்கள்</ion-label>
+        </div>
+      </ion-segment-button>
+      <ion-segment-button value="categories" class="nav-tab">
+        <div class="tab-content">
+          <ion-icon name="grid-outline" class="tab-icon"></ion-icon>
+          <ion-label class="tab-label">வகைப்படுத்தல்</ion-label>
+        </div>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <!-- Content Sections -->
   <div [ngSwitch]="selectedSegment" class="concept-content">
     
+    <!-- Overview Section -->
+    <div *ngSwitchCase="'overview'" class="course-content-area">
+      <!-- Search and Filter Section -->
+      <div class="search-section">
+        <ion-searchbar 
+          placeholder="கிரகங்களைத் தேடுங்கள்..." 
+          [(ngModel)]="searchTerm" 
+          (ionInput)="filterGrahas()"
+          show-clear-button="focus">
+        </ion-searchbar>
+      </div>
+
+      <!-- Introduction Card -->
+      <ion-card class="intro-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-icon name="library-outline" class="header-icon"></ion-icon>
+            <div>
+              <ion-card-title>கிரக காரகத்துவ அறிமுகம்</ion-card-title>
+              <ion-card-subtitle>Planetary Significances Introduction</ion-card-subtitle>
+            </div>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="intro-text">
+            வேத ஜோதிடத்தில் ஒவ்வொரு கிரகமும் குறிப்பிட்ட விஷயங்களின் காரகனாக (குறிப்பான்) செயல்படுகிறது. 
+            இந்த காரகத்துவங்கள் நமது வாழ்க்கையின் பல்வேறு அம்சங்களை பாதிக்கின்றன. 
+            ஒவ்வொரு கிரகத்தின் காரகத்துவத்தையும் புரிந்து கொள்வதன் மூலம், 
+            நமது ஜாதகத்தை சிறப்பாக விளக்கிக் கொள்ள முடியும்.
+          </p>
+          <div class="info-chips">
+            <ion-chip color="primary">
+              <ion-icon name="star-outline"></ion-icon>
+              <ion-label>காரகத்துவம்</ion-label>
+            </ion-chip>
+            <ion-chip color="secondary">
+              <ion-icon name="people-outline"></ion-icon>
+              <ion-label>உறவுகள்</ion-label>
+            </ion-chip>
+            <ion-chip color="tertiary">
+              <ion-icon name="fitness-outline"></ion-icon>
+              <ion-label>உடல் பாகங்கள்</ion-label>
+            </ion-chip>
+            <ion-chip color="success">
+              <ion-icon name="leaf-outline"></ion-icon>
+              <ion-label>பரிகாரங்கள்</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
   
     <!-- Categories Section -->
     <div *ngSwitchCase="'categories'" class="categories-section">
@@ -189,7 +210,6 @@
                   <ion-icon name="compass" [color]="getCategoryColor(selectedCategory)"></ion-icon>
                   <div class="direction-details">
                     <span class="direction-name">{{graha.direction}}</span>
-                    <p class="direction-benefit">வாஸ்து மற்றும் திசைகளின் தாக்கம்</p>
                   </div>
                 </div>
               </div>

@@ -47,7 +47,7 @@ interface Graha {
   styleUrls: ['./kiraga-karakathuvam.page.scss'],
 })
 export class KiragaKarakathuvamPage implements OnInit {
-  selectedSegment = 'detailed';
+  selectedSegment = 'overview';
   isBookmarked = false;
   showAnalysisView = false;
   currentGrahaIndex = 0;
@@ -496,73 +496,73 @@ export class KiragaKarakathuvamPage implements OnInit {
       key: 'gem',
       name: 'ரத்தினங்கள்',
       icon: 'diamond-outline',
-      description: 'ஒவ்வொரு கிரகத்தின் ரத்தினங்கள்'
+      description: 'ஒவ்வொரு கிரகத்திற்கும் குறிப்பிட்ட ரத்தினங்கள் உள்ளன. இந்த ரத்தினங்களை அணிவதால் கிரகங்களின் நல்ல சக்திகள் பெருகி, தீய விளைவுகள் குறையும். சரியான முறையில் அணிந்தால் வாழ்க்கையில் நேர்மறையான மாற்றங்கள் ஏற்படும்.'
     },
     {
       key: 'metal',
       name: 'உலோகங்கள்',
       icon: 'hardware-chip-outline',
-      description: 'கிரகங்களின் உலோகங்கள்'
+      description: 'ஒவ்வொரு கிரகத்திற்கும் குறிப்பிட்ட உலோகங்கள் ஒதுக்கப்பட்டுள்ளன. இந்த உலோகங்களால் செய்யப்பட்ட ஆபரணங்களை அணிவதால் கிரகங்களின் நல்ல தாக்கம் அதிகரிக்கும். பூஜை மற்றும் தானத்திலும் இந்த உலோகங்கள் பயன்படுத்தப்படுகின்றன.'
     },
     {
       key: 'direction',
       name: 'திசைகள்',
       icon: 'compass-outline',
-      description: 'கிரகங்களின் திசைகள்'
+      description: 'ஒவ்வொரு கிரகமும் குறிப்பிட்ட திசையை ஆளுகிறது. வீடு கட்டும்போது, பூஜை அமைக்கும்போது, அல்லது முக்கியமான செயல்களை செய்யும்போது இந்த திசைகளை கருத்தில் கொள்வது நல்ல பலன்களை தரும்.'
     },
     {
       key: 'bodyparts',
       name: 'உடல் பாகங்கள்',
       icon: 'body-outline',
-      description: 'கிரகங்கள் ஆளும் உடல் பாகங்கள்'
+      description: 'ஒவ்வொரு கிரகமும் உடலின் குறிப்பிட்ட பாகங்களை ஆளுகிறது. கிரகங்களின் நிலை பலவீனமாக இருந்தால் அந்த உடல் பாகங்களில் பிரச்சினைகள் ஏற்படலாம். பலமான கிரகங்கள் அந்த உடல் பாகங்களை ஆரோக்கியமாக வைத்திருக்கும்.'
     },
     {
       key: 'diseases',
       name: 'நோய்கள்',
       icon: 'medical-outline',
-      description: 'கிரகங்கள் சார்ந்த நோய்கள்'
+      description: 'ஒவ்வொரு கிரகமும் குறிப்பிட்ட நோய்களுக்கு காரணமாக இருக்கலாம். கிரகங்களின் பலவீனமான நிலை அல்லது தீய தாக்கம் இந்த நோய்களை ஏற்படுத்தும். சரியான பரிகாரங்கள் மூலம் இந்த நோய்களில் இருந்து விடுபடலாம்.'
     },
     {
       key: 'professions',
       name: 'தொழில்கள்',
       icon: 'briefcase-outline',
-      description: 'கிரகங்கள் சார்ந்த தொழில்கள்'
+      description: 'ஒவ்வொரு கிரகமும் குறிப்பிட்ட தொழில்களை ஆளுகிறது. உங்கள் ஜாதகத்தில் வலிமையான கிரகங்களின் தொழில் துறைகளில் வேலை செய்தால் வெற்றி கிடைக்கும். கிரக நிலைகளின் அடிப்படையில் சரியான தொழில் தேர்வு செய்யலாம்.'
     },
     {
       key: 'relationships',
       name: 'உறவுகள்',
       icon: 'people-outline',
-      description: 'கிரகங்கள் குறிக்கும் உறவுகள்'
+      description: 'ஒவ்வொரு கிரகமும் குறிப்பிட்ட உறவுகளை குறிக்கிறது. கிரகங்களின் நிலை அந்த உறவுகளின் தரத்தை பாதிக்கிறது. வலிமையான கிரகங்கள் நல்ல உறவுகளை தரும், பலவீனமான கிரகங்கள் உறவுகளில் சிக்கல்களை ஏற்படுத்தும்.'
     },
     {
       key: 'remedies',
       name: 'பரிகாரங்கள்',
       icon: 'leaf-outline',
-      description: 'கிரக பரிகாரங்கள்'
+      description: 'ஒவ்வொரு கிரகத்திற்கும் குறிப்பிட்ட பரிகாரங்கள் உள்ளன. இந்த பரிகாரங்களை சரியான முறையில் செய்வதால் கிரகங்களின் தீய விளைவுகள் குறைந்து, நல்ல பலன்கள் அதிகரிக்கும். நவகிரக தோஷங்களுக்கு இவை சிறந்த தீர்வாக அமையும்.'
     },
     {
       key: 'exaltation',
       name: 'உச்சம்/நீசம்',
       icon: 'trending-up-outline',
-      description: 'கிரகங்களின் உச்ச மற்றும் நீச ராசிகள்'
+      description: 'கிரகங்கள் உச்ச ராசியில் இருக்கும்போது அதிகபட்ச சக்தியும், நீச ராசியில் இருக்கும்போது குறைந்த சக்தியும் பெறுகின்றன. உச்ச நிலையில் நல்ல பலன்களும், நீச நிலையில் சவால்களும் கிடைக்கும். இந்த நிலைகள் ஜாதகத்தில் முக்கிய பங்கு வகிக்கின்றன.'
     },
     {
       key: 'moolatrikona',
       name: 'மூலத்ரிகோணம்',
       icon: 'triangle-outline',
-      description: 'கிரகங்களின் மூலத்ரிகோண ராசிகள்'
+      description: 'மூலத்ரிகோணம் என்பது கிரகத்தின் சிறப்பு நிலை. இந்த நிலையில் கிரகம் மிகவும் சாதகமான பலன்களை தரும். உச்சத்திற்கு அடுத்தபடியாக மூலத்ரிகோணம் சிறந்த நிலையாக கருதப்படுகிறது.'
     },
     {
       key: 'dasa',
       name: 'தசா வருடங்கள்',
       icon: 'time-outline',
-      description: 'கிரகங்களின் தசா காலங்கள்'
+      description: 'வைமானிக தசா முறையில் ஒவ்வொரு கிரகத்திற்கும் குறிப்பிட்ட வருட காலம் ஒதுக்கப்பட்டுள்ளது. அந்த கிரகத்தின் தசா காலத்தில் அந்த கிரகத்தின் பண்புகளின் அடிப்படையில் பலன்கள் கிடைக்கும். மொத்தம் 120 வருட சுழற்சி.'
     },
     {
       key: 'natchithram',
       name: 'நட்சத்திரங்கள்',
       icon: 'star-outline',
-      description: 'கிரகங்கள் ஆளும் நட்சத்திரங்கள்'
+      description: 'ஒவ்வொரு கிரகத்திற்கும் மூன்று நட்சத்திரங்கள் உள்ளன. மொத்தம் 27 நட்சத்திரங்கள் 9 கிரகங்களின் ஆதிக்கத்தில் உள்ளன. நட்சத்திரம் பிறந்த நேரத்தின் அடிப்படையில் வாழ்க்கையின் தன்மையை தீர்மானிக்கிறது.'
     }
   ];
 
@@ -586,6 +586,21 @@ export class KiragaKarakathuvamPage implements OnInit {
     if (this.selectedSegment === 'categories') {
       this.selectedCategory = 'gem';
     }
+  }
+
+  onSegmentChange(event: CustomEvent) {
+    this.selectedSegment = event.detail.value;
+    // Reset category selection when switching segments
+    if (this.selectedSegment === 'categories') {
+      this.selectedCategory = 'gem';
+    }
+  }
+
+  navigateToAnalysis() {
+    // Navigate to analysis view or show analysis section
+    this.showAnalysisView = true;
+    // You can implement navigation logic here
+    console.log('Navigate to analysis');
   }
 
   // Category management methods
